@@ -48,6 +48,13 @@
 			<artifactId>druid</artifactId>
 			<version>1.0.15</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
 		<!-- DAO框架：MyBatis依赖 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
