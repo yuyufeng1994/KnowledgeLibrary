@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.zgenerate.FileInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lib.zgenerate.FileInfo">
+    <constructor>
+      <idArg column="file_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_size" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_ext" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_uuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_path" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_state" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="file_class_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_craete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lib.zgenerate.FileInfo">
+    <constructor>
+      <idArg column="file_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_size" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_ext" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_uuid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_path" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_state" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="file_class_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_craete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="file_brief" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    file_id, file_name, file_size, file_ext, file_user_id, file_uuid, file_path, file_state, 
+    file_class_id, file_craete_time
+  </sql>
+  <sql id="Blob_Column_List">
+    file_brief
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from file_info
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from file_info
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lib.zgenerate.FileInfo">
+    insert into file_info (file_id, file_name, file_size, 
+      file_ext, file_user_id, file_uuid, 
+      file_path, file_state, file_class_id, 
+      file_craete_time, file_brief)
+    values (#{fileId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
+      #{fileExt,jdbcType=VARCHAR}, #{fileUserId,jdbcType=BIGINT}, #{fileUuid,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{fileState,jdbcType=BIT}, #{fileClassId,jdbcType=BIGINT}, 
+      #{fileCraeteTime,jdbcType=TIMESTAMP}, #{fileBrief,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lib.zgenerate.FileInfo">
+    insert into file_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="fileExt != null">
+        file_ext,
+      </if>
+      <if test="fileUserId != null">
+        file_user_id,
+      </if>
+      <if test="fileUuid != null">
+        file_uuid,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="fileState != null">
+        file_state,
+      </if>
+      <if test="fileClassId != null">
+        file_class_id,
+      </if>
+      <if test="fileCraeteTime != null">
+        file_craete_time,
+      </if>
+      <if test="fileBrief != null">
+        file_brief,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileExt != null">
+        #{fileExt,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUserId != null">
+        #{fileUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fileUuid != null">
+        #{fileUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileState != null">
+        #{fileState,jdbcType=BIT},
+      </if>
+      <if test="fileClassId != null">
+        #{fileClassId,jdbcType=BIGINT},
+      </if>
+      <if test="fileCraeteTime != null">
+        #{fileCraeteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileBrief != null">
+        #{fileBrief,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lib.zgenerate.FileInfo">
+    update file_info
+    <set>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileExt != null">
+        file_ext = #{fileExt,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUserId != null">
+        file_user_id = #{fileUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fileUuid != null">
+        file_uuid = #{fileUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileState != null">
+        file_state = #{fileState,jdbcType=BIT},
+      </if>
+      <if test="fileClassId != null">
+        file_class_id = #{fileClassId,jdbcType=BIGINT},
+      </if>
+      <if test="fileCraeteTime != null">
+        file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileBrief != null">
+        file_brief = #{fileBrief,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lib.zgenerate.FileInfo">
+    update file_info
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      file_ext = #{fileExt,jdbcType=VARCHAR},
+      file_user_id = #{fileUserId,jdbcType=BIGINT},
+      file_uuid = #{fileUuid,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      file_state = #{fileState,jdbcType=BIT},
+      file_class_id = #{fileClassId,jdbcType=BIGINT},
+      file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP},
+      file_brief = #{fileBrief,jdbcType=LONGVARCHAR}
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lib.zgenerate.FileInfo">
+    update file_info
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      file_ext = #{fileExt,jdbcType=VARCHAR},
+      file_user_id = #{fileUserId,jdbcType=BIGINT},
+      file_uuid = #{fileUuid,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      file_state = #{fileState,jdbcType=BIT},
+      file_class_id = #{fileClassId,jdbcType=BIGINT},
+      file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP}
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </update>
+</mapper>

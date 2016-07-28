@@ -1,6 +1,6 @@
 package com.lib.entity;
 /**
- * 知识种类
+ * 文件分类
  * @author Yu Yufeng
  *
  */
@@ -8,8 +8,11 @@ public class Classification {
 	private Long classificationId;
 
 	private String classificationName;
+
 	private String classificationPicture;
+
 	private Long fatherId;
+
 	private String classificationBrief;
 
 	public Classification() {
@@ -51,5 +54,5 @@ public class Classification {
 				+ ", classificationPicture=" + classificationPicture + ", fatherId=" + fatherId
 				+ ", classificationBrief=" + classificationBrief + "]";
 	}
-	
+
 }

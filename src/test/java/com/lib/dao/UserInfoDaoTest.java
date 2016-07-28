@@ -29,11 +29,5 @@ public class UserInfoDaoTest {
 
 	}
 	
-	@Test
-	public void test() throws Exception {
-		LOG.info("logback 成功了");
-		LOG.debug("debug");
-		LOG.error("dsa");
-	}
 
 }
