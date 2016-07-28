@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.UserInfoDao">
+
+	<!-- Seckill queryById(long seckillId); -->
+	<select id="queryById" resultType="UserInfo">
+		SELECT user_id,user_name,user_password,user_type,user_email,user_photo
+		FROM
+		user_info
+		WHERE user_id = #{userInfoId}
+	</select>
+
+
+</mapper>
