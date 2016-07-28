@@ -7,59 +7,49 @@ package com.lib.entity;
  *
  */
 public class UserInfo {
-	private long userId;
+	private Long userId;
 	private String userName;
 	private String userPassword;
-	private int userType;
+	private Boolean userType;
 	private String userEmail;
 	private String userPhoto;
 
-	public long getUserId() {
-		return userId;
+	public UserInfo() {
+		super();
 	}
 
-	public void setUserId(long userId) {
+	public UserInfo(Long userId, String userName, String userPassword, Boolean userType, String userEmail,
+			String userPhoto) {
 		this.userId = userId;
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.userType = userType;
+		this.userEmail = userEmail;
+		this.userPhoto = userPhoto;
+	}
+
+	public Long getUserId() {
+		return userId;
 	}
 
 	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getUserPassword() {
 		return userPassword;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	public int getUserType() {
+	public Boolean getUserType() {
 		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
 	}
 
 	public String getUserEmail() {
 		return userEmail;
 	}
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
 	public String getUserPhoto() {
 		return userPhoto;
-	}
-
-	public void setUserPhoto(String userPhoto) {
-		this.userPhoto = userPhoto;
 	}
 
 	@Override
@@ -67,5 +57,5 @@ public class UserInfo {
 		return "UserInfo [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword
 				+ ", userType=" + userType + ", userEmail=" + userEmail + ", userPhoto=" + userPhoto + "]";
 	}
-	
+
 }
