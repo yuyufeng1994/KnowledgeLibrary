@@ -40,6 +40,8 @@
   -->
 
 <link rel="stylesheet" href="resource/amazeui/css/amazeui.min.css">
+<link rel="stylesheet" href="resource/amazeui/css/admin.css">
+
 <script type="text/javascript" src="resource/amazeui/js/jquery.min.js"></script>
 
 <%--jQuery Cookie操作插件--%>
@@ -47,3 +49,4 @@
 
 <script src="resource/amazeui/js/amazeui.min.js"></script>
 <script type="text/javascript" src="resource/script/common.js"></script>
+<script type="text/javascript" src="resource/amazeui/js/app.js"></script>
