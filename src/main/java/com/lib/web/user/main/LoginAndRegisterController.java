@@ -28,7 +28,7 @@ import com.lib.service.user.UserService;
  *
  */
 @Controller
-public class LoginController {
+public class LoginAndRegisterController {
 	@Autowired
 	private UserService userService;
 

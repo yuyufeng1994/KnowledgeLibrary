@@ -59,7 +59,7 @@
 						class="am-btn am-btn-default am-btn-sm am-fr">
 				</div>
 				<p align="right">
-					还没有帐号？<a href="#">立即注册</a>
+					还没有帐号？<a href="register">立即注册</a>
 				</p>
 			</form>
 			<hr>
