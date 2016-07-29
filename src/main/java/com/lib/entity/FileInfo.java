@@ -1,8 +1,10 @@
 package com.lib.entity;
 
 import java.util.Date;
+
 /**
  * 文件信息
+ * 
  * @author Yu Yufeng
  *
  */
@@ -77,6 +79,50 @@ public class FileInfo {
 		return fileBrief;
 	}
 
+	public void setFileId(Long fileId) {
+		this.fileId = fileId;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public void setFileSize(Long fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	public void setFileExt(String fileExt) {
+		this.fileExt = fileExt;
+	}
+
+	public void setFileUserId(Long fileUserId) {
+		this.fileUserId = fileUserId;
+	}
+
+	public void setFileUuid(String fileUuid) {
+		this.fileUuid = fileUuid;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public void setFileState(Boolean fileState) {
+		this.fileState = fileState;
+	}
+
+	public void setFileClassId(Long fileClassId) {
+		this.fileClassId = fileClassId;
+	}
+
+	public void setFileCraeteTime(Date fileCraeteTime) {
+		this.fileCraeteTime = fileCraeteTime;
+	}
+
+	public void setFileBrief(String fileBrief) {
+		this.fileBrief = fileBrief;
+	}
+
 	@Override
 	public String toString() {
 		return "FileInfo [fileId=" + fileId + ", fileName=" + fileName + ", fileSize=" + fileSize + ", fileExt="
@@ -84,5 +130,5 @@ public class FileInfo {
 				+ ", fileState=" + fileState + ", fileClassId=" + fileClassId + ", fileCraeteTime=" + fileCraeteTime
 				+ ", fileBrief=" + fileBrief + "]";
 	}
-	
+
 }

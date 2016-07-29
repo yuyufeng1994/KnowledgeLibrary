@@ -26,7 +26,7 @@
 			<password>yyf12345</password>
 		</connectionSource>
 	</appender>
-	<root level="error">
+	<root level="debug">
 		<appender-ref ref="STDOUT" />
 		<!-- <appender-ref ref="FILE" /> <appender-ref ref="MYSQL" /> -->
 

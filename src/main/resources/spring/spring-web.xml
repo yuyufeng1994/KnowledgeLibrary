@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <!--配置springmvc-->
-    <!--1:开始SpringMVC注解模式-->
-    <!--简化配置：-->
-    <!--1）自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter-->
-    <!--2）提供一些列：数据绑定，数字和日期的format @NumberFormat @DataTimeFormart，xml,json 默认读写支持。-->
-    <mvc:annotation-driven/>
-    <!--2.静态资源默认servlet配置-->
-    <!--
-        1).加入对静态资源处理：js,gif,png
-        2).允许使用 "/" 做整体映射
-    -->
-    <mvc:default-servlet-handler/>
+	<!--配置springmvc -->
+	<!--1:开始SpringMVC注解模式 -->
+	<!--简化配置： -->
+	<!--1）自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter -->
+	<!--2）提供一些列：数据绑定，数字和日期的format @NumberFormat @DataTimeFormart，xml,json 默认读写支持。 -->
+	<mvc:annotation-driven />
+	<!--2.静态资源默认servlet配置 -->
+	<!-- 1).加入对静态资源处理：js,gif,png 2).允许使用 "/" 做整体映射-->
+	<mvc:default-servlet-handler /> 
+	<!-- <mvc:resources location="/resources/" mapping="/resources/**" /> -->
 
-    <!--3：配置JSP 显示ViewResolver-->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-    <!--4:扫描web相关的bean-->
-    <context:component-scan base-package="web"/>
 
+
+
+	<!--3：配置JSP 显示ViewResolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!--4:扫描web相关的bean -->
+	<context:component-scan base-package="com.lib.web" />
+	
+	
+
+	<!--拦截器 -->
+	<mvc:interceptors>
+		<!--多个拦截器,顺序执行 -->
+		<mvc:interceptor>
+			<!--/** 表示所有url 包括子url路径 -->
+			<mvc:mapping path="/main/**" />
+			<bean class="com.lib.interceptor.MainInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!--/** 表示所有url 包括子url路径 -->
+			<mvc:mapping path="/user/**" />
+			<bean class="com.lib.interceptor.UserInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

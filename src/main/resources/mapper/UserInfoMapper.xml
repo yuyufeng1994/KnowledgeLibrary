@@ -8,6 +8,13 @@
 		user_info
 		WHERE user_id = #{userInfoId}
 	</select>
+	
+	<select id="queryByEmail" resultType="UserInfo">
+		SELECT user_id,user_name,user_password,user_type,user_email,user_photo
+		FROM
+		user_info
+		WHERE user_email = #{userEmail}
+	</select>
 
 
 </mapper>

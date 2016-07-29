@@ -1,6 +1,8 @@
 package com.lib.entity;
+
 /**
- * 文件分类
+ * 分类
+ * 
  * @author Yu Yufeng
  *
  */
@@ -11,7 +13,7 @@ public class Classification {
 
 	private String classificationPicture;
 
-	private Long fatherId;
+	private Long parentId;
 
 	private String classificationBrief;
 
@@ -19,12 +21,12 @@ public class Classification {
 		super();
 	}
 
-	public Classification(Long classificationId, String classificationName, String classificationPicture, Long fatherId,
+	public Classification(Long classificationId, String classificationName, String classificationPicture, Long parentId,
 			String classificationBrief) {
 		this.classificationId = classificationId;
 		this.classificationName = classificationName;
 		this.classificationPicture = classificationPicture;
-		this.fatherId = fatherId;
+		this.parentId = parentId;
 		this.classificationBrief = classificationBrief;
 	}
 
@@ -40,18 +42,38 @@ public class Classification {
 		return classificationPicture;
 	}
 
-	public Long getFatherId() {
-		return fatherId;
+	public Long getParentId() {
+		return parentId;
 	}
 
 	public String getClassificationBrief() {
 		return classificationBrief;
 	}
 
+	public void setClassificationId(Long classificationId) {
+		this.classificationId = classificationId;
+	}
+
+	public void setClassificationName(String classificationName) {
+		this.classificationName = classificationName;
+	}
+
+	public void setClassificationPicture(String classificationPicture) {
+		this.classificationPicture = classificationPicture;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public void setClassificationBrief(String classificationBrief) {
+		this.classificationBrief = classificationBrief;
+	}
+
 	@Override
 	public String toString() {
 		return "Classification [classificationId=" + classificationId + ", classificationName=" + classificationName
-				+ ", classificationPicture=" + classificationPicture + ", fatherId=" + fatherId
+				+ ", classificationPicture=" + classificationPicture + ", parentId=" + parentId
 				+ ", classificationBrief=" + classificationBrief + "]";
 	}
 

@@ -52,6 +52,30 @@ public class UserInfo {
 		return userPhoto;
 	}
 
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public void setUserType(Boolean userType) {
+		this.userType = userType;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public void setUserPhoto(String userPhoto) {
+		this.userPhoto = userPhoto;
+	}
+
 	@Override
 	public String toString() {
 		return "UserInfo [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword

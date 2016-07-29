@@ -6,7 +6,7 @@
       <idArg column="classification_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="classification_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classification_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="father_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" />
     </constructor>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lib.zgenerate.Classification">
@@ -14,12 +14,12 @@
       <idArg column="classification_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="classification_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classification_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="father_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="classification_brief" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    classification_id, classification_name, classification_picture, father_id
+    classification_id, classification_name, classification_picture, parent_id
   </sql>
   <sql id="Blob_Column_List">
     classification_brief
@@ -38,10 +38,10 @@
   </delete>
   <insert id="insert" parameterType="com.lib.zgenerate.Classification">
     insert into classification (classification_id, classification_name, 
-      classification_picture, father_id, classification_brief
+      classification_picture, parent_id, classification_brief
       )
     values (#{classificationId,jdbcType=BIGINT}, #{classificationName,jdbcType=VARCHAR}, 
-      #{classificationPicture,jdbcType=VARCHAR}, #{fatherId,jdbcType=BIGINT}, #{classificationBrief,jdbcType=LONGVARCHAR}
+      #{classificationPicture,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{classificationBrief,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lib.zgenerate.Classification">
@@ -56,8 +56,8 @@
       <if test="classificationPicture != null">
         classification_picture,
       </if>
-      <if test="fatherId != null">
-        father_id,
+      <if test="parentId != null">
+        parent_id,
       </if>
       <if test="classificationBrief != null">
         classification_brief,
@@ -73,8 +73,8 @@
       <if test="classificationPicture != null">
         #{classificationPicture,jdbcType=VARCHAR},
       </if>
-      <if test="fatherId != null">
-        #{fatherId,jdbcType=BIGINT},
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
       </if>
       <if test="classificationBrief != null">
         #{classificationBrief,jdbcType=LONGVARCHAR},
@@ -90,8 +90,8 @@
       <if test="classificationPicture != null">
         classification_picture = #{classificationPicture,jdbcType=VARCHAR},
       </if>
-      <if test="fatherId != null">
-        father_id = #{fatherId,jdbcType=BIGINT},
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
       </if>
       <if test="classificationBrief != null">
         classification_brief = #{classificationBrief,jdbcType=LONGVARCHAR},
@@ -103,7 +103,7 @@
     update classification
     set classification_name = #{classificationName,jdbcType=VARCHAR},
       classification_picture = #{classificationPicture,jdbcType=VARCHAR},
-      father_id = #{fatherId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
       classification_brief = #{classificationBrief,jdbcType=LONGVARCHAR}
     where classification_id = #{classificationId,jdbcType=BIGINT}
   </update>
@@ -111,7 +111,7 @@
     update classification
     set classification_name = #{classificationName,jdbcType=VARCHAR},
       classification_picture = #{classificationPicture,jdbcType=VARCHAR},
-      father_id = #{fatherId,jdbcType=BIGINT}
+      parent_id = #{parentId,jdbcType=BIGINT}
     where classification_id = #{classificationId,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.lib.entity.UserInfo;
+import com.lib.utils.StringValueUtil;
 
 import base.BaseTest;
 
@@ -26,8 +27,17 @@ public class UserInfoDaoTest {
 		long id = 2016001l;
 		UserInfo user = userInfoDao.queryById(id);
 		System.out.println(user);
-
 	}
+	
+	@Test
+	public void testQueryByEmail() throws Exception {
+		String email = "aa@qq.com";
+		UserInfo user = userInfoDao.queryByEmail(email);
+		System.out.println(user);
+	}
+	
+	
+	
 	
 
 }

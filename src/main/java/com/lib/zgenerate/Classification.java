@@ -7,15 +7,15 @@ public class Classification {
 
     private String classificationPicture;
 
-    private Long fatherId;
+    private Long parentId;
 
     private String classificationBrief;
 
-    public Classification(Long classificationId, String classificationName, String classificationPicture, Long fatherId, String classificationBrief) {
+    public Classification(Long classificationId, String classificationName, String classificationPicture, Long parentId, String classificationBrief) {
         this.classificationId = classificationId;
         this.classificationName = classificationName;
         this.classificationPicture = classificationPicture;
-        this.fatherId = fatherId;
+        this.parentId = parentId;
         this.classificationBrief = classificationBrief;
     }
 
@@ -31,8 +31,8 @@ public class Classification {
         return classificationPicture;
     }
 
-    public Long getFatherId() {
-        return fatherId;
+    public Long getParentId() {
+        return parentId;
     }
 
     public String getClassificationBrief() {
