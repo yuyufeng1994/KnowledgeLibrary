@@ -7,26 +7,13 @@
 			</Pattern>
 		</layout>
 	</appender>
-	
-	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>i://testFile.log</file>
-		<append>true</append>
-		<encoder>
-			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
-			</pattern>
-		</encoder>
-	</appender>
-
-	<appender name="MYSQL" class="ch.qos.logback.classic.db.DBAppender">
-		<connectionSource
-			class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-			<driverClass>com.mysql.jdbc.Driver</driverClass>
-			<url>jdbc:mysql://localhost:3306/logbackdb</url>
-			<user>root</user>
-			<password>yyf12345</password>
-		</connectionSource>
-	</appender>
-	<root level="debug">
+	<!-- <appender name="FILE" class="ch.qos.logback.core.FileAppender"> <file>i://testFile.log</file> 
+		<append>true</append> <encoder> <pattern>%-4relative [%thread] %-5level %logger{35} 
+		- %msg%n </pattern> </encoder> </appender> <appender name="MYSQL" class="ch.qos.logback.classic.db.DBAppender"> 
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource"> 
+		<driverClass>com.mysql.jdbc.Driver</driverClass> <url>jdbc:mysql://localhost:3306/logbackdb</url> 
+		<user>root</user> <password>12345</password> </connectionSource> </appender> -->
+	<root level="error">
 		<appender-ref ref="STDOUT" />
 		<!-- <appender-ref ref="FILE" /> <appender-ref ref="MYSQL" /> -->
 

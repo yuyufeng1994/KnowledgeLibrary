@@ -32,20 +32,29 @@
 						<div id="thelist" class="uploader-list"></div>
 						<div class="btns">
 							<div id="picker">添加文件</div>
-							<div id="unc-div" style="display: none;" class="am-alert am-alert-secondary" data-am-alert>
-								<span class="am-icon-question-circle-o"></span> 您选择的文件中含有压缩文件，请选择上传方式：
+							<div id="unc-div" style="display: none;"
+								class="am-alert am-alert-secondary" data-am-alert>
+								<span class="am-icon-question-circle-o"></span>
+								您选择的文件中含有压缩文件，请选择上传方式：
 								<button id="if-unc" type="button"
 									class="am-btn am-btn-xs am-btn-primary" data-am-button>上传压缩包</button>
 								<script>
 									$(function() {
+										
+										$.post("user/re-compress")
+										
 										var $toggleButton = $('#if-unc');
 										$toggleButton.on('click', function() {
 											setButtonStatus();
 										});
 								
 										function setButtonStatus() {
-											var status = $toggleButton.hasClass('am-active') ? '上传压缩包' : '解压上传';
-											$('#if-unc').text(status);
+											$.post("user/tog-compress", function(data) {
+												if (data == "success") {
+													var status = $toggleButton.hasClass('am-active') ? '解压上传' : '上传压缩包';
+													$('#if-unc').text(status);
+												}
+											})
 										}
 									})
 								</script>
@@ -92,7 +101,7 @@
 			'<h4 class="info">' + file.name + '</h4>' +
 			'<p class="state">等待上传...</p>' +
 			'</div>');
-		if(file.ext == "zip" || file.ext == "rar"){
+		if (file.ext == "zip" || file.ext == "rar") {
 			$("#unc-div").show("fast");
 		}
 	});

@@ -1,6 +1,7 @@
 package com.lib.web.user.main;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,6 +59,40 @@ public class FileManagerController {
 	}
 
 	/**
+	 * 初始化解压状态
+	 * 
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/re-compress", method = RequestMethod.POST)
+	public @ResponseBody String ReCompressState(HttpSession session) {
+		session.setAttribute(Const.SESSION_IS_COMPRESSING, false);
+		return "success";
+	}
+
+	/**
+	 * 是否解压文件
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/tog-compress", method = RequestMethod.POST)
+	public @ResponseBody String ifCompress(HttpSession session) {
+		Boolean state = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
+		if (state == null) {
+			session.setAttribute(Const.SESSION_IS_COMPRESSING, true);
+		} else {
+			if (state == true) {
+				session.setAttribute(Const.SESSION_IS_COMPRESSING, false);
+			} else {
+				session.setAttribute(Const.SESSION_IS_COMPRESSING, true);
+			}
+
+		}
+		return "success";
+	}
+
+	/**
 	 * 上传文件（可上传多个，这里只上传一个，所以取数组第一个）
 	 * 
 	 * @param files
@@ -68,7 +103,7 @@ public class FileManagerController {
 	@RequestMapping(value = "/upload-file", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadFile(@RequestParam("file") CommonsMultipartFile[] files, HttpSession session) throws Exception {
-
+		Boolean compressState = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String uuid = StringValueUtil.getUUID();
 		String fileName = files[0].getOriginalFilename();
@@ -76,10 +111,20 @@ public class FileManagerController {
 
 		String userFilePath = user.getUserId() + "/files/";
 		String filePath = Const.ROOT_PATH + userFilePath + uuid + "." + ext;
-		
-		if (JudgeUtils.isCompressFile(ext)) {
 
-			return "success";
+		// 解压文件
+		if (JudgeUtils.isCompressFile(ext)) {
+			if (compressState != null && compressState == true) {
+				String tempPath = Const.ROOT_PATH + "temp/";
+				File dir = new File(tempPath);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+
+				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
+				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
+				return "success";
+			}
 		}
 
 		try {
