@@ -152,6 +152,10 @@ public class FileManagerController {
 					fileInfoService.translateFile(uuid);
 				};
 			}.start();
+			
+			
+			
+			
 		}
 		return "success";
 	}

@@ -82,6 +82,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 			// docService.pdfGetThumb(Const.Root_PATH + "upload/doc/" + uuid +
 			// ".pdf", uuid);
 		}
+		
+		//全文检索创立索引
+		
+		
+		
 	}
 
 }
