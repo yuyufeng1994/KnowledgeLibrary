@@ -10,9 +10,9 @@
       <arg column="file_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="file_uuid" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="file_path" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="file_state" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="file_state" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_class_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="file_craete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="file_create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lib.zgenerate.FileInfo">
@@ -24,15 +24,15 @@
       <arg column="file_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
       <arg column="file_uuid" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="file_path" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="file_state" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="file_state" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="file_class_id" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="file_craete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="file_create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="file_brief" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     file_id, file_name, file_size, file_ext, file_user_id, file_uuid, file_path, file_state, 
-    file_class_id, file_craete_time
+    file_class_id, file_create_time
   </sql>
   <sql id="Blob_Column_List">
     file_brief
@@ -53,11 +53,11 @@
     insert into file_info (file_id, file_name, file_size, 
       file_ext, file_user_id, file_uuid, 
       file_path, file_state, file_class_id, 
-      file_craete_time, file_brief)
+      file_create_time, file_brief)
     values (#{fileId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, 
       #{fileExt,jdbcType=VARCHAR}, #{fileUserId,jdbcType=BIGINT}, #{fileUuid,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{fileState,jdbcType=BIT}, #{fileClassId,jdbcType=BIGINT}, 
-      #{fileCraeteTime,jdbcType=TIMESTAMP}, #{fileBrief,jdbcType=LONGVARCHAR})
+      #{filePath,jdbcType=VARCHAR}, #{fileState,jdbcType=INTEGER}, #{fileClassId,jdbcType=BIGINT}, 
+      #{fileCreateTime,jdbcType=TIMESTAMP}, #{fileBrief,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lib.zgenerate.FileInfo">
     insert into file_info
@@ -89,8 +89,8 @@
       <if test="fileClassId != null">
         file_class_id,
       </if>
-      <if test="fileCraeteTime != null">
-        file_craete_time,
+      <if test="fileCreateTime != null">
+        file_create_time,
       </if>
       <if test="fileBrief != null">
         file_brief,
@@ -119,13 +119,13 @@
         #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="fileState != null">
-        #{fileState,jdbcType=BIT},
+        #{fileState,jdbcType=INTEGER},
       </if>
       <if test="fileClassId != null">
         #{fileClassId,jdbcType=BIGINT},
       </if>
-      <if test="fileCraeteTime != null">
-        #{fileCraeteTime,jdbcType=TIMESTAMP},
+      <if test="fileCreateTime != null">
+        #{fileCreateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fileBrief != null">
         #{fileBrief,jdbcType=LONGVARCHAR},
@@ -154,13 +154,13 @@
         file_path = #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="fileState != null">
-        file_state = #{fileState,jdbcType=BIT},
+        file_state = #{fileState,jdbcType=INTEGER},
       </if>
       <if test="fileClassId != null">
         file_class_id = #{fileClassId,jdbcType=BIGINT},
       </if>
-      <if test="fileCraeteTime != null">
-        file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP},
+      <if test="fileCreateTime != null">
+        file_create_time = #{fileCreateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fileBrief != null">
         file_brief = #{fileBrief,jdbcType=LONGVARCHAR},
@@ -176,9 +176,9 @@
       file_user_id = #{fileUserId,jdbcType=BIGINT},
       file_uuid = #{fileUuid,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
-      file_state = #{fileState,jdbcType=BIT},
+      file_state = #{fileState,jdbcType=INTEGER},
       file_class_id = #{fileClassId,jdbcType=BIGINT},
-      file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP},
+      file_create_time = #{fileCreateTime,jdbcType=TIMESTAMP},
       file_brief = #{fileBrief,jdbcType=LONGVARCHAR}
     where file_id = #{fileId,jdbcType=BIGINT}
   </update>
@@ -190,9 +190,9 @@
       file_user_id = #{fileUserId,jdbcType=BIGINT},
       file_uuid = #{fileUuid,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
-      file_state = #{fileState,jdbcType=BIT},
+      file_state = #{fileState,jdbcType=INTEGER},
       file_class_id = #{fileClassId,jdbcType=BIGINT},
-      file_craete_time = #{fileCraeteTime,jdbcType=TIMESTAMP}
+      file_create_time = #{fileCreateTime,jdbcType=TIMESTAMP}
     where file_id = #{fileId,jdbcType=BIGINT}
   </update>
 </mapper>

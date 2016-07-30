@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 /**
  * 主要拦截器
  * @author Yu Yufeng
@@ -36,6 +37,7 @@ public class MainInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 		String uri = request.getRequestURI();
 		LOG.debug(uri);
+		
 		return true;
 	}
 

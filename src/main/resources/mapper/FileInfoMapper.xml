@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.FileInfoDao">
-
+	<insert id="insert" parameterType="com.lib.entity.FileInfo">
+		insert into file_info
+		(file_id, file_name, file_size,
+		file_ext, file_user_id, file_uuid,
+		file_path, file_state, file_class_id,
+		file_create_time, file_brief)
+		values (#{fileId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR},
+		#{fileSize,jdbcType=BIGINT},
+		#{fileExt,jdbcType=VARCHAR},
+		#{fileUserId,jdbcType=BIGINT}, #{fileUuid,jdbcType=VARCHAR},
+		#{filePath,jdbcType=VARCHAR}, #{fileState,jdbcType=BIT},
+		#{fileClassId,jdbcType=BIGINT},
+		#{fileCreateTime,jdbcType=TIMESTAMP},
+		#{fileBrief,jdbcType=LONGVARCHAR})
+	</insert>
 </mapper>

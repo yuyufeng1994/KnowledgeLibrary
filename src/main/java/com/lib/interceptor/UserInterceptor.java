@@ -42,6 +42,11 @@ public class UserInterceptor implements HandlerInterceptor {
 	// 用于身份认真、身份授权
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
+		
+		if(null == Const.ROOT_PATH){
+			Const.loadRootPath();
+		}
+		
 		HttpSession session = request.getSession();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String uri = request.getRequestURI();

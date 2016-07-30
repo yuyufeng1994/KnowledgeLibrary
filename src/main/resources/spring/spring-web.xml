@@ -13,8 +13,8 @@
 	<!--2）提供一些列：数据绑定，数字和日期的format @NumberFormat @DataTimeFormart，xml,json 默认读写支持。 -->
 	<mvc:annotation-driven />
 	<!--2.静态资源默认servlet配置 -->
-	<!-- 1).加入对静态资源处理：js,gif,png 2).允许使用 "/" 做整体映射-->
-	<mvc:default-servlet-handler /> 
+	<!-- 1).加入对静态资源处理：js,gif,png 2).允许使用 "/" 做整体映射 -->
+	<mvc:default-servlet-handler />
 	<!-- <mvc:resources location="/resources/" mapping="/resources/**" /> -->
 
 
@@ -30,8 +30,8 @@
 	</bean>
 	<!--4:扫描web相关的bean -->
 	<context:component-scan base-package="com.lib.web" />
-	
-	
+
+
 
 	<!--拦截器 -->
 	<mvc:interceptors>
@@ -47,4 +47,11 @@
 			<bean class="com.lib.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
+	<!-- 上传配置 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="10485760000"></property>
+		<property name="maxInMemorySize" value="40960"></property>
+	</bean>
 </beans>

@@ -17,15 +17,15 @@ public class FileInfo {
 
     private String filePath;
 
-    private Boolean fileState;
+    private Integer fileState;
 
     private Long fileClassId;
 
-    private Date fileCraeteTime;
+    private Date fileCreateTime;
 
     private String fileBrief;
 
-    public FileInfo(Long fileId, String fileName, Long fileSize, String fileExt, Long fileUserId, String fileUuid, String filePath, Boolean fileState, Long fileClassId, Date fileCraeteTime, String fileBrief) {
+    public FileInfo(Long fileId, String fileName, Long fileSize, String fileExt, Long fileUserId, String fileUuid, String filePath, Integer fileState, Long fileClassId, Date fileCreateTime, String fileBrief) {
         this.fileId = fileId;
         this.fileName = fileName;
         this.fileSize = fileSize;
@@ -35,7 +35,7 @@ public class FileInfo {
         this.filePath = filePath;
         this.fileState = fileState;
         this.fileClassId = fileClassId;
-        this.fileCraeteTime = fileCraeteTime;
+        this.fileCreateTime = fileCreateTime;
         this.fileBrief = fileBrief;
     }
 
@@ -67,7 +67,7 @@ public class FileInfo {
         return filePath;
     }
 
-    public Boolean getFileState() {
+    public Integer getFileState() {
         return fileState;
     }
 
@@ -75,8 +75,8 @@ public class FileInfo {
         return fileClassId;
     }
 
-    public Date getFileCraeteTime() {
-        return fileCraeteTime;
+    public Date getFileCreateTime() {
+        return fileCreateTime;
     }
 
     public String getFileBrief() {
