@@ -21,7 +21,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">上传</strong> / <small>上传您的文件</small>
+						<strong class="am-text-primary am-text-lg">上传</strong> / <small>支持文件的批量上传及压缩包导入，支持Office文档、PDF、图像、音视频和图纸等各类型文件。</small>
 					</div>
 				</div>
 
