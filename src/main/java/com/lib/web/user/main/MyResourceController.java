@@ -2,7 +2,6 @@ package com.lib.web.user.main;
 
 import java.util.Date;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,26 +17,32 @@ import com.lib.service.user.UserService;
  */
 @Controller
 @RequestMapping("/user")
-public class MainController {
+public class MyResourceController {
 	@Autowired
 	private UserService userService;
 
 	/**
-	 * 跳转到主页
+	 * 跳转到我的资源
 	 * 
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String login(Model model) {
+	@RequestMapping(value = "/myfiles", method = RequestMethod.GET)
+	public String myFiles(Model model) {
 		model.addAttribute("date", new Date());
-		return "main/index";
+		return "file/myfiles";
 	}
 	
-	@RequestMapping(value = "/public", method = RequestMethod.GET)
-	public String publicResource(Model model) {
+	/**
+	 * 跳转到我的资源
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/myforks", method = RequestMethod.GET)
+	public String myForks(Model model) {
 		model.addAttribute("date", new Date());
-		return "main/public";
+		return "file/myforks";
 	}
 
 }

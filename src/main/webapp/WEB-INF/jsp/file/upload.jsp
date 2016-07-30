@@ -100,7 +100,7 @@
 	// 当有文件被添加进队列的时候
 	uploader.on('fileQueued', function(file) {
 		$list.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">' +
-			'<div class="am-panel-hd">' +'<span class="state am-badge am-badge-primary">等待上传...</span>'+" "+ file.name 
+			'<div class="am-panel-hd">' +'<span class="state am-badge am-badge-secondary">等待上传...</span>'+" "+ file.name 
 			+  '</div>' +
 			
 			'</div>');

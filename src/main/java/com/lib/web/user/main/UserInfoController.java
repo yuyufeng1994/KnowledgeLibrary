@@ -18,7 +18,7 @@ import com.lib.service.user.UserService;
  */
 @Controller
 @RequestMapping("/user")
-public class MainController {
+public class UserInfoController {
 	@Autowired
 	private UserService userService;
 
@@ -28,16 +28,10 @@ public class MainController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	@RequestMapping(value = "/userinfo", method = RequestMethod.GET)
 	public String login(Model model) {
 		model.addAttribute("date", new Date());
-		return "main/index";
-	}
-	
-	@RequestMapping(value = "/public", method = RequestMethod.GET)
-	public String publicResource(Model model) {
-		model.addAttribute("date", new Date());
-		return "main/public";
+		return "user/userinfo";
 	}
 
 }

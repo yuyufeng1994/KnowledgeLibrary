@@ -26,6 +26,7 @@ public class JudgeUtils {
 		return false;
 	}
 
+	//是否压缩文件
 	public static boolean isCompressFile(String ext) {
 		if (compressFile.contains(ext)) {
 			return true;
