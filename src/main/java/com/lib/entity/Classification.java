@@ -16,6 +16,8 @@ public class Classification {
 	private Long parentId;
 
 	private String classificationBrief;
+	
+	private String parentPath;
 
 	public Classification() {
 		super();
@@ -69,12 +71,20 @@ public class Classification {
 	public void setClassificationBrief(String classificationBrief) {
 		this.classificationBrief = classificationBrief;
 	}
+	
+	public String getParentPath() {
+		return parentPath;
+	}
+
+	public void setParentPath(String parentPath) {
+		this.parentPath = parentPath;
+	}
 
 	@Override
 	public String toString() {
 		return "Classification [classificationId=" + classificationId + ", classificationName=" + classificationName
 				+ ", classificationPicture=" + classificationPicture + ", parentId=" + parentId
-				+ ", classificationBrief=" + classificationBrief + "]";
+				+ ", classificationBrief=" + classificationBrief + ", parentPath=" + parentPath + "]";
 	}
 
 }

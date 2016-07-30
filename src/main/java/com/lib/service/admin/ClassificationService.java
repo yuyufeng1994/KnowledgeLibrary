@@ -1,4 +1,4 @@
-package com.lib.dao;
+package com.lib.service.admin;
 
 import java.util.List;
 
@@ -6,12 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.lib.entity.Classification;
 
-/**
- * 分类dao操作
- * @author zcq
- *
- */
-public interface ClassificationDao {
+public interface ClassificationService {
 	
 	/**
 	 * 添加分类
@@ -19,7 +14,7 @@ public interface ClassificationDao {
 	 * @param parentId
 	 * @return
 	 */
-	void insert(@Param("classificationName")String classificationName,@Param("parentId")Long parentId,@Param("parentPath")String parentPath);
+	void insert(String classificationName,Long parentId);
 	
 	/**
 	 * 删除分类
@@ -33,7 +28,7 @@ public interface ClassificationDao {
 	 * @param classificationId
 	 * @return
 	 */
-	void modify(@Param("classificationName")String classificationName,@Param("classificationId")Long classificationId);
+	void modify(String classificationName,Long classificationId);
 	
 	/**
 	 * 查找分类
@@ -57,21 +52,19 @@ public interface ClassificationDao {
 	List<Classification> findAllChildById(Long classificationId);
 
 	
-/*	*//**
+	/**
 	 * 查找所有的兄弟节点
 	 * @param classificationId
 	 * @return
-	 *//*
+	 */
 	List<Classification> findAllBotherById(Long classificationId);
 	
 	
-	*//**
+	/**
 	 * 查找所有的父节点
 	 * @param classificationId
 	 * @return
-	 *//*
-	List<Classification> findAllfatherById(Long classificationId);*/
-	
-	
+	 */
+	List<Classification> findAllfatherById(Long classificationId);
 	
 }
