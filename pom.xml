@@ -196,6 +196,12 @@
 			<artifactId>jodconverter-core</artifactId>
 			<version>1.0.5</version>
 		</dependency>
+		<!-- 获取pdf缩略图 -->
+		<dependency>
+			<groupId>org.sejda</groupId>
+			<artifactId>sejda-icepdf</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>lib</finalName>

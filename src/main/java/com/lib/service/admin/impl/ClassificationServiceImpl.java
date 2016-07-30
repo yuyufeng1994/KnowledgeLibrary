@@ -50,7 +50,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public String findFatherPathById(Long classificationId) {
 		// TODO Auto-generated method stub
-		return null;
+		return ClassificationDao.findFatherPathById(classificationId);
 	}
 
 	@Override

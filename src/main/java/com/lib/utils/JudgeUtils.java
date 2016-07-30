@@ -14,9 +14,11 @@ public class JudgeUtils {
 
 	public final static List<String> compressFile = new ArrayList<String>();
 	public final static List<String> officeFile = new ArrayList<String>();
+	public final static List<String> videoFile = new ArrayList<String>();
 	static {
 		Collections.addAll(compressFile, new String[] { "rar", "zip" });
-		Collections.addAll(officeFile, new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx" });
+		Collections.addAll(officeFile, new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx","pdf"});
+		Collections.addAll(videoFile, new String[] { "mp4", "avi", "mpg", "rmvb"});
 	}
 
 	public static boolean isOfficeFile(String ext) {
@@ -33,7 +35,13 @@ public class JudgeUtils {
 		}
 		return false;
 	}
-
+	//是否是视频文件
+	public static boolean isVideoFile(String ext) {
+		if (videoFile.contains(ext)) {
+			return true;
+		}
+		return false;
+	}
 	public static void main(String[] args) {
 		System.out.println(isCompressFile("zip"));
 	}

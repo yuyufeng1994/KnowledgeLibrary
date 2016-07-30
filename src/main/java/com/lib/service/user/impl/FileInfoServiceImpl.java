@@ -19,6 +19,7 @@ import com.lib.service.user.FileInfoService;
 import com.lib.service.user.OfficeConvert;
 import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
+import com.lib.utils.ThumbnailUtils;
 import com.lib.utils.TranslateUtils;
 
 @Service
@@ -66,8 +67,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图  路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
-			// docService.pdfGetThumb(Const.Root_PATH + "upload/doc/" + uuid +
-			// ".pdf", uuid);
+			System.out.println(Const.ROOT_PATH + file.getFilePath() + ".pdf");
+			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf", Const.ROOT_PATH + file.getFilePath()+".png");
+			
+		}else if(JudgeUtils.isVideoFile(file.getFileExt())){
+			//获取视频缩略图
+			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + file.getFileExt(), Const.ROOT_PATH + file.getFilePath()+".png");
 		}
 		
 		//全文检索创立索引
