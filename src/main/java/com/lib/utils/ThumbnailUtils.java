@@ -57,7 +57,7 @@ public class ThumbnailUtils {
 		document.dispose();
 	}
 	
-	public static void videoGetThumb(String path, String uuid) {
+	public static void videoGetThumb(String path, String filePath) {
 		File file = new File(path);
 		
 		if (!file.exists()) {
@@ -69,7 +69,7 @@ public class ThumbnailUtils {
 		List<String> commands = new ArrayList<String>();
 
 		// System.out.println(Const.FFMPEG_PATH);
-		commands.add(Const.CONTAINER_PATH+"resource/ffmpeg");
+		commands.add(Const.CONTAINER_PATH+"resource/ffmpeg/ffmpeg.exe");
 
 		commands.add("-i");
 
@@ -93,7 +93,7 @@ public class ThumbnailUtils {
 
 		commands.add("320x240");
 
-		commands.add(Const.ROOT_PATH + uuid + ".png");
+		commands.add(filePath);
 
 		try {
 
