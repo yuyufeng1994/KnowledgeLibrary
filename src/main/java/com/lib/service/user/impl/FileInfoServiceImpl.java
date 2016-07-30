@@ -10,19 +10,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.service.user.FileInfoService;
+import com.lib.service.user.OfficeConvert;
 import com.lib.utils.CompressUtil;
 
 @Service
 public class FileInfoServiceImpl implements FileInfoService {
-
+	private OfficeConvert officeConvert;
 	@Autowired
 	private FileInfoDao fileinfoDao;
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-
 	@Override
 	public int insertFile(FileInfo fileInfo) {
 
@@ -38,14 +39,38 @@ public class FileInfoServiceImpl implements FileInfoService {
 		} catch (Exception e) {
 			LOG.error("删除文件失败" + name);
 		}
-//		for (FileInfo f : files) {
-//			f.setFileUserId(user.getUserId());
-//			f.setFileClassId(1l);
-//			f.setFileBrief("无");
-//			fileinfoDao.insert(f);
-//			uuids.add(f.getFileUuid());
-//		}
+		for (FileInfo f : files) {
+			f.setFileUserId(user.getUserId());
+			f.setFileClassId(1l);
+			f.setFileBrief("无");
+			fileinfoDao.insert(f);
+			uuids.add(f.getFileUuid());
+		}
 		return uuids;
+	}
+
+	@Override
+	public List<FileInfo> StartTransfor() {
+		new Thread(){
+			public void run() {
+				PageHelper.startPage(1, 5, "file_id asc");
+				List<FileInfo>lists = fileinfoDao.getFilesByState(2);
+				for(FileInfo l:lists){
+					System.out.println(l);
+				}
+			};
+		}.start();
+		
+		List<FileInfo> files = fileinfoDao.getFilesByState(2);
+		return files;
+	}
+
+	@Override
+	public void translateFile(String uuid) {
+		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
+		LOG.debug("开始转化文件"+uuid);
+		System.out.println(file);
+		
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.lib.service.user;
 
-import java.io.File;
 import java.util.List;
 
 import com.lib.entity.FileInfo;
@@ -23,4 +22,16 @@ public interface FileInfoService {
 	 * @return 解压之后的文件uuid
 	 */
 	List<String> compressFile(String string, UserInfo user) throws Exception;
+
+	/**
+	 * 开始文件转化
+	 * @return
+	 */
+	List<FileInfo> StartTransfor();
+
+	/**
+	 * 转化一个文件
+	 * @param uuid
+	 */
+	void translateFile(String uuid);
 }

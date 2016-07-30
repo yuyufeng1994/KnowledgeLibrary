@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.alibaba.druid.support.logging.Log;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -33,7 +34,7 @@ import com.lib.utils.StringValueUtil;
 public class FileManagerController {
 	@Autowired
 	private FileInfoService fileInfoService;
-
+	
 	/**
 	 * 跳转到上传页面
 	 * 
@@ -144,6 +145,12 @@ public class FileManagerController {
 			fileInfoService.insertFile(fi);
 		} catch (Exception e) {
 
+		}finally{
+			new Thread(){
+				public void run() {
+					fileInfoService.translateFile(uuid);
+				};
+			}.start();
 		}
 		return "success";
 	}

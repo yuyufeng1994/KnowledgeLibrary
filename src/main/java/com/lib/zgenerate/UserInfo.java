@@ -7,13 +7,13 @@ public class UserInfo {
 
     private String userPassword;
 
-    private Boolean userType;
+    private Integer userType;
 
     private String userEmail;
 
     private String userPhoto;
 
-    public UserInfo(Long userId, String userName, String userPassword, Boolean userType, String userEmail, String userPhoto) {
+    public UserInfo(Long userId, String userName, String userPassword, Integer userType, String userEmail, String userPhoto) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -34,7 +34,7 @@ public class UserInfo {
         return userPassword;
     }
 
-    public Boolean getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
