@@ -10,7 +10,7 @@ public class UserInfo {
 	private Long userId;
 	private String userName;
 	private String userPassword;
-	private Boolean userType;
+	private Integer userType;
 	private String userEmail;
 	private String userPhoto;
 
@@ -18,7 +18,7 @@ public class UserInfo {
 		super();
 	}
 
-	public UserInfo(Long userId, String userName, String userPassword, Boolean userType, String userEmail,
+	public UserInfo(Long userId, String userName, String userPassword, Integer userType, String userEmail,
 			String userPhoto) {
 		this.userId = userId;
 		this.userName = userName;
@@ -40,7 +40,7 @@ public class UserInfo {
 		return userPassword;
 	}
 
-	public Boolean getUserType() {
+	public Integer getUserType() {
 		return userType;
 	}
 
@@ -64,7 +64,7 @@ public class UserInfo {
 		this.userPassword = userPassword;
 	}
 
-	public void setUserType(Boolean userType) {
+	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
 

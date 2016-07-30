@@ -6,8 +6,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Const {
-	public final static String SESSION_USER = "session_user";
-	public static String ROOT_PATH = null;
+	public final static String SESSION_USER = "session_user"; // session中的user对象
+	public static String ROOT_PATH = null; // 根目录路径
+	public static Boolean IS_COMPRESSING = false;
 
 	public static void loadRootPath() {
 		Properties prop = new Properties();

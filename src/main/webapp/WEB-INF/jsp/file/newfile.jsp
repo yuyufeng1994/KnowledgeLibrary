@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>首页</title>
+<title>新建文档</title>
 <%@include file="../common/head.jsp"%>
 </head>
 <body>

@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Set render engine for 360 browser -->
 <meta name="renderer" content="webkit">
-
+<title>知识库管理系统</title>
 <!-- No Baidu Siteapp-->
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 

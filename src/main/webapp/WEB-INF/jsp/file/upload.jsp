@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>首页</title>
+<title>上传文件</title>
 <%@include file="../common/head.jsp"%>
 <link rel="stylesheet" type="text/css"
 	href="resource/webuploader/webuploader.css">

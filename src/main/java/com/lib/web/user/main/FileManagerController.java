@@ -18,6 +18,7 @@ import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
+import com.lib.utils.JudgeUtils;
 import com.lib.utils.StringValueUtil;
 
 /**
@@ -67,27 +68,34 @@ public class FileManagerController {
 	@RequestMapping(value = "/upload-file", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadFile(@RequestParam("file") CommonsMultipartFile[] files, HttpSession session) throws Exception {
+
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String uuid = StringValueUtil.getUUID();
 		String fileName = files[0].getOriginalFilename();
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+
 		String userFilePath = user.getUserId() + "/files/";
 		String filePath = Const.ROOT_PATH + userFilePath + uuid + "." + ext;
+		
+		if (JudgeUtils.isCompressFile(ext)) {
+
+			return "success";
+		}
 
 		try {
 			FileUtils.writeByteArrayToFile(new File(filePath), files[0].getBytes());
+
 			FileInfo fi = new FileInfo();
 			fi.setFileName(fileName);
 			fi.setFileSize(files[0].getSize());
-
 			fi.setFileExt(ext);
-			fi.setFileBrief("这是简介");
-			fi.setFileUserId(2016001l);
+			fi.setFileBrief("无");
+			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath(userFilePath + uuid + "." + ext);
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
-			
+
 			fileInfoService.insertFile(fi);
 		} catch (Exception e) {
 
