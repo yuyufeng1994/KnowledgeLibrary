@@ -47,6 +47,13 @@ public class UserInterceptor implements HandlerInterceptor {
 			Const.loadRootPath();
 		}
 		
+		if(null == Const.CONTAINER_PATH){
+			@SuppressWarnings("deprecation")
+			String root = request.getRealPath("/");
+			Const.CONTAINER_PATH = root;
+		}
+		
+		
 		HttpSession session = request.getSession();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String uri = request.getRequestURI();

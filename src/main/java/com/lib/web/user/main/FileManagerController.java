@@ -124,6 +124,14 @@ public class FileManagerController {
 
 				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
 				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
+				for(String str:filesUuid){
+					//处理文件
+					new Thread(){
+						public void run() {
+							fileInfoService.translateFile(str);
+						};
+					}.start();
+				}
 				return "success";
 			}
 		}

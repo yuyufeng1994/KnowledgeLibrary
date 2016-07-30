@@ -11,7 +11,7 @@
 		file_info
 		where file_state = #{fileState,jdbcType=VARCHAR}
 	</select>
-	
+
 	<select id="getFileInfoByUuid" resultType="com.lib.entity.FileInfo">
 		select
 		file_id,
@@ -22,8 +22,15 @@
 		file_info
 		where file_uuid = #{fileUuid,jdbcType=VARCHAR}
 	</select>
-	
-	
+
+
+	<update id="setFileStateByUuid">
+		update file_info
+		set
+		file_state = #{fileState}
+		where file_uuid = #{fileUuid}
+	</update>
+
 	<insert id="insert" parameterType="com.lib.entity.FileInfo">
 		insert into file_info
 		(file_name, file_size,

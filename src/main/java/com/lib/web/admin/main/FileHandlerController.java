@@ -26,10 +26,8 @@ public class FileHandlerController {
 
 	@RequestMapping(value = "/transfor", method = RequestMethod.GET)
 	public @ResponseBody JsonResult<List<FileInfo>> test() {
-		List<FileInfo> lists = fileInfoService.StartTransfor();
 		
-		JsonResult<List<FileInfo>> result = new JsonResult<List<FileInfo>>(true, lists);
-		return result;
+		return null;
 	}
 
 }

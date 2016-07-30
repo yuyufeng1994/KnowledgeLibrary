@@ -2,6 +2,8 @@ package com.lib.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.lib.entity.FileInfo;
 
 /**
@@ -57,5 +59,12 @@ public interface FileInfoDao {
 	 * @return
 	 */
 	FileInfo getFileInfoByUuid(String fileUuid);
+
+	/**
+	 * 设置文件的状态
+	 * @param uuid
+	 * @param i
+	 */
+	void setFileStateByUuid(@Param("fileUuid")String uuid, @Param("fileState")Integer i);
 
 }

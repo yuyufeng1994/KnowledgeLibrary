@@ -53,25 +53,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return uuids;
 	}
 
-	@Override
-	public List<FileInfo> StartTransfor() {
-		new Thread() {
-			public void run() {
-				PageHelper.startPage(1, 5, "file_id asc");
-				List<FileInfo> lists = fileinfoDao.getFilesByState(2);
-				for (FileInfo l : lists) {
-					System.out.println(l);
-				}
-			};
-		}.start();
-
-		List<FileInfo> files = fileinfoDao.getFilesByState(2);
-		return files;
-	}
+	
 
 	@Override
 	public void translateFile(String uuid) {
-
+		//设置文件问后台处理中
+		fileinfoDao.setFileStateByUuid(uuid,3);
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
@@ -85,8 +72,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 		
 		//全文检索创立索引
 		
-		
-		
+		//修改文件为私有可以查看
+		fileinfoDao.setFileStateByUuid(uuid,6);
 	}
 
 }

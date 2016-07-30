@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
+import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.lib.service.user.OfficeConvert;
@@ -15,7 +18,7 @@ import com.lib.utils.FileUtil;
 public class OfficeConvertImpl implements OfficeConvert {
 
 	private DefaultOfficeManagerConfiguration configuration;
-
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private OfficeManager manager;
 
 	/**
@@ -48,8 +51,14 @@ public class OfficeConvertImpl implements OfficeConvert {
 		if (isOfficeFile(officeFile.getName())) {
 			init();
 			OfficeDocumentConverter converter = new OfficeDocumentConverter(manager);
-			converter.convert(officeFile, pdfFile);
-			close();
+			try {
+				converter.convert(officeFile, pdfFile);
+			} catch (OfficeException e) {
+				LOG.error(officeFile.getName()+"转换pdf失败");
+			}finally {
+				close();
+			}
+			
 		}
 	}
 

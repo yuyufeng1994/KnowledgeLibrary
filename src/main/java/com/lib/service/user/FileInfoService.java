@@ -23,11 +23,6 @@ public interface FileInfoService {
 	 */
 	List<String> compressFile(String string, UserInfo user) throws Exception;
 
-	/**
-	 * 开始文件转化
-	 * @return
-	 */
-	List<FileInfo> StartTransfor();
 
 	/**
 	 * 转化一个文件
