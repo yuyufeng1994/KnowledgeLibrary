@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,15 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.UserService;
+
 /**
  * 主要拦截器
+ * 
  * @author Yu Yufeng
  *
  */
 public class UserInterceptor implements HandlerInterceptor {
 	@Autowired
 	private UserService userService;
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	//private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	// 执行Handler完成执行此方法
 	// 应用场景：统一异常处理，统一日志处理
@@ -42,55 +42,53 @@ public class UserInterceptor implements HandlerInterceptor {
 	// 用于身份认真、身份授权
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-		
-		if(null == Const.ROOT_PATH){
+
+		if (null == Const.ROOT_PATH) {
 			Const.loadRootPath();
 		}
-		
-		if(null == Const.CONTAINER_PATH){
-			@SuppressWarnings("deprecation")
-			String root = request.getRealPath("/");
+
+		System.out.println();
+		if (null == Const.CONTAINER_PATH) {
+			String root = request.getSession().getServletContext().getRealPath("/");
 			Const.CONTAINER_PATH = root;
 		}
-		
-		
+
 		HttpSession session = request.getSession();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		String uri = request.getRequestURI();
-		Cookie[]  cookies= request.getCookies();
-		
-		if(user == null){
+		Cookie[] cookies = request.getCookies();
+
+		if (user == null) {
 			String userEmail = null;
 			String userPassword = null;
-			if(cookies == null){
-				response.sendRedirect(request.getContextPath()+"/illegal-view");
+			if (cookies == null) {
+				response.sendRedirect(request.getContextPath() + "/illegal-view");
 				return false;
 			}
-			for(Cookie c:cookies){
-				if(c.getName().equals("userEmail")){
-					userEmail= c.getValue();
-				}else if(c.getName().equals("userPassword")){
+			for (Cookie c : cookies) {
+				if (c.getName().equals("userEmail")) {
+					userEmail = c.getValue();
+				} else if (c.getName().equals("userPassword")) {
 					userPassword = c.getValue();
 				}
 			}
-			
-			if(userEmail != null && userPassword !=null){
+
+			if (userEmail != null && userPassword != null) {
 				user = new UserInfo();
 				user.setUserEmail(userEmail);
 				user.setUserPassword(userPassword);
 				try {
 					userService.checkUserByEmail(user);
-					//在session中保存用户基本信息
+					// 在session中保存用户基本信息
 					UserInfo userBasicInfo = userService.getBasicUserInfoByEmail(user.getUserEmail());
 					session.setAttribute(Const.SESSION_USER, userBasicInfo);
 					return true;
 				} catch (Exception e) {
-					response.sendRedirect(request.getContextPath()+"/illegal-view");
+					response.sendRedirect(request.getContextPath() + "/illegal-view");
 					return false;
 				}
 			}
-			
-			response.sendRedirect(request.getContextPath()+"/illegal-view");
+
+			response.sendRedirect(request.getContextPath() + "/illegal-view");
 			return false;
 		}
 		return true;
