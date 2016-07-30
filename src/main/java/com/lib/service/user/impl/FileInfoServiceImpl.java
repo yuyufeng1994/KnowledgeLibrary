@@ -14,16 +14,20 @@ import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
+import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.OfficeConvert;
 import com.lib.utils.CompressUtil;
+import com.lib.utils.JudgeUtils;
+import com.lib.utils.TranslateUtils;
 
 @Service
 public class FileInfoServiceImpl implements FileInfoService {
-	private OfficeConvert officeConvert;
+	private OfficeConvert officeConvert = TranslateUtils.getOfficeConvert();
 	@Autowired
 	private FileInfoDao fileinfoDao;
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	public int insertFile(FileInfo fileInfo) {
 
@@ -51,26 +55,33 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 	@Override
 	public List<FileInfo> StartTransfor() {
-		new Thread(){
+		new Thread() {
 			public void run() {
 				PageHelper.startPage(1, 5, "file_id asc");
-				List<FileInfo>lists = fileinfoDao.getFilesByState(2);
-				for(FileInfo l:lists){
+				List<FileInfo> lists = fileinfoDao.getFilesByState(2);
+				for (FileInfo l : lists) {
 					System.out.println(l);
 				}
 			};
 		}.start();
-		
+
 		List<FileInfo> files = fileinfoDao.getFilesByState(2);
 		return files;
 	}
 
 	@Override
 	public void translateFile(String uuid) {
+
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
-		LOG.debug("开始转化文件"+uuid);
-		System.out.println(file);
-		
+		LOG.debug("开始转化文件" + uuid);
+		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
+			// 文档转化
+			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
+					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
+			// 获取pdf缩略图  路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
+			// docService.pdfGetThumb(Const.Root_PATH + "upload/doc/" + uuid +
+			// ".pdf", uuid);
+		}
 	}
 
 }

@@ -1,6 +1,9 @@
 package com.lib.service.user;
 
 import java.io.File;
+import java.util.List;
+
+import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 
 public interface OfficeConvert {
 	/**
@@ -51,4 +54,10 @@ public interface OfficeConvert {
 	public void convertToHTML(File officeFile, File htmlFile);
 
 	void convertTest(File officeFile, File File);
+
+	public void setConvert(boolean b);
+
+	public void setConfiguration(DefaultOfficeManagerConfiguration config);
+
+	void setConvertExtList(List<String> convertExtList);
 }

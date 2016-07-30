@@ -138,7 +138,7 @@ public class FileManagerController {
 			fi.setFileBrief("无");
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
-			fi.setFilePath(userFilePath + uuid + "." + ext);
+			fi.setFilePath(userFilePath + uuid);
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
 
@@ -146,6 +146,7 @@ public class FileManagerController {
 		} catch (Exception e) {
 
 		}finally{
+			//处理文件
 			new Thread(){
 				public void run() {
 					fileInfoService.translateFile(uuid);

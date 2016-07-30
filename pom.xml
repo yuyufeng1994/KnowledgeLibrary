@@ -185,6 +185,17 @@
 			<artifactId>ant</artifactId>
 			<version>1.9.4</version>
 		</dependency>
+		<!-- openoffice -->
+		<dependency>
+			<groupId>com.artofsolving</groupId>
+			<artifactId>jodconverter</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.livesense</groupId>
+			<artifactId>jodconverter-core</artifactId>
+			<version>1.0.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>lib</finalName>
