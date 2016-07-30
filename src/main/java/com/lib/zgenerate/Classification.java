@@ -8,7 +8,7 @@ public class Classification {
     private String classificationPicture;
 
     private Long parentId;
-
+ 
     private String classificationBrief;
 
     public Classification(Long classificationId, String classificationName, String classificationPicture, Long parentId, String classificationBrief) {
