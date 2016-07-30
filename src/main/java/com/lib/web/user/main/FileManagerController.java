@@ -84,7 +84,7 @@ public class FileManagerController {
 			fi.setFileBrief("这是简介");
 			fi.setFileUserId(2016001l);
 			fi.setFileUuid(uuid);
-			fi.setFilePath(filePath);
+			fi.setFilePath(userFilePath + uuid + "." + ext);
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
 			
