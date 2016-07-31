@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.UserService;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User;
 
 /**
  * 主要拦截器
