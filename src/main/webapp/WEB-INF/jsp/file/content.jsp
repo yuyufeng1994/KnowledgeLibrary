@@ -62,7 +62,7 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
 								data-am-collapse="{target: '#collapse-panel-file-info1'}">
-								${fileInfo.fileName }.${fileInfo.fileExt}<span class="am-icon-chevron-down am-fr"></span>
+								${fileInfo.fileName }.${fileInfo.fileExt} <span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div class="am-panel-bd am-collapse am-in am-cf"
 								id="collapse-panel-file-info1">
