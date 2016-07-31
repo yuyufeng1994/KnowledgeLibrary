@@ -92,7 +92,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 					/*fileinfoDao.modifyFileExeById(file.getFileId(), "avi");*/
 				}
 			}
-
+			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".png");
 			// ffmpeg转换成flv
 			if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv")) {
@@ -106,8 +107,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");*/
 				//System.out.println(Const.STREAM_PATH);
 				// 获取视频缩略图
-				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-						Const.ROOT_PATH + file.getFilePath() + ".png");
+				
 			}
 
 			
