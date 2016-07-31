@@ -168,6 +168,7 @@
 
 
 	var ext = "${fileInfo.fileExt}";
+	var uuid = "${fileInfo.fileUuid}";
 	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
 	var $content = $("#main-content");
 	if (viewJudge.pdf(ext)) {
@@ -180,7 +181,7 @@
 	else if (viewJudge.flv(ext)) {
 		//function ckmarqueeadv(){return ''}//文字广告
 		var flashvars = {
-			f : '/lib/' + fileUrl + 'flv',
+			f : 'rtmp://192.168.1.103/lib/'+uuid+'.flv',
 			c : 0
 		};
 		var params = {
