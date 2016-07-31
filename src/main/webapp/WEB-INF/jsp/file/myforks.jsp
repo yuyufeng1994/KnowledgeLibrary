@@ -21,7 +21,6 @@
 					</div>
 				</div>
 				<div class="am-u-sm-12">
-					
 				</div>
 
 			</div>

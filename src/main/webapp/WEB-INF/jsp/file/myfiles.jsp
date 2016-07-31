@@ -39,8 +39,8 @@
 						<tbody>
 							<c:forEach items="${page.list}" var="f">
 								<tr>
-									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
-											src="user/thumbnail/${f.fileUuid}/png" alt="null"
+									<td><a href="user/thumbnail/${f.fileUuid}/jpg"><img
+											src="user/thumbnail/${f.fileUuid}/jpg" alt="null"
 											class="am-img-thumbnail"
 											style="width: 50px; height: 50px; overflow: hidden"></a></td>
 									<td title="${f.fileName }.${f.fileExt }">${f.hiddenedFileName }.${f.fileExt }</td>
@@ -74,8 +74,6 @@
 
 						</tbody>
 					</table>
-					<div class="am-cf">
-						共 ${page.size} 条记录
 						<div class="am-fr">
 							<ul class="am-pagination">
 								<c:if test="${page.pageNum > 1}">
@@ -95,7 +93,6 @@
 								</c:if>
 							</ul>
 						</div>
-					</div>
 
 					<script type="text/javascript">
 						var url = "user/myfiles/";

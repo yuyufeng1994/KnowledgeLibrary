@@ -8,6 +8,7 @@
 <style type="text/css">
 #main-content {
 	height: 500px;
+}
 </style>
 </head>
 <body>
@@ -129,6 +130,8 @@
 	<!-- content end -->
 </body>
 <script src="resource/script/pdfobject.min.js"></script>
+<script type="text/javascript" src="resource/ckplayer/ckplayer.js"
+	charset="utf-8"></script>
 <script src="resource/script/file-view.js"></script>
 
 <script type="text/javascript">
@@ -144,7 +147,7 @@
 			}
 		},
 		//图片类型
-		png : function(ext) {
+		jpg : function(ext) {
 			if (ext == "png" || ext == "gif" || ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "pptx" || ext == "pdf") {
 				return true;
 			}
@@ -170,9 +173,23 @@
 	if (viewJudge.pdf(ext)) {
 		PDFObject.embed(fileUrl + "pdf", document.getElementById("main-content")); //pdf预览插件
 	}
-	else if (viewJudge.png(ext)) {
-		$content.html("<img src="+fileUrl+"png"+" class='am-img-thumbnail am-radius'>");
-		$content.css("height","auto");
+	else if (viewJudge.jpg(ext)) {
+		$content.html("<img src=" + fileUrl + "jpg" + " class='am-img-thumbnail am-radius'>");
+		$content.css("height", "auto");
+	}
+	else if (viewJudge.flv(ext)) {
+		//function ckmarqueeadv(){return ''}//文字广告
+		var flashvars = {
+			f : '/lib/' + fileUrl + 'flv',
+			c : 0
+		};
+		var params = {
+			bgcolor : '#FFF',
+			allowFullScreen : true,
+			allowScriptAccess : 'always',
+			wmode : 'transparent'
+		};
+		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
 	}
 </script>
 </html>

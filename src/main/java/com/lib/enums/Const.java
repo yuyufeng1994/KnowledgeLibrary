@@ -11,6 +11,8 @@ public class Const {
 	public final static int COMMON_PAGE_SIZE = 10; // session中的user对象
 	public static String ROOT_PATH = null; // 磁盘根目录路径
 	public static String CONTAINER_PATH = null;// 项目根路径
+	public static String STREAM_PATH=null;
+	
 	public static void loadRootPath() {
 		Properties prop = new Properties();
 		InputStream in = Const.class.getResourceAsStream("/jdbc.properties");
@@ -21,6 +23,7 @@ public class Const {
 			if (!RootDir.exists()) {
 				RootDir.mkdirs();
 			}
+			STREAM_PATH = ROOT_PATH+"red5-server/webapps/lib/streams/";
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
