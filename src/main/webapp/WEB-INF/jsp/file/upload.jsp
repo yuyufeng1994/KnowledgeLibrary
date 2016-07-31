@@ -29,7 +29,9 @@
 
 					<div id="uploader" class="wu-example">
 						<!--用来存放文件信息-->
-						<div id="thelist" class="uploader-list"></div>
+						<div id="thelist" class="uploader-list">
+							
+						</div>
 						<div class="btns">
 							<div id="picker">添加文件</div>
 							<div id="unc-div" style="display: none;"
@@ -97,9 +99,10 @@
 
 	// 当有文件被添加进队列的时候
 	uploader.on('fileQueued', function(file) {
-		$list.append('<div id="' + file.id + '" class="item">' +
-			'<h4 class="info">' + file.name + '</h4>' +
-			'<p class="state">等待上传...</p>' +
+		$list.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">' +
+			'<div class="am-panel-hd">' +'<span class="state am-badge am-badge-secondary">等待上传...</span>'+" "+ file.name 
+			+  '</div>' +
+			
 			'</div>');
 		if (file.ext == "zip" || file.ext == "rar") {
 			$("#unc-div").show("fast");
@@ -112,14 +115,16 @@
 
 		// 避免重复创建
 		if (!$percent.length) {
-			$percent = $('<div class="am-progress am-progress-striped am-progress-sm am-active">' +
+			
+			$percent = $('<div class="am-progress am-progress-striped  am-active">' +
 				'<div class="am-progress-bar am-progress-bar-secondary"  style="width: 0%">' +
 				'</div>' +
 				'</div>').appendTo($li).find('.am-progress-bar');
 		}
 
-		$li.find('p.state').text('上传中');
-
+		$li.find('span.state').text('上传中');
+		var res=  (percentage * 100).toFixed(2);
+		$li.find('.am-progress-bar-secondary').text(res+"%");
 		$percent.css('width', percentage * 100 + '%');
 	});
 	$btn.on('click', function() {
@@ -133,11 +138,12 @@
 
 	uploader.on('uploadSuccess', function(file) {
 		var $li = $('#' + file.id);
-		$li.find('p.state').text('已上传');
+		$li.find('span.state').text('已上传');
 		$percent = $li.find('.am-progress');
 		$bar = $li.find('.am-progress-bar');
 		$percent.removeClass("am-active").removeClass("am-progress-striped");
 		$bar.addClass("am-progress-bar-success");
+		$("#unc-div").hide("fast");
 	});
 
 	uploader.on('uploadError', function(file) {
@@ -147,10 +153,12 @@
 		$bar = $li.find('.am-progress-bar');
 		$percent.removeClass("am-active").removeClass("am-progress-striped");
 		$bar.addClass("am-progress-bar-danger");
+		$("#unc-div").hide("fast");
 	});
 
 	uploader.on('uploadComplete', function(file) {
 		$('#' + file.id).find('.progress').fadeOut();
+	
 	})
 </script>
 </html>

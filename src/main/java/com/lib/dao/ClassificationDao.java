@@ -1,31 +1,77 @@
 package com.lib.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.lib.entity.Classification;
+
 /**
  * 分类dao操作
- * @author 
+ * @author zcq
  *
  */
 public interface ClassificationDao {
 	
 	/**
 	 * 添加分类
-	 * @param parent_id
+	 * @param classificationName
+	 * @param parentId
 	 * @return
 	 */
-	int insert(Long parent_id);
+	void insert(@Param("classificationName")String classificationName,@Param("parentId")Long parentId,@Param("parentPath")String parentPath);
 	
 	/**
 	 * 删除分类
-	 * @param classification_id
+	 * @param classificationId
 	 * @return
 	 */
-	int delete(Long classification_id);
+	void delete(Long classificationId);
 	
 	/**
 	 * 修改分类
-	 * @param classification_id
+	 * @param classificationId
 	 * @return
 	 */
-	int modify(Long classification_id);
+	void modify(@Param("classificationName")String classificationName,@Param("classificationId")Long classificationId);
+	
+	/**
+	 * 查找分类
+	 * @param classificationId
+	 * @return
+	 */
+	Classification findById(Long classificationId);
+	
+	/**
+	 * 查看父类路径
+	 * @param classificationId
+	 * @return
+	 */
+	String findFatherPathById(Long classificationId);
+	
+	/**
+	 * 查找所有的孩子节点
+	 * @param classificationId
+	 * @return
+	 */
+	List<Classification> findAllChildById(Long classificationId);
+
+	
+/*	*//**
+	 * 查找所有的兄弟节点
+	 * @param classificationId
+	 * @return
+	 *//*
+	List<Classification> findAllBotherById(Long classificationId);
+	
+	
+	*//**
+	 * 查找所有的父节点
+	 * @param classificationId
+	 * @return
+	 *//*
+	List<Classification> findAllfatherById(Long classificationId);*/
+	
 	
 	
 }

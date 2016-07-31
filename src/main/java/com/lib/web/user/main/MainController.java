@@ -33,5 +33,11 @@ public class MainController {
 		model.addAttribute("date", new Date());
 		return "main/index";
 	}
+	
+	@RequestMapping(value = "/public", method = RequestMethod.GET)
+	public String publicResource(Model model) {
+		model.addAttribute("date", new Date());
+		return "main/public";
+	}
 
 }

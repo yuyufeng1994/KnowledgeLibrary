@@ -1,8 +1,9 @@
 package com.lib.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.github.pagehelper.PageHelper;
 import com.lib.entity.FileInfo;
 import com.lib.utils.StringValueUtil;
 
@@ -34,7 +36,7 @@ public class FileInfoDaoTest {
 		fi.setFilePath("das/dasd");
 		fi.setFileState(3);
 		fi.setFileClassId(1l);
-		
+
 		fileInfoDao.insert(fi);
 	}
 
@@ -52,6 +54,17 @@ public class FileInfoDaoTest {
 	public void testDeleteByPrimaryKey() throws Exception {
 		fail("Not yet implemented");
 	}
+
+	@Test
+	public void testGetFilesByState() throws Exception {
+		//分页
+		PageHelper.startPage(1,5,"file_id asc");
+		List<FileInfo> list = fileInfoDao.getFilesByState(3);
+		for(FileInfo f:list){
+			System.out.println(f);
+		}
+	}
+
 	@Test
 	public void testRootPath() throws Exception {
 		Properties prop = new Properties();

@@ -1,20 +1,29 @@
 package com.lib.web.user.main;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.alibaba.druid.support.logging.Log;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -33,7 +42,7 @@ import com.lib.utils.StringValueUtil;
 public class FileManagerController {
 	@Autowired
 	private FileInfoService fileInfoService;
-
+	
 	/**
 	 * 跳转到上传页面
 	 * 
@@ -123,6 +132,14 @@ public class FileManagerController {
 
 				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
 				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
+				for(String str:filesUuid){
+					//处理文件
+					new Thread(){
+						public void run() {
+							fileInfoService.translateFile(str);
+						};
+					}.start();
+				}
 				return "success";
 			}
 		}
@@ -137,41 +154,26 @@ public class FileManagerController {
 			fi.setFileBrief("无");
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
-			fi.setFilePath(userFilePath + uuid + "." + ext);
+			fi.setFilePath(userFilePath + uuid);
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
 
 			fileInfoService.insertFile(fi);
 		} catch (Exception e) {
 
+		}finally{
+			//处理文件
+			new Thread(){
+				public void run() {
+					fileInfoService.translateFile(uuid);
+				};
+			}.start();
+			
+			
+			
+			
 		}
 		return "success";
 	}
-	/**
-	 * 下载文件
-	 * 
-	 * @param id
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	/*
-	 * @RequestMapping(value = "/download-file/{id}/{ext}", method =
-	 * RequestMethod.GET) public String download(@PathVariable("id") Long
-	 * id, @PathVariable("ext") String ext, HttpServletRequest request,
-	 * HttpServletResponse response) { Doc doc = docService.getDoc(id); if (doc
-	 * == null) { return null; } // System.out.println(doc); if
-	 * (ext.equals("pdf")) { response.setContentType("application/pdf");
-	 * response.setHeader("Content-Disposition",
-	 * "attachment; filename=WebReport.pdf"); } else {
-	 * response.setContentType("multipart/form-data");
-	 * response.setHeader("Content-Disposition", "attachment;fileName=" +
-	 * doc.getDocName() + "." + ext); } try { InputStream inputStream = new
-	 * FileInputStream(Const.IO_DOC_PATH + doc.getDocPath() + "." + ext);
-	 * OutputStream os = response.getOutputStream(); byte[] b = new byte[2048];
-	 * int length; while ((length = inputStream.read(b)) > 0) { os.write(b, 0,
-	 * length); } // 这里主要关闭。 os.close(); inputStream.close(); } catch
-	 * (FileNotFoundException e) { e.printStackTrace(); } catch (IOException e)
-	 * { e.printStackTrace(); } return null; }
-	 */
+	
 }
