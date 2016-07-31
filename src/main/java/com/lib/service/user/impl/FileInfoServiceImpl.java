@@ -80,33 +80,32 @@ public class FileInfoServiceImpl implements FileInfoService {
 			if (file.getFileExt() == "wmv9" || file.getFileExt() == "rm" || file.getFileExt() == "rmvb") {
 				if (TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".avi"))
-					;
 				{
 
-					try {
+					/*try {
 						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());
 						newFile.delete();
 					} catch (Exception e) {
 						LOG.error("删除视频文件失败" + file.getFileName());
-					}
+					}*/
 					// 视频文件后缀修改
-					fileinfoDao.modifyFileExeById(file.getFileId(), "avi");
+					/*fileinfoDao.modifyFileExeById(file.getFileId(), "avi");*/
 				}
 			}
 
 			// ffmpeg转换成flv
-			if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".flv")) {
-				try {
+			if (TranslateUtils.processMP4(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".mp4")) {
+				/*try {
 					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());
 					newFile.delete();
 				} catch (Exception e) {
 					LOG.error("删除视频文件失败" + file.getFileName());
-				}
-				// 视频文件后缀修改
-				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
+				}*/
+				/*// 视频文件后缀修改
+				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");*/
 				// 获取视频缩略图
-				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".flv",
+				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".mp4",
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
 
