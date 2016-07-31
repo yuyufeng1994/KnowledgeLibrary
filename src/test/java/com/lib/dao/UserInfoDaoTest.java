@@ -36,8 +36,23 @@ public class UserInfoDaoTest {
 		System.out.println(user);
 	}
 	
+	@Test
+	public void testInsertUserNoStatus(){
+		UserInfo user = new UserInfo();
+		user.setUserEmail("1231354");
+		user.setUserName("gg");
+		user.setUserPassword("ggg");
+		user.setUserType(2);
+		userInfoDao.insertUserNoStatus(user);
+	}
 	
-	
-	
-
+	@Test
+	public void testUpdateUserNoStatus(){
+		UserInfo user = userInfoDao.queryByEmail("1231354");
+		user.setUserEmail("fdf");
+		user.setUserName("發");
+		user.setUserPassword("飛");
+		user.setUserType(2);
+		userInfoDao.updateUserNoStatus(user);
+	}
 }

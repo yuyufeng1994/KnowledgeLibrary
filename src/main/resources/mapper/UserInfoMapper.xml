@@ -16,5 +16,19 @@
 		WHERE user_email = #{userEmail}
 	</select>
 
-
+	<insert id="insertUserNoStatus" parameterType="UserInfo">
+	    insert into user_info (user_id, user_name, user_password, 
+	      user_type, user_email
+	      )
+	    values(#{userId},#{userName},#{userPassword},#{userType},#{userEmail})
+  	</insert>
+  	
+  	<update id="updateUserNoStatus"  parameterType="UserInfo">
+  		update user_info 
+  		set user_name = #{userName},user_password=#{userPassword},
+  		user_email = #{userEmail},user_type=#{userType},
+  		user_photo = #{userPhoto}
+  		where user_id = #{userId}
+  		
+  	</update>
 </mapper>

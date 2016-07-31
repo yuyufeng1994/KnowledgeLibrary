@@ -1,12 +1,16 @@
 package com.lib.web.user.main;
 
+import java.text.ParseException;
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +21,7 @@ import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.exception.user.UserNullAccountException;
 import com.lib.exception.user.UserPasswordWrongException;
+import com.lib.service.user.UserRegisterService;
 import com.lib.service.user.UserService;
 
 /**
@@ -29,6 +34,12 @@ import com.lib.service.user.UserService;
 public class LoginAndRegisterController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired  
+	private UserRegisterService urService;
+	
+//	@Autowired
+	//
 
 	/**
 	 * 跳转到登录页面
@@ -41,7 +52,16 @@ public class LoginAndRegisterController {
 		model.addAttribute("date", new Date());
 		return "login";
 	}
-
+	/**
+	 * 跳转到注册页面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/registerUI", method = RequestMethod.GET)
+	public String register(Model model) {
+		model.addAttribute("date", new Date());
+		return "register/register";
+	}
 	@RequestMapping(value = "/login-submit", method = RequestMethod.POST, produces = {
 			"application/json;charset=UTF-8" })
 	public @ResponseBody JsonResult loginSub(UserInfo user, HttpSession session) {
@@ -85,5 +105,39 @@ public class LoginAndRegisterController {
 		model.addAttribute("error","无权访问，请先登录！");
 		return "error";
 	}
-
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 * @throws ParseException
+	 */
+	@RequestMapping(value="/register",method={RequestMethod.GET,RequestMethod.POST})  
+    public String  load(String userName,String userPassword,HttpServletRequest request,HttpServletResponse response,Model model) throws ParseException{  
+        String action = request.getParameter("action");  
+        System.out.println("-----r----"+action);  
+        if("register".equals(action)) {  
+            //注册  
+            String email = request.getParameter("email");  
+            urService.processregister(userName,userPassword,email);//发邮箱激活  
+            model.addAttribute("text","注册成功");  
+            return "register/register-success";
+        }   
+        else if("activate".equals(action)) {  
+            //激活  
+            String email = request.getParameter("email");//获取email  
+            String validateCode = request.getParameter("validateCode");//激活码  
+            try {  
+            	urService.processActivate(email , validateCode);//调用激活方法  
+            	System.out.println(222);
+                return "register/activate-success";  
+            } catch (Exception e) {  
+                request.setAttribute("error" , e.getMessage());  
+                return "error";
+            }  
+              
+        }  
+        return "register-success";
+    }  
 }

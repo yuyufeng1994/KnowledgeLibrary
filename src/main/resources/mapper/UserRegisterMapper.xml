@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.UserRegisterDao">
+
+	<insert id="insertNoStatus" parameterType="UserRegister">
+		insert into user_register(user_id,validate_code,register_time)
+		values(#{userId},#{validateCode},#{registerTime})
+	</insert>
+	
+	
+	<select id="queryById" resultType="UserRegister">
+		SELECT user_id,register_id,validate_code,register_time
+		FROM 
+		user_register
+		WHERE user_id = #{userId}
+	</select>
+	
+	<update id="updateNoStatus" parameterType="UserRegister">
+		update user_register 
+		set validate_code = #{validateCode},
+		register_time = #{registerTime}
+		where register_id = #{registerId}
+	</update>
+</mapper>

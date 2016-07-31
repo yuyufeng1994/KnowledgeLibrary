@@ -11,6 +11,12 @@
 		<spring-version>4.1.7.RELEASE</spring-version>
 	</properties>
 	<dependencies>
+		<!-- Jmail邮箱验证 -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
 		<dependency>
 			<!-- 使用junit4 注解的方式编程 -->
 			<groupId>junit</groupId>

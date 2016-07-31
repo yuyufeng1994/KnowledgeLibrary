@@ -24,5 +24,16 @@ public interface UserInfoDao {
 	 */
 	UserInfo queryByEmail(@Param("userEmail") String userEmail);
 	
-
+	/**
+	 * 插入一条未激活用户记录
+	 * @param user
+	 * @return
+	 */
+	int insertUserNoStatus(UserInfo user);
+	/**
+	 * 将用户从未激活状态转换为更新状态
+	 * @param user
+	 * @return
+	 */
+	int updateUserNoStatus(UserInfo user);
 }
