@@ -12,6 +12,16 @@ public class FileInfoVO extends FileInfo {
 		return FileStateEnum.stateOf(getFileState()).getStateInfo();
 	}
 
+	public String getHiddenedFileName() {
+		String str = super.getFileName();
+		if (str.length() > 19) {
+			//String ext = str.substring(str.lastIndexOf("."), str.length());
+			str = str.substring(0, 15)+"...";
+		}
+
+		return str;
+	}
+
 	public String getFileSizeFormat() {
 		if (getFileSize() != null) {
 

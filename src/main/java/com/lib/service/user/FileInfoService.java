@@ -33,4 +33,11 @@ public interface FileInfoService {
 	 * @param uuid
 	 */
 	void translateFile(String uuid);
+
+	/**
+	 * 根据uuid查找一个文件
+	 * @param uuid
+	 * @return
+	 */
+	FileInfo getFileInfoByUuid(String uuid);
 }
