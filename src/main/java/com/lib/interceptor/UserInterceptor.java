@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.UserService;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User;
 
 /**
  * 主要拦截器
@@ -52,6 +53,8 @@ public class UserInterceptor implements HandlerInterceptor {
 			String root = request.getSession().getServletContext().getRealPath("/");
 			Const.CONTAINER_PATH = root;
 		}
+		
+		
 
 		HttpSession session = request.getSession();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
