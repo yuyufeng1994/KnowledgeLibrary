@@ -232,11 +232,11 @@ public class TranslateUtils {
        
     }  
     
-    public static boolean toPNG(String filePath, String outPatht) 
+    public static boolean toPNG(String filePath, String outPath) 
     {
         File fi = new File(filePath);
      
-        File fo = new File(outPatht);
+        File fo = new File(outPath);
         BufferedImage im;
 		try {
 			im = ImageIO.read(fi);

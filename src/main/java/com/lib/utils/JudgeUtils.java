@@ -20,7 +20,7 @@ public class JudgeUtils {
 		Collections.addAll(compressFile, new String[] { "rar", "zip" });
 		Collections.addAll(officeFile, new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx","pdf"});
 		Collections.addAll(videoFile, new String[] {"avi","mpg","3gp","mov","mp4","asf","asx","flv","wmv9","rm","rmvb"});
-		Collections.addAll(imageFile, new String[] {"BMP","PNG","JPG","GIF"});
+		Collections.addAll(imageFile, new String[] {"bmp","png","jpg","gif"});
 	}
 
 	public static boolean isOfficeFile(String ext) {
