@@ -64,9 +64,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
+			
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
+			
 			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
 					Const.ROOT_PATH + file.getFilePath() + ".png");
 
@@ -83,7 +85,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
 						newFile.delete();  
 					} catch (Exception e) {
-						LOG.error("删除文件失败" + file.getFileName());
+						LOG.error("删除视频文件失败" + file.getFileName());
 					}
 					// 视频文件后缀修改
 					fileinfoDao.modifyFileExeById(file.getFileId(), "avi");
@@ -98,7 +100,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
 					newFile.delete();  
 				} catch (Exception e) {
-					LOG.error("删除文件失败" + file.getFileName());
+					LOG.error("删除视频文件失败" + file.getFileName());
 				}
 				// 视频文件后缀修改
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
@@ -107,9 +109,24 @@ public class FileInfoServiceImpl implements FileInfoService {
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
 			
+		}else if(JudgeUtils.isImageFile(file.getFileExt())){
+			
+			if(TranslateUtils.toPNG(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath()))
+			{
+				try {
+					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
+					newFile.delete();  
+				} catch (Exception e) {
+					LOG.error("删除图片文件失败" + file.getFileName());
+				}
+				// 图片文件后缀修改
+				fileinfoDao.modifyFileExeById(file.getFileId(), "png");
+			}
+			
 		}
-
 		// 全文检索创立索引
+		
 
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
