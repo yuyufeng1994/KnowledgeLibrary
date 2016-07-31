@@ -9,12 +9,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.lib.enums.Const;
 import com.lib.service.user.OfficeConvert;
 import com.lib.service.user.impl.OfficeConvertImpl;
 
 public class TranslateUtils {
-
+     
+	
 	public static OfficeConvert getOfficeConvert() {
 		org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration config = new org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration();
 		config.setOfficeHome("C:\\Program Files (x86)\\OpenOffice 4\\");
@@ -73,6 +78,7 @@ public class TranslateUtils {
             ProcessBuilder builder = new ProcessBuilder();  
             builder.command(commend);  
             Process p=builder.start();  
+            
             /** 
              * 清空Mencoder进程 的输出流和错误流 
              * 因为有些本机平台仅针对标准输入和输出流提供有限的缓冲区大小， 
@@ -109,6 +115,7 @@ public class TranslateUtils {
               
             //等Mencoder进程转换结束，再调用ffmpeg进程  
             p.waitFor();  
+            p.destroy();
            // System.out.println("who cares");  
             return true;  
         }catch (Exception e){   
@@ -125,12 +132,14 @@ public class TranslateUtils {
      */  
     public static boolean processFLV(String filePath, String outPath) {  
     	
+    	//System.out.println("abcd");
     	File file = new File(filePath);
 		if (!file.exists()) {
 
-			System.err.println("路径[" + filePath + "]对应的视频文件不存在!");
+			System.out.println("路径[" + filePath + "]对应的视频文件不存在!");
 
 		}
+		//System.out.println("1234");
         File outfile = new File(outPath);
         if(outfile.exists()){
         	//System.out.println("flv文件已经存在！无需转换");
@@ -162,15 +171,57 @@ public class TranslateUtils {
  	        for(int i=0;i<commend.size();i++)  
  	            test.append(commend.get(i)+" ");  
  	        //System.out.println(test);  
- 	        try {  
+ 	       try   
+ 	        {  
  	            ProcessBuilder builder = new ProcessBuilder();  
  	            builder.command(commend);  
- 	            builder.start(); 
+ 	            Process p=builder.start();  
+ 	            
+ 	            /** 
+ 	             * 清空Mencoder进程 的输出流和错误流 
+ 	             * 因为有些本机平台仅针对标准输入和输出流提供有限的缓冲区大小， 
+ 	             * 如果读写子进程的输出流或输入流迅速出现失败，则可能导致子进程阻塞，甚至产生死锁。  
+ 	             */  
+ 	            final InputStream is1 = p.getInputStream();  
+ 	            final InputStream is2 = p.getErrorStream();  
+ 	            new Thread() {  
+ 	                public void run() {  
+ 	                    BufferedReader br = new BufferedReader(new InputStreamReader(is1));  
+ 	                    try {  
+ 	                        String lineB = null;  
+ 	                        while ((lineB = br.readLine()) != null ){  
+ 	                            if(lineB != null);
+ 	                            	//System.out.println(lineB);  
+ 	                        }  
+ 	                    } catch (IOException e) {  
+ 	                        e.printStackTrace();  
+ 	                    }  
+ 	                }  
+ 	            }.start();   
+ 	            new Thread() {  
+ 	                public void run() {  
+ 	                    BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));  
+ 	                    try {  
+ 	                        String lineC = null;  
+ 	                        while ( (lineC = br2.readLine()) != null){  
+ 	                            if(lineC != null);
+ 	                            	//System.out.println(lineC);  
+ 	                        }  
+ 	                    } catch (IOException e) {  
+ 	                        e.printStackTrace();  
+ 	                    }  
+ 	                }  
+ 	            }.start();   
+ 	              
+ 	            //等Mencoder进程转换结束，再调用ffmpeg进程  
+ 	            p.waitFor();  
+ 	            p.destroy();
+ 	           // System.out.println("who cares");  
  	            return true;  
- 	        } catch (Exception e) {  
- 	            e.printStackTrace();  
+ 	        }catch (Exception e){   
+ 	            System.err.println(e);   
  	            return false;  
- 	        }  
+ 	        } 
  	       
         }
        

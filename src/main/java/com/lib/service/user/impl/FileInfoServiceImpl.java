@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
@@ -76,9 +75,10 @@ public class FileInfoServiceImpl implements FileInfoService {
 						Const.ROOT_PATH + file.getFilePath() + ".avi"))
 					;
 				{	
-					//删除文件
+					
 					try {
-						FileUtils.forceDelete(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()));
+						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
+						newFile.delete();  
 					} catch (Exception e) {
 						LOG.error("删除文件失败" + file.getFileName());
 					}
@@ -88,19 +88,22 @@ public class FileInfoServiceImpl implements FileInfoService {
 			}
 			
 			// ffmpeg转换成flv
-			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".flv");
-			//删除文件
-			try {
-				FileUtils.forceDelete(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()));
-			} catch (Exception e) {
-				LOG.error("删除文件失败" + file.getFileName());
+			if(TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".flv"))
+			{   
+				try {
+					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
+					newFile.delete();  
+				} catch (Exception e) {
+					LOG.error("删除文件失败" + file.getFileName());
+				}
+				// 视频文件后缀修改
+				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
+				// 获取视频缩略图
+				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".flv" ,
+						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
-			// 视频文件后缀修改
-			fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
-			// 获取视频缩略图
-			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".png");
+			
 		}
 
 		// 全文检索创立索引
