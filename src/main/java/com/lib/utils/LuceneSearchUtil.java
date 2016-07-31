@@ -45,7 +45,7 @@ import com.lib.entity.FileInfo;
  * @author Administrator
  * 
  */
-public class LuceneSearcherUtil {
+public class LuceneSearchUtil {
 	/**
 	 * 根据索引搜索doc
 	 * @param text
