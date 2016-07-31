@@ -50,4 +50,8 @@
 		#{fileCreateTime,jdbcType=TIMESTAMP},
 		#{fileBrief,jdbcType=LONGVARCHAR})
 	</insert>
+	
+	<update id="modifyFileExeById">  
+       update file_info set file_ext=#{fileExt} where file_id=#{fileId}  
+     </update>
 </mapper>

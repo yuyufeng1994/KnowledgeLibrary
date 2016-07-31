@@ -66,5 +66,12 @@ public interface FileInfoDao {
 	 * @param i
 	 */
 	void setFileStateByUuid(@Param("fileUuid")String uuid, @Param("fileState")Integer i);
+	
+	/**
+	 * 修改文件后缀名
+	 * @param fileId
+	 * @param fileExe
+	 */
+	void modifyFileExeById(@Param("fileId")Long fileId,@Param("fileExt")String fileExt);
 
 }

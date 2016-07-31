@@ -18,7 +18,7 @@ public class JudgeUtils {
 	static {
 		Collections.addAll(compressFile, new String[] { "rar", "zip" });
 		Collections.addAll(officeFile, new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx","pdf"});
-		Collections.addAll(videoFile, new String[] { "mp4", "avi", "mpg", "rmvb"});
+		Collections.addAll(videoFile, new String[] {"avi","mpg","3gp","mov","mp4","asf","asx","flv","wmv9","rm","rmvb"});
 	}
 
 	public static boolean isOfficeFile(String ext) {

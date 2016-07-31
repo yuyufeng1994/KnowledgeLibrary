@@ -54,30 +54,59 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return uuids;
 	}
 
-	
-
 	@Override
 	public void translateFile(String uuid) {
-		//设置文件问后台处理中
-		fileinfoDao.setFileStateByUuid(uuid,3);
+		// 设置文件问后台处理中
+		fileinfoDao.setFileStateByUuid(uuid, 3);
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
-			// 获取pdf缩略图  路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
-			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf", Const.ROOT_PATH + file.getFilePath()+".png");
+			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
+			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
+					Const.ROOT_PATH + file.getFilePath() + ".png");
+
+		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
+
+			// ffmpeg不支持的格式,使用memcoder
+			if (file.getFileExt() == "wmv9" || file.getFileExt() == "rm" || file.getFileExt() == "rmvb") {
+				if (TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+						Const.ROOT_PATH + file.getFilePath() + ".avi"))
+					;
+				{	
+					//删除文件
+					try {
+						FileUtils.forceDelete(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()));
+					} catch (Exception e) {
+						LOG.error("删除文件失败" + file.getFileName());
+					}
+					// 视频文件后缀修改
+					fileinfoDao.modifyFileExeById(file.getFileId(), "avi");
+				}
+			}
 			
-		}else if(JudgeUtils.isVideoFile(file.getFileExt())){
-			//获取视频缩略图
-			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() +"."+ file.getFileExt(), Const.ROOT_PATH + file.getFilePath()+".png");
+			// ffmpeg转换成flv
+			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".flv");
+			//删除文件
+			try {
+				FileUtils.forceDelete(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()));
+			} catch (Exception e) {
+				LOG.error("删除文件失败" + file.getFileName());
+			}
+			// 视频文件后缀修改
+			fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
+			// 获取视频缩略图
+			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".png");
 		}
-		
-		//全文检索创立索引
-		
-		//修改文件为私有可以查看
-		fileinfoDao.setFileStateByUuid(uuid,6);
+
+		// 全文检索创立索引
+
+		// 修改文件为私有可以查看
+		fileinfoDao.setFileStateByUuid(uuid, 6);
 	}
 
 }

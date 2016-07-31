@@ -51,18 +51,20 @@ public class ThumbnailUtils {
 				}
 
 				image.flush();
+				
 			}
 		}
 
 		document.dispose();
+	
 	}
 	
-	public static void videoGetThumb(String path, String filePath) {
-		File file = new File(path);
+	public static void videoGetThumb(String filePath, String outPath) {
+		File file = new File(filePath);
 		
 		if (!file.exists()) {
 
-			System.err.println("路径[" + path + "]对应的视频文件不存在!");
+			System.err.println("路径[" + filePath + "]对应的视频文件不存在!");
 
 		}
 
@@ -73,7 +75,7 @@ public class ThumbnailUtils {
 
 		commands.add("-i");
 
-		commands.add(path);
+		commands.add(filePath);
 
 		commands.add("-y");
 
@@ -93,7 +95,7 @@ public class ThumbnailUtils {
 
 		commands.add("320x240");
 
-		commands.add(filePath);
+		commands.add(outPath);
 
 		try {
 
