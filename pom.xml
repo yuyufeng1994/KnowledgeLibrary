@@ -261,6 +261,7 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					 <encoding>utf8</encoding>   
 				</configuration>
 			</plugin>
 			<plugin>
@@ -282,6 +283,8 @@
 					<scanIntervalSeconds>2</scanIntervalSeconds>
 				</configuration>
 			</plugin>
+			
+				
 
 		</plugins>
 	</build>
