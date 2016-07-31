@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
-
+/**
+ * 用户处理文件上传和转化
+ * @author Yu Yufeng
+ *
+ */
 public interface FileInfoService {
 	/**
 	 * 插入一个新的文件信息到数据库

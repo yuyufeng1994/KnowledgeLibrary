@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.github.pagehelper.PageHelper;
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.utils.StringValueUtil;
 
@@ -54,6 +55,17 @@ public class FileInfoDaoTest {
 	public void testDeleteByPrimaryKey() throws Exception {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testGetFilesByUserId() throws Exception {
+				//分页
+				PageHelper.startPage(1,5,"file_id desc");
+				List<FileInfoVO> list = fileInfoDao.getFilesByUserId(2016001l);
+				for(FileInfoVO f:list){
+					System.out.println(f);
+				}
+	}
+	
 
 	@Test
 	public void testGetFilesByState() throws Exception {

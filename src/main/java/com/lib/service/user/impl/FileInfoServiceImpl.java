@@ -20,7 +20,10 @@ import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
 import com.lib.utils.ThumbnailUtils;
 import com.lib.utils.TranslateUtils;
-
+/**
+ * 用户处理文件上传和转化
+ *
+ */
 @Service
 public class FileInfoServiceImpl implements FileInfoService {
 	private OfficeConvert officeConvert = TranslateUtils.getOfficeConvert();

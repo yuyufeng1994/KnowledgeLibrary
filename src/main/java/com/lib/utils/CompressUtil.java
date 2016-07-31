@@ -240,7 +240,7 @@ public class CompressUtil {
 				}
 				String ext = compressFileName.substring(compressFileName.lastIndexOf(".") + 1,
 						compressFileName.length());
-				d.setFileName(compressFileName.substring(0, compressFileName.lastIndexOf(".")));
+				d.setFileName(compressFileName);
 				d.setFilePath(filePath + uuid);
 				d.setFileExt(ext);
 				d.setFileState(2);

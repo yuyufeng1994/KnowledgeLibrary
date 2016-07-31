@@ -10,8 +10,8 @@
 					id="collapse-nav">
 					<li><a href="user/upload"><span class="am-icon-cloud-upload"></span> 上传</a></li>
 					<li><a href="user/newfile"><span class="am-icon-pencil-square-o"></span> 新建/归纳</a></li>
-					<li><a href="user/myfiles" class="am-cf"><span class="am-icon-file-text"></span> 我的资源</a></li>
-					<li><a href="user/myforks"><span class="am-icon-code-fork"></span> 我的收藏</a></li>
+					<li><a href="user/myfiles/1" class="am-cf"><span class="am-icon-file-text"></span> 我的资源</a></li>
+					<li><a href="user/myforks/1"><span class="am-icon-code-fork"></span> 我的收藏</a></li>
 				</ul></li>
 
 			<li><a href="user/userinfo"><span class="am-icon-info"></span> 个人信息</a></li>

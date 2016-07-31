@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 
 /**
@@ -55,6 +56,7 @@ public interface FileInfoDao {
 
 	/**
 	 * 通过uuid得到一个文件
+	 * 
 	 * @param uuid
 	 * @return
 	 */
@@ -62,16 +64,26 @@ public interface FileInfoDao {
 
 	/**
 	 * 设置文件的状态
+	 * 
 	 * @param uuid
 	 * @param i
 	 */
-	void setFileStateByUuid(@Param("fileUuid")String uuid, @Param("fileState")Integer i);
-	
+	void setFileStateByUuid(@Param("fileUuid") String uuid, @Param("fileState") Integer i);
+
 	/**
 	 * 修改文件后缀名
+	 * 
 	 * @param fileId
 	 * @param fileExe
 	 */
-	void modifyFileExeById(@Param("fileId")Long fileId,@Param("fileExt")String fileExt);
+	void modifyFileExeById(@Param("fileId") Long fileId, @Param("fileExt") String fileExt);
+
+	/**
+	 * 得到为处理过的文件
+	 * 
+	 * @param i
+	 * @return
+	 */
+	List<FileInfoVO> getFilesByUserId(Long userId);
 
 }
