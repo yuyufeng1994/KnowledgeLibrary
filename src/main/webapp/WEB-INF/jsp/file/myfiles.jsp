@@ -21,25 +21,36 @@
 					</div>
 				</div>
 				<div class="am-u-sm-12">
-					<table class="am-table table-hover am-table-radius am-table-hover am-table-compact am-table-striped">
+					<table
+						class="am-table table-hover am-table-radius am-table-hover am-table-compact am-table-striped">
 						<thead>
 							<tr>
+								<th>缩略图</th>
 								<th>文件名称</th>
+								<th>文件格式</th>
 								<th>文件大小</th>
 								<th>文件状态</th>
 								<th>上传时间</th>
 								<th>文件类别</th>
 								<th>管理</th>
+								<th>在线预览</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${page.list}" var="f">
 								<tr>
-									<td>${f.fileName }</td>
+									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
+											src="user/thumbnail/${f.fileUuid}/png" alt="null"
+											class="am-img-thumbnail"
+											style="width: 50px; height: 50px; overflow: hidden"></a></td>
+									<td title="${f.fileName }.${f.fileExt }">${f.hiddenedFileName }.${f.fileExt }</td>
+									<td>${f.fileExt }</td>
 									<td>${f.fileSizeFormat }</td>
 									<td>${f.fileStateStr }</td>
-									<td><fmt:formatDate value="${f.fileCreateTime }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+									<td><fmt:formatDate value="${f.fileCreateTime }"
+											pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									<td>${f.fileClassId }</td>
+
 									<td>
 										<div class="am-dropdown" data-am-dropdown="">
 											<button
@@ -50,11 +61,14 @@
 											</button>
 											<ul class="am-dropdown-content">
 												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
+												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">2. 下载</a></li>
 												<li><a href="#">3. 删除</a></li>
 											</ul>
 										</div>
 									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs" href="user/file/${f.fileUuid}"> 预览 <i
+											class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 							</c:forEach>
 

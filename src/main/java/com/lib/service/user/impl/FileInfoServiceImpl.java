@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lib.dao.FileInfoDao;
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -20,6 +21,7 @@ import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
 import com.lib.utils.ThumbnailUtils;
 import com.lib.utils.TranslateUtils;
+
 /**
  * 用户处理文件上传和转化
  *
@@ -79,11 +81,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 				if (TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".avi"))
 					;
-				{	
-					
+				{
+
 					try {
-						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
-						newFile.delete();  
+						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());
+						newFile.delete();
 					} catch (Exception e) {
 						LOG.error("删除视频文件失败" + file.getFileName());
 					}
@@ -91,23 +93,23 @@ public class FileInfoServiceImpl implements FileInfoService {
 					fileinfoDao.modifyFileExeById(file.getFileId(), "avi");
 				}
 			}
-			
+
 			// ffmpeg转换成flv
-			if(TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".flv"))
-			{   
+			if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".flv")) {
 				try {
-					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
-					newFile.delete();  
+					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());
+					newFile.delete();
 				} catch (Exception e) {
 					LOG.error("删除视频文件失败" + file.getFileName());
 				}
 				// 视频文件后缀修改
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
 				// 获取视频缩略图
-				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".flv" ,
+				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".flv",
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
+
 			
 		}else if(JudgeUtils.isImageFile(file.getFileExt())){
 			
@@ -124,12 +126,18 @@ public class FileInfoServiceImpl implements FileInfoService {
 				fileinfoDao.modifyFileExeById(file.getFileId(), "png");
 			}
 			
+
 		}
 		// 全文检索创立索引
 		
 
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
+	}
+
+	@Override
+	public FileInfoVO getFileInfoByUuid(String uuid) {
+		return fileinfoDao.getFileInfoByUuid(uuid);//TODO 判断文件是否私有
 	}
 
 }

@@ -25,7 +25,7 @@
 	
 	
 
-	<select id="getFileInfoByUuid" resultType="com.lib.entity.FileInfo">
+	<select id="getFileInfoByUuid" resultType="com.lib.dto.FileInfoVO">
 		select
 		file_id,
 		file_name, file_size, file_ext, file_user_id, file_uuid, file_path,

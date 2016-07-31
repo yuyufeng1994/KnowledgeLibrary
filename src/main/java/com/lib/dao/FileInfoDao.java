@@ -60,7 +60,7 @@ public interface FileInfoDao {
 	 * @param uuid
 	 * @return
 	 */
-	FileInfo getFileInfoByUuid(String fileUuid);
+	FileInfoVO getFileInfoByUuid(String fileUuid);
 
 	/**
 	 * 设置文件的状态
