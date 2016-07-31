@@ -56,8 +56,8 @@ public class MyResourceController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/myforks", method = RequestMethod.GET)
-	public String myForks(Model model) {
+	@RequestMapping(value = "/myforks/{pageNo}", method = RequestMethod.GET)
+	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
 		model.addAttribute("date", new Date());
 		return "file/myforks";
 	}

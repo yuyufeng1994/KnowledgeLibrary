@@ -2,6 +2,7 @@ package com.lib.service.user;
 
 import java.util.List;
 
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 /**
@@ -39,5 +40,5 @@ public interface FileInfoService {
 	 * @param uuid
 	 * @return
 	 */
-	FileInfo getFileInfoByUuid(String uuid);
+	FileInfoVO getFileInfoByUuid(String uuid);
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lib.dao.FileInfoDao;
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -116,7 +117,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
-	public FileInfo getFileInfoByUuid(String uuid) {
+	public FileInfoVO getFileInfoByUuid(String uuid) {
 		return fileinfoDao.getFileInfoByUuid(uuid);//TODO 判断文件是否私有
 	}
 

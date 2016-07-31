@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.alibaba.druid.support.logging.Log;
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -228,7 +229,7 @@ public class FileManagerController {
 	@RequestMapping(value = "/thumbnail/{uuid}/{ext}", method = RequestMethod.GET)
 	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
 			@PathVariable("uuid") String uuid, @PathVariable("ext") String ext) {
-		FileInfo fileInfo = fileInfoService.getFileInfoByUuid(uuid);
+		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
 		
