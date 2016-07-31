@@ -31,9 +31,9 @@ public class SendEmail {
      */  
     private static Session getSession() {  
         Properties props = new Properties();  
-        props.put("mail.smtp.host", HOST);//设置服务器地址  
+        props.put("mail.smtp.host", HOST);//设置服务器地址
         props.put("mail.store.protocol" , PROTOCOL);//设置协议  
-        props.put("mail.smtp.port", PORT);//设置端口  
+        props.put("mail.smtp.port", PORT);//设置端口
         props.put("mail.smtp.auth" , true);  
           
         Authenticator authenticator = new Authenticator() {  
