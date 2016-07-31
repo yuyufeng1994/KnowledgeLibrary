@@ -39,8 +39,8 @@
 						<tbody>
 							<c:forEach items="${page.list}" var="f">
 								<tr>
-									<td><a href="user/download/${f.fileUuid}/png"><img
-											src="user/download/${f.fileUuid}/png" alt="null"
+									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
+											src="user/thumbnail/${f.fileUuid}/png" alt="null"
 											class="am-img-thumbnail"
 											style="width: 50px; height: 50px; overflow: hidden"></a></td>
 									<td title="${f.fileName }.${f.fileExt }">${f.hiddenedFileName }.${f.fileExt }</td>

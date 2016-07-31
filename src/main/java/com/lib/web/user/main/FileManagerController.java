@@ -152,7 +152,7 @@ public class FileManagerController {
 			FileUtils.writeByteArrayToFile(new File(filePath), files[0].getBytes());
 
 			FileInfo fi = new FileInfo();
-			fileName = fileName.substring(0,fileName.indexOf("."));
+			fileName = fileName.substring(0, fileName.indexOf("."));
 			fi.setFileName(fileName);
 			fi.setFileSize(files[0].getSize());
 			fi.setFileExt(ext);
@@ -191,13 +191,47 @@ public class FileManagerController {
 		FileInfo fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
-		response.setCharacterEncoding("utf-8");  
-        response.setContentType("multipart/form-data");  
-        String fileAllName = fileInfo.getFileName()+"."+fileInfo.getFileExt();
-        try {
-			fileAllName=new String(fileAllName.getBytes("UTF-8"),"iso-8859-1");
-		} catch (UnsupportedEncodingException e1) {}
-        response.setHeader("Content-Disposition", "attachment;fileName="+fileAllName);  
+
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("multipart/form-data");
+		String fileAllName = fileInfo.getFileName() + "." + fileInfo.getFileExt();
+		try {
+			fileAllName = new String(fileAllName.getBytes("UTF-8"), "iso-8859-1");
+		} catch (UnsupportedEncodingException e1) {
+		}
+		response.setHeader("Content-Disposition", "attachment;fileName=" + fileAllName);
+		try {
+			InputStream inputStream = new FileInputStream(path);
+			OutputStream os = response.getOutputStream();
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+			}
+			// 这里主要关闭。
+			os.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			LOG.error("文件没有找到" + path);
+		} catch (IOException e) {
+		}
+		return null;
+	}
+
+	/**
+	 * 文件下载
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/thumbnail/{uuid}/{ext}", method = RequestMethod.GET)
+	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
+			@PathVariable("uuid") String uuid, @PathVariable("ext") String ext) {
+		FileInfo fileInfo = fileInfoService.getFileInfoByUuid(uuid);
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
+		
 		try {
 			InputStream inputStream = new FileInputStream(path);
 			OutputStream os = response.getOutputStream();
