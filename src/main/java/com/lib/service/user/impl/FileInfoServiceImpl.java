@@ -94,8 +94,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 			}
 
 			// ffmpeg转换成flv
-			if (TranslateUtils.processMP4(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".mp4")) {
+			if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.STREAM_PATH + file.getFileUuid() + ".flv")) {
 				/*try {
 					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());
 					newFile.delete();
@@ -105,7 +105,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 				/*// 视频文件后缀修改
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");*/
 				// 获取视频缩略图
-				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".mp4",
+				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
 

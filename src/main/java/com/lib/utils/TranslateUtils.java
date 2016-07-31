@@ -135,7 +135,7 @@ public class TranslateUtils {
      * @param outputFile 
      * @return 
      */  
-    public static boolean processMP4(String filePath, String outPath) {  
+    public static boolean processFLV(String filePath, String outPath) {  
     	
     	//System.out.println("abcd");
     	File file = new File(filePath);
@@ -160,7 +160,7 @@ public class TranslateUtils {
  	        commend.add("-ab");  
  	        commend.add("128");  
  	        commend.add("-acodec");  
- 	        commend.add("mpeg4");  
+ 	        commend.add("libmp3lame");  
  	        commend.add("-ac");  
  	        commend.add("1");  
  	        commend.add("-ar");  
