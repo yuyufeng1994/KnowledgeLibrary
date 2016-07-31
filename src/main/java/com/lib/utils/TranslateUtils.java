@@ -137,7 +137,7 @@ public class TranslateUtils {
      */  
     public static boolean processFLV(String filePath, String outPath) {  
     	
-    	//System.out.println("abcd");
+    	System.out.println("abcd");
     	File file = new File(filePath);
 		if (!file.exists()) {
 
@@ -147,7 +147,7 @@ public class TranslateUtils {
 		//System.out.println("1234");
         File outfile = new File(outPath);
         if(outfile.exists()){
-        	//System.out.println("flv文件已经存在！无需转换");
+        	System.out.println("flv文件已经存在！无需转换");
         	return true;
         } else {
         	//System.out.println("正在转换成flv文件……");
@@ -155,6 +155,7 @@ public class TranslateUtils {
         	List<String> commend = new java.util.ArrayList<String>();  
  	        //低精度  
  	        commend.add(Const.CONTAINER_PATH+"resource/ffmpeg/ffmpeg.exe");
+ 	        System.out.println(Const.CONTAINER_PATH+"resource/ffmpeg/ffmpeg.exe");
  	        commend.add("-i");  
  	        commend.add(filePath);  
  	        commend.add("-ab");  
@@ -175,7 +176,7 @@ public class TranslateUtils {
  	        StringBuffer test=new StringBuffer();  
  	        for(int i=0;i<commend.size();i++)  
  	            test.append(commend.get(i)+" ");  
- 	        //System.out.println(test);  
+ 	        System.out.println(test);  
  	       try   
  	        {  
  	            ProcessBuilder builder = new ProcessBuilder();  
