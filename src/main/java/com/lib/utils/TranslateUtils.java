@@ -232,7 +232,7 @@ public class TranslateUtils {
        
     }  
     
-    public static boolean toJPG(String filePath, String outPath) 
+    public static boolean toPNG(String filePath, String outPath) 
     {
         File fi = new File(filePath);
      
@@ -240,7 +240,7 @@ public class TranslateUtils {
         BufferedImage im;
 		try {
 			im = ImageIO.read(fi);
-		    if(ImageIO.write(im, "jpg", fo))
+		    if(ImageIO.write(im, "png", fo))
 		    {
 		    	return true;
 		    }
@@ -252,5 +252,7 @@ public class TranslateUtils {
 		}
        
     }
+
+	
 
 }

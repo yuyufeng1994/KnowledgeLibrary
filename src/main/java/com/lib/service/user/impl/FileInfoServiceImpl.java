@@ -72,7 +72,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
 			
 			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
-					Const.ROOT_PATH + file.getFilePath() + ".jpg");
+					Const.ROOT_PATH + file.getFilePath() + ".png");
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 
@@ -107,15 +107,15 @@ public class FileInfoServiceImpl implements FileInfoService {
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");
 				// 获取视频缩略图
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".flv",
-						Const.ROOT_PATH + file.getFilePath() + ".jpg");
+						Const.ROOT_PATH + file.getFilePath() + ".png");
 			}
 
 			
 		}else if(JudgeUtils.isImageFile(file.getFileExt())){
 			
 			
-			if(TranslateUtils.toJPG(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".jpg"))
+			if(TranslateUtils.toPNG(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".png"))
 			{
 				/*try {
 					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
