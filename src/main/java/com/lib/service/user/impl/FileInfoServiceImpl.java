@@ -113,18 +113,18 @@ public class FileInfoServiceImpl implements FileInfoService {
 			
 		}else if(JudgeUtils.isImageFile(file.getFileExt())){
 			
-			System.out.println("abcd");
+			
 			if(TranslateUtils.toPNG(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.ROOT_PATH + file.getFilePath() + ".png"))
 			{
-				try {
+				/*try {
 					File newFile = new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt());  
 					newFile.delete();  
 				} catch (Exception e) {
 					LOG.error("删除图片文件失败" + file.getFileName());
-				}
-				// 图片文件后缀修改
-				fileinfoDao.modifyFileExeById(file.getFileId(), "png");
+				}*/
+				/*// 图片文件后缀修改
+				fileinfoDao.modifyFileExeById(file.getFileId(), "png");*/
 			}
 			
 
