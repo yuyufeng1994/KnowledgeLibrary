@@ -2,9 +2,14 @@ package com.lib.service.user;
 
 import java.util.List;
 
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
-
+/**
+ * 用户处理文件上传和转化
+ * @author Yu Yufeng
+ *
+ */
 public interface FileInfoService {
 	/**
 	 * 插入一个新的文件信息到数据库
@@ -29,4 +34,11 @@ public interface FileInfoService {
 	 * @param uuid
 	 */
 	void translateFile(String uuid);
+
+	/**
+	 * 根据uuid查找一个文件
+	 * @param uuid
+	 * @return
+	 */
+	FileInfoVO getFileInfoByUuid(String uuid);
 }

@@ -80,7 +80,7 @@ public class CompressUtil {
 			String ext = strtemp.substring(strtemp.lastIndexOf(".") + 1, strtemp.length());
 			strtemp = strPath + File.separator + uuid + "." + ext;
 			FileInfo d = new FileInfo();
-			d.setFileName(gbkPath);
+			d.setFileName(gbkPath.substring(0, gbkPath.indexOf(".")));
 			d.setFilePath(filePath + uuid);
 			d.setFileUuid(uuid);
 			d.setFileExt(ext);
@@ -240,7 +240,7 @@ public class CompressUtil {
 				}
 				String ext = compressFileName.substring(compressFileName.lastIndexOf(".") + 1,
 						compressFileName.length());
-				d.setFileName(compressFileName.substring(0, compressFileName.lastIndexOf(".")));
+				d.setFileName(compressFileName.substring(0, compressFileName.indexOf(".")));
 				d.setFilePath(filePath + uuid);
 				d.setFileExt(ext);
 				d.setFileState(2);

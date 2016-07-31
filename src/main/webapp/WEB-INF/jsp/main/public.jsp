@@ -17,7 +17,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">公共知识库<</strong> / <small>大家的知识库</small>
+						<strong class="am-text-primary am-text-lg">公共知识库</strong> / <small>大家的知识库</small>
 					</div>
 				</div>
 				<div class="am-u-sm-12">

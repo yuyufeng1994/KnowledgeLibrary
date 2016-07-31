@@ -17,6 +17,11 @@ import com.lib.enums.Const;
 import com.lib.service.user.OfficeConvert;
 import com.lib.service.user.impl.OfficeConvertImpl;
 
+import java.io.File;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+
 public class TranslateUtils {
      
 	
@@ -72,7 +77,7 @@ public class TranslateUtils {
         StringBuffer test=new StringBuffer();  
         for(int i=0;i<commend.size();i++)  
             test.append(commend.get(i)+" ");  
-        System.out.println(test);  
+       // System.out.println(test);  
         try   
         {  
             ProcessBuilder builder = new ProcessBuilder();  
@@ -226,6 +231,26 @@ public class TranslateUtils {
         }
        
     }  
-
+    
+    public static boolean toJPG(String filePath, String outPath) 
+    {
+        File fi = new File(filePath);
+     
+        File fo = new File(outPath);
+        BufferedImage im;
+		try {
+			im = ImageIO.read(fi);
+		    if(ImageIO.write(im, "jpg", fo))
+		    {
+		    	return true;
+		    }
+		    return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+       
+    }
 
 }

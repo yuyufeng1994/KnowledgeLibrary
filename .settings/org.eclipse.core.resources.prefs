@@ -5,3 +5,7 @@ eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/jsp/common/slidebar.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/register/register.jsp=UTF-8
 encoding//src/test/java=utf8
+<<<<<<< HEAD
+=======
+separateDerivedEncodings=true
+>>>>>>> branch 'master' of https://git.coding.net/yyf1994/lib.git

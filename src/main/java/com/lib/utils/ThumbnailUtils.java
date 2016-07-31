@@ -53,9 +53,7 @@ public class ThumbnailUtils {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 				image.flush();
-
 			}
 		}
 
@@ -117,8 +115,8 @@ public class ThumbnailUtils {
 					try {
 						String lineB = null;
 						while ((lineB = br.readLine()) != null) {
-							if (lineB != null)
-								System.out.println(lineB);
+							if (lineB != null);
+								//System.out.println(lineB);
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -131,8 +129,8 @@ public class ThumbnailUtils {
 					try {
 						String lineC = null;
 						while ((lineC = br2.readLine()) != null) {
-							if (lineC != null)
-								System.out.println(lineC);
+							if (lineC != null);
+							//System.out.println(lineB);
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
