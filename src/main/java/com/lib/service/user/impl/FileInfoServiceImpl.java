@@ -104,7 +104,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 				}*/
 				/*// 视频文件后缀修改
 				fileinfoDao.modifyFileExeById(file.getFileId(), "flv");*/
-				System.out.println(Const.STREAM_PATH);
+				//System.out.println(Const.STREAM_PATH);
 				// 获取视频缩略图
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");

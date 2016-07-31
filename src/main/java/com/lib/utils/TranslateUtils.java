@@ -137,7 +137,7 @@ public class TranslateUtils {
      */  
     public static boolean processFLV(String filePath, String outPath) {  
     	
-    	System.out.println("abcd");
+    	//System.out.println("abcd");
     	File file = new File(filePath);
 		if (!file.exists()) {
 
@@ -147,7 +147,7 @@ public class TranslateUtils {
 		//System.out.println("1234");
         File outfile = new File(outPath);
         if(outfile.exists()){
-        	System.out.println("flv文件已经存在！无需转换");
+        	//System.out.println("flv文件已经存在！无需转换");
         	return true;
         } else {
         	//System.out.println("正在转换成flv文件……");
