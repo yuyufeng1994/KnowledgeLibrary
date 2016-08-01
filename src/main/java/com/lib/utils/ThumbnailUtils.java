@@ -87,17 +87,25 @@ public class ThumbnailUtils {
 
 		commands.add("-ss");
 
-		commands.add("38");
+		commands.add("20");
 
 		commands.add("-t");
 
-		commands.add("0.001");
+		commands.add("0.05");
+		
+		commands.add("-vframes");
 
+		commands.add("1");
+		
 		commands.add("-s");
 
 		commands.add("320x240");
 
 		commands.add(outPath);
+		  StringBuffer test=new StringBuffer();  
+	        for(int i=0;i<commands.size();i++)  
+	           test.append(commands.get(i)+" ");
+	      System.out.println(test);
 		try {
             ProcessBuilder builder = new ProcessBuilder();
             builder.command(commands);

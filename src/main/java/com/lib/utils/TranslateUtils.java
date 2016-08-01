@@ -78,7 +78,7 @@ public class TranslateUtils {
         StringBuffer test=new StringBuffer();  
         for(int i=0;i<commend.size();i++)  
             test.append(commend.get(i)+" ");  
-       // System.out.println(test);  
+        System.out.println(test);  
         try   
         {  
             ProcessBuilder builder = new ProcessBuilder();  

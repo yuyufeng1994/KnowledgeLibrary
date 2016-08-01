@@ -103,6 +103,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 				// ffmpeg转换成flv
 				TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.STREAM_PATH + file.getFileUuid() + ".flv");
+				
 			}
 			
 		}else if(JudgeUtils.isImageFile(file.getFileExt())){
