@@ -53,12 +53,13 @@ public class TranslateUtils {
      * @return 
      */  
 	public static boolean processAVI(String filePath, String outPath) {  
-        File file =new File(outPath);  
-       
-        if(file.exists()){
-        	System.out.println("avi文件已经存在！无需转换");
+        File file =new File(filePath);  
+       System.out.println(filePath);
+        if(!file.exists()){
+        	System.out.println("视频不存在");
         	return false;
         }  
+        System.out.println("avi");
         List<String> commend = new java.util.ArrayList<String>();  
         commend.add(Const.CONTAINER_PATH+"resource/mencoder/mencoder.exe");  
         commend.add(filePath);  
@@ -147,7 +148,7 @@ public class TranslateUtils {
 		//System.out.println("1234");
         File outfile = new File(outPath);
         if(outfile.exists()){
-        	//System.out.println("flv文件已经存在！无需转换");
+        	System.out.println("flv文件已经存在！无需转换");
         	return true;
         } else {
         	//System.out.println("正在转换成flv文件……");
@@ -155,28 +156,27 @@ public class TranslateUtils {
         	List<String> commend = new java.util.ArrayList<String>();  
  	        //低精度  
  	        commend.add(Const.CONTAINER_PATH+"resource/ffmpeg/ffmpeg.exe");
- 	        System.out.println(Const.CONTAINER_PATH+"resource/ffmpeg/ffmpeg.exe");
  	        commend.add("-i");  
- 	        commend.add(filePath);  
- 	        commend.add("-ab");  
- 	        commend.add("128");  
- 	        commend.add("-acodec");  
- 	        commend.add("libmp3lame");  
- 	        commend.add("-ac");  
- 	        commend.add("1");  
- 	        commend.add("-ar");  
- 	        commend.add("22050");  
- 	        commend.add("-r");  
- 	        commend.add("29.97"); 
- 	        // 清晰度 -qscale 4 为最好但文件大, -qscale 6就可以了
- 	        commend.add("-qscale");  
- 	        commend.add("6");  
- 	        commend.add("-y");  
- 	        commend.add(outPath);  
+	        commend.add(filePath);  
+	        commend.add("-ab");  
+	        commend.add("128");  
+	        commend.add("-acodec");  
+	        commend.add("libmp3lame");  
+	        commend.add("-ac");  
+	        commend.add("1");  
+	        commend.add("-ar");  
+	        commend.add("22050");  
+	        commend.add("-r");  
+	        commend.add("29.97"); 
+	        // 清晰度 -qscale 4 为最好但文件大, -qscale 6就可以了
+	        commend.add("-qscale");  
+	        commend.add("6");  
+	        commend.add("-y");  
+	        commend.add(outPath);
  	        StringBuffer test=new StringBuffer();  
  	        for(int i=0;i<commend.size();i++)  
  	            test.append(commend.get(i)+" ");  
- 	        System.out.println(test);  
+ 	       //System.out.println(test);  
  	       try   
  	        {  
  	            ProcessBuilder builder = new ProcessBuilder();  
