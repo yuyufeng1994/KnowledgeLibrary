@@ -31,9 +31,9 @@ public class TranslateUtils {
 		// OpenOffice安装路径
 		config.setPortNumber(8100);
 		// 启动服务端口号
-		config.setTaskExecutionTimeout(180000);
+		config.setTaskExecutionTimeout(1000 * 60L);
 		// 单任务执行超时 1000*60 1分钟
-		config.setTaskQueueTimeout(60000000);
+		config.setTaskQueueTimeout(1000 * 60 * 60L);
 		// 任务队列超时 1000*60 * 1000 1000分钟
 		OfficeConvert imp = new OfficeConvertImpl();
 		imp.setConvert(true);

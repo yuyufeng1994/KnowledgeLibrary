@@ -66,64 +66,61 @@ public class FileInfoServiceImpl implements FileInfoService {
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
-			
-			try {
-				officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
-						new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
-				// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
-				
+
+			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
+					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
+			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
+
+			if (new File(Const.ROOT_PATH + file.getFilePath() + ".pdf").exists()) {
 				ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
 						Const.ROOT_PATH + file.getFilePath() + ".png");
-			} catch (Exception e) {
-				LOG.error("office文件转换失败" + file.getFileName());
+			} else {
 				fileinfoDao.setFileStateByUuid(uuid, 1);
 				return;
 			}
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
-			
-			
+
 			// ffmpeg不支持的格式,使用memcoder
-			if (file.getFileExt().equals("wmv9")|| file.getFileExt().equals("rm")|| file.getFileExt().equals("rmvb")) {
-				
-				
-				if(TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-						Const.ROOT_PATH + file.getFilePath() + ".avi")){
+			if (file.getFileExt().equals("wmv9") || file.getFileExt().equals("rm")
+					|| file.getFileExt().equals("rmvb")) {
+
+				if (TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+						Const.ROOT_PATH + file.getFilePath() + ".avi")) {
 					ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".avi",
 							Const.ROOT_PATH + file.getFilePath() + ".png");
 				}
 				if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + ".avi",
 						Const.STREAM_PATH + file.getFileUuid() + ".flv")) {
 					try {
-						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + ".avi" );
+						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + ".avi");
 						newFile.delete();
 					} catch (Exception e) {
 						LOG.error("删除视频文件失败" + file.getFileName());
 					}
 				}
-				
+
 			} else {
-				
+
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 				// ffmpeg转换成flv
 				TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.STREAM_PATH + file.getFileUuid() + ".flv");
-				
+
 			}
-			
-		}else if(JudgeUtils.isImageFile(file.getFileExt())){
+
+		} else if (JudgeUtils.isImageFile(file.getFileExt())) {
 
 			TranslateUtils.toPNG(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.ROOT_PATH + file.getFilePath() + ".png");
-			
-		}else if(JudgeUtils.isAudioFile(file.getFileExt())){
+
+		} else if (JudgeUtils.isAudioFile(file.getFileExt())) {
 			// ffmpeg转换成flv
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 		}
 		// 全文检索创立索引
-		
 
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
@@ -131,7 +128,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 	@Override
 	public FileInfoVO getFileInfoByUuid(String uuid) {
-		return fileinfoDao.getFileInfoByUuid(uuid);//TODO 判断文件是否私有
+		return fileinfoDao.getFileInfoByUuid(uuid);// TODO 判断文件是否私有
 	}
 
 }
