@@ -42,9 +42,11 @@ public class UserInterceptor implements HandlerInterceptor {
 	// 用于身份认真、身份授权
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-
+		System.out.println();
 		if (null == Const.ROOT_PATH) {
 			Const.loadRootPath();
+			String url = request.getRequestURL().toString();
+			Const.HEAD_URL = url.substring(0,url.indexOf("lib/")+4);
 		}
 
 		System.out.println();

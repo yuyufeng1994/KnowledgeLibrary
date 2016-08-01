@@ -58,7 +58,7 @@
     "imageManagerActionName": "listimage",
     "imageManagerListPath": "/ueditor/jsp/upload/image/", 
     "imageManagerListSize": 20, 
-    "imageManagerUrlPrefix": "",
+    "imageManagerUrlPrefix": "/**/",
     "imageManagerInsertAlign": "none", 
     "imageManagerAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], 
 

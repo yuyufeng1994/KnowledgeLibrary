@@ -165,15 +165,16 @@ public class FileManagerController {
 			fi.setFileClassId(1l);
 
 			fileInfoService.insertFile(fi);
-		} catch (Exception e) {
 
-		} finally {
 			// 处理文件
 			new Thread() {
 				public void run() {
 					fileInfoService.translateFile(uuid);
 				};
 			}.start();
+		} catch (Exception e) {
+
+		} finally {
 
 		}
 		return "success";
@@ -232,7 +233,7 @@ public class FileManagerController {
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
-		
+
 		try {
 			InputStream inputStream = new FileInputStream(path);
 			OutputStream os = response.getOutputStream();
