@@ -78,16 +78,16 @@ public class ThumbnailUtils {
 		commands.add("-i");
 
 		commands.add(filePath);
+		
+		commands.add("-ss");
+
+		commands.add("05");
 
 		commands.add("-y");
 
 		commands.add("-f");
 
 		commands.add("image2");
-
-		commands.add("-ss");
-
-		commands.add("20");
 
 		commands.add("-t");
 
