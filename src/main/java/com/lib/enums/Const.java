@@ -27,7 +27,7 @@ public class Const {
 			}
 			STREAM_PATH = ROOT_PATH+"red5-server/webapps/lib/streams/";
 			File streamDir = new File(STREAM_PATH);
-			if(streamDir.exists()){
+			if(!streamDir.exists()){
 				streamDir.mkdirs();
 			}
 		} catch (IOException e) {

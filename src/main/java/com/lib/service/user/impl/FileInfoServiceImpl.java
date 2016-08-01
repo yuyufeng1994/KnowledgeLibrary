@@ -64,9 +64,10 @@ public class FileInfoServiceImpl implements FileInfoService {
 		fileinfoDao.setFileStateByUuid(uuid, 3);
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
+		System.out.println(Const.STREAM_PATH + file.getFileUuid());
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
-
+			
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
@@ -93,6 +94,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 					Const.ROOT_PATH + file.getFilePath() + ".png");
 
 		} else if (JudgeUtils.isAudioFile(file.getFileExt())) {
+			
 			// ffmpeg转换成flv
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
