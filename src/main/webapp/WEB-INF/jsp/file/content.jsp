@@ -57,19 +57,33 @@
 					<div class="am-u-md-12 am-u-sm-12 am-u-lg-4">
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-file-info1'}">
-								${fileInfo.fileName }.${fileInfo.fileExt} <span
+								data-am-collapse="{target: '#collapse-panel-file-info1'}" title="${fileInfo.fileName }.${fileInfo.fileExt }">
+								${fileInfo.hiddenedFileName }.${fileInfo.fileExt } <span
 									class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div class="am-panel-bd am-collapse am-in am-cf"
 								id="collapse-panel-file-info1">
 
 								<ul class="am-list admin-content-file">
+									<li>
+										<p>
+											<span class="am-badge am-badge-secondary">上传用户</span>
+											${fileInfo.userName }
+										</p>
+
+									</li>
 
 									<li>
 										<p>
 											<span class="am-badge am-badge-secondary">大小</span>
 											${fileInfo.fileSizeFormat }
+										</p>
+									</li>
+
+									<li>
+										<p>
+											<span class="am-badge am-badge am-badge-secondary">类别</span>
+											${fileInfo.classificationName }
 										</p>
 									</li>
 									<li>
@@ -78,12 +92,6 @@
 											<fmt:formatDate value="${fileInfo.fileCreateTime }"
 												pattern="yyyy-MM-dd HH:mm:ss" />
 											</td>
-										</p>
-									</li>
-									<li>
-										<p>
-											<span class="am-badge am-badge am-badge-secondary">类别</span>
-											${fileInfo.fileClassId }
 										</p>
 									</li>
 									<li>
@@ -182,7 +190,8 @@
 		}
 	}
 
-
+	var host = location.host; //192.168.1.104
+	host = host.substring(0, host.indexOf(':'));
 	var ext = "${fileInfo.fileExt}";
 	var uuid = "${fileInfo.fileUuid}";
 	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
@@ -195,9 +204,9 @@
 		$content.css("height", "auto");
 	}
 	else if (viewJudge.flv(ext)) {
-		//function ckmarqueeadv(){return ''}//文字广告
+
 		var flashvars = {
-			f : 'rtmp://192.168.1.104/lib/' + uuid + '.flv',
+			f : 'rtmp://' + host + '/lib/' + uuid + '.flv',
 			c : 0
 		};
 		var params = {
@@ -207,12 +216,24 @@
 			wmode : 'transparent'
 		};
 		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
-	}else if(viewJudge.txt(ext)){
-		$content.load(fileUrl+"txt");
-	}else if(viewJudge.mp3(ext)){
-		$content.html("<audio src='"+fileUrl+"mp3"+"' controls='controls'>	</audio>");
-	}
-	
 
+
+	}
+	else if (viewJudge.txt(ext)) {
+		$content.load(fileUrl + "txt");
+	}
+	else if (viewJudge.mp3(ext)) {
+		var flashvars = {
+			f : 'rtmp://' + host + '/lib/' + uuid + '.flv',
+			c : 0
+		};
+		var params = {
+			bgcolor : '#FFF',
+			allowFullScreen : true,
+			allowScriptAccess : 'always',
+			wmode : 'transparent'
+		};
+		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
+	}
 </script>
 </html>

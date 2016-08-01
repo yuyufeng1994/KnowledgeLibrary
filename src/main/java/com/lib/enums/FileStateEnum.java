@@ -5,7 +5,7 @@ package com.lib.enums;
  */
 public enum FileStateEnum {
     FILE_UNUPLOAD(0, "未上传"),
-    FILE_UPLOAD_FAIL(1, "上传失败"),
+    FILE_UPLOAD_FAIL(1, "文件处理失败"),
     FILE_UPLOAD_SUCCESS(2,"待处理"),
     FILE_HANDLERING(3,"处理中"),
     FILE_CHECKING(4,"审核中"),

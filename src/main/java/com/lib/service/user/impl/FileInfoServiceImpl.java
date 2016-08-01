@@ -67,12 +67,18 @@ public class FileInfoServiceImpl implements FileInfoService {
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
 			
-			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
-					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
-			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
-			
-			ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
-					Const.ROOT_PATH + file.getFilePath() + ".png");
+			try {
+				officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
+				// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
+				
+				ThumbnailUtils.pdfGetThumb(Const.ROOT_PATH + file.getFilePath() + ".pdf",
+						Const.ROOT_PATH + file.getFilePath() + ".png");
+			} catch (Exception e) {
+				LOG.error("office文件转换失败" + file.getFileName());
+				fileinfoDao.setFileStateByUuid(uuid, 1);
+				return;
+			}
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 			
