@@ -116,7 +116,6 @@ public class LoginAndRegisterController {
 	@RequestMapping(value="/register",method={RequestMethod.GET,RequestMethod.POST})  
     public String  load(String userName,String userPassword,HttpServletRequest request,HttpServletResponse response,Model model) throws ParseException{  
         String action = request.getParameter("action");  
-        System.out.println("-----r----"+action);  
         if("register".equals(action)) {  
             //注册  
             String email = request.getParameter("email");  
@@ -125,12 +124,12 @@ public class LoginAndRegisterController {
             return "register/register-success";
         }   
         else if("activate".equals(action)) {  
+        	System.out.println(request.getLocalAddr());
             //激活  
             String email = request.getParameter("email");//获取email  
             String validateCode = request.getParameter("validateCode");//激活码  
             try {  
             	urService.processActivate(email , validateCode);//调用激活方法  
-            	System.out.println(222);
                 return "register/activate-success";  
             } catch (Exception e) {  
                 request.setAttribute("error" , e.getMessage());  
