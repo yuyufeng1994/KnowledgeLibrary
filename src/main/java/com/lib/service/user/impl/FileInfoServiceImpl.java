@@ -81,34 +81,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 
-			// ffmpeg不支持的格式,使用memcoder
-			if (file.getFileExt().equals("wmv9") || file.getFileExt().equals("rm")
-					|| file.getFileExt().equals("rmvb")) {
-
-				if (TranslateUtils.processAVI(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-						Const.ROOT_PATH + file.getFilePath() + ".avi")) {
-					ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + ".avi",
-							Const.ROOT_PATH + file.getFilePath() + ".png");
-				}
-				if (TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + ".avi",
-						Const.STREAM_PATH + file.getFileUuid() + ".flv")) {
-					try {
-						File newFile = new File(Const.ROOT_PATH + file.getFilePath() + ".avi");
-						newFile.delete();
-					} catch (Exception e) {
-						LOG.error("删除视频文件失败" + file.getFileName());
-					}
-				}
-
-			} else {
-
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 				// ffmpeg转换成flv
 				TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.STREAM_PATH + file.getFileUuid() + ".flv");
-
-			}
 
 		} else if (JudgeUtils.isImageFile(file.getFileExt())) {
 
@@ -121,6 +98,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 		}
 		// 全文检索创立索引
+		
 
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);

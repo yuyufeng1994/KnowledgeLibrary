@@ -88,10 +88,6 @@ public class ThumbnailUtils {
 		commands.add("-f");
 
 		commands.add("image2");
-
-		commands.add("-t");
-
-		commands.add("0.05");
 		
 		commands.add("-vframes");
 
@@ -105,7 +101,7 @@ public class ThumbnailUtils {
 		  StringBuffer test=new StringBuffer();  
 	        for(int i=0;i<commands.size();i++)  
 	           test.append(commands.get(i)+" ");
-	      System.out.println(test);
+	      //System.out.println(test);
 		try {
             ProcessBuilder builder = new ProcessBuilder();
             builder.command(commands);
