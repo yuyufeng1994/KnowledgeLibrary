@@ -265,7 +265,7 @@
 			<artifactId>ueditor</artifactId>
 			<version>1.1.2</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/resource/ueditor/jsp/lib/uedtior-soklib-1.0.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/webapp/resource/ueditor/jsp/lib/uedtior-soklib-1.1.jar</systemPath>
 		</dependency>
 
 		<dependency>
