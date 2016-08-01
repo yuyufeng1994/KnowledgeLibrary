@@ -110,7 +110,7 @@
 											<button type="button" class="am-btn am-btn-default">
 												<span class="am-icon-save"></span> 保存
 											</button>
-											<button type="button" class="am-btn am-btn-default">
+											<button type="button" class="am-btn am-btn-default" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}">
 												<span class="am-icon-archive"></span> 收藏
 											</button>
 											<button type="button" class="am-btn am-btn-default">
@@ -151,7 +151,50 @@
 			</div>
 		</div>
 	</div>
+	<!-- 模态窗口 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">
+				收藏文件 <a href="javascript: void(0)" class="am-close am-close-spin"
+					data-am-modal-close>&times;</a>
+			</div>
+			<div class="am-modal-bd">
+     	
+          <form class="am-form">
+			<div class="am-g am-margin-top-sm">
+			  
+			  <div class="am-u-sm-3   am-text-left ">名称:</div>
+              <div class="am-u-sm-8 am-u-end">
+                <input type="text" class="am-input-sm" value="${fileInfo.fileName}.${fileInfo.fileExt }" readonly="readonly">
+              </div>
+			
+             <div class="am-u-sm-3  am-text-left" style="margin-top:10px;">类别:</div>
+             <div class="am-u-sm-8 am-u-end" style="margin-top:10px;margin-left:-10px;">
+              <select data-am-selected="{btnSize: 'sm'}">
+                <option value="option1">选项一</option>
+                <option value="option2">选项二</option>
+                <option value="option3">选项三</option>
+              </select>
+             </div>
 
+              <div class="am-u-sm-3  am-text-left" style="margin-top:10px;margin-bottom:10px;">备注:</div>
+              <div class="am-u-sm-8  am-u-end" style="margin-top:10px;margin-bottom:10px;">
+                <textarea rows="2"></textarea>
+              </div>
+              
+              
+               <div class="am-margin" >
+    		  	<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+     			<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>
+    			</div>
+            </div>
+          </form>
+     
+    	</div>
+
+		</div>
+		
+	</div>
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
 </body>
