@@ -8,9 +8,9 @@
 					class="am-icon-angle-right am-fr am-margin-right"></span></a>
 				<ul class="am-list am-collapse admin-sidebar-sub am-in"
 					id="collapse-nav">
-					<li><a href="user/upload"><span class="am-icon-cloud-upload"></span> 上传</a></li>
-					<li><a href="user/newfile"><span class="am-icon-pencil-square-o"></span> 新建/归纳</a></li>
-					<li><a href="user/myfiles/1" class="am-cf"><span class="am-icon-file-text"></span> 我的资源</a></li>
+					<li><a href="user/upload"><span class="am-icon-cloud-upload"></span> 上传文件</a></li>
+					<li><a href="user/newfile"><span class="am-icon-pencil-square-o"></span> 新建文档</a></li>
+					<li><a href="user/myfiles/1" class="am-cf"><span class="am-icon-file-text"></span> 我的文件</a></li>
 					<li><a href="user/myforks/1"><span class="am-icon-code-fork"></span> 我的收藏</a></li>
 				</ul></li>
 

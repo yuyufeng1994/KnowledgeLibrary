@@ -8,65 +8,64 @@
 </head>
 <body>
 	<%@include file="../common/header.jsp"%>
-
-	<!-- sidebar start -->
-	<%@include file="../common/slidebar.jsp"%>
-	<!-- sidebar end -->
-	<!-- content start -->
-	<div class="admin-content">
-		<div class="admin-content-body">
-			<div class="am-cf am-padding">
-				<div class="am-fl am-cf">
-					<strong class="am-text-primary am-text-lg">新建</strong> / <small>新建一个知识文档</small>
+	<div class="am-cf admin-main">
+		<!-- sidebar start -->
+		<%@include file="../common/slidebar.jsp"%>
+		<!-- sidebar end -->
+		<!-- content start -->
+		<div class="admin-content">
+			<div class="admin-content-body">
+				<div class="am-cf am-padding">
+					<div class="am-fl am-cf">
+						<strong class="am-text-primary am-text-lg">新建</strong> / <small>新建一个知识文档</small>
+					</div>
 				</div>
-			</div>
-			<div class="am-u-sm-12">
-				<div class="am-panel am-panel-default">
-					<div class="am-panel-hd">
-						<div class="am-g">
-							<div class="am-u-sm-4 am-u-md-2 am-text-right">文档标题：</div>
-							<div class="am-u-sm-8 am-u-md-4">
-								<input id="fileName" type="text" class="am-input-lg"
-									style="width: 100%" value="${session_new_file.name }">
-							</div>
-							<div class="am-u-sm-8 am-u-md-6">
-								<div class="am-btn-group am-btn-group-xs">
-									<button type="button" id="save-button"
-										class="am-btn am-btn-default">
-										<span class="am-icon-save"></span> 暂存
-									</button>
-									<button type="button" class="am-btn am-btn-default">
-										<span class="am-icon-trash-o"></span> 删除
-									</button>
-									<button type="button" id="complete-button"
-										class="am-btn am-btn-default">
-										<span class="am-icon-save"></span> 完成
-									</button>
+				<div class="am-u-sm-12">
+					<div class="am-panel am-panel-default">
+						<div class="am-panel-hd">
+							<div class="am-g">
+								<div class="am-u-sm-4 am-u-md-2 am-text-right">文档标题：</div>
+								<div class="am-u-sm-8 am-u-md-4">
+									<input id="fileName" type="text" class="am-input-lg"
+										style="width: 100%" value="${session_new_file.name }">
+								</div>
+								<div class="am-u-sm-8 am-u-md-6">
+									<div class="am-btn-group am-btn-group-xs">
+										<button type="button" id="save-button"
+											class="am-btn am-btn-default">
+											<span class="am-icon-save"></span> 暂存
+										</button>
+										<button type="button" class="am-btn am-btn-default">
+											<span class="am-icon-trash-o"></span> 删除
+										</button>
+										<button type="button" id="complete-button"
+											class="am-btn am-btn-default">
+											<span class="am-icon-save"></span> 完成
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
 
-					</div>
-					<div class="am-panel-bd"
-						style="height: 530px; width: 100%; overflow: scroll;">
-						<!-- 加载编辑器的容器 -->
-						<script id="container" name="content" type="text/plain">
+						</div>
+						<div class="am-panel-bd"
+							style="height: 530px; width: 100%; overflow: scroll;">
+							<!-- 加载编辑器的容器 -->
+							<script id="container" name="content" type="text/plain">
         						${session_new_file.content }
   							</script>
-						<!-- 配置文件 -->
-						<script type="text/javascript"
-							src="resource/ueditor/ueditor.config.js"></script>
-						<!-- 编辑器源码文件 -->
-						<script type="text/javascript"
-							src="resource/ueditor/ueditor.all.js"></script>
+							<!-- 配置文件 -->
+							<script type="text/javascript"
+								src="resource/ueditor/ueditor.config.js"></script>
+							<!-- 编辑器源码文件 -->
+							<script type="text/javascript"
+								src="resource/ueditor/ueditor.all.js"></script>
+						</div>
 					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
 	</div>
-	</div>
-
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
 </body>
@@ -187,9 +186,9 @@
 				if (data.success == true) {
 					//保存
 					$.post("user/newfile/complete", {}, function(data) {
-						if (data.success ==true ) {
+						if (data.success == true) {
 							$btn.text("完成")
-							window.location.href="user/myfiles/1"; 
+							window.location.href = "user/myfiles/1";
 						}
 						else {
 							$btn.button('reset');

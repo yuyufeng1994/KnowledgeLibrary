@@ -27,7 +27,6 @@
 							<tr>
 								<th>缩略图</th>
 								<th>文件名称</th>
-								<th>文件格式</th>
 								<th>文件大小</th>
 								<th>文件状态</th>
 								<th>上传时间</th>
@@ -38,13 +37,12 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${page.list}" var="f">
-								<tr>
+								<tr title="简介：${f.fileBrief}">
 									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
 											src="user/thumbnail/${f.fileUuid}/png" alt="null"
 											class="am-img-thumbnail"
 											style="width: 50px; height: 50px; overflow: hidden"></a></td>
 									<td title="${f.fileName }.${f.fileExt }">${f.hiddenedFileName }.${f.fileExt }</td>
-									<td>${f.fileExt }</td>
 									<td>${f.fileSizeFormat }</td>
 									<td>${f.fileStateStr }</td>
 									<td><fmt:formatDate value="${f.fileCreateTime }"
@@ -61,7 +59,7 @@
 											</button>
 											<ul class="am-dropdown-content">
 												<li><a href="#"> 共享</a></li>
-												<li><a href="#">编辑</a></li>
+												<li><a href="user/edit/${f.fileUuid}">修改</a></li>
 												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">下载</a></li>
 												<li><a href="#">删除</a></li>
 											</ul>
