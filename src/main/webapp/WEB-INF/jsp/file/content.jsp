@@ -158,58 +158,27 @@
 <script src="resource/script/pdfobject.min.js"></script>
 <script type="text/javascript" src="resource/ckplayer/ckplayer.js"
 	charset="utf-8"></script>
-<script src="resource/script/file-view.js"></script>
+
 
 <script type="text/javascript">
-	//操作收藏的js
-	
-	
-	
-	//页面显示js
-	var host = location.host; //192.168.1.104
-	host = host.substring(0, host.indexOf(':'));
-	var ext = "${fileInfo.fileExt}";
-	var uuid = "${fileInfo.fileUuid}";
-	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
-	var $content = $("#main-content");
-	if (viewJudge.pdf(ext)) {
-		PDFObject.embed(fileUrl + "pdf", document.getElementById("main-content")); //pdf预览插件
-	} 
-	else if (viewJudge.jpg(ext)) {
-		$content.html("<img src=" + fileUrl + "jpg" + " class='am-img-thumbnail am-radius'>");
-		$content.css("height", "auto");
-	}
-	else if (viewJudge.flv(ext)) {
-
-		var flashvars = {
-			f : 'rtmp://' + host + '/lib/' + uuid + '.flv',
-			c : 0
-		};
-		var params = {
-			bgcolor : '#FFF',
-			allowFullScreen : true,
-			allowScriptAccess : 'always',
-			wmode : 'transparent'
-		};
-		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
+//操作收藏的js
 
 
-	}
-	else if (viewJudge.txt(ext)) {
-		$content.load(fileUrl + "txt");
-	}
-	else if (viewJudge.mp3(ext)) {
-		var flashvars = {
-			f : 'rtmp://' + host + '/lib/' + uuid + '.flv',
-			c : 0
-		};
-		var params = {
-			bgcolor : '#FFF',
-			allowFullScreen : true,
-			allowScriptAccess : 'always',
-			wmode : 'transparent'
-		};
-		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
-	}
+
+
+
+//------------------------
+var ext = "${fileInfo.fileExt}";
+var uuid = "${fileInfo.fileUuid}";
+
+//判断是哪种浏览方式在网页中呈现
+//页面显示js
+var host = location.host; // 192.168.1.104
+host = host.substring(0, host.indexOf(':'));
+var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
+var $content = $("#main-content");
+
 </script>
+
+<script src="resource/script/file-view.js"></script>
 </html>
