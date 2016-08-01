@@ -189,7 +189,7 @@
 					$.post("user/newfile/complete", {}, function(data) {
 						if (data.success ==true ) {
 							$btn.text("完成")
-							window.location.href="user/myfiles/1";
+							window.location.href="user/myfiles/1"; 
 						}
 						else {
 							$btn.button('reset');
