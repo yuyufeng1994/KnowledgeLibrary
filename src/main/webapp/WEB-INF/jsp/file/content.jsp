@@ -57,7 +57,8 @@
 					<div class="am-u-md-12 am-u-sm-12 am-u-lg-4">
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-file-info1'}" title="${fileInfo.fileName }.${fileInfo.fileExt }">
+								data-am-collapse="{target: '#collapse-panel-file-info1'}"
+								title="${fileInfo.fileName }.${fileInfo.fileExt }">
 								${fileInfo.hiddenedFileName }.${fileInfo.fileExt } <span
 									class="am-icon-chevron-down am-fr"></span>
 							</div>
@@ -99,6 +100,23 @@
 											<span class="am-badge am-badge-secondary">简介</span>
 											${fileInfo.fileBrief }
 										</p>
+
+									</li>
+									<li>
+										<div class="am-btn-group am-btn-group-xs">
+											<button type="button" class="am-btn am-btn-default">
+												<span class="am-icon-plus"></span> 新增
+											</button>
+											<button type="button" class="am-btn am-btn-default">
+												<span class="am-icon-save"></span> 保存
+											</button>
+											<button type="button" class="am-btn am-btn-default">
+												<span class="am-icon-archive"></span> 收藏
+											</button>
+											<button type="button" class="am-btn am-btn-default">
+												<span class="am-icon-trash-o"></span> 下载
+											</button>
+										</div>
 
 									</li>
 								</ul>
@@ -143,53 +161,11 @@
 <script src="resource/script/file-view.js"></script>
 
 <script type="text/javascript">
-	//判断是哪种浏览方式在网页中呈现
-	var viewJudge = {
-		//office类型，用pdf呈现
-		pdf : function(ext) {
-			if (ext == "doc" || ext == "docx" || ext == "xls" || ext == "xlsx" || ext == "ppt" || ext == "pptx" || ext == "pdf") {
-				return true;
-			}
-			else {
-				return false;
-			}
-		},
-		//图片类型
-		jpg : function(ext) {
-			if (ext == "png" || ext == "gif" || ext == "jpg" || ext == "jpeg" || ext == "bmp" || ext == "pptx" || ext == "pdf") {
-				return true;
-			}
-			else {
-				return false;
-			}
-		},
-		//视频类型
-		flv : function(ext) {
-			if (ext == "mp4" || ext == "avi" || ext == "flv" || ext == "rmvb" || ext == "wmv" || ext == "mkv") {
-				return true;
-			}
-			else {
-				return false;
-			}
-		},
-		txt : function(ext) {
-			if (ext == "txt") {
-				return true;
-			}
-			else {
-				return false;
-			}
-		},
-		mp3 : function(ext) {
-			if (ext == "mp3") {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-
+	//操作收藏的js
+	
+	
+	
+	//页面显示js
 	var host = location.host; //192.168.1.104
 	host = host.substring(0, host.indexOf(':'));
 	var ext = "${fileInfo.fileExt}";
