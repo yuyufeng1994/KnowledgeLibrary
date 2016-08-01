@@ -20,7 +20,7 @@ public class JudgeUtils {
 	static {
 		Collections.addAll(compressFile, new String[] { "rar", "zip" });
 		Collections.addAll(officeFile, new String[] { "doc", "docx", "xls", "xlsx", "ppt", "pptx","pdf"});
-		Collections.addAll(videoFile, new String[] {"avi","mpg","3gp","mov","asf","asx","flv","wmv9","rm","rmvb","mp4"});
+		Collections.addAll(videoFile, new String[] {"avi","mpg","3gp","mov","asf","asx","flv","mp4"});
 		Collections.addAll(imageFile, new String[] {"bmp","png","gif","jpeg"});
 		Collections.addAll(audioFile, new String[] {"mp3","wma","ogg"});
 	}
