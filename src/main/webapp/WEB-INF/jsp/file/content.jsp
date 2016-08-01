@@ -174,7 +174,7 @@
 	var $content = $("#main-content");
 	if (viewJudge.pdf(ext)) {
 		PDFObject.embed(fileUrl + "pdf", document.getElementById("main-content")); //pdf预览插件
-	}
+	} 
 	else if (viewJudge.jpg(ext)) {
 		$content.html("<img src=" + fileUrl + "jpg" + " class='am-img-thumbnail am-radius'>");
 		$content.css("height", "auto");
