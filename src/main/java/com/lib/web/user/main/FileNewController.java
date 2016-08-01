@@ -62,7 +62,7 @@ public class FileNewController {
 		}
 		String uuid = StringValueUtil.getUUID();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		String path = Const.ROOT_PATH + user.getUserId() + "/files/" + uuid + ".pdf";
+		String path = Const.ROOT_PATH+"users/" + user.getUserId() + "/files/" + uuid + ".pdf";
 		try {
 			jr = new JsonResult(true, uuid);
 
@@ -73,11 +73,11 @@ public class FileNewController {
 			fileName = fn.getName();
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
-			fi.setFileExt("doc");
+			fi.setFileExt("pdf");
 			fi.setFileBrief("无");
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
-			fi.setFilePath(user.getUserId() + "/files/" + uuid);
+			fi.setFilePath("users/"+user.getUserId() + "/files/" + uuid);
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
 			fileInfoService.insertFile(fi);

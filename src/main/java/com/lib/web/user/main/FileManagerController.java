@@ -123,7 +123,7 @@ public class FileManagerController {
 		String fileName = files[0].getOriginalFilename();
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 
-		String userFilePath = user.getUserId() + "/files/";
+		String userFilePath = "users/"+user.getUserId() + "/files/";
 		String filePath = Const.ROOT_PATH + userFilePath + uuid + "." + ext;
 
 		// 解压文件

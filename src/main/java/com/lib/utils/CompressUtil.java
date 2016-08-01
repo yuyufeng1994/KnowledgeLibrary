@@ -35,7 +35,7 @@ public class CompressUtil {
 	}
 
 	public static List<FileInfo> startCompress(String name, Long userId) throws Exception {
-		String userFilePath = userId + "/files/";
+		String userFilePath = "users/"+userId + "/files/";
 		String filePath = userFilePath;
 		if (name.trim().endsWith("rar")) {
 			return unrar(name, filePath);
