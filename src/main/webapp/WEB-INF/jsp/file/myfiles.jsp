@@ -49,7 +49,7 @@
 									<td>${f.fileStateStr }</td>
 									<td><fmt:formatDate value="${f.fileCreateTime }"
 											pattern="yyyy-MM-dd HH:mm:ss" /></td>
-									<td>${f.fileClassId }</td>
+									<td>${f.classificationName }</td>
 
 									<td>
 										<div class="am-dropdown" data-am-dropdown="">
