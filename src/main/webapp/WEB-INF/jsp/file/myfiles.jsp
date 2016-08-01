@@ -60,9 +60,10 @@
 													class="am-icon-caret-down"></span>
 											</button>
 											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
+												<li><a href="#"> 共享</a></li>
+												<li><a href="#">编辑</a></li>
+												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">下载</a></li>
+												<li><a href="#">删除</a></li>
 											</ul>
 										</div>
 									</td>

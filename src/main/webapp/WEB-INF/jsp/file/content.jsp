@@ -182,7 +182,8 @@
 		}
 	}
 
-
+	var host = location.host; //192.168.1.104
+	host = host.substring(0,host.indexOf(':'));
 	var ext = "${fileInfo.fileExt}";
 	var uuid = "${fileInfo.fileUuid}";
 	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
@@ -195,9 +196,9 @@
 		$content.css("height", "auto");
 	}
 	else if (viewJudge.flv(ext)) {
-		//function ckmarqueeadv(){return ''}//文字广告
+		
 		var flashvars = {
-			f : 'rtmp://192.168.1.104/lib/' + uuid + '.flv',
+			f : 'rtmp://'+host+'/lib/' + uuid + '.flv',
 			c : 0
 		};
 		var params = {
@@ -206,13 +207,26 @@
 			allowScriptAccess : 'always',
 			wmode : 'transparent'
 		};
-		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars, params);
-	}else if(viewJudge.txt(ext)){
-		$content.load(fileUrl+"txt");
-	}else if(viewJudge.mp3(ext)){
-		$content.html("<audio src='"+fileUrl+"mp3"+"' controls='controls'>	</audio>");
+		CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars,params);
+
+
+	}
+	else if (viewJudge.txt(ext)) {
+		$content.load(fileUrl + "txt");
+	}
+	else if (viewJudge.mp3(ext)) {
+		var flashvars = {
+				f : 'rtmp://'+host+'/lib/' + uuid + '.flv',
+				c : 0
+			};
+			var params = {
+				bgcolor : '#FFF',
+				allowFullScreen : true,
+				allowScriptAccess : 'always',
+				wmode : 'transparent'
+			};
+			CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content', 'ckplayer_a1', '100%', '100%', flashvars,params);
 	}
 	
-
 </script>
 </html>
