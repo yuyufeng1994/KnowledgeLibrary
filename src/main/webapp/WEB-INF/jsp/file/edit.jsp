@@ -5,6 +5,11 @@
 <head>
 <title>我的资料</title>
 <%@include file="../common/head.jsp"%>
+<style>
+.button-margin {
+	margin-bottom: 5px;
+}
+</style>
 </head>
 <body>
 	<%@include file="../common/header.jsp"%>
@@ -51,64 +56,72 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-bd">
 								<div class="user-info">
-									<p><strong>上传用户:</strong>${fileInfo.userName}</p>
-									
+									<p>
+										<strong>上传用户:</strong>${fileInfo.userName}</p>
+
 								</div>
 								<div class="user-info">
-									<p><strong>大小:</strong>${fileInfo.fileSizeFormat}</p>
-									<p class="user-info-order">
-										
-									</p>
+									<p>
+										<strong>大小:</strong>${fileInfo.fileSizeFormat}</p>
+									<p class="user-info-order"></p>
 								</div>
-								
+
 							</div>
 						</div>
 
 					</div>
 
 					<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
-						<form class="am-form am-form-horizontal">
+						<form id="myform" class="am-form am-form-horizontal" method="post"
+							action="user/file-edit-submit">
+							<input name="fileUuid" type="hidden" value="${fileInfo.fileUuid}">
 							<div class="am-form-group">
 								<label for="user-name" class="am-u-sm-3 am-form-label">文件名称</label>
 								<div class="am-u-sm-8" style="padding-right: 0px">
-									<input type="text" id="user-name" placeholder="文件名称"
-										value="${fileInfo.fileName }"> <small>输入它名字，让大家记住它...</small>
+									<input type="text" id="user-name" name="fileName"
+										placeholder="文件名称" value="${fileInfo.fileName }"> <small>输入它名字，让大家记住它...</small>
 								</div>
 								<label for="user-name" class="am-u-sm-1 am-form-label"
 									style="padding-left: 0px">.txt</label>
 							</div>
 
 							<div class="am-form-group">
-								<label for="user-email" class="am-u-sm-3 am-form-label">文件分类</label>
-								<div class="am-u-sm-9">
-									<input type="text" id="user-email" placeholder="文件分类">
-									<small>找到属于它的地方...</small>
+								<label for="file-class" class="am-u-sm-3 am-form-label">文件分类</label>
+								<div class="am-u-sm-2">
+									<button class="am-btn am-btn-default js-modal-toggle"
+										id="file-class-button" type="button">
+										<i class="am-icon-sort"></i> 请选择
+									</button>
+									<small>它属于...</small>
+								</div>
+								<div class="am-u-sm-7">
+									<input name="fileClassId" id="fileClassId" type="hidden"
+										value="${fileInfo.fileClassId}"> <input
+										id="fileClassName" class="am-form-field" type="text"
+										placeholder="所有类别" disabled
+										value="${fileInfo.classificationName }">
 								</div>
 							</div>
-
-							<div class="am-form-group">
-								<label for="file-fork" class="am-u-sm-3 am-form-label">添加到收藏</label>
-								<div class="am-u-sm-9">
-									<input type="text" id="file-fork" placeholder="收藏"> <small>更容易找到它...</small>
-									
-								</div>
-							</div>
-
-
 
 							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
-									<textarea class="" rows="5" id="file-breif"
+									<textarea class="" rows="5" id="file-breif" name="fileBrief"
 										placeholder="输入文件简介">${fileInfo.fileBrief }</textarea>
 									<small>简单描述文件内容...</small>
 								</div>
 							</div>
 
 							<div class="am-form-group">
-								<div class="am-u-sm-9 am-u-sm-push-3">
-									<button type="button" class="am-btn am-btn-primary">保存修改</button>
+								<div class="am-u-sm-3 am-u-sm-push-3">
+									<button type="submit" id="submit-button"
+										class="am-btn am-btn-primary">保存修改</button>
 								</div>
+								<div class="am-u-sm-5">
+									<a href="javascript:history.go(-1)"
+										class="am-btn am-btn-default">返回</a>
+								</div>
+
 							</div>
 						</form>
 					</div>
@@ -120,5 +133,107 @@
 
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="wait-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd" id="wait-model-text">保存中...</div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
+			</div>
+		</div>
+	</div>
+	<div class="am-modal am-modal-no-btn" tabindex="-1"
+		id="file-class-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">
+				<div class="am-btn-group">
+					<button class="am-btn am-btn-primary am-round" id="reply-button"
+						onclick="reply()">
+						<i class="am-icon-angle-left"></i>
+					</button>
+					<button class="am-btn am-btn-primary am-round" id="parent-button"
+						onclick="fileClassSureParent()">所有分类</button>
+				</div>
+			</div>
+			<div class="am-modal-bd" id="child-content"></div>
+		</div>
+	</div>
 </body>
+<script type="text/javascript">
+		var classId=${fileInfo.fileClassId}
+		var className="${fileInfo.classificationName }";
+		var parentId = 1;
+		function loadTypes(){
+			if(classId == null){
+				classId = 1;
+			}
+			$.get("child-file-class/"+classId,function(data){
+				
+				var str='';
+				for(var i = 1;i<data.data.length;i++){
+					str+="<div class='am-btn-group'>"+
+						"<button class='button-margin am-btn am-btn-default am-round' onclick=fileClassSure("+data.data[i].classificationId+","+"'"+data.data[i].classificationName+"'"+")>"+data.data[i].classificationName+"</button>"+
+						"<button class='button-margin am-btn am-btn-default am-round'"+
+							"onClick=changeType("+data.data[i].classificationId+","+"'"+data.data[i].classificationName+"'"+")>"+
+							"<i class='am-icon-angle-right'></i>"+
+						"</button></div>&nbsp;";
+				}
+				parentId = data.data[0].parentId;
+				className = data.data[0].classificationName;
+				classId = data.data[0].classificationId;
+				
+				$("#parent-button").text(className)
+				$("#child-content").html(str);
+				$('#file-class-modal').modal("open");
+			})
+			
+		}
+		
+		function changeType(id,name){
+			classId = id;
+			className=name;
+			loadTypes();
+		}
+		
+		
+		function reply(){
+			classId = parentId;
+			loadTypes();
+		}
+		
+		$('#file-class-button').click(function() {
+			loadTypes();
+		});
+		
+		function fileClassSure(id,name){
+			$("#fileClassId").val(id)	
+			$("#fileClassName").val(name)	
+			$('#file-class-modal').modal("close");
+		}
+		function fileClassSureParent(){
+			$("#fileClassId").val(classId)	
+			$("#fileClassName").val(className)	
+			$('#file-class-modal').modal("close");
+		}
+
+		$("#myform").submit(function(){
+			$("#wait-model-text").text("保存中...");
+			$("#wait-modal").modal();
+			 var $btn = $("#submit-button");
+			$btn.button('loading');
+			$btn.text("保存中...");
+			$.post("user/file-edit-submit?"+$(this).serialize(),function(data){
+				$btn.text(data.error);
+				$("#wait-model-text").text(data.error);
+				setTimeout(function(){
+				      $("#wait-modal").modal();
+				  }, 1000);
+				setTimeout(function(){
+				      $btn.button('reset');
+				  },3000);
+			})
+			return false;
+		});
+
+</script>
 </html>

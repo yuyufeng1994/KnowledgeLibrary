@@ -86,4 +86,11 @@ public interface FileInfoDao {
 	 */
 	List<FileInfoVO> getFilesByUserId(Long userId);
 
+	/**
+	 * 修改文件的基本信息
+	 * @param fileInfo
+	 * @return
+	 */
+	int updateByUuid(FileInfo fileInfo);
+
 }

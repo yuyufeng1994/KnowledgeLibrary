@@ -41,4 +41,10 @@ public interface FileInfoService {
 	 * @return
 	 */
 	FileInfoVO getFileInfoByUuid(String uuid);
+	/**
+	 * 根据uuid保存一个文件的基本信息
+	 * @param uuid
+	 * @return
+	 */
+	int saveBaseFileInfoByUuid(FileInfo fileInfo);
 }

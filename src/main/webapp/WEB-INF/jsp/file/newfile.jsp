@@ -68,6 +68,15 @@
 	</div>
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="wait-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">后台处理中,稍等...</div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	var ue = UE.getEditor('container', {
@@ -174,6 +183,7 @@
 	$(function() {
 
 		$("#complete-button").click(function() {
+			$("#wait-modal").modal();
 			var html = ue.getContent();
 			$.post("user/newfile/save", {
 				fileName : $("#fileName").val(),
@@ -187,12 +197,13 @@
 					//保存
 					$.post("user/newfile/complete", {}, function(data) {
 						if (data.success == true) {
-							$btn.text("完成")
-							window.location.href = "user/myfiles/1";
+							$btn.text("保存成功")
+							window.location.href = "user/edit/" + data.error;
 						}
 						else {
+							$("#wait-modal").modal();
 							$btn.button('reset');
-							$btn.text("失败...")
+							$btn.text("保存失败")
 						}
 
 
