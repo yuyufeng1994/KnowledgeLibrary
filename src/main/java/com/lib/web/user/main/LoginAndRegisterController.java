@@ -122,8 +122,9 @@ public class LoginAndRegisterController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
-	public String load(String userName, String userPassword, HttpServletRequest request, HttpServletResponse response,
+	public String load(String userName, String password, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws ParseException {
+		String  userPassword = password;
 		String action = request.getParameter("action");
 		if ("register".equals(action)) {
 			// 注册
