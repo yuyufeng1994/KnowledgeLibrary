@@ -113,9 +113,13 @@
 							</div>
 
 							<div class="am-form-group">
-								<div class="am-u-sm-9 am-u-sm-push-3">
+								<div class="am-u-sm-3 am-u-sm-push-3">
 									<button type="submit" id="submit-button"
 										class="am-btn am-btn-primary">保存修改</button>
+								</div>
+								<div class="am-u-sm-5">
+									<a href="javascript:history.go(-1)"
+										class="am-btn am-btn-default">返回</a>
 								</div>
 
 							</div>
@@ -129,7 +133,15 @@
 
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
-
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="wait-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd" id="wait-model-text">保存中...</div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
+			</div>
+		</div>
+	</div>
 	<div class="am-modal am-modal-no-btn" tabindex="-1"
 		id="file-class-modal">
 		<div class="am-modal-dialog">
@@ -205,14 +217,20 @@
 		}
 
 		$("#myform").submit(function(){
+			$("#wait-model-text").text("保存中...");
+			$("#wait-modal").modal();
 			 var $btn = $("#submit-button");
 			$btn.button('loading');
 			$btn.text("保存中...");
 			$.post("user/file-edit-submit?"+$(this).serialize(),function(data){
 				$btn.text(data.error);
+				$("#wait-model-text").text(data.error);
+				setTimeout(function(){
+				      $("#wait-modal").modal();
+				  }, 1000);
 				setTimeout(function(){
 				      $btn.button('reset');
-				  }, 3000);
+				  },3000);
 			})
 			return false;
 		});
