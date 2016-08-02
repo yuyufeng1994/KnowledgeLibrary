@@ -3,8 +3,10 @@ package com.lib.web.user.main;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.mail.Flags.Flag;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,7 +43,6 @@ public class LoginAndRegisterController {
 
 	// @Autowired
 	//
-
 	/**
 	 * 跳转到登录页面
 	 * 
@@ -142,8 +143,60 @@ public class LoginAndRegisterController {
 				request.setAttribute("error", e.getMessage());
 				return "error";
 			}
-
 		}
 		return "register-success";
+	}
+	/**
+	 * 注册校验
+	 * @param user
+	 * @param repassword
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/check", method = { RequestMethod.GET, RequestMethod.POST })
+	public String checkRegister(UserInfo user,String repassword, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		String result = null;
+		if(user.getUserEmail()!=null){
+			String regex = "^[\\w-]+(\\.[\\w-]+)*\\@([\\.\\w-]+)+$"; 
+			 boolean flg = Pattern.matches(regex, user.getUserEmail()); 
+			 if(flg){
+				if(userService.checkByEmail(user.getUserEmail())){
+					result = "<font class='am-btn-success'>该邮箱未被注册</font>";
+				}else{
+					result = "<font  class='am-btn-danger'>该邮箱已被注册</font>";
+				}
+			 }else{
+				 result = "<font  class='am-btn-danger'>邮箱格式不正确</font>";
+			 }
+		}
+		if(user.getUserPassword()!=null||user.getUserPassword()!=null&&repassword!=null){
+			//匹配标识符必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个 
+			 String regex = "(^[a-z0-9A-Z])[a-z0-9A-Z_]{1,5}([a-z0-9-A-Z])"; 
+		      boolean flg = Pattern.matches(regex, user.getUserPassword());
+			if(flg){
+				result = "<font class='am-btn-success'>正常</font>";
+			}else{
+				result = "<font  class='am-btn-danger'>必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个 </font>";
+			}
+		}
+		if(user.getUserPassword()!=null&&repassword!=null){
+			String strConfirm = new String(user.getUserPassword());
+			String strPwd = new String(repassword);
+			System.out.println(repassword);
+			System.out.println(user.getUserPassword());
+			if(strConfirm.equals(strPwd)){
+				result = "<font class='am-btn-success'>密码一致</font>";
+			}else{
+				result = "<font  class='am-btn-danger'>两次密码输入不一致，请重新输入</font>";
+			}
+		}
+		if(user.getUserName()!=null){
+			result = "<font class='am-btn-success'>正常</font>";
+		}
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(result);
+		return null;
 	}
 }
