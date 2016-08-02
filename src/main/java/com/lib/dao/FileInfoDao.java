@@ -93,4 +93,12 @@ public interface FileInfoDao {
 	 */
 	int updateByUuid(FileInfo fileInfo);
 
+	/**
+	 * 查询一个用户可用的文档
+	 * @param searchInfo
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfo> searchFileInfoByNameOrId(@Param("searchInfo")String searchInfo, @Param("userId")Long userId);
+
 }

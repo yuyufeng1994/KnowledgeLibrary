@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>我的资料</title>
+<title>文件信息修改</title>
 <%@include file="../common/head.jsp"%>
 <style>
 .button-margin {
@@ -73,6 +73,7 @@
 
 					<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
 						<form id="myform" class="am-form am-form-horizontal" method="post"
+							onkeypress="if(event.keyCode==13||event.which==13){return false;}"
 							action="user/file-edit-submit">
 							<input name="fileUuid" type="hidden" value="${fileInfo.fileUuid}">
 							<div class="am-form-group">
@@ -87,22 +88,116 @@
 
 							<div class="am-form-group">
 								<label for="file-class" class="am-u-sm-3 am-form-label">文件分类</label>
-								<div class="am-u-sm-2">
-									<button class="am-btn am-btn-default js-modal-toggle"
-										id="file-class-button" type="button">
-										<i class="am-icon-sort"></i> 请选择
-									</button>
+								<div class="am-u-sm-9">
+									<div class="am-input-group am-input-group">
+										<span class="am-input-group-btn">
+											<button class="am-btn am-btn-default" type="button"
+												id="file-class-button">
+												<i class="am-icon-sort"></i> 请选择
+											</button>
+										</span> <input name="fileClassId" id="fileClassId" type="hidden"
+											value="${fileInfo.fileClassId}"> <input
+											id="fileClassName" class="am-form-field" type="text"
+											placeholder="所有类别" disabled
+											value="${fileInfo.classificationName }">
+									</div>
 									<small>它属于...</small>
 								</div>
-								<div class="am-u-sm-7">
-									<input name="fileClassId" id="fileClassId" type="hidden"
-										value="${fileInfo.fileClassId}"> <input
-										id="fileClassName" class="am-form-field" type="text"
-										placeholder="所有类别" disabled
-										value="${fileInfo.classificationName }">
+							</div>
+							<div class="am-form-group">
+								<label for="file-relation" class="am-u-sm-3 am-form-label">关联文件</label>
+								<div id="file-relation"
+									class="am-panel am-panel-default am-u-sm-9"
+									style="border: none">
+
+									<div class="am-btn-group">
+										<button type="button" onclick="addRelation()"
+											class="am-btn am-btn-default am-radius">
+											<i class="am-icon-plus"></i> 添加
+										</button>
+										<button type="button" onclick="autoRelation()"
+											class="am-btn am-btn-default am-radius">自动关联</button>
+									</div>
+									<span class="am-icon-chevron-down am-fr"
+										data-am-collapse="{target: '#collapse-panel-2'}"></span>
+									<div id="collapse-panel-2" class="am-in">
+										<table
+											class="am-table am-table-bdrs am-table-striped am-table-hover">
+											<tbody>
+												<tr>
+													<td class="am-text-center"><img src="" alt=""></td>
+													<td>Google Chrome</td>
+													<td>3,005</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
+							<div class="am-modal am-modal-no-btn" tabindex="-1"
+								id="relation-modal">
+								<div class="am-modal-dialog">
+									<div class="am-modal-hd">
+										<div class="am-input-group am-input-group-sm">
+											<input type="search" class="am-form-field" id="search-text"
+												placeholder="输入文件名称或文件ID"> <span
+												class="am-input-group-btn">
+												<button class="am-btn am-btn-default" type="button"
+													onclick="relationSearch()">
+													<i class="am-icon-search"></i> 搜索
+												</button>
+											</span> <span class="am-input-group-btn">
+												<button class="am-btn am-btn-primary"
+													type="button"><i class="am-icon-anchor"></i> 关联选中文件</button>
+											</span>
+										</div>
+									</div>
+									<div class="am-modal-bd">
+										<table class="am-table am-table-bdrs am-table-striped">
+											<thead>
+												<tr>
+													<th>文件ID</th>
+													<th>文件名称</th>
+													<th>选择</th>
+												</tr>
+											</thead>
+											<tbody id="search-result">
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 
+								</div>
+							</div>
+							<script type="text/javascript">
+							
+								function addRelation() {
+									$("#relation-modal").modal();
+							
+								}
+								function autoRelation() {
+								}
+								function relationSearch() {
+									var searchInfo = $("#search-text").val();
+									$.post("user/file-search", {
+										searchInfo ,
+										searchInfo
+									}, function(data) {
+										var str = "";
+										console.log(data)
+										for (var i = 0; i < data.data.length; i++) {
+											str += "<tr><td>" + data.data[i].fileId + "</td><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].fileUuid + "'>" +
+												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox'></label></td></tr>";
+										}
+										$("#search-result").html(str);
+									})
+								}
+							</script>
 							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
@@ -124,11 +219,19 @@
 
 							</div>
 						</form>
+						<hr>
+
+
 					</div>
 				</div>
 
 			</div>
+			<footer class="admin-content-footer">
+				<hr>
+				<p>© 2016 中国软件杯 知识库管理系统 启航队</p>
+			</footer>
 		</div>
+
 	</div>
 
 	<%@include file="../common/footer.jsp"%>
@@ -158,6 +261,9 @@
 			<div class="am-modal-bd" id="child-content"></div>
 		</div>
 	</div>
+
+
+
 </body>
 <script type="text/javascript">
 		var classId=${fileInfo.fileClassId}
@@ -235,5 +341,7 @@
 			return false;
 		});
 
+		
+		$("#relation-modal").modal();
 </script>
 </html>

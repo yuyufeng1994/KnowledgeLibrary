@@ -1,11 +1,14 @@
 package com.lib.service.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lib.dao.FileInfoDao;
+import com.lib.entity.FileInfo;
 import com.lib.enums.Const;
 
 import base.BaseTest;
@@ -31,6 +34,14 @@ public class FileInfoServiceTest extends BaseTest {
 	@Test
 	public void testStartTransfor() {
 		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSearchFileInfoByNameOrId() {
+		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId("310", 2016001l);
+		for (FileInfo f : list) {
+			System.out.println(f);
+		}
 	}
 
 	@Test

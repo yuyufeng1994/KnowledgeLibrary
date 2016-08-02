@@ -11,6 +11,22 @@
 		file_info
 		where file_state = #{fileState,jdbcType=VARCHAR}
 	</select>
+	<select id="searchFileInfoByNameOrId" resultType="com.lib.entity.FileInfo">
+		select
+		file_id,
+		file_name, file_size, file_ext, file_user_id, file_uuid, file_path,
+		file_state,
+		file_class_id, file_create_time,file_brief
+		from
+		file_info
+		where 
+		file_user_id = #{userId}  and file_id like #{searchInfo} 
+		or file_user_id = #{userId} and file_name like #{searchInfo} 
+		or file_state = 5  and file_id like #{searchInfo} 
+		or file_state = 5 and file_name like #{searchInfo} 
+		limit 0,10
+		</select>
+
 
 	<select id="getFilesByUserId" resultType="com.lib.dto.FileInfoVO">
 		select
@@ -22,7 +38,8 @@
 		from
 		file_info f left join user_info u on f.file_user_id = u.user_id left
 		join classification c on f.file_class_id = c.classification_id
-		where f.file_user_id = #{userId,jdbcType=BIGINT}
+		where
+		f.file_user_id = #{userId,jdbcType=BIGINT}
 	</select>
 
 
@@ -37,7 +54,8 @@
 		from
 		file_info f left join user_info u on f.file_user_id = u.user_id left
 		join classification c on f.file_class_id = c.classification_id
-		where f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
+		where
+		f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
 	</select>
 
 
@@ -70,7 +88,8 @@
 	</insert>
 
 	<update id="modifyFileExeById">
-		update file_info set file_ext=#{fileExt} where file_id=#{fileId}
+		update file_info set file_ext=#{fileExt} where
+		file_id=#{fileId}
 	</update>
 
 	<update id="updateByUuid">

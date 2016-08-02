@@ -67,7 +67,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		System.out.println(Const.STREAM_PATH + file.getFileUuid());
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
-			
+
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
@@ -82,11 +82,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 
-				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-						Const.ROOT_PATH + file.getFilePath() + ".png");
-				// ffmpeg转换成flv
-				TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-						Const.STREAM_PATH + file.getFileUuid() + ".flv");
+			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.ROOT_PATH + file.getFilePath() + ".png");
+			// ffmpeg转换成flv
+			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 
 		} else if (JudgeUtils.isImageFile(file.getFileExt())) {
 
@@ -94,13 +94,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 					Const.ROOT_PATH + file.getFilePath() + ".png");
 
 		} else if (JudgeUtils.isAudioFile(file.getFileExt())) {
-			
+
 			// ffmpeg转换成flv
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 		}
 		// 全文检索创立索引
-		
 
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
@@ -114,6 +113,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 	@Override
 	public int saveBaseFileInfoByUuid(FileInfo fileInfo) {
 		return fileinfoDao.updateByUuid(fileInfo);
+	}
+
+	@Override
+	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId) {
+		return fileinfoDao.searchFileInfoByNameOrId("%"+searchInfo+"%", userId);
 	}
 
 }

@@ -40,7 +40,7 @@
 					value=""> <br> <label for="password">密码:</label> <input
 					type="password" id="password" value=""><br> <label
 					for="userName">用户名:</label> <br /> <input type="text"
-					id="userName" value=""> <br>
+					id="userName" name="userName" value=""> <br>
 				<div class="am-cf">
 					<input type="submit" name="" value="立即注册" id="login-button"
 						class="am-btn am-btn-primary am-btn-sm am-fl"> 

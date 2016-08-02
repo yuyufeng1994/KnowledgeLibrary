@@ -47,4 +47,12 @@ public interface FileInfoService {
 	 * @return
 	 */
 	int saveBaseFileInfoByUuid(FileInfo fileInfo);
+
+	/**
+	 * 查询一个用户可用的文档
+	 * @param searchInfo
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId);
 }
