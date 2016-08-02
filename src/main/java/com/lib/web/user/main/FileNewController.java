@@ -116,5 +116,6 @@ public class FileNewController {
 		session.setAttribute(Const.SESSION_NEW_FILE, fn);
 		return jr;
 	}
+	
 
 }

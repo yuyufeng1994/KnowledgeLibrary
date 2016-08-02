@@ -5,17 +5,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lib.dto.JsonResult;
+import com.lib.entity.Classification;
 import com.lib.enums.Const;
+import com.lib.service.user.FileManageService;
 
 /**
  * 无需登录的Controller
@@ -26,6 +33,10 @@ import com.lib.enums.Const;
 @Controller
 public class CommonController {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	private FileManageService fileManageService;
+
 	/**
 	 * 根据文件地址下载文件
 	 * 
@@ -52,9 +63,27 @@ public class CommonController {
 			os.close();
 			inputStream.close();
 		} catch (FileNotFoundException e) {
-			LOG.error("文件没有找到"+path);
+			LOG.error("文件没有找到" + path);
 		} catch (IOException e) {
 		}
 		return null;
 	}
+
+	/*
+	 * 新建文档保存
+	 * 
+	 * @param model
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/child-file-class/{fileClassId}", method = RequestMethod.GET)
+	public @ResponseBody JsonResult<List<Classification>> getChildFileClass(@PathVariable("fileClassId") Long fileClassId) {
+		JsonResult<List<Classification>> jr = null;
+		List<Classification> list = fileManageService.getClassificationByParentId(fileClassId);
+		Classification c = fileManageService.getClassificationById(fileClassId);
+		list.add(0, c);
+		jr = new JsonResult<List<Classification>>(true, list);
+		return jr;
+	}
+
 }
