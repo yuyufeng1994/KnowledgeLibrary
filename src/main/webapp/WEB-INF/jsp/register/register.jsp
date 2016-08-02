@@ -21,7 +21,60 @@
 	font-size: 14px;
 }
 </style>
-
+<script type="text/javascript">
+	var flag1 = true,flag2= true,flag3= true,flag4= true;
+	$(function(){
+		$(":input[name='email']").change(function(){
+			var val = $(this).val();
+			val = $.trim(val);
+			
+			if(val!=null){
+				var url = "check";
+				var args={"userEmail":val,"time":new Date()};
+				$.post(url,args,function(data){
+					$("#emailMsg").html(data);
+				});
+			}
+		});
+		$(":input[name='password']").change(function(){
+			var val = $(this).val();
+			val = $.trim(val);
+			
+			if(val!=null){
+				var url = "check";
+				var args={"userPassword":val,"time":new Date()};
+				$.post(url,args,function(data){
+					$("#pwdMsg").html(data);
+				});
+			}
+		});
+		$(":input[name='repassword']").change(function(){
+			var val = $(this).val();
+			val = $.trim(val);
+			var val2 = $(":input[name='password']").val();
+			val2 = $.trim(val2);
+			if(val!=null){
+				var url = "check";
+				var args={"repassword":val,"userPassword":val2,"time":new Date()};
+				$.post(url,args,function(data){
+					$("#repwdMsg").html(data);
+				});
+			}
+		});
+		$(":input[name='userName']").change(function(){
+			var val = $(this).val();
+			val = $.trim(val);
+			
+			if(val!=null){
+				var url = "check";
+				var args={"userName":val,"time":new Date()};
+				$.post(url,args,function(data){
+					$("#nameMsg").html(data);
+				});
+			}
+		});
+	})
+</script>
 </head>
 <body>
 
@@ -36,15 +89,19 @@
 		<div class="am-u-lg-4 am-u-md-8 am-u-sm-centered">
 			<form method="post" class="am-form" id="login-form"
 				action="register?action=register">
-				<label for="email">邮箱:</label> <input type="email" id="email"
-					value=""> <br> <label for="password">密码:</label> <input
-					type="password" id="password" value=""><br> <label
-					for="userName">用户名:</label> <br /> <input type="text"
-					id="userName" value=""> <br>
+				<label for="email">邮箱:</label> <input type="email" id="email" name = "email"
+					value="" required > <label  for="email" id="emailMsg"></label><br> <label
+					for="password">密码:</label> <input type="password" id="password" name="password"
+					value="" required><label id="pwdMsg"></label><br> 
+					 <label for="password">确认密码:</label> <input type="password" id="repassword" name = "repassword"
+					value="" required><label id="repwdMsg"></label><br>
+					<label for="userName">用户名:</label> <br />
+				<input type="text" id="userName" name="userName" value="" required><label id="nameMsg"></label> <br>
 				<div class="am-cf">
-					<input type="submit" name="" value="立即注册" id="login-button"
-						class="am-btn am-btn-primary am-btn-sm am-fl"> 
-					<a class="am-btn am-btn-default am-btn-sm am-fl" href="javascript:history.go(-1)">返回</a>
+					<input type="submit" name="submit" value="立即注册" id="login-button"
+						class="am-btn am-btn-primary am-btn-sm am-fl"> <a
+						class="am-btn am-btn-default am-btn-sm am-fl"
+						href="javascript:history.go(-1)">返回</a>
 				</div>
 			</form>
 			<hr>
