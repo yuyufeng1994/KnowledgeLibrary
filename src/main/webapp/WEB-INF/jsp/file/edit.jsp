@@ -6,8 +6,8 @@
 <title>我的资料</title>
 <%@include file="../common/head.jsp"%>
 <style>
-.button-margin{
-	margin-bottom:5px;
+.button-margin {
+	margin-bottom: 5px;
 }
 </style>
 </head>
@@ -72,12 +72,14 @@
 					</div>
 
 					<div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
-						<form class="am-form am-form-horizontal">
+						<form id="myform" class="am-form am-form-horizontal" method="post"
+							action="user/file-edit-submit">
+							<input name="fileUuid" type="hidden" value="${fileInfo.fileUuid}">
 							<div class="am-form-group">
 								<label for="user-name" class="am-u-sm-3 am-form-label">文件名称</label>
 								<div class="am-u-sm-8" style="padding-right: 0px">
-									<input type="text" id="user-name" placeholder="文件名称"
-										value="${fileInfo.fileName }"> <small>输入它名字，让大家记住它...</small>
+									<input type="text" id="user-name" name="fileName"
+										placeholder="文件名称" value="${fileInfo.fileName }"> <small>输入它名字，让大家记住它...</small>
 								</div>
 								<label for="user-name" class="am-u-sm-1 am-form-label"
 									style="padding-left: 0px">.txt</label>
@@ -102,19 +104,9 @@
 							</div>
 
 							<div class="am-form-group">
-								<label for="file-fork" class="am-u-sm-3 am-form-label">添加到收藏</label>
-								<div class="am-u-sm-9">
-									<input type="text" id="file-fork" placeholder="收藏"> <small>更容易找到它...</small>
-
-								</div>
-							</div>
-
-
-
-							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
-									<textarea class="" rows="5" id="file-breif"
+									<textarea class="" rows="5" id="file-breif" name="fileBrief"
 										placeholder="输入文件简介">${fileInfo.fileBrief }</textarea>
 									<small>简单描述文件内容...</small>
 								</div>
@@ -122,8 +114,10 @@
 
 							<div class="am-form-group">
 								<div class="am-u-sm-9 am-u-sm-push-3">
-									<button type="button" class="am-btn am-btn-primary">保存修改</button>
+									<button type="submit" id="submit-button"
+										class="am-btn am-btn-primary">保存修改</button>
 								</div>
+
 							</div>
 						</form>
 					</div>
@@ -210,7 +204,18 @@
 			$('#file-class-modal').modal("close");
 		}
 
-
+		$("#myform").submit(function(){
+			 var $btn = $("#submit-button");
+			$btn.button('loading');
+			$btn.text("保存中...");
+			$.post("user/file-edit-submit?"+$(this).serialize(),function(data){
+				$btn.text(data.error);
+				setTimeout(function(){
+				      $btn.button('reset');
+				  }, 3000);
+			})
+			return false;
+		});
 
 </script>
 </html>

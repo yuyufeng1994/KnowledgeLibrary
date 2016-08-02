@@ -187,12 +187,12 @@
 					//保存
 					$.post("user/newfile/complete", {}, function(data) {
 						if (data.success == true) {
-							$btn.text("完成")
-							window.location.href = "user/myfiles/1";
+							$btn.text("保存成功")
+							window.location.href = "user/edit/"+data.error;
 						}
 						else {
 							$btn.button('reset');
-							$btn.text("失败...")
+							$btn.text("保存失败")
 						}
 
 

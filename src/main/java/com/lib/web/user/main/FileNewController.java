@@ -102,9 +102,9 @@ public class FileNewController {
 	public @ResponseBody JsonResult newFileSave(String fileName, String content, HttpSession session) {
 		JsonResult jr = new JsonResult(true, "暂存成功");
 		if (null == fileName || fileName.equals("")) {
-			fileName = "未知名"+new Date();
+			fileName = "未知名" + new Date();
 		}
-		
+
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		FileNew fn = (FileNew) session.getAttribute(Const.SESSION_NEW_FILE);
 		if (null == fn) {
@@ -116,6 +116,17 @@ public class FileNewController {
 		session.setAttribute(Const.SESSION_NEW_FILE, fn);
 		return jr;
 	}
-	
+
+	@RequestMapping(value = "/file-edit-submit", method = RequestMethod.POST)
+	public @ResponseBody JsonResult fileEditSave(FileInfo fileInfo, HttpSession session, Model model) {
+		JsonResult jr = null;
+		int res = fileInfoService.saveBaseFileInfoByUuid(fileInfo);
+		if (res == 0) {
+			jr = new JsonResult(false, "修改失败");
+			return jr;
+		}
+		jr = new JsonResult(false, "修改成功");
+		return jr;
+	}
 
 }

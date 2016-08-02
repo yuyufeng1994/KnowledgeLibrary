@@ -7,6 +7,7 @@
 <%@include file="common/head.jsp"%>
 </head>
 <body>
-	<h1>${error}</h1>
+	<h1>${message}</h1>
+	<a href="javascript:history.go(-1)">返回</a>
 </body>
 </html>

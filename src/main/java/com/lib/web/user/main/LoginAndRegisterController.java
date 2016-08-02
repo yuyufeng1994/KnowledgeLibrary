@@ -102,8 +102,8 @@ public class LoginAndRegisterController {
 	
 	@RequestMapping(value = "/illegal-view", method = RequestMethod.GET)
 	public String illegalView(Model model,HttpServletRequest request) {
-		model.addAttribute("error","无权访问，请先登录！");
-		return "error";
+		model.addAttribute("message","无权访问，请先登录！");
+		return "message";
 	}
 	/**
 	 * 
@@ -124,7 +124,7 @@ public class LoginAndRegisterController {
             return "register/register-success";
         }   
         else if("activate".equals(action)) {  
-        	System.out.println(request.getLocalAddr());
+//        	System.out.println(request.getLocalAddr());
             //激活  
             String email = request.getParameter("email");//获取email  
             String validateCode = request.getParameter("validateCode");//激活码  
@@ -132,8 +132,8 @@ public class LoginAndRegisterController {
             	urService.processActivate(email , validateCode);//调用激活方法  
                 return "register/activate-success";  
             } catch (Exception e) {  
-                request.setAttribute("error" , e.getMessage());  
-                return "error";
+                request.setAttribute("message" , e.getMessage());  
+                return "message";
             }  
               
         }  

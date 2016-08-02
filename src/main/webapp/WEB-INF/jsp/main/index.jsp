@@ -353,8 +353,10 @@
 			</div>
 
 			<%@include file="../common/footer.jsp"%>
+			
 		</div>
 		<!-- content end -->
 	</div>
+	
 </body>
 </html>

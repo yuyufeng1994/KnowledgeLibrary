@@ -111,4 +111,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return fileinfoDao.getFileInfoByUuid(uuid);// TODO 判断文件是否私有
 	}
 
+	@Override
+	public int saveBaseFileInfoByUuid(FileInfo fileInfo) {
+		return fileinfoDao.updateByUuid(fileInfo);
+	}
+
 }

@@ -11,28 +11,32 @@
 		file_info
 		where file_state = #{fileState,jdbcType=VARCHAR}
 	</select>
-	
+
 	<select id="getFilesByUserId" resultType="com.lib.dto.FileInfoVO">
 		select
 		file_id,
 		file_name, file_size, file_ext, file_user_id, file_uuid, file_path,
 		file_state,
-		file_class_id, file_create_time,file_brief,user_name,classification_name
+		file_class_id,
+		file_create_time,file_brief,user_name,classification_name
 		from
-		file_info f left join user_info u on f.file_user_id = u.user_id left join classification c on f.file_class_id = c.classification_id 
+		file_info f left join user_info u on f.file_user_id = u.user_id left
+		join classification c on f.file_class_id = c.classification_id
 		where f.file_user_id = #{userId,jdbcType=BIGINT}
 	</select>
-	
-	
+
+
 
 	<select id="getFileInfoByUuid" resultType="com.lib.dto.FileInfoVO">
 		select
 		file_id,
 		file_name, file_size, file_ext, file_user_id, file_uuid, file_path,
 		file_state,
-		file_class_id, file_create_time,file_brief,user_name,classification_name
+		file_class_id,
+		file_create_time,file_brief,user_name,classification_name
 		from
-		file_info f left join user_info u on f.file_user_id = u.user_id  left join classification c on f.file_class_id = c.classification_id 
+		file_info f left join user_info u on f.file_user_id = u.user_id left
+		join classification c on f.file_class_id = c.classification_id
 		where f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
 	</select>
 
@@ -41,7 +45,8 @@
 		update file_info
 		set
 		file_state = #{fileState}
-		where file_uuid = #{fileUuid}
+		where
+		file_uuid = #{fileUuid}
 	</update>
 
 	<insert id="insert" parameterType="com.lib.entity.FileInfo">
@@ -63,8 +68,49 @@
 		#{fileCreateTime,jdbcType=TIMESTAMP},
 		#{fileBrief,jdbcType=LONGVARCHAR})
 	</insert>
-	
-	<update id="modifyFileExeById">  
-       update file_info set file_ext=#{fileExt} where file_id=#{fileId}  
-     </update>
+
+	<update id="modifyFileExeById">
+		update file_info set file_ext=#{fileExt} where file_id=#{fileId}
+	</update>
+
+	<update id="updateByUuid">
+		update file_info
+		<set>
+			<if test="fileName != null">
+				file_name = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="fileSize != null">
+				file_size = #{fileSize,jdbcType=BIGINT},
+			</if>
+			<if test="fileExt != null">
+				file_ext = #{fileExt,jdbcType=VARCHAR},
+			</if>
+			<if test="fileUserId != null">
+				file_user_id = #{fileUserId,jdbcType=BIGINT},
+			</if>
+			<if test="fileUuid != null">
+				file_uuid = #{fileUuid,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				file_path = #{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="fileState != null">
+				file_state = #{fileState,jdbcType=INTEGER},
+			</if>
+			<if test="fileClassId != null">
+				file_class_id = #{fileClassId,jdbcType=BIGINT},
+			</if>
+			<if test="fileCreateTime != null">
+				file_create_time = #{fileCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fileBrief != null">
+				file_brief = #{fileBrief,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where file_uuid = #{fileUuid,jdbcType=VARCHAR}
+	</update>
+
+
+
+
 </mapper>
