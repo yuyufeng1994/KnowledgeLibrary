@@ -107,15 +107,9 @@ public class LoginAndRegisterController {
 	}
 
 	@RequestMapping(value = "/illegal-view", method = RequestMethod.GET)
-<<<<<<< HEAD
 	public String illegalView(Model model, HttpServletRequest request) {
 		model.addAttribute("error", "无权访问，请先登录！");
 		return "error";
-=======
-	public String illegalView(Model model,HttpServletRequest request) {
-		model.addAttribute("message","无权访问，请先登录！");
-		return "message";
->>>>>>> branch 'master' of https://git.coding.net/yyf1994/lib.git
 	}
 
 	/**
@@ -126,7 +120,6 @@ public class LoginAndRegisterController {
 	 * @return
 	 * @throws ParseException
 	 */
-<<<<<<< HEAD
 	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
 	public String load(String userName, String userPassword, HttpServletRequest request, HttpServletResponse response,
 			Model model) throws ParseException {
@@ -153,46 +146,4 @@ public class LoginAndRegisterController {
 		}
 		return "register-success";
 	}
-
-	@RequestMapping(value = "/register-checkEmail", method = RequestMethod.POST)
-	public String checkEmail(String userEmail, HttpServletRequest request, HttpServletResponse response)
-			throws IOException {
-		String result = "";
-		if (userService.checkByEmail(userEmail) == true) {
-			result = "<font>该邮箱可以被注册</font>";
-		} else {
-			result = "<font>该邮箱已被注册</font>";
-		}
-		response.setContentType("text/html; charset=UTF-8");
-		response.getWriter().print(result);
-		return null;
-	}
-=======
-	@RequestMapping(value="/register",method={RequestMethod.GET,RequestMethod.POST})  
-    public String  load(String userName,String userPassword,HttpServletRequest request,HttpServletResponse response,Model model) throws ParseException{  
-        String action = request.getParameter("action");  
-        if("register".equals(action)) {  
-            //注册  
-            String email = request.getParameter("email");  
-            urService.processregister(userName,userPassword,email);//发邮箱激活  
-            model.addAttribute("text","注册成功");  
-            return "register/register-success";
-        }   
-        else if("activate".equals(action)) {  
-//        	System.out.println(request.getLocalAddr());
-            //激活  
-            String email = request.getParameter("email");//获取email  
-            String validateCode = request.getParameter("validateCode");//激活码  
-            try {  
-            	urService.processActivate(email , validateCode);//调用激活方法  
-                return "register/activate-success";  
-            } catch (Exception e) {  
-                request.setAttribute("message" , e.getMessage());  
-                return "message";
-            }  
-              
-        }  
-        return "register-success";
-    }  
->>>>>>> branch 'master' of https://git.coding.net/yyf1994/lib.git
 }
