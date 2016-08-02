@@ -29,7 +29,14 @@ public class UserServiceImpl implements UserService {
 			throw new UserPasswordWrongException("用户密码错误");
 		}
 	}
-
+	@Override
+	public boolean checkByEmail(String userEmail) {
+		UserInfo record = userInfoDao.queryByEmail(userEmail);
+		if (record == null) {
+			return true;
+		} 
+		return false;
+	}
 	@Override
 	public UserInfo getUserById(long l) {
 
