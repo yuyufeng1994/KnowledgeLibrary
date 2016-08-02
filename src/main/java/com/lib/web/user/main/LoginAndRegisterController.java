@@ -1,5 +1,6 @@
 package com.lib.web.user.main;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -34,11 +35,11 @@ import com.lib.service.user.UserService;
 public class LoginAndRegisterController {
 	@Autowired
 	private UserService userService;
-	
-	@Autowired  
+
+	@Autowired
 	private UserRegisterService urService;
-	
-//	@Autowired
+
+	// @Autowired
 	//
 
 	/**
@@ -52,8 +53,10 @@ public class LoginAndRegisterController {
 		model.addAttribute("date", new Date());
 		return "login";
 	}
+
 	/**
 	 * 跳转到注册页面
+	 * 
 	 * @param model
 	 * @return
 	 */
@@ -62,17 +65,18 @@ public class LoginAndRegisterController {
 		model.addAttribute("date", new Date());
 		return "register/register";
 	}
+
 	@RequestMapping(value = "/login-submit", method = RequestMethod.POST, produces = {
 			"application/json;charset=UTF-8" })
 	public @ResponseBody JsonResult loginSub(UserInfo user, HttpSession session) {
-		JsonResult<String> result = null; 
+		JsonResult<String> result = null;
 		try {
 			userService.checkUserByEmail(user);
 			result = new JsonResult(true, null);
-			//在session中保存用户基本信息
+			// 在session中保存用户基本信息
 			UserInfo userBasicInfo = userService.getBasicUserInfoByEmail(user.getUserEmail());
 			session.setAttribute(Const.SESSION_USER, userBasicInfo);
-			
+
 		} catch (UserNullAccountException e) {
 			result = new JsonResult(false, "用户不存在");
 		} catch (UserPasswordWrongException e2) {
@@ -80,14 +84,16 @@ public class LoginAndRegisterController {
 		}
 		return result;
 	}
+
 	/**
 	 * 退出
+	 * 
 	 * @param model
 	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(Model model,HttpSession session) {
+	public String logout(Model model, HttpSession session) {
 		session.invalidate();
 		model.addAttribute("date", new Date());
 		return "login";
@@ -99,12 +105,13 @@ public class LoginAndRegisterController {
 		// JsonResult<UserInfo> result = new JsonResult<UserInfo>(true, user);
 		return user;
 	}
-	
+
 	@RequestMapping(value = "/illegal-view", method = RequestMethod.GET)
-	public String illegalView(Model model,HttpServletRequest request) {
-		model.addAttribute("error","无权访问，请先登录！");
+	public String illegalView(Model model, HttpServletRequest request) {
+		model.addAttribute("error", "无权访问，请先登录！");
 		return "error";
 	}
+
 	/**
 	 * 
 	 * @param request
@@ -113,30 +120,44 @@ public class LoginAndRegisterController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@RequestMapping(value="/register",method={RequestMethod.GET,RequestMethod.POST})  
-    public String  load(String userName,String userPassword,HttpServletRequest request,HttpServletResponse response,Model model) throws ParseException{  
-        String action = request.getParameter("action");  
-        if("register".equals(action)) {  
-            //注册  
-            String email = request.getParameter("email");  
-            urService.processregister(userName,userPassword,email);//发邮箱激活  
-            model.addAttribute("text","注册成功");  
-            return "register/register-success";
-        }   
-        else if("activate".equals(action)) {  
-        	System.out.println(request.getLocalAddr());
-            //激活  
-            String email = request.getParameter("email");//获取email  
-            String validateCode = request.getParameter("validateCode");//激活码  
-            try {  
-            	urService.processActivate(email , validateCode);//调用激活方法  
-                return "register/activate-success";  
-            } catch (Exception e) {  
-                request.setAttribute("error" , e.getMessage());  
-                return "error";
-            }  
-              
-        }  
-        return "register-success";
-    }  
+	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
+	public String load(String userName, String userPassword, HttpServletRequest request, HttpServletResponse response,
+			Model model) throws ParseException {
+		String action = request.getParameter("action");
+		if ("register".equals(action)) {
+			// 注册
+			String email = request.getParameter("email");
+			urService.processregister(userName, userPassword, email);// 发邮箱激活
+			model.addAttribute("text", "注册成功");
+			return "register/register-success";
+		} else if ("activate".equals(action)) {
+			System.out.println(request.getLocalAddr());
+			// 激活
+			String email = request.getParameter("email");// 获取email
+			String validateCode = request.getParameter("validateCode");// 激活码
+			try {
+				urService.processActivate(email, validateCode);// 调用激活方法
+				return "register/activate-success";
+			} catch (Exception e) {
+				request.setAttribute("error", e.getMessage());
+				return "error";
+			}
+
+		}
+		return "register-success";
+	}
+
+	@RequestMapping(value = "/register-checkEmail", method = RequestMethod.POST)
+	public String checkEmail(String userEmail, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		String result = "";
+		if (userService.checkByEmail(userEmail) == true) {
+			result = "<font>该邮箱可以被注册</font>";
+		} else {
+			result = "<font>该邮箱已被注册</font>";
+		}
+		response.setContentType("text/html; charset=UTF-8");
+		response.getWriter().print(result);
+		return null;
+	}
 }
