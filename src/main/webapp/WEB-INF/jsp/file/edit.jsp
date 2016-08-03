@@ -215,19 +215,32 @@
 										setTimeout(function(){
 											$("#wait-modal").modal();
 										 },1000);
-									
 									})
 								}
+								function deleteRelation(mythis,relationFileId){
+									$.ajax({
+									    url: 'user/del-relations/'+mainFileId+'/'+relationFileId,
+									    type: 'DELETE',
+									    success: function(result) {
+									    	if(result.success == true){
+									    		$(mythis).parent().parent().hide("fast");
+									    	}
+									    }
+									});
+								}
 								function getRelation(){
+									$("#relation-files").hide();
 									$.post("user/get-relations/"+mainFileId,function(data){
 										var str = "";
 										for (var i = 0; i < data.data.length; i++) {
 											str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
 											data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
 											 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
-												+"<td>"+"<button title='删除' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
+												+"<td>"+"<button type='button' title='删除' onclick='deleteRelation(this,"+data.data[i].relationFileId+")' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
 										}
 										$("#relation-files").html(str);
+										$("#relation-files").show("fast");
+										
 									})
 								}
 								function relationSearch() {

@@ -163,4 +163,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return relationInfoDao.selectList(mainFileId);
 	}
 
+	@Override
+	public int delRelations(Long mainFileId, Long relationFileId) {
+		RelationInfo r = new RelationInfo();
+		r.setMainFileId(mainFileId);
+		r.setRelationFileId(relationFileId);
+		return relationInfoDao.delete(r);
+	}
+
 }

@@ -86,4 +86,12 @@ public interface FileInfoService {
 	 * @return
 	 */
 	List<RelationInfo> getRelations(Long mainFileId);
+
+	/**
+	 * 删除关联文档
+	 * @param mainFileId
+	 * @param relationFileId
+	 * @return
+	 */
+	int delRelations(Long mainFileId, Long relationFileId);
 }

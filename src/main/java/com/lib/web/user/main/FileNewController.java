@@ -152,8 +152,7 @@ public class FileNewController {
 	}
 
 	@RequestMapping(value = "/add-relations", method = RequestMethod.POST)
-	public @ResponseBody JsonResult<Integer> addRelations(@RequestBody JSONObject json,
-			HttpSession session) {
+	public @ResponseBody JsonResult<Integer> addRelations(@RequestBody JSONObject json, HttpSession session) {
 		// System.out.println(obj);
 		// JSONObject json = JSONObject.fromObject(obj);
 		Long mainFileId = json.getLong("mainFileId");
@@ -169,9 +168,9 @@ public class FileNewController {
 		jr = new JsonResult<Integer>(true, res);
 		return jr;
 	}
-	
+
 	@RequestMapping(value = "/get-relations/{mainFileId}", method = RequestMethod.POST)
-	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(@PathVariable("mainFileId")Long mainFileId) {
+	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(@PathVariable("mainFileId") Long mainFileId) {
 
 		List<RelationInfo> res = fileInfoService.getRelations(mainFileId);
 		JsonResult<List<RelationInfo>> jr = null;
@@ -179,6 +178,13 @@ public class FileNewController {
 		return jr;
 	}
 
-	
+	@RequestMapping(value = "/del-relations/{mainFileId}/{relationFileId}", method = RequestMethod.DELETE)
+	public @ResponseBody JsonResult<Integer> delRelations(@PathVariable("mainFileId") Long mainFileId,
+			@PathVariable("relationFileId") Long relationFileId) {
+		int res = fileInfoService.delRelations(mainFileId,relationFileId);
+		JsonResult<Integer> jr = null;
+		jr = new JsonResult<Integer>(true, res);
+		return jr;
+	}
 
 }
