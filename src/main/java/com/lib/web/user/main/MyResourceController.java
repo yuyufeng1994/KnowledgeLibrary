@@ -86,7 +86,7 @@ public class MyResourceController {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 
 		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),docId,user.getUserName());
-
+		
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}

@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
+import com.lib.dto.ForkFileInfoVo;
 import com.lib.dto.JsonResult;
 import com.lib.entity.DocInfo;
 import com.lib.entity.ForkInfo;
@@ -171,17 +173,20 @@ public class FileContentController {
 		forkInfoService.delete(forkId);
 		return jr;
 	}
+	
 	/**
-	 * 根据收藏夹查看收藏
+	 * 根据文件名查找收藏
 	 * @param forkInfo
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/ByDocId", method = RequestMethod.POST)
-	public @ResponseBody JsonResult findAllByDocId(Long docId,HttpSession session) {
-		JsonResult jr = new JsonResult(true, "查找成功");
+	@RequestMapping(value = "/findByFileName", method = RequestMethod.POST)
+	public String findByFileName(Model model,Integer pageNo,String fileName,HttpSession session) {
+		System.out.println(pageNo);
+		System.out.println(fileName);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		forkInfoService.findAllByDocId(docId, user.getUserId());
-		return jr;
+		PageInfo<ForkFileInfoVo> page = forkInfoService.findByFileName(pageNo, fileName, user.getUserId());
+		model.addAttribute("page", page);
+		return "file/myforks";
 	}
 }

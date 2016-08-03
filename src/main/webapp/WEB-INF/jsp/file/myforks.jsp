@@ -40,12 +40,16 @@
           </div>
         </div>
         <div class="am-u-sm-12 am-u-md-3">
+         <form action="user/findByFileName" method="post">
           <div class="am-input-group am-input-group-sm">
-            <input type="text" class="am-form-field">
+            <input type="hidden" name="pageNo" value="1">
+            <input type="text" name="fileName"  class="am-form-field">
           <span class="am-input-group-btn">
-            <button class="am-btn am-btn-default" type="button">搜索</button>
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
           </span>
+         
           </div>
+           </form>
         </div>
       </div>
 
@@ -182,7 +186,7 @@
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">新建文件夹</div>
 			<div class="am-modal-bd">
-				收藏夹名称 :&nbsp&nbsp&nbsp<input type="text" style="display:inline;width:200px;" id="cDocName" class="am-modal-prompt-input">
+				收藏夹名称 :&nbsp&nbsp&nbsp<input type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
 			</div>
 			<div class="am-modal-footer">
 				<span class="am-modal-btn" data-am-modal-cancel>取消</span> 
@@ -219,7 +223,7 @@ $(function() {
     $('#my-prompt-add').modal({
       relatedTarget: this,
        onConfirm: function(e) {
-    	   var docName=$("#cDocName").val();
+    	   var docName=$("#sDocName").val();
     		 $.ajax({
     				url : "user/insertDoc",
     				data:{docName:docName},

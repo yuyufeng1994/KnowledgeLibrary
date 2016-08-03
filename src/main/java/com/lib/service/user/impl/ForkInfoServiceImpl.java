@@ -98,7 +98,7 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	@Override
 	public PageInfo<ForkFileInfoVo> findByFileName(int pageNo,String fileName, Long docUserId) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
-		List<ForkFileInfoVo> forkFileInfos=forkInfoDao.findByFileName(fileName, docUserId);
+		List<ForkFileInfoVo> forkFileInfos=forkInfoDao.findByFileName("%"+fileName+"%", docUserId);
 		System.out.println(forkFileInfos);
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
