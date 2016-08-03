@@ -34,5 +34,11 @@ public interface UserService {
 	 * @return
 	 */
 	UserInfo getBasicUserInfoByEmail(String userEmail);
+	/**
+	 * 判断email是否已经被注册
+	 * @param email
+	 * @return
+	 */
+	public boolean checkByEmail(String email) ;
 
 }

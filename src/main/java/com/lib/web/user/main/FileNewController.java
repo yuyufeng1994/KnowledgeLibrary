@@ -2,6 +2,7 @@ package com.lib.web.user.main;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -126,6 +126,15 @@ public class FileNewController {
 			return jr;
 		}
 		jr = new JsonResult(false, "修改成功");
+		return jr;
+	}
+
+	@RequestMapping(value = "/file-search", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<List<FileInfo>> searchByNameOrId(String searchInfo, HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		JsonResult<List<FileInfo>> jr = null;
+		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId(searchInfo,user.getUserId());
+		jr = new JsonResult<List<FileInfo>>(true, list);
 		return jr;
 	}
 

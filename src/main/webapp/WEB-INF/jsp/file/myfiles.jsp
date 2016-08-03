@@ -25,6 +25,7 @@
 						class="am-table table-hover am-table-radius am-table-hover am-table-compact am-table-striped">
 						<thead>
 							<tr>
+								<th>文件ID</th>
 								<th>缩略图</th>
 								<th>文件名称</th>
 								<th>文件大小</th>
@@ -38,6 +39,7 @@
 						<tbody>
 							<c:forEach items="${page.list}" var="f">
 								<tr title="简介：${f.fileBrief}">
+									<td>${f.fileId }</td>
 									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
 											src="user/thumbnail/${f.fileUuid}/png" alt="null"
 											class="am-img-thumbnail"
