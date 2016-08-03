@@ -24,7 +24,6 @@
 		or file_user_id = #{userId} and file_name like #{searchInfo} 
 		or file_state = 5  and file_id like #{searchInfo} 
 		or file_state = 5 and file_name like #{searchInfo} 
-		limit 0,10
 		</select>
 
 

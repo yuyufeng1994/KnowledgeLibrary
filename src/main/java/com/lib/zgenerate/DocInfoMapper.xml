@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.zgenerate.DocInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lib.zgenerate.DocInfo">
+    <constructor>
+      <idArg column="doc_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="doc_user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="doc_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="doc_biref" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="doc_create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    doc_id, doc_user_id, doc_name, doc_biref, doc_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from doc_info
+    where doc_id = #{docId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from doc_info
+    where doc_id = #{docId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lib.zgenerate.DocInfo">
+    insert into doc_info (doc_id, doc_user_id, doc_name, 
+      doc_biref, doc_create_time)
+    values (#{docId,jdbcType=BIGINT}, #{docUserId,jdbcType=BIGINT}, #{docName,jdbcType=VARCHAR}, 
+      #{docBiref,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lib.zgenerate.DocInfo">
+    insert into doc_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        doc_id,
+      </if>
+      <if test="docUserId != null">
+        doc_user_id,
+      </if>
+      <if test="docName != null">
+        doc_name,
+      </if>
+      <if test="docBiref != null">
+        doc_biref,
+      </if>
+      <if test="docCreateTime != null">
+        doc_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="docId != null">
+        #{docId,jdbcType=BIGINT},
+      </if>
+      <if test="docUserId != null">
+        #{docUserId,jdbcType=BIGINT},
+      </if>
+      <if test="docName != null">
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docBiref != null">
+        #{docBiref,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null">
+        #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lib.zgenerate.DocInfo">
+    update doc_info
+    <set>
+      <if test="docUserId != null">
+        doc_user_id = #{docUserId,jdbcType=BIGINT},
+      </if>
+      <if test="docName != null">
+        doc_name = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docBiref != null">
+        doc_biref = #{docBiref,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null">
+        doc_create_time = #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where doc_id = #{docId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lib.zgenerate.DocInfo">
+    update doc_info
+    set doc_user_id = #{docUserId,jdbcType=BIGINT},
+      doc_name = #{docName,jdbcType=VARCHAR},
+      doc_biref = #{docBiref,jdbcType=VARCHAR},
+      doc_create_time = #{docCreateTime,jdbcType=TIMESTAMP}
+    where doc_id = #{docId,jdbcType=BIGINT}
+  </update>
+</mapper>

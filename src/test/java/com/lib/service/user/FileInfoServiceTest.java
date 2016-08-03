@@ -38,7 +38,7 @@ public class FileInfoServiceTest extends BaseTest {
 
 	@Test
 	public void testSearchFileInfoByNameOrId() {
-		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId("310", 2016001l);
+		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId("310", 2016001l,1);
 		for (FileInfo f : list) {
 			System.out.println(f);
 		}

@@ -10,9 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
+import com.lib.dao.RelationInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
+import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
@@ -31,6 +34,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private OfficeConvert officeConvert = TranslateUtils.getOfficeConvert();
 	@Autowired
 	private FileInfoDao fileinfoDao;
+	@Autowired
+	private RelationInfoDao relationInfoDao;
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Override
@@ -116,8 +121,29 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
-	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId) {
-		return fileinfoDao.searchFileInfoByNameOrId("%"+searchInfo+"%", userId);
+	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId, Integer pageNo) {
+		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, null);
+		List<FileInfo> list = fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
+		return list;
+	}
+
+	@Override
+	public List<RelationInfo> addRelations(Long mainFileId, List<Long> list) {
+		List<RelationInfo> rs = new ArrayList<>();
+		RelationInfo r = null;
+		for (Long l : list) {
+			r = new RelationInfo();
+			r.setMainFileId(mainFileId);
+			r.setRelationFileId(l);
+			rs.add(r);
+		}
+		try {
+			relationInfoDao.insertList(rs);
+		} catch (Exception e) {
+			
+		}
+		
+		return relationInfoDao.selectList(mainFileId);
 	}
 
 }

@@ -7,6 +7,7 @@
       <arg column="classification_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classification_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="parent_path" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lib.zgenerate.Classification">
@@ -15,11 +16,12 @@
       <arg column="classification_name" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classification_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="parent_path" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="classification_brief" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    classification_id, classification_name, classification_picture, parent_id
+    classification_id, classification_name, classification_picture, parent_id, parent_path
   </sql>
   <sql id="Blob_Column_List">
     classification_brief
@@ -38,11 +40,11 @@
   </delete>
   <insert id="insert" parameterType="com.lib.zgenerate.Classification">
     insert into classification (classification_id, classification_name, 
-      classification_picture, parent_id, classification_brief
-      )
+      classification_picture, parent_id, parent_path, 
+      classification_brief)
     values (#{classificationId,jdbcType=BIGINT}, #{classificationName,jdbcType=VARCHAR}, 
-      #{classificationPicture,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{classificationBrief,jdbcType=LONGVARCHAR}
-      )
+      #{classificationPicture,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{parentPath,jdbcType=VARCHAR}, 
+      #{classificationBrief,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lib.zgenerate.Classification">
     insert into classification
@@ -58,6 +60,9 @@
       </if>
       <if test="parentId != null">
         parent_id,
+      </if>
+      <if test="parentPath != null">
+        parent_path,
       </if>
       <if test="classificationBrief != null">
         classification_brief,
@@ -76,6 +81,9 @@
       <if test="parentId != null">
         #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="parentPath != null">
+        #{parentPath,jdbcType=VARCHAR},
+      </if>
       <if test="classificationBrief != null">
         #{classificationBrief,jdbcType=LONGVARCHAR},
       </if>
@@ -93,6 +101,9 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="parentPath != null">
+        parent_path = #{parentPath,jdbcType=VARCHAR},
+      </if>
       <if test="classificationBrief != null">
         classification_brief = #{classificationBrief,jdbcType=LONGVARCHAR},
       </if>
@@ -104,6 +115,7 @@
     set classification_name = #{classificationName,jdbcType=VARCHAR},
       classification_picture = #{classificationPicture,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},
+      parent_path = #{parentPath,jdbcType=VARCHAR},
       classification_brief = #{classificationBrief,jdbcType=LONGVARCHAR}
     where classification_id = #{classificationId,jdbcType=BIGINT}
   </update>
@@ -111,7 +123,8 @@
     update classification
     set classification_name = #{classificationName,jdbcType=VARCHAR},
       classification_picture = #{classificationPicture,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=BIGINT}
+      parent_id = #{parentId,jdbcType=BIGINT},
+      parent_path = #{parentPath,jdbcType=VARCHAR}
     where classification_id = #{classificationId,jdbcType=BIGINT}
   </update>
 </mapper>

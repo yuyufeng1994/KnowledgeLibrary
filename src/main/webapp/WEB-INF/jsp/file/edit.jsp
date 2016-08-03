@@ -12,6 +12,7 @@
 </style>
 </head>
 <body>
+	<input id="main_file_id" type="hidden" value="${fileInfo.fileId}">
 	<%@include file="../common/header.jsp"%>
 	<div class="am-cf admin-main">
 		<!-- sidebar start -->
@@ -149,11 +150,14 @@
 												</button>
 											</span> <span class="am-input-group-btn">
 												<button class="am-btn am-btn-primary"
-													type="button"><i class="am-icon-anchor"></i> 关联选中文件</button>
+													onclick="relationSure()" type="button">
+													<i class="am-icon-anchor"></i> 关联选中文件
+												</button>
 											</span>
 										</div>
 									</div>
-									<div class="am-modal-bd">
+									<div class="am-modal-bd"
+										style="height: 400px; overflow: scroll;">
 										<table class="am-table am-table-bdrs am-table-striped">
 											<thead>
 												<tr>
@@ -163,11 +167,6 @@
 												</tr>
 											</thead>
 											<tbody id="search-result">
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -175,12 +174,41 @@
 								</div>
 							</div>
 							<script type="text/javascript">
-							
+							$.postJSON = function(url, data, callback) {  
+						        return jQuery.ajax({  
+						            'type' : 'POST',  
+						            'url' : url,  
+						            'contentType' : 'application/json',  
+						            'data' : JSON.stringify(data),  
+						            'dataType' : 'json',  
+						            'success' : callback  
+						        });  
+						    }; 
+							var mainFileId = ${fileInfo.fileId};
 								function addRelation() {
 									$("#relation-modal").modal();
 							
 								}
 								function autoRelation() {
+								}
+								function relationSure() {
+									$("#relation-modal").modal();
+									$("#wait-model-text").text("关联中...");
+									$("#wait-modal").modal();
+									var mid = $("main_file_id").val();
+									var map = {mainFileId:mainFileId,relationList:[]};
+									var checks = $("#search-result").find('input:checked')
+									for (var i = 0; i < checks.length; i++) {
+										map.relationList.push(checks[i].value)
+									}
+									$.postJSON("user/add-relations",{mainFileId:mainFileId,list:map.relationList},function(data){
+										console.log(data)
+										$("#wait-model-text").text("关联成功");
+										setTimeout(function(){
+											$("#wait-modal").modal();
+										 },1000);
+									
+									})
 								}
 								function relationSearch() {
 									var searchInfo = $("#search-text").val();
@@ -189,10 +217,9 @@
 										searchInfo
 									}, function(data) {
 										var str = "";
-										console.log(data)
 										for (var i = 0; i < data.data.length; i++) {
 											str += "<tr><td>" + data.data[i].fileId + "</td><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].fileUuid + "'>" +
-												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox'></label></td></tr>";
+												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox' value='" + data.data[i].fileId + "'></label></td></tr>";
 										}
 										$("#search-result").html(str);
 									})
@@ -342,6 +369,6 @@
 		});
 
 		
-		$("#relation-modal").modal();
+		//$("#relation-modal").modal();
 </script>
 </html>
