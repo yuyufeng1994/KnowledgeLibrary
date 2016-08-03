@@ -53,7 +53,7 @@ public interface ForkInfoService {
 	 * @param docId
 	 * @return
 	 */
-	List<ForkInfo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
+	List<ForkFileInfoVo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
 	/**
 	 * 分页查询
 	 * @param pageNo
@@ -62,5 +62,5 @@ public interface ForkInfoService {
 	 * @param order
 	 * @return
 	 */
-	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,String userName);
+	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,Long docId,String userName);
 }

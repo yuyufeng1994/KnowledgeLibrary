@@ -68,10 +68,10 @@ public class MyResourceController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/myforks/{pageNo}", method = RequestMethod.GET)
-	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
+	@RequestMapping(value = "/myforks/{docId}/{pageNo}", method = RequestMethod.GET)
+	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo,@PathVariable("docId") Long docId,HttpSession session) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),user.getUserName());
+		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),docId,user.getUserName());
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}

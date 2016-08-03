@@ -55,7 +55,7 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	}
 
 	@Override
-	public List<ForkInfo> findAllByDocId(Long docId, Long docUserId) {
+	public List<ForkFileInfoVo> findAllByDocId(Long docId, Long docUserId) {
 		// TODO Auto-generated method stub
 		return forkInfoDao.findAllByDocId(docId, docUserId);
 	}
@@ -67,9 +67,16 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	}
 	
 	@Override
-	public PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,String userName) {
+	public PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo,Long userId,Long docId,String userName) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
-		List<ForkFileInfoVo> forkFileInfos=forkInfoDao.findAll(userId);
+		List<ForkFileInfoVo> forkFileInfos=null;
+		if(docId==0)
+		{
+		forkFileInfos=forkInfoDao.findAll(userId);
+		}else{
+			
+			forkFileInfos=forkInfoDao.findAllByDocId(docId, userId);
+		}
 	
 		for(ForkFileInfoVo f:forkFileInfos)
 		{	
