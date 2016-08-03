@@ -21,7 +21,8 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg"><a>资源在线预览</a></strong> / <small>${fileInfo.fileName }.${fileInfo.fileExt }</small>
+						<strong class="am-text-primary am-text-lg"><a>资源在线预览</a></strong>
+						/ <small>${fileInfo.fileName }.${fileInfo.fileExt }</small>
 					</div>
 				</div>
 				<div class="am-u-sm-12">
@@ -132,19 +133,11 @@
 							</div>
 							<div class="am-panel-bd am-collapse am-in am-cf"
 								id="collapse-panel-link-file">
+								<table class="am-table am-table-bdrs">
+									<tbody id="relation-files">
 
-								<ul class="am-list admin-content-file">
-									<li>
-										<p>3.3 of 5MB - 5 mins - 1MB/Sec</p>
-
-									</li>
-									<li>
-										<p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-									</li>
-									<li>
-										<p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-									</li>
-								</ul>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -203,14 +196,15 @@
 			</div>
 
 		</div>
-		
-		<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">
- 		 <div class="am-modal-dialog">
-    		<div class="am-modal-hd">保存成功</div>
-   			 <div class="am-modal-bd">
-     		 <span class="am-icon-spinner am-icon-spin"></span>
-   		 </div>
- 		 </div>
+
+		<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+			id="my-modal-loading">
+			<div class="am-modal-dialog">
+				<div class="am-modal-hd">保存成功</div>
+				<div class="am-modal-bd">
+					<span class="am-icon-spinner am-icon-spin"></span>
+				</div>
+			</div>
 		</div>
 		<%@include file="../common/footer.jsp"%>
 		<!-- content end -->
@@ -278,6 +272,26 @@
    	
    	
    	
+   	var mainFileId = ${fileInfo.fileId};
+   	//关联文档的获取
+   	function getRelation(){
+		$("#relation-files").hide();
+		
+		$.post("user/get-relations/"+mainFileId,function(data){
+			var str = "";
+			for (var i = 0; i < data.data.length; i++) {
+				str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
+				data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
+				 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
+					+"</tr>";
+			}
+			$("#relation-files").html(str);
+			$("#relation-files").show("fast");
+			
+		})
+	}
+   	//执行获取关联文档
+   	getRelation();
 	//------------------------
 	var ext = "${fileInfo.fileExt}";
 	var uuid = "${fileInfo.fileUuid}";
