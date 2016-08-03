@@ -79,4 +79,11 @@ public interface FileInfoService {
 	 * @return
 	 */
 	List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId);
+
+	/**
+	 * 得到关联文档
+	 * @param mainFileId
+	 * @return
+	 */
+	List<RelationInfo> getRelations(Long mainFileId);
 }

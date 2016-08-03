@@ -169,14 +169,16 @@ public class FileNewController {
 		jr = new JsonResult<List<RelationInfo>>(true, res);
 		return jr;
 	}
+	
+	@RequestMapping(value = "/get-relations", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(Long mainFileId) {
 
-	public static void main(String[] args) {
-		Object obj = "{mainFileId=321, list=[310, 311, 312]}";
-		JSONObject json = JSONObject.fromObject(obj);
-		Long mainId = json.getLong("mainFileId");
-		System.out.println(mainId);
-		List<Long> list = (List<Long>) json.get("list");
-		System.out.println(list);
+		List<RelationInfo> res = fileInfoService.getRelations(mainFileId);
+		JsonResult<List<RelationInfo>> jr = null;
+		jr = new JsonResult<List<RelationInfo>>(true, res);
+		return jr;
 	}
+
+	
 
 }

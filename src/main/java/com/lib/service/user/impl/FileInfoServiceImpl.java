@@ -155,7 +155,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 	@Override
 	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId) {
 		return fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
+	}
 
+	@Override
+	public List<RelationInfo> getRelations(Long mainFileId) {
+		return relationInfoDao.selectList(mainFileId);
 	}
 
 }
