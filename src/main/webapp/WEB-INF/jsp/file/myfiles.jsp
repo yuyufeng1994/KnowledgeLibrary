@@ -67,7 +67,7 @@
 											</ul>
 										</div>
 									</td>
-									<td><a class="am-btn am-btn-secondary am-btn-xs" href="user/file/${f.fileUuid}"> 预览 <i
+									<td><a class="am-btn am-btn-secondary am-btn-xs" target="_blank" href="user/file/${f.fileUuid}"> 预览 <i
 											class="am-icon-cloud"></i>
 									</a></td>
 								</tr>

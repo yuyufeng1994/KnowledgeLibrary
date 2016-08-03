@@ -167,7 +167,7 @@
 											<thead>
 												<tr>
 													<th>文件ID</th>
-													<th>文件名称</th>
+													<th class="am-text-center">文件名称</th>
 													<th>选择</th>
 												</tr>
 											</thead>

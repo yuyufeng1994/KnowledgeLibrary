@@ -21,8 +21,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg"><a
-							href="javascript:history.go(-1)">返回</a></strong> / <small>资源在线预览</small>
+						<strong class="am-text-primary am-text-lg"><a>资源在线预览</a></strong> / <small>${fileInfo.fileName }.${fileInfo.fileExt }</small>
 					</div>
 				</div>
 				<div class="am-u-sm-12">
