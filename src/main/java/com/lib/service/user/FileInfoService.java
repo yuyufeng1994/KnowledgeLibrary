@@ -43,6 +43,12 @@ public interface FileInfoService {
 	 */
 	FileInfoVO getFileInfoByUuid(String uuid);
 	/**
+	 * 根据fileId查找一个文件
+	 * @param uuid
+	 * @return
+	 */
+	FileInfo getFileInfoByFileId(Long fileId);
+	/**
 	 * 根据uuid保存一个文件的基本信息
 	 * @param uuid
 	 * @return
@@ -65,4 +71,12 @@ public interface FileInfoService {
 	 * @return 
 	 */
 	List<RelationInfo> addRelations(Long mainFileId, List<Long> list);
+
+	/**
+	 * 搜索可用文件
+	 * @param searchInfo
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId);
 }

@@ -62,8 +62,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public List<Classification> findAllBotherById(Long classificationId) {
 		// TODO Auto-generated method stub
-		Long parentId=ClassificationDao.findById(classificationId).getParentId();
-		return ClassificationDao.findAllChildById(parentId);
+		return ClassificationDao.findAllBotherById(classificationId);
 	}
 
 	@Override

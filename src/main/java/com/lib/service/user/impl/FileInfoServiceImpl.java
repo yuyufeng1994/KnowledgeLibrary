@@ -140,10 +140,22 @@ public class FileInfoServiceImpl implements FileInfoService {
 		try {
 			relationInfoDao.insertList(rs);
 		} catch (Exception e) {
-			
+
 		}
-		
+
 		return relationInfoDao.selectList(mainFileId);
+	}
+
+	@Override
+	public FileInfo getFileInfoByFileId(Long fileId) {
+		// TODO Auto-generated method stub
+		return fileinfoDao.getFileInfoByFileId(fileId);
+	}
+
+	@Override
+	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId) {
+		return fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
+
 	}
 
 }

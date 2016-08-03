@@ -57,15 +57,18 @@ public interface ClassificationDao {
 	List<Classification> findAllChildById(Long classificationId);
 
 	
-/*	*//**
+
+	/**
 	 * 查找所有的兄弟节点
 	 * @param classificationId
 	 * @return
-	 *//*
+	 */
 	List<Classification> findAllBotherById(Long classificationId);
 	
 	
-	*//**
+
+	
+	/**
 	 * 查找所有的父节点
 	 * @param classificationId
 	 * @return

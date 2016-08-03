@@ -37,7 +37,6 @@ public class CommonController {
 
 	@Autowired
 	private FileManageService fileManageService;
-
 	/**
 	 * 根据文件地址下载文件
 	 * 

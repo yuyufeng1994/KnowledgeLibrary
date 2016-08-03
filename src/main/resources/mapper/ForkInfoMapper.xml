@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.ForkInfoDao">
+	
+	 <insert id="insert"  parameterType="com.lib.entity.ForkInfo">
+		insert into fork_info(doc_id,file_id,fork_note)
+		values(#{docId}, #{fileId},#{forkNote})  
+	 </insert>
+	
+	 <delete id="delete" parameterType="Long">  
+       delete from fork_info where fork_id=#{forkId}  
+     </delete>  
+	
+	 <update id="modify" parameterType="com.lib.entity.ForkInfo">
+	    update fork_info set  doc_id=#{docId},fork_note=#{forkNote} where fork_id=#{forkId}
+	 </update>
+     
+     <select id="findByDocId" parameterType="Long" resultType="ForkInfo">
+     	select * from fork_info where doc_id=#{docId}  
+     </select>
+     
+     <select id="findByForkId" parameterType="Long" resultType="ForkInfo">
+     	select * from fork_info where fork_id=#{forkId}  
+     </select>
+     
+     <select id="findAll" parameterType="Long" resultType="com.lib.dto.ForkFileInfoVo">
+     	select f.*,d.doc_name from  fork_info f,doc_info d where f.doc_id=d.doc_id and d.doc_user_id=#{docUserId} order by f.doc_id 
+     </select>
+     
+     <select id="findAllByDocId" parameterType="Long" resultType="ForkInfo">
+     	select f.* from  fork_info f,doc_info d where f.doc_id=d.doc_id  and d.doc_user_id=#{docUserId} and f.doc_id=#{docId}
+     </select>
+     
+    
+     
+</mapper>
