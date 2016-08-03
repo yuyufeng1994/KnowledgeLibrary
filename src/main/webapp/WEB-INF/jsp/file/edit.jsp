@@ -271,6 +271,36 @@
 								relationSearch()//默认执行一次搜索
 								//$("#relation-modal").modal();
 							</script>
+
+							<c:if
+								test="${fileInfo.fileState == 5 || fileInfo.fileState == 6}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select id="file-state" name="fileState">
+											<option value="5" class="am-text-center">共享</option>
+											<option value="6" class="am-text-center">私有</option>
+										</select> <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+								<script type="text/javascript">
+								$("#file-state").val(${fileInfo.fileState});
+							</script>
+							</c:if>
+							<c:if
+								test="${fileInfo.fileState != 5 && fileInfo.fileState != 6}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select disabled>
+											<option value="5" class="am-text-center">处理中或被冻结，暂时无法修改此项！</option>
+										</select>
+										 <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+							</c:if>
+
+
 							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
@@ -406,7 +436,7 @@
 				$("#wait-model-text").text(data.error);
 				setTimeout(function(){
 				      $("#wait-modal").modal();
-				  }, 1000);
+				  }, 500);
 				setTimeout(function(){
 				      $btn.button('reset');
 				  },3000);
