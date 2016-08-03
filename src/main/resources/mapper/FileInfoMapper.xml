@@ -39,7 +39,10 @@
 		join classification c on f.file_class_id = c.classification_id
 		where f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
 	</select>
-
+    
+    <select id="getFileInfoByFileId" resultType="com.lib.dto.FileInfoVO">
+		select * from file_info where file_id = #{fileId,jdbcType=VARCHAR}
+	</select>
 
 	<update id="setFileStateByUuid">
 		update file_info

@@ -116,4 +116,10 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return fileinfoDao.updateByUuid(fileInfo);
 	}
 
+	@Override
+	public FileInfo getFileInfoByFileId(Long fileId) {
+		// TODO Auto-generated method stub
+		return fileinfoDao.getFileInfoByFileId(fileId);
+	}
+
 }

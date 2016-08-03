@@ -61,6 +61,14 @@ public interface FileInfoDao {
 	 * @return
 	 */
 	FileInfoVO getFileInfoByUuid(String fileUuid);
+	
+	/**
+	 * 通过fileId得到一个文件
+	 * 
+	 * @param uuid
+	 * @return
+	 */
+	FileInfo getFileInfoByFileId(Long fileId);
 
 	/**
 	 * 设置文件的状态

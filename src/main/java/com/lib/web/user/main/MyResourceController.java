@@ -1,6 +1,7 @@
 package com.lib.web.user.main;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
+import com.lib.dto.ForkFileInfoVo;
+import com.lib.entity.FileInfo;
+import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.user.FileInfoService;
 import com.lib.service.user.FileManageService;
+import com.lib.service.user.ForkInfoService;
 import com.lib.service.user.UserService;
 
 /**
@@ -32,6 +38,12 @@ public class MyResourceController {
 
 	@Autowired
 	private FileManageService fileManageService;
+	
+	@Autowired
+	private FileInfoService fileInfoService;
+	//收藏操作service
+	@Autowired
+	private ForkInfoService forkInfoService;
 
 	/**
 	 * 跳转到我的资源
@@ -58,7 +70,9 @@ public class MyResourceController {
 	 */
 	@RequestMapping(value = "/myforks/{pageNo}", method = RequestMethod.GET)
 	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
-		model.addAttribute("date", new Date());
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),user.getUserName());
+		model.addAttribute("page", page);
 		return "file/myforks";
 	}
 

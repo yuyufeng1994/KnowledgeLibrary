@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.DocInfoDao">
+	
+	 <insert id="insert">
+		insert into doc_info(doc_name,doc_user_id)
+		values(#{docName}, #{docUserId})  
+	 </insert>
+	
+	 <delete id="delete" parameterType="Long">  
+       delete from doc_info where doc_id=#{docId}  
+     </delete>  
+	
+     
+     <select id="findById" parameterType="Long" resultType="DocInfo">
+     	select * from doc_info where doc_id=#{docId}  
+     </select>
+     
+     
+     
+     <select id="findAllByUserId" parameterType="Long" resultType="DocInfo">
+     	select * from doc_info where doc_user_id=#{docUserId}  
+     </select>
+     
+</mapper>
