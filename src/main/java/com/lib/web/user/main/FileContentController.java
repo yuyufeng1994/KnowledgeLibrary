@@ -76,7 +76,7 @@ public class FileContentController {
 	}
 	
 	/**
-	 * 查找用户的收藏夹
+	 * 查找用户全部收藏夹
 	 * @param session
 	 * @return
 	 */
@@ -89,6 +89,7 @@ public class FileContentController {
 		jr.setData(docInfos);
 		return jr;
 	}
+	
 	/**
 	 * 添加收藏夹
 	 * @param session
@@ -124,6 +125,7 @@ public class FileContentController {
 		docInfoService.delete(docId);
 		return jr;
 	}
+	
 	/**
 	 * 添加一个收藏
 	 * @param forkInfo
@@ -148,7 +150,7 @@ public class FileContentController {
 		return jr;
 	}
 	/**
-	 * 添加一个收藏
+	 * 修改一个收藏
 	 * @param forkInfo
 	 * @param session
 	 * @return
@@ -159,5 +161,29 @@ public class FileContentController {
 		forkInfoService.modify(forkInfo);
 		return jr;
 	}
-	
+	/**
+	 * 删除一个收藏
+	 * @param forkInfo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteFork", method = RequestMethod.POST)
+	public @ResponseBody JsonResult deleteFork(Long forkId,HttpSession session) {
+		JsonResult jr = new JsonResult(true, "删除成功");
+		forkInfoService.delete(forkId);
+		return jr;
+	}
+	/**
+	 * 删除一个收藏
+	 * @param forkInfo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/findAllByDocId", method = RequestMethod.POST)
+	public @ResponseBody JsonResult findAllByDocId(Long docId,HttpSession session) {
+		JsonResult jr = new JsonResult(true, "查找成功");
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		forkInfoService.findAllByDocId(docId, user.getUserId());
+		return jr;
+	}
 }

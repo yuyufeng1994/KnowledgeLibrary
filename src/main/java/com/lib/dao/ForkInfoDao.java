@@ -57,7 +57,7 @@ public interface ForkInfoDao {
 	 * @param docId
 	 * @return
 	 */
-	List<ForkInfo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
+	List<ForkFileInfoVo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
 
 
 

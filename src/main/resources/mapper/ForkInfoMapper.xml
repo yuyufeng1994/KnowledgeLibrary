@@ -27,8 +27,8 @@
      	select f.*,d.doc_name from  fork_info f,doc_info d where f.doc_id=d.doc_id and d.doc_user_id=#{docUserId} order by f.doc_id 
      </select>
      
-     <select id="findAllByDocId" parameterType="Long" resultType="ForkInfo">
-     	select f.* from  fork_info f,doc_info d where f.doc_id=d.doc_id  and d.doc_user_id=#{docUserId} and f.doc_id=#{docId}
+     <select id="findAllByDocId" parameterType="Long" resultType="com.lib.dto.ForkFileInfoVo">
+     	select f.*,d.doc_name from  fork_info f,doc_info d where f.doc_id=d.doc_id  and d.doc_user_id=#{docUserId} and f.doc_id=#{docId} order by f.doc_id 
      </select>
      
     

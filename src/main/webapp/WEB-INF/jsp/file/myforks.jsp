@@ -88,8 +88,8 @@
 														data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}">
 														<span class="am-icon-pencil-square-o"></span> 修改
 													</button>
-													<button
-														class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
+													<button 
+														class="delete am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
 														<span class="am-icon-trash-o"></span> 删除
 													</button>
 												</div>
@@ -298,7 +298,7 @@ $.ajax({
 //加载收藏夹
 findDoc('#select');
 //翻页
-var url = "user/myforks/";
+var url = "user/myforks/0/";
 function gotoPage(page) {
 	window.location.href = url + page;
 }
@@ -313,6 +313,32 @@ $(".modify").click(function(){
     $("#cForkNote").val(forkNote);
     
 });
+//删除收藏
+$(".delete").click(function(){
+	var node=$(this).parent().parent().parent().parent();
+	var forkId=node.find("#forkId").val();
+	$.ajax({
+	url : "user/deleteFork",
+	data:{forkId:forkId},
+	type : "POST",
+	datatype : "json",
+	//ansyn : false,
+	success : function(JsonResult) {
+		/* var len=JsonResult.data.length;
+		var docInfos=JsonResult.data; */
+		node.remove();
+		alert(JsonResult.error);
+	}
+    }) 
+    
+});
+$("#select").change(function(){
+		
+	var docId=$(this).val();
+	var url = "user/myforks/docId/";
+	window.location.href = url + page;
+	
+})
 //提交修改
 function submit(){
 	
@@ -334,7 +360,7 @@ function submit(){
 			var docInfos=JsonResult.data; */
 			alert(JsonResult.error);
 		}
-	}) 
+	    }) 
 }
 </script>
 
