@@ -334,9 +334,6 @@
 			<div class="am-modal-bd" id="child-content"></div>
 		</div>
 	</div>
-
-
-
 </body>
 <script type="text/javascript">
 		var classId=${fileInfo.fileClassId}

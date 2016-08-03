@@ -265,6 +265,8 @@ $(function() {
 	});
 //查看收藏夹
 function findDoc(selectId){
+var str=window.location.pathname;
+var strs=str.split("/");
 $.ajax({
 	url : "user/findAllByUserId",
 	type : "get",
@@ -274,16 +276,15 @@ $.ajax({
 		var len=JsonResult.data.length;
 		var docInfos=JsonResult.data;
 		var innerStr="";
-		if(selectId=="#select")
+		if(selectId=='#select')
 		{
-			innerStr="<option selected='selected'>"+"所有收藏"+"</option>";
+			innerStr="<option value='0'>"+"所有收藏" + "</option>";
 		}
 		$(selectId).empty();
 		for(var i=0;i<len;i++)
 		{	
-			if(i==0){
-				innerStr += "<option value='" + docInfos[i].docId
-				+ "'>"
+			if(docInfos[i].docId==strs[4]){
+				innerStr += "<option value='" + docInfos[i].docId+"'>"
 				+ docInfos[i].docName + "</option>"
 			}else{
 				innerStr += "<option value='" + docInfos[i].docId
@@ -335,9 +336,8 @@ $(".delete").click(function(){
 $("#select").change(function(){
 		
 	var docId=$(this).val();
-	var url = "user/myforks/docId/";
-	window.location.href = url + page;
-	
+	var url = "user/myforks/"+docId+"/1";
+	window.location.href = url;
 })
 //提交修改
 function submit(){
