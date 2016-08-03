@@ -236,15 +236,21 @@
 											str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
 											data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
 											 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
-												+"<td>"+"<button type='button' title='删除' onclick='deleteRelation(this,"+data.data[i].relationFileId+")' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
+												+"<td>"+"<button type='button' title='删除此关联' onclick='deleteRelation(this,"+data.data[i].relationFileId+")' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
 										}
 										$("#relation-files").html(str);
+										if(data.data.length == 0){
+											$("#relation-files").html("无关联文档...");
+										}
 										$("#relation-files").show("fast");
 										
 									})
 								}
 								function relationSearch() {
 									var searchInfo = $("#search-text").val();
+									if(searchInfo == null){
+										searchInfo = "";
+									}
 									$.post("user/file-search", {
 										searchInfo ,
 										searchInfo
@@ -255,8 +261,15 @@
 												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox' value='" + data.data[i].fileId + "'></label></td></tr>";
 										}
 										$("#search-result").html(str);
+										if(data.data.length == 0){
+											$("#search-result").html("搜索结果为空");
+										}
 									})
 								}
+								
+								getRelation();//获取关联文件
+								relationSearch()//默认执行一次搜索
+								//$("#relation-modal").modal();
 							</script>
 							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
@@ -401,7 +414,6 @@
 			return false;
 		});
 
-		getRelation();//获取关联文件
-		//$("#relation-modal").modal();
+		
 </script>
 </html>

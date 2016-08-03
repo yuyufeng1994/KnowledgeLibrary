@@ -21,9 +21,9 @@ public class FileManageServiceImpl implements FileManageService {
 	@Autowired
 	private ClassificationDao classDao;
 	@Override
-	public PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order) {
+	public PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order,String searchValue) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, order);
-		List<FileInfoVO> list = fileInfoDao.getFilesByUserId(userId);
+		List<FileInfoVO> list = fileInfoDao.getFilesByUserId(userId,"%"+searchValue+"%");
 		PageInfo<FileInfoVO> page = new PageInfo<FileInfoVO>(list);
 		return page;
 	}

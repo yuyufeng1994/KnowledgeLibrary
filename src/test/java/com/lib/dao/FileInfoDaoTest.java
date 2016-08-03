@@ -60,7 +60,7 @@ public class FileInfoDaoTest {
 	public void testGetFilesByUserId() throws Exception {
 				//分页
 				PageHelper.startPage(1,5,"file_id desc");
-				List<FileInfoVO> list = fileInfoDao.getFilesByUserId(2016001l);
+				List<FileInfoVO> list = fileInfoDao.getFilesByUserId(2016001l,"");
 				for(FileInfoVO f:list){
 					System.out.println(f);
 				}
