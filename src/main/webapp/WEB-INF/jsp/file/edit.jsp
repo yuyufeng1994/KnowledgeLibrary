@@ -9,6 +9,10 @@
 .button-margin {
 	margin-bottom: 5px;
 }
+
+#relation-files a {
+	color: black;
+}
 </style>
 </head>
 <body>
@@ -63,8 +67,14 @@
 								</div>
 								<div class="user-info">
 									<p>
-										<strong>大小:</strong>${fileInfo.fileSizeFormat}</p>
-									<p class="user-info-order"></p>
+										<strong>文件大小:</strong>${fileInfo.fileSizeFormat}</p>
+								</div>
+								<div class="user-info">
+									<p>
+										<strong>创建日期:</strong>
+										<fmt:formatDate value="${fileInfo.fileCreateTime }"
+											pattern="yyyy-MM-dd HH:mm:ss" />
+									</p>
 								</div>
 
 							</div>
@@ -122,14 +132,9 @@
 									<span class="am-icon-chevron-down am-fr"
 										data-am-collapse="{target: '#collapse-panel-2'}"></span>
 									<div id="collapse-panel-2" class="am-in">
-										<table
-											class="am-table am-table-bdrs am-table-striped am-table-hover">
-											<tbody>
-												<tr>
-													<td class="am-text-center"><img src="" alt=""></td>
-													<td>Google Chrome</td>
-													<td>3,005</td>
-												</tr>
+										<br>
+										<table class="am-table am-table-bdrs">
+											<tbody id="relation-files">
 
 											</tbody>
 										</table>
@@ -189,8 +194,11 @@
 									$("#relation-modal").modal();
 							
 								}
+								
 								function autoRelation() {
+								
 								}
+								
 								function relationSure() {
 									$("#relation-modal").modal();
 									$("#wait-model-text").text("关联中...");
@@ -202,12 +210,24 @@
 										map.relationList.push(checks[i].value)
 									}
 									$.postJSON("user/add-relations",{mainFileId:mainFileId,list:map.relationList},function(data){
-										console.log(data)
-										$("#wait-model-text").text("关联成功");
+										$("#wait-model-text").text("成功关联 "+data.data+" 个文件");
+										getRelation()
 										setTimeout(function(){
 											$("#wait-modal").modal();
 										 },1000);
 									
+									})
+								}
+								function getRelation(){
+									$.post("user/get-relations/"+mainFileId,function(data){
+										var str = "";
+										for (var i = 0; i < data.data.length; i++) {
+											str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
+											data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
+											 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
+												+"<td>"+"<button title='删除' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
+										}
+										$("#relation-files").html(str);
 									})
 								}
 								function relationSearch() {
@@ -368,7 +388,7 @@
 			return false;
 		});
 
-		
+		getRelation();//获取关联文件
 		//$("#relation-modal").modal();
 </script>
 </html>

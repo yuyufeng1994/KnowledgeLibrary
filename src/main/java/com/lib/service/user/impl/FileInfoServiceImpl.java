@@ -128,7 +128,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
-	public List<RelationInfo> addRelations(Long mainFileId, List<Long> list) {
+	public int addRelations(Long mainFileId, List<Long> list) {
 		List<RelationInfo> rs = new ArrayList<>();
 		RelationInfo r = null;
 		for (Long l : list) {
@@ -137,13 +137,14 @@ public class FileInfoServiceImpl implements FileInfoService {
 			r.setRelationFileId(l);
 			rs.add(r);
 		}
+		int res = 0;
 		try {
-			relationInfoDao.insertList(rs);
+			res = relationInfoDao.insertList(rs);
 		} catch (Exception e) {
 
 		}
 
-		return relationInfoDao.selectList(mainFileId);
+		return res;
 	}
 
 	@Override

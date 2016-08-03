@@ -70,7 +70,7 @@ public interface FileInfoService {
 	 * @param list
 	 * @return 
 	 */
-	List<RelationInfo> addRelations(Long mainFileId, List<Long> list);
+	int addRelations(Long mainFileId, List<Long> list);
 
 	/**
 	 * 搜索可用文件

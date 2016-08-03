@@ -152,7 +152,7 @@ public class FileNewController {
 	}
 
 	@RequestMapping(value = "/add-relations", method = RequestMethod.POST)
-	public @ResponseBody JsonResult<List<RelationInfo>> addRelations(@RequestBody JSONObject json,
+	public @ResponseBody JsonResult<Integer> addRelations(@RequestBody JSONObject json,
 			HttpSession session) {
 		// System.out.println(obj);
 		// JSONObject json = JSONObject.fromObject(obj);
@@ -164,14 +164,14 @@ public class FileNewController {
 			list.add(Long.valueOf(l));
 		}
 
-		List<RelationInfo> res = fileInfoService.addRelations(mainFileId, list);
-		JsonResult<List<RelationInfo>> jr = null;
-		jr = new JsonResult<List<RelationInfo>>(true, res);
+		int res = fileInfoService.addRelations(mainFileId, list);
+		JsonResult<Integer> jr = null;
+		jr = new JsonResult<Integer>(true, res);
 		return jr;
 	}
 	
-	@RequestMapping(value = "/get-relations", method = RequestMethod.POST)
-	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(Long mainFileId) {
+	@RequestMapping(value = "/get-relations/{mainFileId}", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(@PathVariable("mainFileId")Long mainFileId) {
 
 		List<RelationInfo> res = fileInfoService.getRelations(mainFileId);
 		JsonResult<List<RelationInfo>> jr = null;
