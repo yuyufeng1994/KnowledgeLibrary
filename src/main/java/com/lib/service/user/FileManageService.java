@@ -17,9 +17,10 @@ public interface FileManageService {
 	 * 得到某一用户上传的文件分页
 	 * 
 	 * @param userId
+	 * @param searchValue 
 	 * @return
 	 */
-	PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order);
+	PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order, String searchValue);
 	
 	/**
 	 * 得到某一类别的子类别

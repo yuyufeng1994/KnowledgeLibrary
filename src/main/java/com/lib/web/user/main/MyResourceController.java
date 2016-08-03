@@ -38,10 +38,10 @@ public class MyResourceController {
 
 	@Autowired
 	private FileManageService fileManageService;
-	
+
 	@Autowired
 	private FileInfoService fileInfoService;
-	//收藏操作service
+	// 收藏操作service
 	@Autowired
 	private ForkInfoService forkInfoService;
 
@@ -52,12 +52,25 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/myfiles/{pageNo}", method = RequestMethod.GET)
-	public String myFiles(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
+	public String myFiles(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session, String searchValue,
+			String searchNULL) {
 		if (pageNo == null) {
 			pageNo = 1;
 		}
+
+		if (searchNULL != null) {
+			searchValue = "";
+		}
+		if (searchValue == null) {
+			searchValue = (String) session.getAttribute(Const.MYFILE_SEARCH_VALUE);
+			if (searchValue == null) {
+				searchValue = "";
+			}
+		}
+		session.setAttribute(Const.MYFILE_SEARCH_VALUE, searchValue);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		PageInfo<FileInfoVO> page = fileManageService.getFileInfoPageByUserId(pageNo, user.getUserId(), "file_id desc");
+		PageInfo<FileInfoVO> page = fileManageService.getFileInfoPageByUserId(pageNo, user.getUserId(), "file_id desc",
+				searchValue);
 		model.addAttribute("page", page);
 		return "file/myfiles";
 	}
@@ -71,7 +84,9 @@ public class MyResourceController {
 	@RequestMapping(value = "/myforks/{docId}/{pageNo}", method = RequestMethod.GET)
 	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo,@PathVariable("docId") Long docId,HttpSession session) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+
 		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),docId,user.getUserName());
+
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}

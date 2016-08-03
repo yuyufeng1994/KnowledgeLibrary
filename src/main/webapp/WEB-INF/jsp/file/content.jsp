@@ -285,7 +285,11 @@
 				 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
 					+"</tr>";
 			}
+		
 			$("#relation-files").html(str);
+			if(data.data.length == 0){
+				$("#relation-files").html("无关联文档...");
+			}
 			$("#relation-files").show("fast");
 			
 		})
