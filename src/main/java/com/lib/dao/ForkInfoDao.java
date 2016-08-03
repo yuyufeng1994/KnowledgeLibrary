@@ -58,7 +58,12 @@ public interface ForkInfoDao {
 	 * @return
 	 */
 	List<ForkFileInfoVo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
-
+	/**
+	 * 查询收藏
+	 * @param docId
+	 * @return
+	 */
+	List<ForkFileInfoVo> findByFileName(@Param("fileName")String fileName,@Param("docUserId")Long docUserId);
 
 
 	

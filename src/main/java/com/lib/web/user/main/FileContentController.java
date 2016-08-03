@@ -9,11 +9,9 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +20,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.alibaba.druid.support.logging.Log;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
 import com.lib.entity.DocInfo;
-import com.lib.entity.FileInfo;
 import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.DocInfoService;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.ForkInfoService;
-import com.lib.utils.JudgeUtils;
-import com.lib.utils.StringValueUtil;
+
 
 /**
  * 专门处理文件的Controller
@@ -86,6 +79,11 @@ public class FileContentController {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult jr = new JsonResult(true, "暂存成功");
 		List<DocInfo> docInfos = docInfoService.findAllByUserId(Long.valueOf(user.getUserId()));
+		if(docInfos.size()==0)
+		{
+		   docInfoService.insert("常用收藏", user.getUserId());
+		   docInfos = docInfoService.findAllByUserId(Long.valueOf(user.getUserId()));
+		}
 		jr.setData(docInfos);
 		return jr;
 	}
@@ -174,12 +172,12 @@ public class FileContentController {
 		return jr;
 	}
 	/**
-	 * 删除一个收藏
+	 * 根据收藏夹查看收藏
 	 * @param forkInfo
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/findAllByDocId", method = RequestMethod.POST)
+	@RequestMapping(value = "/ByDocId", method = RequestMethod.POST)
 	public @ResponseBody JsonResult findAllByDocId(Long docId,HttpSession session) {
 		JsonResult jr = new JsonResult(true, "查找成功");
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);

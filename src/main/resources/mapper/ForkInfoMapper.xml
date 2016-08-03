@@ -31,6 +31,9 @@
      	select f.*,d.doc_name from  fork_info f,doc_info d where f.doc_id=d.doc_id  and d.doc_user_id=#{docUserId} and f.doc_id=#{docId} order by f.doc_id 
      </select>
      
+     <select id="findByFileName" parameterType="String" resultType="com.lib.dto.ForkFileInfoVo">
+     	select fork.*,doc.doc_name,file.* from  fork_info fork,doc_info doc,file_info file where fork.doc_id=doc.doc_id and fork.file_id=file.file_id and doc.doc_user_id=#{docUserId} and file.file_name like #{fileName} order by fork.doc_id   
+     </select>
     
      
 </mapper>

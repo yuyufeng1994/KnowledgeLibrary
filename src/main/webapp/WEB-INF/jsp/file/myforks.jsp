@@ -25,8 +25,8 @@
         <div class="am-u-sm-12 am-u-md-6">
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs">
-              <button type="button" class="am-btn am-btn-default"  id="doc-prompt-toggle-add"><span class="am-icon-plus"></span> 新增文件夹</button>
-              <button type="button" class="am-btn am-btn-default" id="doc-prompt-toggle-delete"><span class="am-icon-trash-o"></span> 删除文件夹</button>
+              <button type="button" class="am-btn am-btn-default"  id="doc-prompt-toggle-add"><span class="am-icon-plus"></span> 新增收藏夹</button>
+              <button type="button" class="am-btn am-btn-default" id="doc-prompt-toggle-delete"><span class="am-icon-trash-o"></span> 删除收藏夹</button>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@
 									<td>${f.userName}</td>
 									<td><fmt:formatDate value="${f.forkCreateTime}"
 											pattern="yyyy-MM-dd HH:mm:ss" /></td>
-									<input type="hidden" id="forkId" value="${f.forkId}"> 
+									<input type="hidden" id="forkId" value="${f.forkId}">
 									<td class="am-hide-sm-only" id="docName">${f.docName}</td>
                 					<td id="forkNote" class="am-hide-sm-only">${f.forkNote}</td>
 									<td>
@@ -143,6 +143,7 @@
 				<div class="am-form">
 					<div class="am-g am-margin-top-sm">
 						<input type="hidden" id="cForkId"> 
+						<input type="hidden" id="cDocName"> 
 						<div class="am-u-sm-3   am-text-left ">名称:</div>
 						<div class="am-u-sm-8 am-u-end">
 							<input type="text" class="am-input-sm"
@@ -181,7 +182,7 @@
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">新建文件夹</div>
 			<div class="am-modal-bd">
-				文件夹名称 :&nbsp&nbsp&nbsp<input type="text" style="display:inline;width:200px;" id="cDocName" class="am-modal-prompt-input">
+				收藏夹名称 :&nbsp&nbsp&nbsp<input type="text" style="display:inline;width:200px;" id="cDocName" class="am-modal-prompt-input">
 			</div>
 			<div class="am-modal-footer">
 				<span class="am-modal-btn" data-am-modal-cancel>取消</span> 
@@ -195,7 +196,7 @@
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">删除文件夹</div>
 			<div class="am-modal-bd">
-				选择文件夹:&nbsp&nbsp&nbsp
+				选择收藏夹:&nbsp&nbsp&nbsp
               <select data-am-selected="{searchBox: 1}" id="dSelect"> 
               
               </select>
@@ -267,6 +268,7 @@ $(function() {
 function findDoc(selectId){
 var str=window.location.pathname;
 var strs=str.split("/");
+var docName=$("#cDocName").val();
 $.ajax({
 	url : "user/findAllByUserId",
 	type : "get",
@@ -283,8 +285,8 @@ $.ajax({
 		$(selectId).empty();
 		for(var i=0;i<len;i++)
 		{	
-			if(docInfos[i].docId==strs[4]){
-				innerStr += "<option value='" + docInfos[i].docId+"'>"
+			if(docInfos[i].docId==strs[4]&&selectId=='#select'||docName==docInfos[i].docName){
+				innerStr += "<option value='" + docInfos[i].docId+"' selected='selected'>"
 				+ docInfos[i].docName + "</option>"
 			}else{
 				innerStr += "<option value='" + docInfos[i].docId
@@ -305,13 +307,16 @@ function gotoPage(page) {
 }
 //回显
 $(".modify").click(function(){
-	findDoc('#select1');
-    var fileName=$(this).parent().parent().parent().parent().find("#fileName").html();
+	var node=$(this).parent().parent().parent().parent();
+    var fileName=node.find("#fileName").html();
     $("#cFileName").val(fileName);
-    var forkId=$(this).parent().parent().parent().parent().find("#forkId").val();
+    var forkId=node.find("#forkId").val();
     $("#cForkId").val(forkId);
-    var forkNote=$(this).parent().parent().parent().parent().find("#forkNote").html();
+    var forkNote=node.find("#forkNote").html();
     $("#cForkNote").val(forkNote);
+    var docName=node.find("#docName").html();
+    $("#cDocName").val(docName)
+    findDoc('#select1');
     
 });
 //删除收藏
@@ -343,6 +348,7 @@ $("#select").change(function(){
 function submit(){
 	
 		docId=$("#select1").val();
+		docName=$("#select1 option:selected").text();
 		forkNote=$("#cForkNote").val();
 		forkId=$("#cForkId").val();
 	    if(forkNote=="")
@@ -358,6 +364,9 @@ function submit(){
 		success : function(JsonResult) {
 			/* var len=JsonResult.data.length;
 			var docInfos=JsonResult.data; */
+			var node=$("tr").find("input[value="+forkId+"]").parent();
+			node.find("#docName").text(docName);
+			node.find("#forkNote").text(forkNote);
 			alert(JsonResult.error);
 		}
 	    }) 

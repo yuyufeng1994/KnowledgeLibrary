@@ -53,7 +53,13 @@ public interface ForkInfoService {
 	 * @param docId
 	 * @return
 	 */
-	List<ForkFileInfoVo> findAllByDocId(@Param("docId")Long docId,@Param("docUserId")Long docUserId);
+	List<ForkFileInfoVo> findAllByDocId(Long docId,Long docUserId);
+	/**
+	 * 查询用户一个文件夹下的收藏
+	 * @param docId
+	 * @return
+	 */
+	 PageInfo<ForkFileInfoVo> findByFileName(int pageNo,String fileName,Long docUserId);
 	/**
 	 * 分页查询
 	 * @param pageNo
