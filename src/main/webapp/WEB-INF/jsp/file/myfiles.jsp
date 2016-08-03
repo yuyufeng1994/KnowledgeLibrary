@@ -21,7 +21,6 @@
 					</div>
 				</div>
 				<div class="am-g">
-
 					<div class="am-u-sm-12 am-u-md-3 am-u-md-push-9">
 						<div class="am-input-group am-input-group-sm">
 							<input type="search" id="searchValue" class="am-form-field"
@@ -80,7 +79,6 @@
 													class="am-icon-caret-down"></span>
 											</button>
 											<ul class="am-dropdown-content">
-												<li><a href="#"> 共享</a></li>
 												<li><a href="user/edit/${f.fileUuid}">修改</a></li>
 												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">下载</a></li>
 												<li><a href="#">删除</a></li>
