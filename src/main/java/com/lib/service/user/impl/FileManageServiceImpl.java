@@ -1,5 +1,6 @@
 package com.lib.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +21,58 @@ public class FileManageServiceImpl implements FileManageService {
 	private FileInfoDao fileInfoDao;
 	@Autowired
 	private ClassificationDao classDao;
+
 	@Override
-	public PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order) {
+	public PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order, String searchValue) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, order);
-		List<FileInfoVO> list = fileInfoDao.getFilesByUserId(userId);
+		List<FileInfoVO> list = fileInfoDao.getFilesByUserId(userId, "%" + searchValue + "%");
 		PageInfo<FileInfoVO> page = new PageInfo<FileInfoVO>(list);
 		return page;
 	}
 
 	@Override
 	public List<Classification> getClassificationByParentId(Long parentId) {
-		
-		return classDao.findAllChildById(parentId);
+
+		return classDao.findOneChildById(parentId);
 	}
 
 	@Override
 	public Classification getClassificationById(Long fileClassId) {
-		// TODO Auto-generated method stub
 		return classDao.findById(fileClassId);
+	}
+
+	@Override
+	public List<Classification> getFatherClassesById(Long fileClassId) {
+		Classification c = null;
+		List<Classification> list = new ArrayList<>();
+		c = classDao.findById(fileClassId);
+		list.add(c);
+		while (c.getParentId() != null) {
+			c = classDao.findById(c.getParentId());
+			list.add(0, c);
+		}
+		return list;
+	}
+
+	@Override
+	public List<Classification> getAllChildClassesById(Long fileClassId) {
+		List<Classification> list = new ArrayList<>();
+		Classification c = classDao.findById(fileClassId);
+		list.add(c);
+
+		return null;
+	}
+
+	private List<Classification> getChildClass(List<Classification> list, Classification cf) {
+//		List<Classification> li = classDao.findAllChildById(cf.getClassificationId());
+//		if (li.size() < 0) {
+//			return list;
+//		}
+//		for (Classification c : li) {
+//			list.add(cf);
+//			getChildClass(list, c);
+//		}
+		return list;
 	}
 
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.zgenerate.UserRegisterMapper">
+  <resultMap id="BaseResultMap" type="com.lib.zgenerate.UserRegister">
+    <constructor>
+      <idArg column="register_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="user_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="validate_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="register_time" javaType="java.util.Date" jdbcType="DATE" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    register_id, user_id, validate_code, register_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_register
+    where register_id = #{registerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_register
+    where register_id = #{registerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lib.zgenerate.UserRegister">
+    insert into user_register (register_id, user_id, validate_code, 
+      register_time)
+    values (#{registerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{validateCode,jdbcType=VARCHAR}, 
+      #{registerTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lib.zgenerate.UserRegister">
+    insert into user_register
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="registerId != null">
+        register_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="validateCode != null">
+        validate_code,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="registerId != null">
+        #{registerId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="validateCode != null">
+        #{validateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lib.zgenerate.UserRegister">
+    update user_register
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="validateCode != null">
+        validate_code = #{validateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=DATE},
+      </if>
+    </set>
+    where register_id = #{registerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lib.zgenerate.UserRegister">
+    update user_register
+    set user_id = #{userId,jdbcType=BIGINT},
+      validate_code = #{validateCode,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=DATE}
+    where register_id = #{registerId,jdbcType=BIGINT}
+  </update>
+</mapper>

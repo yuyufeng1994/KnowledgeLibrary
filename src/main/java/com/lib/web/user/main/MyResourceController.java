@@ -1,6 +1,7 @@
 package com.lib.web.user.main;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
+import com.lib.dto.ForkFileInfoVo;
+import com.lib.entity.FileInfo;
+import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.user.FileInfoService;
 import com.lib.service.user.FileManageService;
+import com.lib.service.user.ForkInfoService;
 import com.lib.service.user.UserService;
 
 /**
@@ -33,6 +39,12 @@ public class MyResourceController {
 	@Autowired
 	private FileManageService fileManageService;
 
+	@Autowired
+	private FileInfoService fileInfoService;
+	// 收藏操作service
+	@Autowired
+	private ForkInfoService forkInfoService;
+
 	/**
 	 * 跳转到我的资源
 	 * 
@@ -40,12 +52,25 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/myfiles/{pageNo}", method = RequestMethod.GET)
-	public String myFiles(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
+	public String myFiles(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session, String searchValue,
+			String searchNULL) {
 		if (pageNo == null) {
 			pageNo = 1;
 		}
+
+		if (searchNULL != null) {
+			searchValue = "";
+		}
+		if (searchValue == null) {
+			searchValue = (String) session.getAttribute(Const.MYFILE_SEARCH_VALUE);
+			if (searchValue == null) {
+				searchValue = "";
+			}
+		}
+		session.setAttribute(Const.MYFILE_SEARCH_VALUE, searchValue);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		PageInfo<FileInfoVO> page = fileManageService.getFileInfoPageByUserId(pageNo, user.getUserId(), "file_id desc");
+		PageInfo<FileInfoVO> page = fileManageService.getFileInfoPageByUserId(pageNo, user.getUserId(), "file_id desc",
+				searchValue);
 		model.addAttribute("page", page);
 		return "file/myfiles";
 	}
@@ -56,9 +81,11 @@ public class MyResourceController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/myforks/{pageNo}", method = RequestMethod.GET)
-	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo, HttpSession session) {
-		model.addAttribute("date", new Date());
+	@RequestMapping(value = "/myforks/{docId}/{pageNo}", method = RequestMethod.GET)
+	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo,@PathVariable("docId") Long docId,String search,HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),docId,user.getUserName(),search);
+		model.addAttribute("page", page);
 		return "file/myforks";
 	}
 

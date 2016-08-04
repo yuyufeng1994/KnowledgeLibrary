@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>上传文件</title>
+<title>知识导入</title>
 <%@include file="../common/head.jsp"%>
 <link rel="stylesheet" type="text/css"
 	href="resource/webuploader/webuploader.css">
@@ -21,7 +21,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">上传</strong> / <small>支持文件的批量上传及压缩包导入，支持Office文档、PDF、图像、音视频和图纸等各类型文件。</small>
+						<strong class="am-text-primary am-text-lg">导入知识</strong> / <small>支持文件的批量上传及压缩包导入，支持Office文档、PDF、图像、音视频和图纸等各类型文件。</small>
 					</div>
 				</div>
 
@@ -37,9 +37,9 @@
 							<div id="unc-div" style="display: none;"
 								class="am-alert am-alert-secondary" data-am-alert>
 								<span class="am-icon-question-circle-o"></span>
-								您选择的文件中含有压缩文件，请选择上传方式：
+								您选择的文件中含有压缩文件，请选择导入方式：
 								<button id="if-unc" type="button"
-									class="am-btn am-btn-xs am-btn-primary" data-am-button>上传压缩包</button>
+									class="am-btn am-btn-xs am-btn-primary" data-am-button>导入压缩包</button>
 								<script>
 									$(function() {
 										
@@ -53,7 +53,7 @@
 										function setButtonStatus() {
 											$.post("user/tog-compress", function(data) {
 												if (data == "success") {
-													var status = $toggleButton.hasClass('am-active') ? '解压上传' : '上传压缩包';
+													var status = $toggleButton.hasClass('am-active') ? '解压导入' : '导入压缩包';
 													$('#if-unc').text(status);
 												}
 											})
@@ -61,7 +61,7 @@
 									})
 								</script>
 							</div>
-							<button id="ctlBtn" class="am-btn am-btn-warning am-radius">开始上传</button>
+							<button id="ctlBtn" class="am-btn am-btn-warning am-radius">开始导入</button>
 						</div>
 					</div>
 

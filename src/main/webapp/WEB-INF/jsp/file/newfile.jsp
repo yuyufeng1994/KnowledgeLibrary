@@ -17,7 +17,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">新建</strong> / <small>新建一个知识文档</small>
+						<strong class="am-text-primary am-text-lg">新建文档</strong> / <small>新建一个知识文档</small>
 					</div>
 				</div>
 				<div class="am-u-sm-12">

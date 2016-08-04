@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.zgenerate.RelationInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lib.zgenerate.RelationInfo">
+    <constructor>
+      <idArg column="main_file_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <idArg column="relation_file_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="relation_create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    main_file_id, relation_file_id, relation_create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.lib.zgenerate.RelationInfoKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from relation_info
+    where main_file_id = #{mainFileId,jdbcType=BIGINT}
+      and relation_file_id = #{relationFileId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lib.zgenerate.RelationInfoKey">
+    delete from relation_info
+    where main_file_id = #{mainFileId,jdbcType=BIGINT}
+      and relation_file_id = #{relationFileId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lib.zgenerate.RelationInfo">
+    insert into relation_info (main_file_id, relation_file_id, relation_create_time
+      )
+    values (#{mainFileId,jdbcType=BIGINT}, #{relationFileId,jdbcType=BIGINT}, #{relationCreateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lib.zgenerate.RelationInfo">
+    insert into relation_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mainFileId != null">
+        main_file_id,
+      </if>
+      <if test="relationFileId != null">
+        relation_file_id,
+      </if>
+      <if test="relationCreateTime != null">
+        relation_create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mainFileId != null">
+        #{mainFileId,jdbcType=BIGINT},
+      </if>
+      <if test="relationFileId != null">
+        #{relationFileId,jdbcType=BIGINT},
+      </if>
+      <if test="relationCreateTime != null">
+        #{relationCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lib.zgenerate.RelationInfo">
+    update relation_info
+    <set>
+      <if test="relationCreateTime != null">
+        relation_create_time = #{relationCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where main_file_id = #{mainFileId,jdbcType=BIGINT}
+      and relation_file_id = #{relationFileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lib.zgenerate.RelationInfo">
+    update relation_info
+    set relation_create_time = #{relationCreateTime,jdbcType=TIMESTAMP}
+    where main_file_id = #{mainFileId,jdbcType=BIGINT}
+      and relation_file_id = #{relationFileId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -21,8 +21,8 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg"><a
-							href="javascript:history.go(-1)">返回</a></strong> / <small>资源在线预览</small>
+						<strong class="am-text-primary am-text-lg"><a>资源在线预览</a></strong>
+						/ <small>${fileInfo.fileName }.${fileInfo.fileExt }</small>
 					</div>
 				</div>
 				<div class="am-u-sm-12">
@@ -56,6 +56,7 @@
 
 					<div class="am-u-md-12 am-u-sm-12 am-u-lg-4">
 						<div class="am-panel am-panel-default">
+
 							<div class="am-panel-hd am-cf"
 								data-am-collapse="{target: '#collapse-panel-file-info1'}"
 								title="${fileInfo.fileName }.${fileInfo.fileExt }">
@@ -69,7 +70,7 @@
 									<li>
 										<p>
 											<span class="am-badge am-badge-secondary">上传用户</span>
-											${fileInfo.userName }
+											${fileInfo.userName}
 										</p>
 
 									</li>
@@ -110,7 +111,9 @@
 											<button type="button" class="am-btn am-btn-default">
 												<span class="am-icon-save"></span> 保存
 											</button>
-											<button type="button" class="am-btn am-btn-default" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}">
+											<button type="button" class="am-btn am-btn-default"
+												onclick="findDoc()"
+												data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}">
 												<span class="am-icon-archive"></span> 收藏
 											</button>
 											<button type="button" class="am-btn am-btn-default">
@@ -130,19 +133,11 @@
 							</div>
 							<div class="am-panel-bd am-collapse am-in am-cf"
 								id="collapse-panel-link-file">
+								<table class="am-table am-table-bdrs">
+									<tbody id="relation-files">
 
-								<ul class="am-list admin-content-file">
-									<li>
-										<p>3.3 of 5MB - 5 mins - 1MB/Sec</p>
-
-									</li>
-									<li>
-										<p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-									</li>
-									<li>
-										<p>3.3 of 5MB - 5 mins - 3MB/Sec</p>
-									</li>
-								</ul>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -159,44 +154,60 @@
 					data-am-modal-close>&times;</a>
 			</div>
 			<div class="am-modal-bd">
-     	
-          <form class="am-form">
-			<div class="am-g am-margin-top-sm">
-			  
-			  <div class="am-u-sm-3   am-text-left ">名称:</div>
-              <div class="am-u-sm-8 am-u-end">
-                <input type="text" class="am-input-sm" value="${fileInfo.fileName}.${fileInfo.fileExt }" readonly="readonly">
-              </div>
-			
-             <div class="am-u-sm-3  am-text-left" style="margin-top:10px;">类别:</div>
-             <div class="am-u-sm-8 am-u-end" style="margin-top:10px;margin-left:-10px;">
-              <select data-am-selected="{btnSize: 'sm'}">
-                <option value="option1">选项一</option>
-                <option value="option2">选项二</option>
-                <option value="option3">选项三</option>
-              </select>
-             </div>
 
-              <div class="am-u-sm-3  am-text-left" style="margin-top:10px;margin-bottom:10px;">备注:</div>
-              <div class="am-u-sm-8  am-u-end" style="margin-top:10px;margin-bottom:10px;">
-                <textarea rows="2"></textarea>
-              </div>
-              
-              
-               <div class="am-margin" >
-    		  	<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
-     			<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>
-    			</div>
-            </div>
-          </form>
-     
-    	</div>
+				<div class="am-form">
+					<div class="am-g am-margin-top-sm">
+
+						<div class="am-u-sm-3   am-text-left ">名称:</div>
+						<div class="am-u-sm-8 am-u-end">
+							<input type="text" class="am-input-sm"
+								value="${fileInfo.fileName}.${fileInfo.fileExt }"
+								readonly="readonly">
+						</div>
+
+						<div class="am-u-sm-3  am-text-left" style="margin-top: 10px;">文件夹:</div>
+						<div class="am-u-sm-8 am-u-end"
+							style="margin-top: 10px; margin-left: -10px;">
+							<select id="select" data-am-selected="{searchBox: 1}">
+
+							</select>
+						</div>
+
+						<div class="am-u-sm-3  am-text-left"
+							style="margin-top: 10px; margin-bottom: 10px;">备注:</div>
+						<div class="am-u-sm-8  am-u-end"
+							style="margin-top: 10px; margin-bottom: 10px;">
+							<textarea rows="2" id="forkNote" required="required"
+								placeholder="文件备注"></textarea>
+						</div>
+
+
+						<div class="am-margin">
+							<button type="button" onclick="submit()"
+								class="am-btn am-btn-primary am-btn-xs" data-am-modal-close>提交保存</button>
+							<button type="button" class="am-btn am-btn-primary am-btn-xs"
+								data-am-modal-close>放弃保存</button>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
 
 		</div>
-		
-	</div>
-	<%@include file="../common/footer.jsp"%>
-	<!-- content end -->
+
+		<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+			id="my-modal-loading">
+			<div class="am-modal-dialog">
+				<div class="am-modal-hd">保存成功</div>
+				<div class="am-modal-bd">
+					<span class="am-icon-spinner am-icon-spin"></span>
+				</div>
+			</div>
+		</div>
+		<%@include file="../common/footer.jsp"%>
+		<!-- content end -->
 </body>
 <script src="resource/script/pdfobject.min.js"></script>
 <script type="text/javascript" src="resource/ckplayer/ckplayer.js"
@@ -206,21 +217,94 @@
 <script type="text/javascript">
 //操作收藏的js
 
-
-
-
-
-//------------------------
-var ext = "${fileInfo.fileExt}";
-var uuid = "${fileInfo.fileUuid}";
-
-//判断是哪种浏览方式在网页中呈现
-//页面显示js
-var host = location.host; // 192.168.1.104
-host = host.substring(0, host.indexOf(':'));
-var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
-var $content = $("#main-content");
-
+    function findDoc(){
+	    $.ajax({
+			url : "user/findAllByUserId",
+			type : "get",
+			datatype : "json",
+			//ansyn : false,
+			success : function(JsonResult) {
+				var len=JsonResult.data.length;
+				var docInfos=JsonResult.data;
+				var innerStr="";
+				$('#select').empty();
+				for(var i=0;i<len;i++)
+				{	
+					if(i==0){
+						innerStr += "<option value='" + docInfos[i].docId
+						+ "' selected='selected'>"
+						+ docInfos[i].docName + "</option>"
+					}else{
+						innerStr += "<option value='" + docInfos[i].docId
+						+ "'>"
+						+ docInfos[i].docName + "</option>"
+					}
+				}
+				$('#select').append(innerStr);
+			}
+		})
+	}
+   	function submit(){
+   		docId=$("#select").val();
+   		docName=$("#select").text();
+   		forkNote=$("#forkNote").val();
+   	    if(forkNote==null||forkNote=="")
+   		{
+   			forkNote="无";
+   		} 
+   		fileId=${fileInfo.fileId};
+   		 $.ajax({
+   			
+			url : "user/insertFork",
+			data:{docId:docId,forkNote:forkNote,fileId:fileId},
+			type : "POST",
+			datatype : "json",
+			//ansyn : false,
+			success : function(JsonResult) {
+				/* var len=JsonResult.data.length;
+				var docInfos=JsonResult.data; */
+				alert(JsonResult.error);
+			}
+		}) 
+		
+   		
+   	}
+   	
+   	
+   	
+   	var mainFileId = ${fileInfo.fileId};
+   	//关联文档的获取
+   	function getRelation(){
+		$("#relation-files").hide();
+		
+		$.post("user/get-relations/"+mainFileId,function(data){
+			var str = "";
+			for (var i = 0; i < data.data.length; i++) {
+				str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
+				data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
+				 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
+					+"</tr>";
+			}
+		
+			$("#relation-files").html(str);
+			if(data.data.length == 0){
+				$("#relation-files").html("无关联文档...");
+			}
+			$("#relation-files").show("fast");
+			
+		})
+	}
+   	//执行获取关联文档
+   	getRelation();
+	//------------------------
+	var ext = "${fileInfo.fileExt}";
+	var uuid = "${fileInfo.fileUuid}";
+	//判断是哪种浏览方式在网页中呈现
+	//页面显示js
+	var host = location.host; // 192.168.1.104
+	host = host.substring(0, host.indexOf(':'));
+	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
+	var $content = $("#main-content");
 </script>
 
 <script src="resource/script/file-view.js"></script>

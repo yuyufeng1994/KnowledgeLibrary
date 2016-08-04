@@ -1,7 +1,9 @@
 package com.lib.service.admin.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,16 +56,15 @@ public class ClassificationServiceImpl implements ClassificationService {
 	}
 
 	@Override
-	public List<Classification> findAllChildById(Long classificationId) {
+	public List<Classification> findOneChildById(Long classificationId) {
 		// TODO Auto-generated method stub
-		return ClassificationDao.findAllChildById(classificationId);
+		return ClassificationDao.findOneChildById(classificationId);
 	}
 
 	@Override
 	public List<Classification> findAllBotherById(Long classificationId) {
 		// TODO Auto-generated method stub
-		Long parentId=ClassificationDao.findById(classificationId).getParentId();
-		return ClassificationDao.findAllChildById(parentId);
+		return ClassificationDao.findAllBotherById(classificationId);
 	}
 
 	@Override
@@ -79,5 +80,32 @@ public class ClassificationServiceImpl implements ClassificationService {
 		}
 		return classifications;
 	}
+
+	@Override
+	public Map<String,List<Classification>> findAllChildById(String classificationId) {
+		
+		List<Classification> classifications=ClassificationDao.findAllChildById("%"+classificationId+"%");
+		Map<String,List<Classification>> mapList=new HashMap<String,List<Classification>>();	
+		for(Classification c:classifications)
+		{	String str[]=c.getParentPath().split("\\.");
+		    String key=str[str.length];
+		    if(mapList.get(key)==null)
+		    {
+		    	List<Classification> list=new ArrayList<Classification>();
+				list.add(c);
+				mapList.put(key,list);
+		    }else{
+		    	mapList.get(key).add(c);
+		    }
+		}
+		return mapList;
+	}
+
+	@Override
+	public List<Classification> findAllChildById1(String classificationId) {
+		// TODO Auto-generated method stub
+		return ClassificationDao.findAllChildById("%"+classificationId+"%");
+	}
+	
 
 }

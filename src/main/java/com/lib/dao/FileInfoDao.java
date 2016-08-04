@@ -61,6 +61,14 @@ public interface FileInfoDao {
 	 * @return
 	 */
 	FileInfoVO getFileInfoByUuid(String fileUuid);
+	
+	/**
+	 * 通过fileId得到一个文件
+	 * 
+	 * @param uuid
+	 * @return
+	 */
+	FileInfo getFileInfoByFileId(Long fileId);
 
 	/**
 	 * 设置文件的状态
@@ -80,11 +88,12 @@ public interface FileInfoDao {
 
 	/**
 	 * 得到为处理过的文件
+	 * @param searchValue 
 	 * 
 	 * @param i
 	 * @return
 	 */
-	List<FileInfoVO> getFilesByUserId(Long userId);
+	List<FileInfoVO> getFilesByUserId(@Param("userId")Long userId,@Param("searchValue") String searchValue);
 
 	/**
 	 * 修改文件的基本信息

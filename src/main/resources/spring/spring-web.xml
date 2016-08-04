@@ -38,7 +38,7 @@
 		<!--多个拦截器,顺序执行 -->
 		<mvc:interceptor>
 			<!--/** 表示所有url 包括子url路径 -->
-			<mvc:mapping path="/main/**" />
+			<mvc:mapping path="/**" />
 			<bean class="com.lib.interceptor.MainInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.zgenerate.ForkInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lib.zgenerate.ForkInfo">
+    <constructor>
+      <idArg column="fork_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="doc_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="file_id" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="fork_create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="fork_note" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    fork_id, doc_id, file_id, fork_create_time, fork_note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fork_info
+    where fork_id = #{forkId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from fork_info
+    where fork_id = #{forkId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lib.zgenerate.ForkInfo">
+    insert into fork_info (fork_id, doc_id, file_id, 
+      fork_create_time, fork_note)
+    values (#{forkId,jdbcType=BIGINT}, #{docId,jdbcType=BIGINT}, #{fileId,jdbcType=BIGINT}, 
+      #{forkCreateTime,jdbcType=TIMESTAMP}, #{forkNote,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lib.zgenerate.ForkInfo">
+    insert into fork_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="forkId != null">
+        fork_id,
+      </if>
+      <if test="docId != null">
+        doc_id,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="forkCreateTime != null">
+        fork_create_time,
+      </if>
+      <if test="forkNote != null">
+        fork_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="forkId != null">
+        #{forkId,jdbcType=BIGINT},
+      </if>
+      <if test="docId != null">
+        #{docId,jdbcType=BIGINT},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="forkCreateTime != null">
+        #{forkCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forkNote != null">
+        #{forkNote,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lib.zgenerate.ForkInfo">
+    update fork_info
+    <set>
+      <if test="docId != null">
+        doc_id = #{docId,jdbcType=BIGINT},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="forkCreateTime != null">
+        fork_create_time = #{forkCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forkNote != null">
+        fork_note = #{forkNote,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fork_id = #{forkId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lib.zgenerate.ForkInfo">
+    update fork_info
+    set doc_id = #{docId,jdbcType=BIGINT},
+      file_id = #{fileId,jdbcType=BIGINT},
+      fork_create_time = #{forkCreateTime,jdbcType=TIMESTAMP},
+      fork_note = #{forkNote,jdbcType=VARCHAR}
+    where fork_id = #{forkId,jdbcType=BIGINT}
+  </update>
+</mapper>

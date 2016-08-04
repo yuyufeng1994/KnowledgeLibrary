@@ -9,10 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
+import com.lib.dao.RelationInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
+import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
@@ -31,6 +35,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private OfficeConvert officeConvert = TranslateUtils.getOfficeConvert();
 	@Autowired
 	private FileInfoDao fileinfoDao;
+	@Autowired
+	private RelationInfoDao relationInfoDao;
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@Override
@@ -116,8 +122,68 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
+	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId, Integer pageNo) {
+		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, null);
+		List<FileInfo> list = fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
+		return list;
+	}
+
+	@Override
+	public int addRelations(Long mainFileId, List<Long> list) {
+		List<RelationInfo> rs = new ArrayList<>();
+		RelationInfo r = null;
+		for (Long l : list) {
+			r = new RelationInfo();
+			r.setMainFileId(mainFileId);
+			r.setRelationFileId(l);
+			rs.add(r);
+
+			// 反向也要关联
+			r = new RelationInfo();
+			r.setMainFileId(l);
+			r.setRelationFileId(mainFileId);
+			rs.add(r);
+		}
+		int res = 0;
+		try {
+			res = relationInfoDao.insertList(rs);
+		} catch (Exception e) {
+
+		}
+
+		return res/2;
+	}
+
+	@Override
+	public FileInfo getFileInfoByFileId(Long fileId) {
+		// TODO Auto-generated method stub
+		return fileinfoDao.getFileInfoByFileId(fileId);
+	}
+
+	@Override
 	public List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId) {
-		return fileinfoDao.searchFileInfoByNameOrId("%"+searchInfo+"%", userId);
+		return fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
+	}
+
+	@Override
+	public List<RelationInfo> getRelations(Long mainFileId) {
+		return relationInfoDao.selectList(mainFileId);
+	}
+
+	@Override
+	@Transactional
+	public int delRelations(Long mainFileId, Long relationFileId) {
+		RelationInfo r = new RelationInfo();
+
+		r.setMainFileId(mainFileId);
+		r.setRelationFileId(relationFileId);
+		int rs = relationInfoDao.delete(r);
+		// 反向也要删除
+		r.setMainFileId(relationFileId);
+		r.setRelationFileId(mainFileId);
+		relationInfoDao.delete(r);
+		
+		return rs;
 	}
 
 }

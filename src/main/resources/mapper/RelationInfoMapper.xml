@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.RelationInfoDao">
+
+	<insert id="insert">
+		insert into relation_info
+		(main_file_id,relation_file_id)
+		values (
+		#{mainFileId,jdbcType=BIGINT},
+		#{relationFileId,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<insert id="insertList">
+		insert ignore into relation_info
+		(main_file_id,relation_file_id)
+		values
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.mainFileId},
+			#{obj.relationFileId}
+			)
+		</foreach>
+
+	</insert>
+
+
+	<delete id="delete">
+		delete from relation_info
+		where main_file_id =
+		#{mainFileId,jdbcType=BIGINT}
+		and relation_file_id =
+		#{relationFileId,jdbcType=BIGINT}
+	</delete>
+
+	<select id="selectList" resultType="com.lib.entity.RelationInfo">
+		select
+		r.main_file_id,r.relation_file_id,r.relation_create_time,f.file_name
+		"relationFile.fileName",f.file_id "relationFile.fileId",f.file_path
+		"relationFile.filePath",f.file_uuid "relationFile.fileUuid",f.file_ext "relationFile.fileExt" from
+		relation_info r left join file_info f on r.relation_file_id =
+		f.file_id where r.main_file_id=#{mainFileId}
+	</select>
+
+
+</mapper>

@@ -9,9 +9,14 @@
 .button-margin {
 	margin-bottom: 5px;
 }
+
+#relation-files a {
+	color: black;
+}
 </style>
 </head>
 <body>
+	<input id="main_file_id" type="hidden" value="${fileInfo.fileId}">
 	<%@include file="../common/header.jsp"%>
 	<div class="am-cf admin-main">
 		<!-- sidebar start -->
@@ -62,8 +67,14 @@
 								</div>
 								<div class="user-info">
 									<p>
-										<strong>大小:</strong>${fileInfo.fileSizeFormat}</p>
-									<p class="user-info-order"></p>
+										<strong>文件大小:</strong>${fileInfo.fileSizeFormat}</p>
+								</div>
+								<div class="user-info">
+									<p>
+										<strong>创建日期:</strong>
+										<fmt:formatDate value="${fileInfo.fileCreateTime }"
+											pattern="yyyy-MM-dd HH:mm:ss" />
+									</p>
 								</div>
 
 							</div>
@@ -121,14 +132,9 @@
 									<span class="am-icon-chevron-down am-fr"
 										data-am-collapse="{target: '#collapse-panel-2'}"></span>
 									<div id="collapse-panel-2" class="am-in">
-										<table
-											class="am-table am-table-bdrs am-table-striped am-table-hover">
-											<tbody>
-												<tr>
-													<td class="am-text-center"><img src="" alt=""></td>
-													<td>Google Chrome</td>
-													<td>3,005</td>
-												</tr>
+										<br>
+										<table class="am-table am-table-bdrs">
+											<tbody id="relation-files">
 
 											</tbody>
 										</table>
@@ -149,25 +155,23 @@
 												</button>
 											</span> <span class="am-input-group-btn">
 												<button class="am-btn am-btn-primary"
-													type="button"><i class="am-icon-anchor"></i> 关联选中文件</button>
+													onclick="relationSure()" type="button">
+													<i class="am-icon-anchor"></i> 关联选中文件
+												</button>
 											</span>
 										</div>
 									</div>
-									<div class="am-modal-bd">
+									<div class="am-modal-bd"
+										style="height: 400px; overflow: scroll;">
 										<table class="am-table am-table-bdrs am-table-striped">
 											<thead>
 												<tr>
 													<th>文件ID</th>
-													<th>文件名称</th>
+													<th class="am-text-center">文件名称</th>
 													<th>选择</th>
 												</tr>
 											</thead>
 											<tbody id="search-result">
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-												</tr>
 											</tbody>
 										</table>
 									</div>
@@ -175,29 +179,128 @@
 								</div>
 							</div>
 							<script type="text/javascript">
-							
+							$.postJSON = function(url, data, callback) {  
+						        return jQuery.ajax({  
+						            'type' : 'POST',  
+						            'url' : url,  
+						            'contentType' : 'application/json',  
+						            'data' : JSON.stringify(data),  
+						            'dataType' : 'json',  
+						            'success' : callback  
+						        });  
+						    }; 
+							var mainFileId = ${fileInfo.fileId};
 								function addRelation() {
 									$("#relation-modal").modal();
 							
 								}
+								
 								function autoRelation() {
+								
+								}
+								
+								function relationSure() {
+									$("#relation-modal").modal();
+									$("#wait-model-text").text("关联中...");
+									$("#wait-modal").modal();
+									var mid = $("main_file_id").val();
+									var map = {mainFileId:mainFileId,relationList:[]};
+									var checks = $("#search-result").find('input:checked')
+									for (var i = 0; i < checks.length; i++) {
+										map.relationList.push(checks[i].value)
+									}
+									$.postJSON("user/add-relations",{mainFileId:mainFileId,list:map.relationList},function(data){
+										$("#wait-model-text").text("成功关联 "+data.data+" 个文件");
+										getRelation()
+										setTimeout(function(){
+											$("#wait-modal").modal();
+										 },1000);
+									})
+								}
+								function deleteRelation(mythis,relationFileId){
+									$.ajax({
+									    url: 'user/del-relations/'+mainFileId+'/'+relationFileId,
+									    type: 'DELETE',
+									    success: function(result) {
+									    	if(result.success == true){
+									    		$(mythis).parent().parent().hide("fast");
+									    	}
+									    }
+									});
+								}
+								function getRelation(){
+									$("#relation-files").hide();
+									$.post("user/get-relations/"+mainFileId,function(data){
+										var str = "";
+										for (var i = 0; i < data.data.length; i++) {
+											str += "<tr><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].relationFile.fileUuid + "'><img src='user/thumbnail/"+
+											data.data[i].relationFile.fileUuid+"/png' width='30' height='30' alt='...' class='am-img-thumbnail am-radius'>  "
+											 + data.data[i].relationFile.fileName + "." + data.data[i].relationFile.fileExt + "</a></td>"
+												+"<td>"+"<button type='button' title='删除此关联' onclick='deleteRelation(this,"+data.data[i].relationFileId+")' class='am-close am-close-alt am-close-spin am-icon-times'></button>"+"</td></tr>";
+										}
+										$("#relation-files").html(str);
+										if(data.data.length == 0){
+											$("#relation-files").html("无关联文档...");
+										}
+										$("#relation-files").show("fast");
+										
+									})
 								}
 								function relationSearch() {
 									var searchInfo = $("#search-text").val();
+									if(searchInfo == null){
+										searchInfo = "";
+									}
 									$.post("user/file-search", {
 										searchInfo ,
 										searchInfo
 									}, function(data) {
 										var str = "";
-										console.log(data)
 										for (var i = 0; i < data.data.length; i++) {
 											str += "<tr><td>" + data.data[i].fileId + "</td><td><a target='_blank' title='点击预览' href='user/file/" + data.data[i].fileUuid + "'>" +
-												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox'></label></td></tr>";
+												data.data[i].fileName + "." + data.data[i].fileExt + "</a></td><td><label>  <input type='checkbox' value='" + data.data[i].fileId + "'></label></td></tr>";
 										}
 										$("#search-result").html(str);
+										if(data.data.length == 0){
+											$("#search-result").html("搜索结果为空");
+										}
 									})
 								}
+								
+								getRelation();//获取关联文件
+								relationSearch()//默认执行一次搜索
+								//$("#relation-modal").modal();
 							</script>
+
+							<c:if
+								test="${fileInfo.fileState == 5 || fileInfo.fileState == 6}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select id="file-state" name="fileState">
+											<option value="5" class="am-text-center">共享</option>
+											<option value="6" class="am-text-center">私有</option>
+										</select> <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+								<script type="text/javascript">
+								$("#file-state").val(${fileInfo.fileState});
+							</script>
+							</c:if>
+							<c:if
+								test="${fileInfo.fileState != 5 && fileInfo.fileState != 6}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select disabled>
+											<option value="5" class="am-text-center">处理中或被冻结，暂时无法修改此项！</option>
+										</select>
+										 <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+							</c:if>
+
+
 							<div class="am-form-group">
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
@@ -261,9 +364,6 @@
 			<div class="am-modal-bd" id="child-content"></div>
 		</div>
 	</div>
-
-
-
 </body>
 <script type="text/javascript">
 		var classId=${fileInfo.fileClassId}
@@ -333,7 +433,7 @@
 				$("#wait-model-text").text(data.error);
 				setTimeout(function(){
 				      $("#wait-modal").modal();
-				  }, 1000);
+				  }, 500);
 				setTimeout(function(){
 				      $btn.button('reset');
 				  },3000);
@@ -342,6 +442,5 @@
 		});
 
 		
-		$("#relation-modal").modal();
 </script>
 </html>

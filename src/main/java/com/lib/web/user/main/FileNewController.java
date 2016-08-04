@@ -1,8 +1,10 @@
 package com.lib.web.user.main;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,19 +14,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.FileNew;
 import com.lib.dto.JsonResult;
 import com.lib.entity.FileInfo;
+import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.utils.HtmlToWord;
 import com.lib.utils.StringValueUtil;
+
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 /**
  * 新建文件的Controller
@@ -130,11 +138,51 @@ public class FileNewController {
 	}
 
 	@RequestMapping(value = "/file-search", method = RequestMethod.POST)
-	public @ResponseBody JsonResult<List<FileInfo>> searchByNameOrId(String searchInfo, HttpSession session) {
+	public @ResponseBody JsonResult<List<FileInfo>> searchByNameOrId(String searchInfo, HttpSession session,
+			Integer pageNo) {
+		if (pageNo == null) {
+			pageNo = 1;
+		}
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult<List<FileInfo>> jr = null;
-		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId(searchInfo,user.getUserId());
+		List<FileInfo> list = fileInfoService.searchFileInfoByNameOrId(searchInfo, user.getUserId(), pageNo);
 		jr = new JsonResult<List<FileInfo>>(true, list);
+		return jr;
+	}
+
+	@RequestMapping(value = "/add-relations", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<Integer> addRelations(@RequestBody JSONObject json, HttpSession session) {
+		// System.out.println(obj);
+		// JSONObject json = JSONObject.fromObject(obj);
+		Long mainFileId = json.getLong("mainFileId");
+		List<String> listStr = (List<String>) json.get("list");
+		List<Long> list = new ArrayList<Long>();
+
+		for (String l : listStr) {
+			list.add(Long.valueOf(l));
+		}
+
+		int res = fileInfoService.addRelations(mainFileId, list);
+		JsonResult<Integer> jr = null;
+		jr = new JsonResult<Integer>(true, res);
+		return jr;
+	}
+
+	@RequestMapping(value = "/get-relations/{mainFileId}", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<List<RelationInfo>> getRelations(@PathVariable("mainFileId") Long mainFileId) {
+
+		List<RelationInfo> res = fileInfoService.getRelations(mainFileId);
+		JsonResult<List<RelationInfo>> jr = null;
+		jr = new JsonResult<List<RelationInfo>>(true, res);
+		return jr;
+	}
+
+	@RequestMapping(value = "/del-relations/{mainFileId}/{relationFileId}", method = RequestMethod.DELETE)
+	public @ResponseBody JsonResult<Integer> delRelations(@PathVariable("mainFileId") Long mainFileId,
+			@PathVariable("relationFileId") Long relationFileId) {
+		int res = fileInfoService.delRelations(mainFileId,relationFileId);
+		JsonResult<Integer> jr = null;
+		jr = new JsonResult<Integer>(true, res);
 		return jr;
 	}
 
