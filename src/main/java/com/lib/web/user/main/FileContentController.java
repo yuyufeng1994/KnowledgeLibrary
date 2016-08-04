@@ -136,6 +136,20 @@ public class FileContentController {
 	public @ResponseBody JsonResult insertFork(ForkInfo forkInfo,HttpSession session) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult jr = new JsonResult(true, "收藏成功");
+		forkInfoService.insert(forkInfo);
+		return jr;
+	}
+
+	/**
+	 * 判断是否收藏过
+	 * @param forkInfo
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/judgeFork", method = RequestMethod.POST)
+	public @ResponseBody JsonResult judgeFork(ForkInfo forkInfo,HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		JsonResult jr = new JsonResult(true, "未收藏");
 		List<ForkInfo> forkInfos =forkInfoService.findByDocId(user.getUserId());
 		
 		for(ForkInfo f:forkInfos){
@@ -144,11 +158,10 @@ public class FileContentController {
 				jr.setError("收藏失败,你已经收藏过该文件!");
 				jr.setSuccess(false);
 				jr.setData(f.getForkId());
-				return jr;
+			
 			}
 			
 		}
-		forkInfoService.insert(forkInfo);
 		return jr;
 	}
 	/**
