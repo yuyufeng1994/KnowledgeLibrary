@@ -157,7 +157,7 @@ public class FileManagerController {
 			FileUtils.writeByteArrayToFile(new File(filePath), files[0].getBytes());
 
 			FileInfo fi = new FileInfo();
-			fileName = fileName.substring(0, fileName.indexOf("."));
+			fileName = fileName.substring(0, fileName.lastIndexOf("."));
 			fi.setFileName(fileName);
 			fi.setFileSize(files[0].getSize());
 			fi.setFileExt(ext);

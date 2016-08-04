@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>公共知识库</title>
+<title>知识网络</title>
 <%@include file="../common/head.jsp"%>
 <style type="text/css">
 .am-slider-c3 .am-slider-desc {
@@ -75,6 +75,7 @@
 
 				<div class="am-u-sm-12">
 					<hr>
+					<h3>最新录入</h3>
 				</div>
 
 				<div class="am-panel am-panel-default">
