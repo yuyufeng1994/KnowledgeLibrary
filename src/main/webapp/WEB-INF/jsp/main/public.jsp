@@ -16,7 +16,8 @@
 .title-header a {
 	color: #333;
 }
-.a-black{
+
+.a-black {
 	color: #333;
 }
 </style>
@@ -55,23 +56,31 @@
 						</ul>
 					</div>
 				</div>
-				<div data-am-widget="intro"
-					class="am-intro am-cf am-intro-default am-u-sm-12">
-					<div class="am-g am-intro-bd">
-						<div class="am-intro-left am-u-sm-3">
-							<img src="resource/image/help.png" alt="小娜" style="width:200px;height:200px;"/>
-						</div>
-						<div class="am-intro-right am-u-sm-9">
-							<h1>${classi.classificationName}</h1>
-							<p>${classi.classificationBrief}</p>
+
+				<c:if test="${page.pageNum == 1}">
+					<div data-am-widget="intro"
+						class="am-intro am-cf am-intro-default am-u-sm-12">
+						<div class="am-g am-intro-bd">
+							<div class="am-intro-left am-u-sm-3">
+								<img src="resource/image/help.png" alt="小娜"
+									style="width: 200px; height: 200px;" />
+							</div>
+							<div class="am-intro-right am-u-sm-9">
+								<h1>${classi.classificationName}</h1>
+								<p>${classi.classificationBrief}</p>
+							</div>
 						</div>
 					</div>
+				</c:if>
+
+				<div class="am-u-sm-12">
+					<hr>
 				</div>
 
 				<div class="am-panel am-panel-default">
-					<header class="am-panel-hd">
+					<!-- <header class="am-panel-hd">
 						<h3 class="am-panel-title">最新录入</h3>
-					</header>
+					</header> -->
 					<c:forEach items="${page.list }" var="f">
 						<article>
 							<!-- 评论容器 -->
@@ -84,12 +93,15 @@
 												style="width: 100px; height: 100px; overflow: hidden">
 										</div>
 										<div class="am-intro-right am-u-sm-10">
-											<h3 class="am-comment-title"><a class="a-black" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a></h3>
+											<h3 class="am-comment-title">
+												<a class="a-black" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
+											</h3>
 											<p>简介：${f.fileBrief }</p>
 										</div>
 										<div class="am-comment-meta">
 											<!-- 文件元数据 -->
-											<a href="#link-to-user" class="am-comment-author">用户: ${f.userName }</a>
+											<a href="#link-to-user" class="am-comment-author">用户:
+												${f.userName }</a>
 											<!-- 作者 -->
 											创建于
 											<time datetime="">
@@ -130,7 +142,7 @@
 				<script type="text/javascript">
 					var id=${classi.classificationId}
 					function gotoPage(page) {
-						window.location.href = "user/public/"+page+"/"+id;
+						window.location.href = "user/public/"+id+"/"+page;
 					}
 				</script>
 
