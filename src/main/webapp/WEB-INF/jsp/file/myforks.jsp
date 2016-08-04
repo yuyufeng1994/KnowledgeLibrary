@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="am-u-sm-12 am-u-md-3">
-         <form action="user/myforks/0/1" method="get">
+         <form action="user/myforks/-1/1" method="get">
           <div class="am-input-group am-input-group-sm">
             <input type="text" name="search" id="search"  class="am-form-field">
           <span class="am-input-group-btn">
@@ -297,7 +297,7 @@ $.ajax({
 		var innerStr="";
 		if(selectId=='#select')
 		{
-			innerStr="<option value='0'>"+"所有收藏" + "</option>";
+			innerStr="<option value='-1'>"+"所有收藏" + "</option>";
 		}
 		$(selectId).empty();
 		for(var i=0;i<len;i++)
@@ -318,15 +318,16 @@ $.ajax({
 //加载收藏夹
 findDoc('#select');
 //翻页
-var url = "user/myforks/0/";
+var url = "user/myforks/";
 function gotoPage(page) {
+	
 	var search=window.location.search;
+	var docId=$("#select option:selected").val();
 	if(search=="")
-	    window.location.href = url + page;
+	    window.location.href = url +docId+"/"+page;
 	else
 	{
-		window.location.href = url + page+search;
-		searchs=search.split("=");
+		window.location.href = url +docId+"/"+page+search;
 	}
 }
 //回显
@@ -365,7 +366,15 @@ $(".delete").click(function(){
 $("#select").change(function(){
 		
 	var docId=$(this).val();
-	var url = "user/myforks/"+docId+"/1";
+	var search=window.location.search;
+	var url;
+	if(search=="")
+	{
+		url = "user/myforks/"+docId+"/1";
+	}else{
+		
+		url = "user/myforks/"+docId+"/1"+search;
+	}
 	window.location.href = url;
 })
 //提交修改

@@ -134,14 +134,16 @@ public class FileContentController {
 	 */
 	@RequestMapping(value = "/insertFork", method = RequestMethod.POST)
 	public @ResponseBody JsonResult insertFork(ForkInfo forkInfo,HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult jr = new JsonResult(true, "收藏成功");
-		List<ForkInfo> forkInfos =forkInfoService.findByDocId(forkInfo.getDocId());
+		List<ForkInfo> forkInfos =forkInfoService.findByDocId(user.getUserId());
+		
 		for(ForkInfo f:forkInfos){
-			
 			
 			if(f.getFileId().equals(forkInfo.getFileId())){
 				jr.setError("收藏失败,你已经收藏过该文件!");
 				jr.setSuccess(false);
+				jr.setData(f.getForkId());
 				return jr;
 			}
 			

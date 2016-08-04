@@ -71,12 +71,18 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
 		List<ForkFileInfoVo> forkFileInfos=null;
 		if(search!=null)
-		{
-			forkFileInfos = forkInfoDao.findByFileName("%"+search+"%", userId);
-			System.out.println(forkFileInfos);
+		{	
+			if(docId==-1){
+				forkFileInfos = forkInfoDao.findByFileName("%"+search+"%", userId);
+			}
+			else
+			{
+				forkFileInfos = forkInfoDao.findByFileNameAndDocId("%"+search+"%", userId,docId);
+			}
+			
 		}
 		else{
-			if (docId == 0) {
+			if (docId == -1) {
 				forkFileInfos = forkInfoDao.findAll(userId);
 			} else {
 
