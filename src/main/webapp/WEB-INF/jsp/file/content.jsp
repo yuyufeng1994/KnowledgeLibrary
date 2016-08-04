@@ -70,7 +70,7 @@
 									<li>
 										<p>
 											<span class="am-badge am-badge-secondary">上传用户</span>
-											${fileInfo.userName }
+											${fileInfo.userName}
 										</p>
 
 									</li>

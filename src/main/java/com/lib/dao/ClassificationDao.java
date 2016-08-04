@@ -58,13 +58,17 @@ public interface ClassificationDao {
 	String findFatherPathById(Long classificationId);
 
 	/**
-	 * 查找所有的孩子节点
+	 * 查找一层的孩子节点
 	 * 
 	 * @param classificationId
 	 * @return
 	 */
-	List<Classification> findAllChildById(Long classificationId);
-
+	List<Classification> findOneChildById(Long classificationId);
+	/**
+	 * 查找全部的孩子节点
+	 * 
+	 */
+	List<Classification> findAllChildById(String classificationId);
 	/**
 	 * 查找所有的兄弟节点
 	 * 

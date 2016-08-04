@@ -68,5 +68,5 @@ public interface ForkInfoService {
 	 * @param order
 	 * @return
 	 */
-	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,Long docId,String userName);
+	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,Long docId,String userName,String search);
 }

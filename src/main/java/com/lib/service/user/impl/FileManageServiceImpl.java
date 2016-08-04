@@ -33,7 +33,7 @@ public class FileManageServiceImpl implements FileManageService {
 	@Override
 	public List<Classification> getClassificationByParentId(Long parentId) {
 
-		return classDao.findAllChildById(parentId);
+		return classDao.findOneChildById(parentId);
 	}
 
 	@Override
@@ -64,14 +64,14 @@ public class FileManageServiceImpl implements FileManageService {
 	}
 
 	private List<Classification> getChildClass(List<Classification> list, Classification cf) {
-		List<Classification> li = classDao.findAllChildById(cf.getClassificationId());
-		if (li.size() < 0) {
-			return list;
-		}
-		for (Classification c : li) {
-			list.add(cf);
-			getChildClass(list, c);
-		}
+//		List<Classification> li = classDao.findAllChildById(cf.getClassificationId());
+//		if (li.size() < 0) {
+//			return list;
+//		}
+//		for (Classification c : li) {
+//			list.add(cf);
+//			getChildClass(list, c);
+//		}
 		return list;
 	}
 

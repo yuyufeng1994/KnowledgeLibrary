@@ -67,23 +67,21 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	}
 	
 	@Override
-	public PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo,Long userId,Long docId,String userName) {
+	public PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo,Long userId,Long docId,String userName,String search) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
 		List<ForkFileInfoVo> forkFileInfos=null;
-		if(docId==0)
+		if(search!=null)
 		{
-		forkFileInfos=forkInfoDao.findAll(userId);
-		}else{
-			
-			forkFileInfos=forkInfoDao.findAllByDocId(docId, userId);
+			forkFileInfos = forkInfoDao.findByFileName("%"+search+"%", userId);
+			System.out.println(forkFileInfos);
 		}
-	
-		for(ForkFileInfoVo f:forkFileInfos)
-		{	
-			FileInfo fileInfo=fileInfoDao.getFileInfoByFileId(f.getFileId());
-			f.setFileName(fileInfo.getFileName());
-			f.setFileUuId(fileInfo.getFileUuid());
-			f.setUserName(userName);
+		else{
+			if (docId == 0) {
+				forkFileInfos = forkInfoDao.findAll(userId);
+			} else {
+
+				forkFileInfos = forkInfoDao.findAllByDocId(docId, userId);
+			}
 		}
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
@@ -99,7 +97,8 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	public PageInfo<ForkFileInfoVo> findByFileName(int pageNo,String fileName, Long docUserId) {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
 		List<ForkFileInfoVo> forkFileInfos=forkInfoDao.findByFileName("%"+fileName+"%", docUserId);
-		System.out.println(forkFileInfos);
+		
+		//System.out.println(forkFileInfos);
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
 	}

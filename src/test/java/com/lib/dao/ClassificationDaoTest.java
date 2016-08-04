@@ -65,7 +65,7 @@ public class ClassificationDaoTest {
 
 		Classification classification = new Classification();
 		classification.setClassificationId(1L);
-		List<Classification> lists = ClassificationDao.findAllChildById(classification.getClassificationId());
+		List<Classification> lists = ClassificationDao.findOneChildById(classification.getClassificationId());
 		for (Classification list : lists) {
 			System.out.println(list);
 		}
@@ -78,7 +78,7 @@ public class ClassificationDaoTest {
 		Classification classification = new Classification();
 		classification.setClassificationId(15L);
 		Long parentId = ClassificationDao.findById(classification.getClassificationId()).getParentId();
-		List<Classification> lists = ClassificationDao.findAllChildById(parentId);
+		List<Classification> lists = ClassificationDao.findOneChildById(parentId);
 		for (Classification list : lists) {
 			System.out.println(list);
 		}

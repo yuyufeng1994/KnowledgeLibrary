@@ -1,6 +1,7 @@
 package com.lib.service.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -45,13 +46,24 @@ public interface ClassificationService {
 	String findFatherPathById(Long classificationId);
 	
 	/**
+	 * 查找一层的孩子节点
+	 * @param classificationId
+	 * @return
+	 */
+	List<Classification> findOneChildById(Long classificationId);
+
+	/**
 	 * 查找所有的孩子节点
 	 * @param classificationId
 	 * @return
 	 */
-	List<Classification> findAllChildById(Long classificationId);
-
-	
+	Map<String,List<Classification>> findAllChildById(String classificationId);
+	/**
+	 * 查找所有的孩子节点
+	 * @param classificationId
+	 * @return
+	 */
+	List<Classification> findAllChildById1(String classificationId);
 	/**
 	 * 查找所有的兄弟节点
 	 * @param classificationId
