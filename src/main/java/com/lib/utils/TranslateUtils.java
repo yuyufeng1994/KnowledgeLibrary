@@ -73,19 +73,30 @@ public class TranslateUtils {
 			commend.add(Const.CONTAINER_PATH + "resource/ffmpeg/ffmpeg.exe");
 			commend.add("-i");
 			commend.add(filePath);
+			
 			commend.add("-ab");
-			commend.add("128");
+			commend.add("56");
+			
 			commend.add("-acodec");
 			commend.add("libmp3lame");
+			
 			commend.add("-ac");
 			commend.add("1");
+			
 			commend.add("-ar");
 			commend.add("22050");
+			
 			commend.add("-r");
-			commend.add("29.97");
+			commend.add("15");
+			
+			commend.add("-s");
+			commend.add("720*480");
+			 
+			
 			// 清晰度 -qscale 4 为最好但文件大, -qscale 6就可以了
 			commend.add("-qscale");
 			commend.add("10");
+			
 			commend.add("-y");
 			commend.add(outPath);
 			StringBuffer test = new StringBuffer();

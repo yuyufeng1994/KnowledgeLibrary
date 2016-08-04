@@ -72,7 +72,7 @@ public interface ForkInfoDao {
 	List<ForkFileInfoVo> findByFileName(@Param("fileName")String fileName,@Param("docUserId")Long docUserId);
 	
 	List<ForkFileInfoVo> findByFileNameAndDocId(@Param("fileName")String fileName,@Param("docUserId")Long docUserId,@Param("docId")Long docID);
-
+	
 
 	
 }
