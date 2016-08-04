@@ -43,7 +43,7 @@ public class CommonController {
 	
 	/**
 	 * 得到常用文件流
-	 * 
+	 *  
 	 * @param request
 	 * @param response
 	 * @return
