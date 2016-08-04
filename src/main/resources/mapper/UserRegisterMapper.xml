@@ -21,4 +21,5 @@
 		register_time = #{registerTime}
 		where register_id = #{registerId}
 	</update>
+	
 </mapper>

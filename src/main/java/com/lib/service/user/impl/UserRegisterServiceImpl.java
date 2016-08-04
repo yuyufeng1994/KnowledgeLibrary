@@ -23,7 +23,41 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 	private UserInfoDao userInfoDao;
 	@Autowired
 	private UserRegisterDao userRegisterDao;
+	/**
+	 * 
+	 * @param userName
+	 * @param userPassword
+	 * @param email
+	 */
+	public void updateEmail(UserInfo user) {
+		userInfoDao.updateUserEmail(user);//更新email
+		UserRegister ur = userRegisterDao.queryById(user.getUserId());
+		/// 如果处于安全，可以将激活码处理的更复杂点，这里我稍做简单处理
+		// user.setValidateCode(MD5Tool.MD5Encrypt(email));
+		// user.setValidateCode(MD5Util.encode2hex(email));
+		ur.setValidateCode(MD5Util.encode2hex(user.getUserEmail()));
+		ur.setRegisterTime(new Date());
+		userRegisterDao.updateNoStatus(ur);
+		System.out.println(user);
+		System.out.println(ur);
 
+		/// 邮件的内容
+		StringBuffer sb = new StringBuffer("点击下面链接激活SOKLIB知识库管理系统网站账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
+		sb.append("<a href=\"http://localhost:8080/lib/user/update-userEmail?action=activate&userEmail=");
+		sb.append(user.getUserEmail());
+		sb.append("&validateCode=");
+		sb.append(ur.getValidateCode());
+		sb.append("\">http://localhost:8080/lib/user/update-userEmail?action=activate&userEmail=");
+		sb.append(user.getUserEmail());
+		sb.append("&validateCode=");
+		sb.append(ur.getValidateCode());
+		sb.append("</a>");
+
+		// 发送邮件
+		SendEmail.send(user.getUserEmail(), sb.toString());
+		System.out.println("发送邮件");
+
+	}
 	/**
 	 * 处理注册
 	 */
@@ -45,7 +79,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		userRegisterDao.insertNoStatus(ur);
 
 		/// 邮件的内容
-		StringBuffer sb = new StringBuffer("点击下面链接激活SOKLIB知识库管理系统网站账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
+		StringBuffer sb = new StringBuffer("点击下面链接更换SOKLIB知识库管理系统网站账号，48小时生效，否则更换账号失效，链接只能使用一次，请尽快激活！</br>");
 		sb.append("<a href=\"http://localhost:8080/lib/register?action=activate&email=");
 		sb.append(email);
 		sb.append("&validateCode=");

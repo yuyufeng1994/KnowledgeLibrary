@@ -32,9 +32,22 @@ public interface UserInfoDao {
 	 */
 	int insertUserNoStatus(UserInfo user);
 	/**
-	 * 将用户从未激活状态转换为更新状态
+	 * 根据id修改未激活用户信息
 	 * @param user
 	 * @return
 	 */
 	int updateUserNoStatus(UserInfo user);
+	/**
+	 * 根据id修改用户信息
+	 * @param user
+	 * @return
+	 */
+	int updateUserInfo(UserInfo user);
+	
+	/**
+	 * 更换Email
+	 * @param user
+	 * @return
+	 */
+	int updateUserEmail(UserInfo user);
 }

@@ -40,5 +40,11 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean checkByEmail(String email) ;
+	
+	/**
+	 * 修改用户信息
+	 * @param user
+	 */
+	public void updateUser(UserInfo user);
 
 }

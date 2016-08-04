@@ -29,6 +29,17 @@
   		user_email = #{userEmail},user_type=#{userType},
   		user_photo = #{userPhoto}
   		where user_id = #{userId}
-  		
+  	</update>
+	<update id="updateUserInfo"  parameterType="UserInfo">
+  		update user_info 
+  		set user_name = #{userName},
+  		user_photo = #{userPhoto}
+  		where user_id = #{userId}
+  	</update>
+  	<update id="updateUserEmail"  parameterType="UserInfo">
+  		update user_info 
+  		set user_email = #{userEmail},
+  		user_type = #{userType}
+  		where user_id = #{userId}
   	</update>
 </mapper>

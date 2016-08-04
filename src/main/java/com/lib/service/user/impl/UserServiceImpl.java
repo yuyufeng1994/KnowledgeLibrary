@@ -65,5 +65,9 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(record.getUserId());
 		return user;
 	}
+	@Override
+	public void updateUser(UserInfo user) {
+		userInfoDao.updateUserInfo(user);
+	}
 
 }
