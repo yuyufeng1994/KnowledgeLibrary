@@ -1,6 +1,7 @@
 package com.lib.web.user.main;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +91,11 @@ public class FileNewController {
 			// 处理文件
 			new Thread() {
 				public void run() {
-					fileInfoService.translateFile(uuid);
+					try {
+						fileInfoService.translateFile(uuid);
+					} catch (IOException e) {
+						LOG.error(uuid + "文件处理失败");
+					}
 				};
 			}.start();
 
@@ -180,7 +185,7 @@ public class FileNewController {
 	@RequestMapping(value = "/del-relations/{mainFileId}/{relationFileId}", method = RequestMethod.DELETE)
 	public @ResponseBody JsonResult<Integer> delRelations(@PathVariable("mainFileId") Long mainFileId,
 			@PathVariable("relationFileId") Long relationFileId) {
-		int res = fileInfoService.delRelations(mainFileId,relationFileId);
+		int res = fileInfoService.delRelations(mainFileId, relationFileId);
 		JsonResult<Integer> jr = null;
 		jr = new JsonResult<Integer>(true, res);
 		return jr;

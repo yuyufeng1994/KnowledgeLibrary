@@ -1,5 +1,6 @@
 package com.lib.service.user;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.lib.dto.FileInfoVO;
@@ -34,7 +35,7 @@ public interface FileInfoService {
 	 * 转化一个文件
 	 * @param uuid
 	 */
-	void translateFile(String uuid);
+	void translateFile(String uuid) throws IOException ;
 
 	/**
 	 * 根据uuid查找一个文件

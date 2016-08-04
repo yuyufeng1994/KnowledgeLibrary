@@ -63,7 +63,7 @@ public class TranslateUtils {
 		// System.out.println("1234");
 		File outfile = new File(outPath);
 		if (outfile.exists()) {
-			System.out.println("flv文件已经存在！无需转换");
+			//System.out.println("flv文件已经存在！无需转换");
 			return true;
 		} else {
 			// System.out.println("正在转换成flv文件……");
@@ -85,7 +85,7 @@ public class TranslateUtils {
 			commend.add("29.97");
 			// 清晰度 -qscale 4 为最好但文件大, -qscale 6就可以了
 			commend.add("-qscale");
-			commend.add("6");
+			commend.add("10");
 			commend.add("-y");
 			commend.add(outPath);
 			StringBuffer test = new StringBuffer();

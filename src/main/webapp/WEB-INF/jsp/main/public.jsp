@@ -16,6 +16,9 @@
 .title-header a {
 	color: #333;
 }
+.a-black{
+	color: #333;
+}
 </style>
 </head>
 <body>
@@ -56,7 +59,7 @@
 					class="am-intro am-cf am-intro-default am-u-sm-12">
 					<div class="am-g am-intro-bd">
 						<div class="am-intro-left am-u-sm-3">
-							<img src="resource/image/help.png" alt="小娜" />
+							<img src="resource/image/help.png" alt="小娜" style="width:200px;height:200px;"/>
 						</div>
 						<div class="am-intro-right am-u-sm-9">
 							<h1>${classi.classificationName}</h1>
@@ -70,7 +73,6 @@
 						<h3 class="am-panel-title">最新录入</h3>
 					</header>
 					<c:forEach items="${page.list }" var="f">
-						<br>
 						<article>
 							<!-- 评论容器 -->
 							<div class="">
@@ -82,7 +84,7 @@
 												style="width: 100px; height: 100px; overflow: hidden">
 										</div>
 										<div class="am-intro-right am-u-sm-10">
-											<h3 class="am-comment-title">${f.fileName }.${f.fileExt}</h3>
+											<h3 class="am-comment-title"><a class="a-black" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a></h3>
 											<p>简介：${f.fileBrief }</p>
 										</div>
 										<div class="am-comment-meta">
