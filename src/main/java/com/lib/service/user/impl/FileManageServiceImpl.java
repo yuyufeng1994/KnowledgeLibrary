@@ -59,20 +59,29 @@ public class FileManageServiceImpl implements FileManageService {
 		List<Classification> list = new ArrayList<>();
 		Classification c = classDao.findById(fileClassId);
 		list.add(c);
-
-		return null;
+		getChildClass(list, c);
+		return list;
 	}
 
 	private List<Classification> getChildClass(List<Classification> list, Classification cf) {
-//		List<Classification> li = classDao.findAllChildById(cf.getClassificationId());
-//		if (li.size() < 0) {
-//			return list;
-//		}
-//		for (Classification c : li) {
-//			list.add(cf);
-//			getChildClass(list, c);
-//		}
+		List<Classification> li = classDao.findOneChildById(cf.getClassificationId());
+		if (li.size() <= 0) {
+			return list;
+		}
+		for (Classification c : li) {
+			list.add(c);
+			getChildClass(list, c);
+		}
 		return list;
+	}
+
+	@Override
+	public PageInfo<FileInfoVO> getAllChildFiles(int pageNo, Long classId) {
+		List<Classification> ids = getAllChildClassesById(classId);
+		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, "file_id desc");
+		List<FileInfoVO> list = fileInfoDao.getAllChildFiles(ids);
+		PageInfo<FileInfoVO> page = new PageInfo<>(list);
+		return page;
 	}
 
 }

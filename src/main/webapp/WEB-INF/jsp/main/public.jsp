@@ -36,10 +36,12 @@
 						</small>
 					</div>
 				</div>
+
+
 				<div class="am-u-sm-12">
 					<div id="my-slider" data-am-widget="slider"
 						class="am-slider  am-slider-c3"
-						data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;animationLoop&quot;:true,&quot;itemWidth&quot;:180,&quot;itemHeight&quot;:180,&quot;itemMargin&quot;:0}'>
+						data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;animationLoop&quot;:true,&quot;itemWidth&quot;:150,&quot;itemHeight&quot;:150,&quot;itemMargin&quot;:0}'>
 						<ul class="am-slides">
 							<c:forEach items="${list}" var="c">
 								<li><a href="user/public/${c.classificationId}/1"
@@ -50,16 +52,35 @@
 						</ul>
 					</div>
 				</div>
-
-				<div class="am-u-sm-12">
-					<img class="am-u-sm-3" src="resource/image/help.png" alt="${classi.classificationPicture}" />
-					<div class="am-thumbnail-caption am-u-sm-7">
-						<h3>${classi.classificationName}</h3>
-						<p>${classi.classificationBrief}</p>
+				<div data-am-widget="intro"
+					class="am-intro am-cf am-intro-default am-u-sm-12">
+					<div class="am-g am-intro-bd">
+						<div class="am-intro-left am-u-sm-3">
+							<img src="resource/image/help.png" alt="小娜" />
+						</div>
+						<div class="am-intro-right am-u-sm-9">
+							<h1>${classi.classificationName}</h1>
+							<p>${classi.classificationBrief}</p>
+						</div>
 					</div>
-					<div class="am-u-sm-2"></div>
 				</div>
 
+				<div class="am-panel am-panel-default">
+					<header class="am-panel-hd">
+						<h3 class="am-panel-title">最新录入</h3>
+					</header>
+					<div class="am-panel-bd">
+						<c:forEach items="${page.list }" var="f">
+							<div class="am-g">
+								<div class="am-u-sm-12">
+									<img src="user/thumbnail/${f.fileUuid}/png" alt="null"
+										class="am-img-thumbnail"
+										style="width: 100px; height: 100px; overflow: hidden"> <strong>${f.fileName }.${f.fileExt}</strong><br>${f.fileBrief }</div>
+							</div>
+							<hr>
+						</c:forEach>
+					</div>
+				</div>
 
 			</div>
 		</div>

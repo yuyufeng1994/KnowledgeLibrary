@@ -9,16 +9,19 @@
 	</insert>
 
 	<delete id="delete" parameterType="Long">
-		delete from classification where classification_id=#{classificationId}
+		delete from classification
+		where classification_id=#{classificationId}
 	</delete>
 
 	<update id="modify">
-		update classification set classification_name=#{classificationName} where
+		update classification set
+		classification_name=#{classificationName} where
 		classification_id=#{classificationId}
 	</update>
 
 	<select id="findById" parameterType="Long" resultType="Classification">
-		select * from classification where classification_id=#{classificationId}
+		select *
+		from classification where classification_id=#{classificationId}
 	</select>
 
 	<select id="findFatherPathById" parameterType="Long" resultType="String">
@@ -30,11 +33,12 @@
 		select * from classification where parent_id=#{classificationId} order
 		by classification_id
 	</select>
-	
+
 	<select id="findAllChildById" parameterType="String" resultType="Classification">
-		select * from classification where parent_path like #{classificationId} order by classification_id
+		select * from classification where parent_path like
+		#{classificationId} order by classification_id
 	</select>
-	
+
 	<select id="findAllBotherById" parameterType="Long" resultType="Classification">
 		select c2.* from classification c1 ,classification c2 where
 		c1.classification_id=#{classificationId} and c1.parent_id=c2.parent_id

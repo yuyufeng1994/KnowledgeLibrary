@@ -19,12 +19,15 @@
 		file_class_id, file_create_time,file_brief
 		from
 		file_info
-		where 
-		file_user_id = #{userId}  and file_id like #{searchInfo} 
-		or file_user_id = #{userId} and file_name like #{searchInfo} 
-		or file_state = 5  and file_id like #{searchInfo} 
-		or file_state = 5 and file_name like #{searchInfo} 
-		</select>
+		where
+		file_user_id = #{userId} and file_id like #{searchInfo}
+		or
+		file_user_id = #{userId} and file_name like #{searchInfo}
+		or file_state
+		= 5 and file_id like #{searchInfo}
+		or file_state = 5 and file_name like
+		#{searchInfo}
+	</select>
 
 
 	<select id="getFilesByUserId" resultType="com.lib.dto.FileInfoVO">
@@ -37,9 +40,35 @@
 		from
 		file_info f left join user_info u on f.file_user_id = u.user_id left
 		join classification c on f.file_class_id = c.classification_id
-		where f.file_name like  #{searchValue} and
+		where
+		f.file_name like #{searchValue} and
 		f.file_user_id = #{userId}
 	</select>
+
+	<select id="getAllChildFiles" resultType="com.lib.dto.FileInfoVO">
+		select
+		file_id,
+		file_name, file_size, file_ext, file_user_id, file_uuid,
+		file_path,
+		file_state,
+		file_class_id,
+		file_create_time,file_brief,user_name,classification_name
+		from
+		file_info f left join user_info u on f.file_user_id = u.user_id left
+		join classification c on f.file_class_id = c.classification_id
+		where
+		f.file_state = 5 and
+		f.file_class_id in (
+		<foreach collection="list" item="obj" index="index" separator=",">
+			(
+			#{obj.classificationId}
+			)
+		</foreach>
+		)
+
+	</select>
+
+
 
 
 
@@ -56,9 +85,10 @@
 		where
 		f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
 	</select>
-    
-    <select id="getFileInfoByFileId" resultType="com.lib.dto.FileInfoVO">
-		select * from file_info where file_id = #{fileId,jdbcType=VARCHAR}
+
+	<select id="getFileInfoByFileId" resultType="com.lib.dto.FileInfoVO">
+		select * from
+		file_info where file_id = #{fileId,jdbcType=VARCHAR}
 	</select>
 
 	<update id="setFileStateByUuid">
