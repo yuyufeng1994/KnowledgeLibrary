@@ -32,7 +32,7 @@ public class FileManageServiceImpl implements FileManageService {
 	@Override
 	public List<Classification> getClassificationByParentId(Long parentId) {
 		
-		return classDao.findAllChildById(parentId);
+		return classDao.findOneChildById(parentId);
 	}
 
 	@Override

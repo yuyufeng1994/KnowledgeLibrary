@@ -40,10 +40,9 @@
           </div>
         </div>
         <div class="am-u-sm-12 am-u-md-3">
-         <form action="user/findByFileName" method="post">
+         <form action="user/myforks/0/1" method="get">
           <div class="am-input-group am-input-group-sm">
-            <input type="hidden" name="pageNo" value="1">
-            <input type="text" name="fileName"  class="am-form-field">
+            <input type="text" name="search" id="search"  class="am-form-field">
           <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="submit">搜索</button>
           </span>
@@ -67,6 +66,7 @@
                 <th class="table-type">收藏夹</th>
                 <th class="table-text">收藏备注</th>
                 <th class="table-set">操作</th>
+                <th class="table-type">预览</th>
               </tr>
               </thead>
               <tbody>
@@ -84,6 +84,7 @@
 									<input type="hidden" id="forkId" value="${f.forkId}">
 									<td class="am-hide-sm-only" id="docName">${f.docName}</td>
                 					<td id="forkNote" class="am-hide-sm-only">${f.forkNote}</td>
+                				
 									<td>
 										<div class="am-btn-toolbar">
 												<div class="am-btn-group am-btn-group-xs">
@@ -99,6 +100,11 @@
 												</div>
 										</div>
 									</td>
+									
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href="user/file/${f.fileUuId}"> 预览 <i
+											class="am-icon-cloud"></i>
+									</a></td>
 									</tr>
 					</c:forEach>
               </tbody>
@@ -186,7 +192,7 @@
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">新建文件夹</div>
 			<div class="am-modal-bd">
-				收藏夹名称 :&nbsp&nbsp&nbsp<input type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
+				收藏夹名称 :&nbsp&nbsp&nbsp<input required="required" type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
 			</div>
 			<div class="am-modal-footer">
 				<span class="am-modal-btn" data-am-modal-cancel>取消</span> 
@@ -223,7 +229,13 @@ $(function() {
     $('#my-prompt-add').modal({
       relatedTarget: this,
        onConfirm: function(e) {
-    	   var docName=$("#sDocName").val();
+    	     var docName=$("#sDocName").val();
+    	     if(docName="")
+    	    	 {
+    	    	 alert("名称不能为空");
+    	    	 return ;
+    	    	 }
+    	     
     		 $.ajax({
     				url : "user/insertDoc",
     				data:{docName:docName},
@@ -273,6 +285,7 @@ function findDoc(selectId){
 var str=window.location.pathname;
 var strs=str.split("/");
 var docName=$("#cDocName").val();
+
 $.ajax({
 	url : "user/findAllByUserId",
 	type : "get",
@@ -307,7 +320,14 @@ findDoc('#select');
 //翻页
 var url = "user/myforks/0/";
 function gotoPage(page) {
-	window.location.href = url + page;
+	var search=window.location.search;
+	if(search=="")
+	    window.location.href = url + page;
+	else
+	{
+		window.location.href = url + page+search;
+		searchs=search.split("=");
+	}
 }
 //回显
 $(".modify").click(function(){

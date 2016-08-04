@@ -179,14 +179,12 @@ public class FileContentController {
 	 * @param forkInfo
 	 * @param session
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/findByFileName", method = RequestMethod.POST)
 	public String findByFileName(Model model,Integer pageNo,String fileName,HttpSession session) {
-		System.out.println(pageNo);
-		System.out.println(fileName);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		PageInfo<ForkFileInfoVo> page = forkInfoService.findByFileName(pageNo, fileName, user.getUserId());
 		model.addAttribute("page", page);
 		return "file/myforks";
-	}
+	}*/
 }
