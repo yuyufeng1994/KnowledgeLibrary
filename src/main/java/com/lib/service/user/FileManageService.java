@@ -17,13 +17,14 @@ public interface FileManageService {
 	 * 得到某一用户上传的文件分页
 	 * 
 	 * @param userId
-	 * @param searchValue 
+	 * @param searchValue
 	 * @return
 	 */
 	PageInfo<FileInfoVO> getFileInfoPageByUserId(int pageNo, Long userId, String order, String searchValue);
-	
+
 	/**
 	 * 得到某一类别的子类别
+	 * 
 	 * @param parentId
 	 * @return
 	 */
@@ -31,6 +32,7 @@ public interface FileManageService {
 
 	/**
 	 * 得到某一类别信息
+	 * 
 	 * @param fileClassId
 	 * @return
 	 */
@@ -38,9 +40,18 @@ public interface FileManageService {
 
 	/**
 	 * 得到父节点链表
+	 * 
 	 * @param fileClassId
 	 * @return
 	 */
 	List<Classification> getFatherClassesById(Long fileClassId);
+
+	/**
+	 * 得到一个类别的所有子节点
+	 * 
+	 * @param fileClassId
+	 * @return
+	 */
+	List<Classification> getAllChildClassesById(Long fileClassId);
 
 }
