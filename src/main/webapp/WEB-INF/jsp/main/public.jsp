@@ -82,19 +82,19 @@
 												style="width: 100px; height: 100px; overflow: hidden">
 										</div>
 										<div class="am-intro-right am-u-sm-10">
-										<h3 class="am-comment-title">${f.fileName }.${f.fileExt}</h3>
+											<h3 class="am-comment-title">${f.fileName }.${f.fileExt}</h3>
 											<p>简介：${f.fileBrief }</p>
 										</div>
 										<div class="am-comment-meta">
-												<!-- 评论元数据 -->
-												<a href="#link-to-user" class="am-comment-author">${f.userName }</a>
-												<!-- 评论者 -->
-												创建于
-												<time datetime="">
-													<fmt:formatDate value="${f.fileCreateTime }"
-														pattern="yyyy-MM-dd HH:mm:ss" />
-												</time>
-											</div>
+											<!-- 文件元数据 -->
+											<a href="#link-to-user" class="am-comment-author">用户: ${f.userName }</a>
+											<!-- 作者 -->
+											创建于
+											<time datetime="">
+												<fmt:formatDate value="${f.fileCreateTime }"
+													pattern="yyyy-MM-dd HH:mm:ss" />
+											</time>
+										</div>
 									</div>
 								</div>
 
@@ -104,6 +104,33 @@
 
 					</c:forEach>
 				</div>
+
+				<div class="am-fr">
+					<ul class="am-pagination">
+						<c:if test="${page.pageNum > 1}">
+							<li><a onclick="gotoPage(${page.prePage })">«</a></li>
+						</c:if>
+
+						<c:forEach items="${page.navigatepageNums}" var="p">
+							<c:if test="${page.pageNum==p}">
+								<li class="am-active"><a onclick="gotoPage(${p})">${p}</a></li>
+							</c:if>
+							<c:if test="${page.pageNum!=p}">
+								<li><a onclick="gotoPage(${p})">${p}</a></li>
+							</c:if>
+						</c:forEach>
+						<c:if test="${page.pageNum < page.pages}">
+							<li><a onclick="gotoPage(${page.nextPage })">»</a></li>
+						</c:if>
+					</ul>
+				</div>
+
+				<script type="text/javascript">
+					var id=${classi.classificationId}
+					function gotoPage(page) {
+						window.location.href = "user/public/"+page+"/"+id;
+					}
+				</script>
 
 			</div>
 		</div>
