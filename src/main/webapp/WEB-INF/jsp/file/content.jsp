@@ -222,7 +222,7 @@
 	 fileId=${fileInfo.fileId};
 	 $.ajax({
 			
-			url : "user/insertFork",
+			url : "user/judgeFork",
 			type : "POST",
 			data:{fileId:fileId},
 			datatype : "json",
@@ -245,9 +245,7 @@
     function findDoc(){
 		if($("#shoucang").text()=="已收藏")
 		{
-			$("#fork").removeClass("am-active");
-			$("#shoucang").text("收藏");
-			
+		
 			$.ajax({
 				url : "user/deleteFork",
 				data:{forkId:forkId1},
@@ -258,6 +256,8 @@
 					/* var len=JsonResult.data.length;
 					var docInfos=JsonResult.data; */
 					alert("取消收藏");
+					$("#fork").removeClass("am-active");
+					$("#shoucang").text("收藏");
 					$("#fork").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}");
 				}
 			 })
