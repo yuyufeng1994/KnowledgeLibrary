@@ -64,11 +64,13 @@ public interface ClassificationDao {
 	 * @return
 	 */
 	List<Classification> findOneChildById(Long classificationId);
+
 	/**
 	 * 查找全部的孩子节点
 	 * 
 	 */
 	List<Classification> findAllChildById(String classificationId);
+
 	/**
 	 * 查找所有的兄弟节点
 	 * 
@@ -82,8 +84,7 @@ public interface ClassificationDao {
 	 * 
 	 * @param classificationId
 	 * @return
-	 *//*
-		 * List<Classification> findAllfatherById(Long classificationId);
-		 */
+	 */
+	List<Classification> findAllfatherById(Long classificationId);
 
 }
