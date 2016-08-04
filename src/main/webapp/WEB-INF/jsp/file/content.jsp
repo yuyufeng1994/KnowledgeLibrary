@@ -312,6 +312,7 @@
 				$("#shoucang").text("已收藏");
 				$("#fork").addClass("am-active");
 				$("#fork").removeAttr("data-am-modal");
+				forkId1=JsonResult.data;
 			}
 		}) 
 		

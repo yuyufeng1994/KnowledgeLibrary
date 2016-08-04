@@ -19,6 +19,10 @@
      	select * from fork_info f,doc_info d where d.doc_user_id=#{docUserId} and d.doc_id=f.doc_id
      </select>
      
+     <select id="findByFileId"  resultType="ForkInfo">
+     	select f.* from fork_info f,doc_info d where d.doc_user_id=#{docUserId} and f.file_id=#{fileId} and f.doc_id=d.doc_id
+     </select>
+     
      <select id="findByForkId" parameterType="Long" resultType="ForkInfo">
      	select * from fork_info where fork_id=#{forkId}  
      </select>

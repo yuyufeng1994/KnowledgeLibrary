@@ -29,15 +29,13 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	@Override
 	public int insert(ForkInfo forkInfo) {
 		// TODO Auto-generated method stub
-		forkInfoDao.insert(forkInfo);
-		return 0;
+		return forkInfoDao.insert(forkInfo);
 	}
 
 	@Override
 	public int delete(Long forkId) {
 		// TODO Auto-generated method stub
-		forkInfoDao.delete(forkId);
-		return 0;
+		return forkInfoDao.delete(forkId);
 	}
 
 	@Override
@@ -107,6 +105,12 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 		//System.out.println(forkFileInfos);
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
+	}
+
+	@Override
+	public ForkInfo findByFileId(Long fileId, Long docUserId) {
+		
+		return forkInfoDao.findByFileId(fileId, docUserId);
 	}
 	
 }

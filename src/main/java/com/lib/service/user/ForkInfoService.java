@@ -43,6 +43,12 @@ public interface ForkInfoService {
 	 */
 	List<ForkInfo> findByDocId(Long docId);
 	/**
+	 * 查找收藏
+	 * @param docId
+	 * @return
+	 */
+	ForkInfo findByFileId(Long fileId,Long docUserId);
+	/**
 	 * 查找用户全部收藏
 	 * @return
 	 */

@@ -41,6 +41,12 @@ public interface ForkInfoDao {
 	 */
 	List<ForkInfo> findByDocId(Long docUserId);
 	/**
+	 * 查找收藏
+	 * @param forkId
+	 * @return
+	 */
+	ForkInfo findByFileId(@Param("fileId")Long fileId,@Param("docUserId")Long docUserId);
+	/**
 	 * 查找一个文件夹
 	 * @param docId
 	 * @return

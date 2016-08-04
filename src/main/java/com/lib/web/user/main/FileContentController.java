@@ -137,6 +137,8 @@ public class FileContentController {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult jr = new JsonResult(true, "收藏成功");
 		forkInfoService.insert(forkInfo);
+		Long forkId=forkInfoService.findByFileId(forkInfo.getFileId(),user.getUserId()).getForkId();
+		jr.setData(forkId);
 		return jr;
 	}
 
