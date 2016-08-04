@@ -151,7 +151,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		}
 
-		return res/2;
+		return res / 2;
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		r.setMainFileId(relationFileId);
 		r.setRelationFileId(mainFileId);
 		relationInfoDao.delete(r);
-		
+
 		return rs;
 	}
 

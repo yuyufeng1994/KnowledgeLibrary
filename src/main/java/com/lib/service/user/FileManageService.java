@@ -13,6 +13,17 @@ import com.lib.entity.Classification;
  *
  */
 public interface FileManageService {
+	
+	
+	/**
+	 * 所有子节点的文件
+	 * @param pageNo
+	 * @param classId
+	 * @return
+	 */
+	PageInfo<FileInfoVO> getAllChildFiles(int pageNo, Long classId);
+
+	
 	/**
 	 * 得到某一用户上传的文件分页
 	 * 

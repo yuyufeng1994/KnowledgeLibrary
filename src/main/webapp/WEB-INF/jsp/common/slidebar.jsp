@@ -3,8 +3,18 @@
 	<div class="am-offcanvas-bar admin-offcanvas-bar">
 		<ul class="am-list admin-sidebar-list">
 			<li><a href="user/index"><span class="am-icon-home"></span>首页</a></li>
-			<li><a href="user/public/1/1"><span class="am-icon-users"></span>
-					公共知识库</a></li>
+			<li class="admin-parent"><a class="am-cf"
+				data-am-collapse="{target: '#collapse-nav'}"><span
+					class="am-icon-users"></span> 公共知识库<span
+					class="am-icon-angle-right am-fr am-margin-right"></span></a>
+				<ul class="am-list am-collapse admin-sidebar-sub am-in"
+					id="collapse-nav">
+					<li><a href="user/public/1/1" class="am-cf"><span
+							class="am-icon-file-text"></span> 知识网络</a></li>
+					<li><a href="user/myforks/0/1"><span
+							class="am-icon-code-fork"></span> 查询服务</a></li>
+				</ul></li>		
+					
 			<li class="admin-parent"><a class="am-cf"
 				data-am-collapse="{target: '#collapse-nav'}"><span
 					class="am-icon-user"></span> 个人知识库<span

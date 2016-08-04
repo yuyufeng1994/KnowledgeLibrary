@@ -55,24 +55,23 @@ public class FileInfoDaoTest {
 	public void testDeleteByPrimaryKey() throws Exception {
 		fail("Not yet implemented");
 	}
-	
+
 	@Test
 	public void testGetFilesByUserId() throws Exception {
-				//分页
-				PageHelper.startPage(1,5,"file_id desc");
-				List<FileInfoVO> list = fileInfoDao.getFilesByUserId(2016001l,"");
-				for(FileInfoVO f:list){
-					System.out.println(f);
-				}
+		// 分页
+		PageHelper.startPage(1, 5, "file_id desc");
+		List<FileInfoVO> list = fileInfoDao.getFilesByUserId(2016001l, "");
+		for (FileInfoVO f : list) {
+			System.out.println(f);
+		}
 	}
-	
 
 	@Test
 	public void testGetFilesByState() throws Exception {
-		//分页
-		PageHelper.startPage(1,5,"file_id asc");
+		// 分页
+		PageHelper.startPage(1, 5, "file_id asc");
 		List<FileInfo> list = fileInfoDao.getFilesByState(3);
-		for(FileInfo f:list){
+		for (FileInfo f : list) {
 			System.out.println(f);
 		}
 	}
