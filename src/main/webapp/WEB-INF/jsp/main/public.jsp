@@ -69,17 +69,40 @@
 					<header class="am-panel-hd">
 						<h3 class="am-panel-title">最新录入</h3>
 					</header>
-					<div class="am-panel-bd">
-						<c:forEach items="${page.list }" var="f">
-							<div class="am-g">
-								<div class="am-u-sm-12">
-									<img src="user/thumbnail/${f.fileUuid}/png" alt="null"
-										class="am-img-thumbnail"
-										style="width: 100px; height: 100px; overflow: hidden"> <strong>${f.fileName }.${f.fileExt}</strong><br>${f.fileBrief }</div>
+					<c:forEach items="${page.list }" var="f">
+						<br>
+						<article>
+							<!-- 评论容器 -->
+							<div class="">
+								<div class="am-comment-bd">
+									<div class="am-g am-intro-bd">
+										<div class="am-intro-left am-u-sm-2">
+											<img src="user/thumbnail/${f.fileUuid}/png" alt="null"
+												class="am-img-thumbnail"
+												style="width: 100px; height: 100px; overflow: hidden">
+										</div>
+										<div class="am-intro-right am-u-sm-10">
+										<h3 class="am-comment-title">${f.fileName }.${f.fileExt}</h3>
+											<p>简介：${f.fileBrief }</p>
+										</div>
+										<div class="am-comment-meta">
+												<!-- 评论元数据 -->
+												<a href="#link-to-user" class="am-comment-author">${f.userName }</a>
+												<!-- 评论者 -->
+												创建于
+												<time datetime="">
+													<fmt:formatDate value="${f.fileCreateTime }"
+														pattern="yyyy-MM-dd HH:mm:ss" />
+												</time>
+											</div>
+									</div>
+								</div>
+
 							</div>
-							<hr>
-						</c:forEach>
-					</div>
+						</article>
+
+
+					</c:forEach>
 				</div>
 
 			</div>
