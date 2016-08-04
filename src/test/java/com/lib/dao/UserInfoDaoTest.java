@@ -55,4 +55,5 @@ public class UserInfoDaoTest {
 		user.setUserType(2);
 		userInfoDao.updateUserNoStatus(user);
 	}
+	
 }

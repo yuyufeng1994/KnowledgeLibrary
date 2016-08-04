@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>激活成功，点击登录</h2>  
+	<h2><a href="login">激活成功，点击登录</a></h2>  
 </body>
 </html>

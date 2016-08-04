@@ -22,7 +22,6 @@
 }
 </style>
 <script type="text/javascript">
-	var flag1 = true,flag2= true,flag3= true,flag4= true;
 	$(function(){
 		$(":input[name='email']").change(function(){
 			var val = $(this).val();
@@ -60,19 +59,7 @@
 					$("#repwdMsg").html(data);
 				});
 			}
-		});
-		$(":input[name='userName']").change(function(){
-			var val = $(this).val();
-			val = $.trim(val);
-			
-			if(val!=null){
-				var url = "check";
-				var args={"userName":val,"time":new Date()};
-				$.post(url,args,function(data){
-					$("#nameMsg").html(data);
-				});
-			}
-		});
+		});	
 	})
 </script>
 </head>
@@ -80,7 +67,7 @@
 
 	<div class="header">
 		<div class="am-g">
-			<h1>知识库管理系统注册</h1>
+			<h2>知识库管理系统注册</h2>
 			<p>知识库管理系统软件将来自工作中、生活中、培训中、组织内的各类资料和领域知识进行管理维护并提供关联分析和综合查询服务。</p>
 		</div>
 		<hr />
@@ -90,7 +77,7 @@
 			<form method="post" class="am-form" id="login-form"
 				action="register?action=register">
 				<label for="email">邮箱:</label> <input type="email" id="email" name = "email"
-					value="" required > <label  for="email" id="emailMsg"></label><br> <label
+					value="" required > <label  id="emailMsg"></label><br> <label
 					for="password">密码:</label> <input type="password" id="password" name="password"
 					value="" required><label id="pwdMsg"></label><br> 
 					 <label for="password">确认密码:</label> <input type="password" id="repassword" name = "repassword"

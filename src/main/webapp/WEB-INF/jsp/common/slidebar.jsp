@@ -14,7 +14,12 @@
 					<li><a href="user/myforks/1"><span class="am-icon-code-fork"></span> 我的收藏</a></li>
 				</ul></li>
 
-			<li><a href="user/userinfo"><span class="am-icon-info"></span> 个人信息</a></li>
+			<li class="admin-parent"><a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"><span class="am-icon-info"></span> 个人信息<span
+					class="am-icon-angle-right am-fr am-margin-right"></span></a>
+					<ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
+					<li><a href="user/userinfo"><span class="am-icon-cloud-upload"></span> 个人资料</a></li>
+					<li><a href="user/user-account"><span class="am-icon-pencil-square-o"></span>账户安全</a></li>
+				</ul></li>
 		</ul>
 
 		<div class="am-panel am-panel-default admin-sidebar-panel">

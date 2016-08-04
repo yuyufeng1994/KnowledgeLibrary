@@ -1,5 +1,7 @@
 package com.lib.service.user;
 
+import com.lib.entity.UserInfo;
+
 public interface UserRegisterService {
 		/**
 		 * 处理注册 
@@ -13,4 +15,10 @@ public interface UserRegisterService {
 		 * @throws Exception
 		 */
 		public void processActivate(String email , String validateCode)throws Exception;
+		
+		/**
+		 * 更新email账号
+		 * @param user
+		 */
+		public void updateEmail(UserInfo user);
 }
