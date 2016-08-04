@@ -42,7 +42,7 @@
 											<div class="am-form-group">
 												<div class="am-u-sm-10 am-u-sm-offset-2">
 													<button type="button" id="user-submit"
-														class="am-btn am-btn-default">提交修改</button>
+														class="am-btn am-btn-default">更换邮箱绑定</button>
 												</div>
 											</div>
 										</td>

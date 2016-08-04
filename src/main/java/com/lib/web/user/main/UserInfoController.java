@@ -75,7 +75,7 @@ public class UserInfoController {
 		return jr;
 	}
 	@RequestMapping(value="/update-userEmail", method = { RequestMethod.GET, RequestMethod.POST })
-	public  String updateUserEmail(String action,HttpServletRequest request,Long userId,String userEmail,HttpSession session){
+	public  String updateUserEmail(String action,HttpServletRequest request,Long userId,String userEmail,HttpSession session) throws Exception{
 		if ("register".equals(action)) {
 			UserInfo user =  userService.getUserById(userId);
 			user.setUserEmail(userEmail);
@@ -98,7 +98,7 @@ public class UserInfoController {
 		}
 		UserInfo updateUser = userService.getBasicUserInfoByEmail(userEmail);
 		session.setAttribute(Const.SESSION_USER, updateUser);
-		return "/login";
+		return "redirect:login";
 	}
 	
 	

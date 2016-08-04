@@ -60,6 +60,7 @@ public interface ForkInfoService {
 	 * @return
 	 */
 	 PageInfo<ForkFileInfoVo> findByFileName(int pageNo,String fileName,Long docUserId);
+	
 	/**
 	 * 分页查询
 	 * @param pageNo
@@ -69,4 +70,5 @@ public interface ForkInfoService {
 	 * @return
 	 */
 	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,Long docId,String userName,String search);
+	
 }

@@ -111,10 +111,11 @@
 											<button type="button" class="am-btn am-btn-default">
 												<span class="am-icon-save"></span> 保存
 											</button>
-											<button type="button" class="am-btn am-btn-default"
+											<button type="button" id="fork"   class="am-btn am-btn-default"
 												onclick="findDoc()"
-												data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}">
-												<span class="am-icon-archive"></span> 收藏
+												>
+												<span class="am-icon-archive"></span> 
+												<span id="shoucang">收藏</span>
 											</button>
 											<button type="button" class="am-btn am-btn-default">
 												<span class="am-icon-trash-o"></span> 下载
@@ -216,9 +217,52 @@
 
 <script type="text/javascript">
 //操作收藏的js
-
+ var forkId1=0;
+ $(window).load(function() {
+	 fileId=${fileInfo.fileId};
+	 $.ajax({
+			
+			url : "user/insertFork",
+			type : "POST",
+			data:{fileId:fileId},
+			datatype : "json",
+			//ansyn : false,
+			success : function(JsonResult) {
+				/* var len=JsonResult.data.length;
+				var docInfos=JsonResult.data; */
+				if(JsonResult.success==false)
+				{
+					$("#shoucang").text("已收藏");
+					$("#fork").addClass("am-active");
+					forkId1=JsonResult.data;
+				}else{
+					
+					$("#fork").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}");
+				}
+			}
+		}) 
+});
     function findDoc(){
-	    $.ajax({
+		if($("#shoucang").text()=="已收藏")
+		{
+			$("#fork").removeClass("am-active");
+			$("#shoucang").text("收藏");
+			
+			$.ajax({
+				url : "user/deleteFork",
+				data:{forkId:forkId1},
+				type : "POST",
+				datatype : "json",
+				//ansyn : false,
+				success : function(JsonResult) {
+					/* var len=JsonResult.data.length;
+					var docInfos=JsonResult.data; */
+					alert("取消收藏");
+					$("#fork").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}");
+				}
+			 })
+		}
+    	$.ajax({
 			url : "user/findAllByUserId",
 			type : "get",
 			datatype : "json",
@@ -248,6 +292,7 @@
    		docId=$("#select").val();
    		docName=$("#select").text();
    		forkNote=$("#forkNote").val();
+   		
    	    if(forkNote==null||forkNote=="")
    		{
    			forkNote="无";
@@ -264,6 +309,9 @@
 				/* var len=JsonResult.data.length;
 				var docInfos=JsonResult.data; */
 				alert(JsonResult.error);
+				$("#shoucang").text("已收藏");
+				$("#fork").addClass("am-active");
+				$("#fork").removeAttr("data-am-modal");
 			}
 		}) 
 		

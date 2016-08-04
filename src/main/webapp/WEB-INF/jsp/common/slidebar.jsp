@@ -23,7 +23,7 @@
 					id="collapse-nav">
 					<li><a href="user/myfiles/1?searchNULL=1" class="am-cf"><span
 							class="am-icon-file-text"></span> 我的资源</a></li>
-					<li><a href="user/myforks/0/1"><span
+					<li><a href="user/myforks/-1/1"><span
 							class="am-icon-code-fork"></span> 知识收藏</a></li>
 					<li><a href="user/upload"><span
 							class="am-icon-cloud-upload"></span> 知识导入</a></li>

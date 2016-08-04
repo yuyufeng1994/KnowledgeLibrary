@@ -37,6 +37,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		// user.setValidateCode(MD5Util.encode2hex(email));
 		ur.setValidateCode(MD5Util.encode2hex(user.getUserEmail()));
 		ur.setRegisterTime(new Date());
+		userRegisterDao.updateNoStatus(ur);
 		System.out.println(user);
 		System.out.println(ur);
 
