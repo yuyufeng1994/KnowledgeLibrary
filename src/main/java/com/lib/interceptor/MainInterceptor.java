@@ -8,13 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lib.enums.Const;
+
 /**
  * 主要拦截器
+ * 
  * @author Yu Yufeng
- *  
+ * 
  */
 public class MainInterceptor implements HandlerInterceptor {
-	
+
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	// 执行Handler完成执行此方法
@@ -35,9 +38,18 @@ public class MainInterceptor implements HandlerInterceptor {
 	// 用于身份认真、身份授权
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-		String uri = request.getRequestURI();
-		LOG.debug(uri);
-		
+		//一些初始化操作
+		if (null == Const.ROOT_PATH) {
+			Const.loadRootPath();
+			String url = request.getRequestURL().toString();
+			Const.HEAD_URL = url.substring(0, url.indexOf("lib/") + 4);
+		}
+
+		if (null == Const.CONTAINER_PATH) {
+			String root = request.getSession().getServletContext().getRealPath("/");
+			Const.CONTAINER_PATH = root;
+		}
+
 		return true;
 	}
 

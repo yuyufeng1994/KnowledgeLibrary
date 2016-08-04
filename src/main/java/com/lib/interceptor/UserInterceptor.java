@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoader;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,21 +43,6 @@ public class UserInterceptor implements HandlerInterceptor {
 	// 用于身份认真、身份授权
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-		System.out.println();
-		if (null == Const.ROOT_PATH) {
-			Const.loadRootPath();
-			String url = request.getRequestURL().toString();
-			Const.HEAD_URL = url.substring(0,url.indexOf("lib/")+4);
-		}
-
-		System.out.println();
-		if (null == Const.CONTAINER_PATH) {
-			String root = request.getSession().getServletContext().getRealPath("/");
-			Const.CONTAINER_PATH = root;
-		}
-		
-		
-
 		HttpSession session = request.getSession();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		Cookie[] cookies = request.getCookies();
