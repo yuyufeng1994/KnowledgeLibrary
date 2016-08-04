@@ -3,7 +3,7 @@
 	<div class="am-offcanvas-bar admin-offcanvas-bar">
 		<ul class="am-list admin-sidebar-list">
 			<li><a href="user/index"><span class="am-icon-home"></span>首页</a></li>
-			<li><a href="user/public"><span class="am-icon-users"></span>
+			<li><a href="user/public/1/1"><span class="am-icon-users"></span>
 					公共知识库</a></li>
 			<li class="admin-parent"><a class="am-cf"
 				data-am-collapse="{target: '#collapse-nav'}"><span
@@ -30,17 +30,9 @@
 				<p>
 					<span class="am-icon-bookmark"></span> 公告
 				</p>
-				<p>时光静好，与君语；细水流年，与君同。—— Amaze UI</p>
+				<p>时光静好，与君语；细水流年，与君同。—— SOKLIB</p>
 			</div>
 		</div>
 
-		<div class="am-panel am-panel-default admin-sidebar-panel">
-			<div class="am-panel-bd">
-				<p>
-					<span class="am-icon-tag"></span> wiki
-				</p>
-				<p>Welcome to the Amaze UI wiki!</p>
-			</div>
-		</div>
 	</div>
 </div>

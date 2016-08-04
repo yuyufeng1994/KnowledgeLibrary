@@ -36,4 +36,11 @@ public interface FileManageService {
 	 */
 	Classification getClassificationById(Long fileClassId);
 
+	/**
+	 * 得到父节点链表
+	 * @param fileClassId
+	 * @return
+	 */
+	List<Classification> getFatherClassesById(Long fileClassId);
+
 }

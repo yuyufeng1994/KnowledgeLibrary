@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
 import com.lib.entity.Classification;
+import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileManageService;
 
@@ -37,8 +40,38 @@ public class CommonController {
 
 	@Autowired
 	private FileManageService fileManageService;
+	
 	/**
-	 * 根据文件地址下载文件
+	 * 得到常用文件流
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/thumbnail/{uuid}", method = RequestMethod.GET)
+	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
+			@PathVariable("uuid") String uuid) {
+		String path = Const.ROOT_PATH+"thumbnail/"+uuid+".png";
+		try {
+			InputStream inputStream = new FileInputStream(path );
+			OutputStream os = response.getOutputStream();
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+			}
+			// 这里主要关闭。
+			os.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			LOG.error("文件没有找到" + path);
+		} catch (IOException e) {
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据文件地址下载文件主要用于Uedior
 	 * 
 	 * @param id
 	 * @param request

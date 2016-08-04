@@ -27,7 +27,7 @@
 								placeholder="输入文件名称搜索" value="${my_file_search_value }"> <span class="am-input-group-btn">
 								<button class="am-btn am-btn-default" type="submit"
 									onclick="searchMyFiles()">
-									<i class="am-icon-search"></i> 搜索
+									搜索
 								</button>
 							</span>
 						</div>

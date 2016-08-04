@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
@@ -136,6 +137,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 			r.setMainFileId(mainFileId);
 			r.setRelationFileId(l);
 			rs.add(r);
+
+			// 反向也要关联
+			r = new RelationInfo();
+			r.setMainFileId(l);
+			r.setRelationFileId(mainFileId);
+			rs.add(r);
 		}
 		int res = 0;
 		try {
@@ -144,7 +151,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		}
 
-		return res;
+		return res/2;
 	}
 
 	@Override
@@ -164,11 +171,19 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
+	@Transactional
 	public int delRelations(Long mainFileId, Long relationFileId) {
 		RelationInfo r = new RelationInfo();
+
 		r.setMainFileId(mainFileId);
 		r.setRelationFileId(relationFileId);
-		return relationInfoDao.delete(r);
+		int rs = relationInfoDao.delete(r);
+		// 反向也要删除
+		r.setMainFileId(relationFileId);
+		r.setRelationFileId(mainFileId);
+		relationInfoDao.delete(r);
+		
+		return rs;
 	}
 
 }

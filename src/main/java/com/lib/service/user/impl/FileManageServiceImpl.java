@@ -1,5 +1,6 @@
 package com.lib.service.user.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,20 @@ public class FileManageServiceImpl implements FileManageService {
 
 	@Override
 	public Classification getClassificationById(Long fileClassId) {
-		// TODO Auto-generated method stub
 		return classDao.findById(fileClassId);
+	}
+
+	@Override
+	public List<Classification> getFatherClassesById(Long fileClassId) {
+		Classification c = null;
+		List<Classification> list = new ArrayList<>();
+		c = classDao.findById(fileClassId);
+		list.add(c);
+		while(c.getParentId() != null){
+			c = classDao.findById(c.getParentId());
+			list.add(0, c);
+		}
+		return list;
 	}
 
 }

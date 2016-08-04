@@ -109,8 +109,8 @@ public class LoginAndRegisterController {
 
 	@RequestMapping(value = "/illegal-view", method = RequestMethod.GET)
 	public String illegalView(Model model, HttpServletRequest request) {
-		model.addAttribute("error", "无权访问，请先登录！");
-		return "error";
+		model.addAttribute("message", "无权访问，请先登录！");
+		return "message";
 	}
 
 	/**
