@@ -92,13 +92,13 @@ public class UserInfoController {
 				return "register/activate-success";
 			} catch (Exception e) {
 				request.setAttribute("error", e.getMessage());
-				return "error";
+				return "message";
 			}
 			
 		}
 		UserInfo updateUser = userService.getBasicUserInfoByEmail(userEmail);
 		session.setAttribute(Const.SESSION_USER, updateUser);
-		return "login";
+		return "/login";
 	}
 	
 	
