@@ -33,24 +33,27 @@
 							</div>
 						</div>
 						<div class="am-panel am-panel-default">
-							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-comment'}">
-								评论<span class="am-icon-chevron-down am-fr"></span>
-							</div>
-							<div id="collapse-panel-comment" class="am-in">《》！</div>
-							<div class="am-panel-bd am-collapse am-in am-cf"
-								id="collapse-panel-file-info">
-
-								<ul class="am-pagination am-fr admin-content-pagination">
-									<li class="am-disabled"><a href="#">«</a></li>
-									<li class="am-active"><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#">»</a></li>
-								</ul>
-							</div>
+							  <div class="am-panel-hd">评论</div>
+							<!-- 多说评论框 start -->
+							<div class="ds-thread" data-thread-key="${fileInfo.fileId }"
+								data-title="${fileInfo.fileName }" data-url="lib/user/file/${fileInfo.fileUuid }"></div>
+							<!-- 多说评论框 end -->
+							<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+							<script type="text/javascript">
+								var duoshuoQuery = {
+									short_name : "soklib"
+								};
+								(function() {
+									var ds = document.createElement('script');
+									ds.type = 'text/javascript';
+									ds.async = true;
+									ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+									ds.charset = 'UTF-8';
+									(document.getElementsByTagName('head')[0]
+									|| document.getElementsByTagName('body')[0]).appendChild(ds);
+								})();
+							</script>
+							<!-- 多说公共JS代码 end -->
 						</div>
 					</div>
 
@@ -93,7 +96,6 @@
 											<span class="am-badge am-badge-secondary">上传时间</span>
 											<fmt:formatDate value="${fileInfo.fileCreateTime }"
 												pattern="yyyy-MM-dd HH:mm:ss" />
-											</td>
 										</p>
 									</li>
 									<li>
@@ -105,14 +107,14 @@
 									</li>
 									<li>
 										<div class="am-btn-group am-btn-group-xs">
-											<button type="button" id="fork"   class="am-btn am-btn-default"
-												onclick="findDoc()"
-												>
-												<span class="am-icon-archive"></span> 
-												<span id="shoucang">收藏</span>
+											<button type="button" id="fork" class="am-btn am-btn-default"
+												onclick="findDoc()">
+												<span class="am-icon-archive"></span> <span id="shoucang">收藏</span>
 											</button>
-											<a href="user/download/${fileInfo.fileUuid}/${fileInfo.fileExt}" type="button" class="am-btn am-btn-default">
-												<span class="am-icon-trash-o"></span> 下载
+											<a
+												href="user/download/${fileInfo.fileUuid}/${fileInfo.fileExt}"
+												type="button" class="am-btn am-btn-default"> <span
+												class="am-icon-trash-o"></span> 下载
 											</a>
 										</div>
 
@@ -191,18 +193,18 @@
 			</div>
 
 		</div>
-
-		<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
-			id="my-modal-loading">
-			<div class="am-modal-dialog">
-				<div class="am-modal-hd">保存成功</div>
-				<div class="am-modal-bd">
-					<span class="am-icon-spinner am-icon-spin"></span>
-				</div>
+	</div>
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="my-modal-loading">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">保存成功</div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
 			</div>
 		</div>
-		<%@include file="../common/footer.jsp"%>
-		<!-- content end -->
+	</div>
+	<%@include file="../common/footer.jsp"%>
+	<!-- content end -->
 </body>
 <script src="resource/script/pdfobject.min.js"></script>
 <script type="text/javascript" src="resource/ckplayer/ckplayer.js"
