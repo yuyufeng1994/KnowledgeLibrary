@@ -46,5 +46,18 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUser(UserInfo user);
+	
+	/**
+	 * 修改用户密码
+	 * @param user
+	 */
+	public void updateUserPwd(UserInfo user);
+	
+	/**
+	 * 获取所有用户信息
+	 * @param userId
+	 * @return
+	 */
+	public UserInfo getUserAllInfo(Long userId);
 
 }

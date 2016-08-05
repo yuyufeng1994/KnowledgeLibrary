@@ -50,4 +50,10 @@ public interface UserInfoDao {
 	 * @return
 	 */
 	int updateUserEmail(UserInfo user);
+	/**
+	 * 修改密码
+	 * @param user
+	 * @return
+	 */
+	int updateUserPwd(UserInfo user);
 }
