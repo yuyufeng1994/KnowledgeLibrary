@@ -103,7 +103,7 @@
 					<div class="am-modal am-modal-loading am-modal-no-btn"
 						tabindex="-1" id="my-modal-loading">
 						<div class="am-modal-dialog">
-							<div id="emailMsg" class="am-modal-hd"
+							<div id="emailMsg" class="am-modal-hd" 
 							>发送邮箱中...</div>
 							<div class="am-modal-bd">
 								<span class="am-icon-spinner am-icon-spin"></span>
