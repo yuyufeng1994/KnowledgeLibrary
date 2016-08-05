@@ -12,7 +12,7 @@
 					<li><a href="user/public/1/1" class="am-cf"><span
 							class="am-icon-file-text"></span> 知识网络</a></li>
 					<li><a href="user/myforks/0/1"><span
-							class="am-icon-code-fork"></span> 查询服务</a></li>
+							class="am-icon-code-fork"></span> 综合查询</a></li>
 				</ul></li>		
 					
 			<li class="admin-parent"><a class="am-cf"
@@ -35,7 +35,7 @@
 					class="am-icon-angle-right am-fr am-margin-right"></span></a>
 					<ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
 					<li><a href="user/userinfo"><span class="am-icon-cloud-upload"></span> 个人资料</a></li>
-					<li><a href="user/user-account"><span class="am-icon-pencil-square-o"></span>账户安全</a></li>
+					<li><a href="user/user-account"><span class="am-icon-pencil-square-o"></span> 账户安全</a></li>
 				</ul></li>
 			<li>
 		</ul>

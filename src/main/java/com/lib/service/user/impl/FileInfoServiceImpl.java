@@ -114,7 +114,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 		} else {
-			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/close.png"),
+			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 全文检索创立索引

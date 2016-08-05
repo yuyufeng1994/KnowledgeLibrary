@@ -46,7 +46,7 @@ var viewJudge = {
 if (viewJudge.pdf(ext)) {
 	PDFObject.embed(fileUrl + "pdf", document.getElementById("main-content")); // pdf预览插件
 } else if (viewJudge.jpg(ext)) {
-	$content.html("<img src=" + fileUrl + "jpg"
+	$content.html("<img src=" + fileUrl + "png"
 			+ " class='am-img-thumbnail am-radius'>");
 	$content.css("height", "auto");
 } else if (viewJudge.flv(ext)) {
@@ -79,4 +79,7 @@ if (viewJudge.pdf(ext)) {
 	};
 	CKobject.embedSWF('resource/ckplayer/ckplayer.swf', 'main-content',
 			'ckplayer_a1', '100%', '100%', flashvars, params);
+}else{
+	$content.html("<center><img src=" + fileUrl + "png"
+			+ " class='am-img-thumbnail am-radius'></center>");
 }

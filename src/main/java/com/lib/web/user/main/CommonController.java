@@ -40,10 +40,10 @@ public class CommonController {
 
 	@Autowired
 	private FileManageService fileManageService;
-	
+
 	/**
 	 * 得到常用文件流
-	 *  
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -51,9 +51,9 @@ public class CommonController {
 	@RequestMapping(value = "/thumbnail/{uuid}", method = RequestMethod.GET)
 	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
 			@PathVariable("uuid") String uuid) {
-		String path = Const.ROOT_PATH+"thumbnail/"+uuid+".png";
+		String path = Const.ROOT_PATH + "thumbnail/" + uuid + ".png";
 		try {
-			InputStream inputStream = new FileInputStream(path );
+			InputStream inputStream = new FileInputStream(path);
 			OutputStream os = response.getOutputStream();
 			byte[] b = new byte[2048];
 			int length;
@@ -69,7 +69,7 @@ public class CommonController {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 根据文件地址下载文件主要用于Uedior
 	 * 
@@ -103,14 +103,15 @@ public class CommonController {
 	}
 
 	/*
-	 * 得到子分类
+	 * 得到一层子分类
 	 * 
 	 * @param model
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/child-file-class/{fileClassId}", method = RequestMethod.GET)
-	public @ResponseBody JsonResult<List<Classification>> getChildFileClass(@PathVariable("fileClassId") Long fileClassId) {
+	public @ResponseBody JsonResult<List<Classification>> getChildFileClass(
+			@PathVariable("fileClassId") Long fileClassId) {
 		JsonResult<List<Classification>> jr = null;
 		List<Classification> list = fileManageService.getClassificationByParentId(fileClassId);
 		Classification c = fileManageService.getClassificationById(fileClassId);
@@ -118,6 +119,21 @@ public class CommonController {
 		jr = new JsonResult<List<Classification>>(true, list);
 		return jr;
 	}
-	
+
+	/*
+	 * 得到所有层子分类
+	 * 
+	 * @param model
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/child-file-class-all/{fileClassId}", method = RequestMethod.GET)
+	public @ResponseBody JsonResult<List<Classification>> getAllChildFileClass(
+			@PathVariable("fileClassId") Long fileClassId) {
+		JsonResult<List<Classification>> jr = null;
+		List<Classification> list = fileManageService.getAllChildClassesById(fileClassId);
+		jr = new JsonResult<List<Classification>>(true, list);
+		return jr;
+	}
 
 }

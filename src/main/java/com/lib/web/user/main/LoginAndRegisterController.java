@@ -105,7 +105,7 @@ public class LoginAndRegisterController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/testLogin", method = RequestMethod.GET)
 	public @ResponseBody UserInfo test() {
 		UserInfo user = userService.getUserById(2016001l);
 		// JsonResult<UserInfo> result = new JsonResult<UserInfo>(true, user);
