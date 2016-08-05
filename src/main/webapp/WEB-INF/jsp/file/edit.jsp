@@ -14,6 +14,10 @@
 	color: black;
 }
 </style>
+<link rel="stylesheet" type="text/css"
+	href="resource/webuploader/webuploader.css">
+<!--引入JS-->
+<script type="text/javascript" src="resource/webuploader/webuploader.js"></script>
 </head>
 <body>
 	<input id="main_file_id" type="hidden" value="${fileInfo.fileId}">
@@ -36,24 +40,101 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-bd">
 								<div class="am-g">
-									<div class="am-u-md-4">
-										<a href="user/thumbnail/${fileInfo.fileUuid}/png"
-											target="_blank"> <img
-											class="am-img-circle am-img-thumbnail"
-											src="user/thumbnail/${fileInfo.fileUuid}/png" alt="">
-										</a>
-									</div>
+									<div class="am-u-md-4"><h3>缩略图</h3></div>
 									<div class="am-u-md-8">
-										<p>预览图</p>
-										<form class="am-form">
-											<div class="am-form-group">
-												<input type="file" id="user-pic">
-												<p class="am-form-help">请选择要上传的文件...</p>
-												<button type="button"
-													class="am-btn am-btn-primary am-btn-xs">保存</button>
+										<div id="uploader-demo">
+											<div id="fileList" class="uploader-list">
+											<div id="WU_FILE_0" class="file-item thumbnail upload-state-done">
+												<img src="user/thumbnail/${fileInfo.fileUuid}/png"
+													style="width:95px; height:95px" class="am-img-thumbnail">
 											</div>
-										</form>
+											</div>
+											<div id="filePicker">选择图片</div>
+										</div>
 									</div>
+									<script type="text/javascript">
+										var uuid = '${fileInfo.fileUuid}'
+										var $list = $("#fileList");
+										// 初始化Web Uploader
+										var uploader = WebUploader.create({
+									
+											// 选完文件后，是否自动上传。
+											auto : true,
+									
+											// swf文件路径
+											swf : 'resource/webuploader/Uploader.swf',
+									
+											// 文件接收服务端。
+											server : 'user/update-thumb/' + uuid,
+									
+											// 选择文件的按钮。可选。
+											// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+											pick : '#filePicker',
+									
+											// 只允许选择图片文件。
+											accept : {
+												title : 'Images',
+												extensions : 'gif,jpg,jpeg,bmp,png',
+												mimeTypes : 'image/*'
+											}
+										});
+										// 当有文件添加进来的时候
+										uploader.on('fileQueued', function(file) {
+											var $li = $(
+													'<div id="' + file.id + '" class="file-item thumbnail">' +
+													"<img class='am-img-thumbnail'>" +
+													'</div>'
+												),
+												$img = $li.find('img');
+									
+									
+											// $list为容器jQuery实例
+											$list.html($li);
+									
+											// 创建缩略图
+											// 如果为非图片文件，可以不用调用此方法。
+											// thumbnailWidth x thumbnailHeight 为 100 x 100
+											uploader.makeThumb(file, function(error, src) {
+												if (error) {
+													$img.replaceWith('<span>不能预览</span>');
+													return;
+												}
+									
+												$img.attr('src', src);
+											}, 92, 92);
+										});
+										// 文件上传过程中创建进度条实时显示。
+									
+										// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+										uploader.on('uploadSuccess', function(file) {
+											var $li = $('#' + file.id),
+											$error = $li.find('div.error');
+								
+										// 避免重复创建
+										if (!$error.length) {
+											$error = $('<div class="error am-alert am-alert-success"></div>').appendTo($li);
+										}
+										$error.text('修改成功');
+										});
+									
+										// 文件上传失败，显示上传出错。
+										uploader.on('uploadError', function(file) {
+											var $li = $('#' + file.id),
+												$error = $li.find('div.error');
+									
+											// 避免重复创建
+											if (!$error.length) {
+												$error = $('<div class="error  am-alert am-alert-danger"></div>').appendTo($li);
+											}
+									
+											$error.text('修改失败');
+										});
+									
+										// 完成上传完了，成功或者失败，先删除进度条。
+										uploader.on('uploadComplete', function(file) {
+											
+										});
+									</script>
 								</div>
 							</div>
 						</div>
@@ -294,8 +375,7 @@
 									<div class="am-u-sm-9">
 										<select disabled>
 											<option value="5" class="am-text-center">处理中或被冻结，暂时无法修改此项！</option>
-										</select>
-										 <small>愿意把它分享给大家吗?</small>
+										</select> <small>愿意把它分享给大家吗?</small>
 									</div>
 								</div>
 							</c:if>
