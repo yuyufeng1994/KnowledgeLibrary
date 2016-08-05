@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.lib.dto.FileInfoVO;
+import com.lib.entity.Classification;
 import com.lib.entity.FileInfo;
 
 /**
@@ -61,7 +62,7 @@ public interface FileInfoDao {
 	 * @return
 	 */
 	FileInfoVO getFileInfoByUuid(String fileUuid);
-	
+
 	/**
 	 * 通过fileId得到一个文件
 	 * 
@@ -88,15 +89,27 @@ public interface FileInfoDao {
 
 	/**
 	 * 得到为处理过的文件
-	 * @param searchValue 
+	 * 
+	 * @param searchValue
 	 * 
 	 * @param i
 	 * @return
 	 */
-	List<FileInfoVO> getFilesByUserId(@Param("userId")Long userId,@Param("searchValue") String searchValue);
+	List<FileInfoVO> getFilesByUserId(@Param("userId") Long userId, @Param("searchValue") String searchValue);
+
+	/**
+	 * 得到一个子节点所有的共有文件
+	 * 
+	 * @param searchValue
+	 * 
+	 * @param i
+	 * @return
+	 */
+	List<FileInfoVO> getAllChildFiles(List<Classification> ids);
 
 	/**
 	 * 修改文件的基本信息
+	 * 
 	 * @param fileInfo
 	 * @return
 	 */
@@ -104,10 +117,11 @@ public interface FileInfoDao {
 
 	/**
 	 * 查询一个用户可用的文档
+	 * 
 	 * @param searchInfo
 	 * @param userId
 	 * @return
 	 */
-	List<FileInfo> searchFileInfoByNameOrId(@Param("searchInfo")String searchInfo, @Param("userId")Long userId);
+	List<FileInfo> searchFileInfoByNameOrId(@Param("searchInfo") String searchInfo, @Param("userId") Long userId);
 
 }

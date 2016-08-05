@@ -29,15 +29,13 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 	@Override
 	public int insert(ForkInfo forkInfo) {
 		// TODO Auto-generated method stub
-		forkInfoDao.insert(forkInfo);
-		return 0;
+		return forkInfoDao.insert(forkInfo);
 	}
 
 	@Override
 	public int delete(Long forkId) {
 		// TODO Auto-generated method stub
-		forkInfoDao.delete(forkId);
-		return 0;
+		return forkInfoDao.delete(forkId);
 	}
 
 	@Override
@@ -71,12 +69,18 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
 		List<ForkFileInfoVo> forkFileInfos=null;
 		if(search!=null)
-		{
-			forkFileInfos = forkInfoDao.findByFileName("%"+search+"%", userId);
-			System.out.println(forkFileInfos);
+		{	
+			if(docId==-1){
+				forkFileInfos = forkInfoDao.findByFileName("%"+search+"%", userId);
+			}
+			else
+			{
+				forkFileInfos = forkInfoDao.findByFileNameAndDocId("%"+search+"%", userId,docId);
+			}
+			
 		}
 		else{
-			if (docId == 0) {
+			if (docId == -1) {
 				forkFileInfos = forkInfoDao.findAll(userId);
 			} else {
 
@@ -101,6 +105,12 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 		//System.out.println(forkFileInfos);
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
+	}
+
+	@Override
+	public ForkInfo findByFileId(Long fileId, Long docUserId) {
+		
+		return forkInfoDao.findByFileId(fileId, docUserId);
 	}
 	
 }

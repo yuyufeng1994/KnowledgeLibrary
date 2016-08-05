@@ -123,7 +123,7 @@ public class FileManagerController {
 		String fileName = files[0].getOriginalFilename();
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
 
-		String userFilePath = "users/"+user.getUserId() + "/files/";
+		String userFilePath = "users/" + user.getUserId() + "/files/";
 		String filePath = Const.ROOT_PATH + userFilePath + uuid + "." + ext;
 
 		// 解压文件
@@ -137,11 +137,15 @@ public class FileManagerController {
 
 				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
 				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
-				for (String str : filesUuid) {
+				for (String fuuid : filesUuid) {
 					// 处理文件
 					new Thread() {
 						public void run() {
-							fileInfoService.translateFile(str);
+							try {
+								fileInfoService.translateFile(fuuid);
+							} catch (IOException e) {
+								LOG.error(fuuid + "文件处理失败");
+							}
 						};
 					}.start();
 				}
@@ -153,7 +157,7 @@ public class FileManagerController {
 			FileUtils.writeByteArrayToFile(new File(filePath), files[0].getBytes());
 
 			FileInfo fi = new FileInfo();
-			fileName = fileName.substring(0, fileName.indexOf("."));
+			fileName = fileName.substring(0, fileName.lastIndexOf("."));
 			fi.setFileName(fileName);
 			fi.setFileSize(files[0].getSize());
 			fi.setFileExt(ext);
@@ -169,7 +173,11 @@ public class FileManagerController {
 			// 处理文件
 			new Thread() {
 				public void run() {
-					fileInfoService.translateFile(uuid);
+					try {
+						fileInfoService.translateFile(uuid);
+					} catch (IOException e) {
+						LOG.error(uuid + "文件处理失败");
+					}
 				};
 			}.start();
 		} catch (Exception e) {

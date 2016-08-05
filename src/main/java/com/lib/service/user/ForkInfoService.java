@@ -43,6 +43,12 @@ public interface ForkInfoService {
 	 */
 	List<ForkInfo> findByDocId(Long docId);
 	/**
+	 * 查找收藏
+	 * @param docId
+	 * @return
+	 */
+	ForkInfo findByFileId(Long fileId,Long docUserId);
+	/**
 	 * 查找用户全部收藏
 	 * @return
 	 */
@@ -60,6 +66,7 @@ public interface ForkInfoService {
 	 * @return
 	 */
 	 PageInfo<ForkFileInfoVo> findByFileName(int pageNo,String fileName,Long docUserId);
+	
 	/**
 	 * 分页查询
 	 * @param pageNo
@@ -69,4 +76,5 @@ public interface ForkInfoService {
 	 * @return
 	 */
 	PageInfo<ForkFileInfoVo> getFileForkInfoPageByUserId(int pageNo, Long userId,Long docId,String userName,String search);
+	
 }

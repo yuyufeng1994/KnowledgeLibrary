@@ -1,6 +1,7 @@
 package com.lib.service.user.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,12 +66,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 	}
 
 	@Override
-	public void translateFile(String uuid) {
+	public void translateFile(String uuid) throws IOException {
 		// 设置文件问后台处理中
 		fileinfoDao.setFileStateByUuid(uuid, 3);
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
-		System.out.println(Const.STREAM_PATH + file.getFileUuid());
+		// System.out.println(Const.STREAM_PATH + file.getFileUuid());
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
 
@@ -88,11 +89,18 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 
-			ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.ROOT_PATH + file.getFilePath() + ".png");
-			// ffmpeg转换成flv
-			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
-					Const.STREAM_PATH + file.getFileUuid() + ".flv");
+			if (file.getFileExt().equals("flv")) {
+				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/flv.png"),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
+						new File(Const.STREAM_PATH + file.getFileUuid() + ".flv"));
+			} else {
+				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+						Const.ROOT_PATH + file.getFilePath() + ".png");
+				// ffmpeg转换成flv
+				TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
+						Const.STREAM_PATH + file.getFileUuid() + ".flv");
+			}
 
 		} else if (JudgeUtils.isImageFile(file.getFileExt())) {
 
@@ -100,10 +108,14 @@ public class FileInfoServiceImpl implements FileInfoService {
 					Const.ROOT_PATH + file.getFilePath() + ".png");
 
 		} else if (JudgeUtils.isAudioFile(file.getFileExt())) {
-
+			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/mp3.png"),
+					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 			// ffmpeg转换成flv
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
+		} else {
+			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
+					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 全文检索创立索引
 
@@ -151,7 +163,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		}
 
-		return res/2;
+		return res / 2;
 	}
 
 	@Override
@@ -182,7 +194,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		r.setMainFileId(relationFileId);
 		r.setRelationFileId(mainFileId);
 		relationInfoDao.delete(r);
-		
+
 		return rs;
 	}
 

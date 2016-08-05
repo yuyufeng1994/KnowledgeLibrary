@@ -39,7 +39,13 @@ public interface ForkInfoDao {
 	 * @param forkId
 	 * @return
 	 */
-	List<ForkInfo> findByDocId(Long docId);
+	List<ForkInfo> findByDocId(Long docUserId);
+	/**
+	 * 查找收藏
+	 * @param forkId
+	 * @return
+	 */
+	ForkInfo findByFileId(@Param("fileId")Long fileId,@Param("docUserId")Long docUserId);
 	/**
 	 * 查找一个文件夹
 	 * @param docId
@@ -64,7 +70,9 @@ public interface ForkInfoDao {
 	 * @return
 	 */
 	List<ForkFileInfoVo> findByFileName(@Param("fileName")String fileName,@Param("docUserId")Long docUserId);
-
+	
+	List<ForkFileInfoVo> findByFileNameAndDocId(@Param("fileName")String fileName,@Param("docUserId")Long docUserId,@Param("docId")Long docID);
+	
 
 	
 }

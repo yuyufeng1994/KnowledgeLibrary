@@ -280,7 +280,7 @@ public class LuceneSearchUtil {
 	 * @throws InvalidTokenOffsetsException 
 	 * @throws ParseException 
 	 */
-	public static String extractSummary(Long fileId, String fileName) {
+	public static List<String> extractSummary(Long fileId, String fileName) {
 		
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -293,7 +293,7 @@ public class LuceneSearchUtil {
 		//new一个文档对象
 		Document document = new Document();
 		//文件简介
-		String filebriefs="";
+		List<String> fileBriefs=new ArrayList<String>() ;
 		try {
 			directory = FSDirectory.open(new File(indexPath).toPath());
 
@@ -307,22 +307,25 @@ public class LuceneSearchUtil {
 			TermQuery termQuery = new TermQuery(term);
 
 			TopDocs topdocs = indexSearch.search(termQuery, 1);
+			
 			document = indexSearch.doc(topdocs.scoreDocs[0].doc);
 
 			if (document.get("fileText") != null && !"".equals(document.get("fileText"))) {
 
-				QueryParser queryParser = new QueryParser("docText", analyzer);
+				QueryParser queryParser = new QueryParser("fileText", analyzer);
 
 				String fileText = "";
 				if (fileName != null && !"".equals(fileName)) {
 					query = queryParser.parse(fileName);
 					fileText = displayHtmlHighlight(query, analyzer, "fileText", document.get("fileText"), 2000);
 					if (fileText != "")
-						filebriefs = HanLP.getSummary(fileText, 3);
+						fileBriefs.add(HanLP.getSummary(fileText, 3));
 				} else {
 					fileText = document.get("fileText");
-					for (String filebrief : HanLP.extractSummary(fileText, 3)) {
-						filebriefs = filebriefs + filebrief + "。";
+					for (String fileBrief : HanLP.extractSummary(fileText, 3)) {
+						
+						
+						
 					}
 					// strs.add(HanLP.getSummary(str, 100).toString());
 				}
@@ -343,7 +346,7 @@ public class LuceneSearchUtil {
 				e.printStackTrace();
 			}
 		}
-		return filebriefs;
+		return fileBriefs;
 		
 	}
 	/**
@@ -405,7 +408,7 @@ public class LuceneSearchUtil {
 	 * @return
 	 * @throws IOException 
 	 */
-	public static List<Long> extractText(List<String> fileKeyWords){
+	public static List<Long> extractRelation(List<String> fileKeyWords){
 		//new一个文档对象
 		Document document = new Document();
 		//关联文档的id
