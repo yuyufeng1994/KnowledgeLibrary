@@ -43,7 +43,16 @@
 											<div class="am-form-group">
 												<div class="am-u-sm-10 am-u-sm-offset-2">
 													<button type="button" id="user-submit"
-														class="am-btn am-btn-default">更换邮箱绑定</button>
+														class="am-btn am-btn-default" data-am-modal="{target: '#my-modal-loading'}">更换邮箱绑定</button>
+													<div class="am-modal am-modal-loading am-modal-no-btn"
+														tabindex="-1" id="my-modal-loading">
+														<div class="am-modal-dialog">
+															<div id="emailMsg" class="am-modal-hd">发送邮箱中...</div>
+															<div class="am-modal-bd">
+																<span class="am-icon-spinner am-icon-spin"></span>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</td>
@@ -53,7 +62,7 @@
 										<td><h2 for="userEmail">密码:</h2></td>
 										<td>
 											<div id="" class="  am-form-icon am-form-feedback">
-												<span value="${user.userPassword}">          *******</span>
+												<span value="${user.userPassword}"> *******</span>
 											</div>
 										</td>
 										<td>
@@ -113,14 +122,11 @@
 				"time" : new Date()
 			};
 			$.post(url, args, function(data) {
-				alert("发送邮箱中。。。。");
-				//var userName = data.data.userEmail;
-				//$("#userEmail").attr("value",userEmail);
 			}).success(function() {
-				alert("修改成功");
+				$("emailMsg").text("修改成功");
 				window.location.href = "login";
 			}).error(function() {
-				alert("修改失败");
+				$("emailMsg").text("修改失败");
 			});
 		});
 	});
