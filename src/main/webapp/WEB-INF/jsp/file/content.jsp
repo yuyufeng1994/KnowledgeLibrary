@@ -105,21 +105,15 @@
 									</li>
 									<li>
 										<div class="am-btn-group am-btn-group-xs">
-											<button type="button" class="am-btn am-btn-default">
-												<span class="am-icon-plus"></span> 新增
-											</button>
-											<button type="button" class="am-btn am-btn-default">
-												<span class="am-icon-save"></span> 保存
-											</button>
 											<button type="button" id="fork"   class="am-btn am-btn-default"
 												onclick="findDoc()"
 												>
 												<span class="am-icon-archive"></span> 
 												<span id="shoucang">收藏</span>
 											</button>
-											<button type="button" class="am-btn am-btn-default">
+											<a href="user/download/${fileInfo.fileUuid}/${fileInfo.fileExt}" type="button" class="am-btn am-btn-default">
 												<span class="am-icon-trash-o"></span> 下载
-											</button>
+											</a>
 										</div>
 
 									</li>
@@ -255,7 +249,7 @@
 				success : function(JsonResult) {
 					/* var len=JsonResult.data.length;
 					var docInfos=JsonResult.data; */
-					alert("取消收藏");
+					//alert("取消收藏");
 					$("#fork").removeClass("am-active");
 					$("#shoucang").text("收藏");
 					$("#fork").attr("data-am-modal","{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 260}");
@@ -308,7 +302,7 @@
 			success : function(JsonResult) {
 				/* var len=JsonResult.data.length;
 				var docInfos=JsonResult.data; */
-				alert(JsonResult.error);
+				//alert(JsonResult.error);
 				$("#shoucang").text("已收藏");
 				$("#fork").addClass("am-active");
 				$("#fork").removeAttr("data-am-modal");

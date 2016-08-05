@@ -17,33 +17,28 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">首页</strong> / <small>一些常用模块</small>
+						<strong class="am-text-primary am-text-lg">首页</strong> / <small>信息概览</small>
 					</div>
 				</div>
 
 				<ul
 					class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
 					<li><a href="#" class="am-text-success"><span
-							class="am-icon-btn am-icon-file-text"></span><br />新增页面<br />2300</a></li>
+							class="am-icon-btn am-icon-file-text"></span><br />今日录入<br />330</a></li>
 					<li><a href="#" class="am-text-warning"><span
-							class="am-icon-btn am-icon-briefcase"></span><br />成交订单<br />308</a></li>
+							class="am-icon-btn am-icon-briefcase"></span><br />可用文档<br />3080</a></li>
 					<li><a href="#" class="am-text-danger"><span
-							class="am-icon-btn am-icon-recycle"></span><br />昨日访问<br />80082</a></li>
+							class="am-icon-btn am-icon-recycle"></span><br />我的资源<br />82</a></li>
 					<li><a href="#" class="am-text-secondary"><span
-							class="am-icon-btn am-icon-user-md"></span><br />在线用户<br />3000</a></li>
+							class="am-icon-btn am-icon-user-md"></span><br />我的收藏<br />130</a></li>
 				</ul>
 
 				<div class="am-g">
 					<div class="am-u-sm-12">
-						<table
-							class="am-table am-table-bd am-table-striped admin-content-table">
+						<table class="am-table am-table-bd am-table-striped">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>用户名</th>
-									<th>最后成交任务</th>
-									<th>成交订单</th>
-									<th>管理</th>
+									<th colspan="5">文档推荐</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -52,84 +47,36 @@
 									<td>John Clark</td>
 									<td><a href="#">Business management</a></td>
 									<td><span class="am-badge am-badge-success">+20</span></td>
-									<td>
-										<div class="am-dropdown" data-am-dropdown>
-											<button
-												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
-												data-am-dropdown-toggle>
-												<span class="am-icon-cog"></span> <span
-													class="am-icon-caret-down"></span>
-											</button>
-											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
-											</ul>
-										</div>
-									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href=""> 预览 <i class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 								<tr>
 									<td>2</td>
 									<td>风清扬</td>
 									<td><a href="#">公司LOGO设计</a></td>
 									<td><span class="am-badge am-badge-danger">+2</span></td>
-									<td>
-										<div class="am-dropdown" data-am-dropdown>
-											<button
-												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
-												data-am-dropdown-toggle>
-												<span class="am-icon-cog"></span> <span
-													class="am-icon-caret-down"></span>
-											</button>
-											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
-											</ul>
-										</div>
-									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href=""> 预览 <i class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 								<tr>
 									<td>3</td>
 									<td>詹姆斯</td>
 									<td><a href="#">开发一款业务数据软件</a></td>
 									<td><span class="am-badge am-badge-warning">+10</span></td>
-									<td>
-										<div class="am-dropdown" data-am-dropdown>
-											<button
-												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
-												data-am-dropdown-toggle>
-												<span class="am-icon-cog"></span> <span
-													class="am-icon-caret-down"></span>
-											</button>
-											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
-											</ul>
-										</div>
-									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href=""> 预览 <i class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 								<tr>
 									<td>4</td>
 									<td>云适配</td>
 									<td><a href="#">适配所有网站</a></td>
 									<td><span class="am-badge am-badge-secondary">+50</span></td>
-									<td>
-										<div class="am-dropdown" data-am-dropdown>
-											<button
-												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
-												data-am-dropdown-toggle>
-												<span class="am-icon-cog"></span> <span
-													class="am-icon-caret-down"></span>
-											</button>
-											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
-											</ul>
-										</div>
-									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href=""> 预览 <i class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 
 								<tr>
@@ -137,21 +84,9 @@
 									<td>呵呵呵</td>
 									<td><a href="#">基兰会获得BUFF</a></td>
 									<td><span class="am-badge">+22</span></td>
-									<td>
-										<div class="am-dropdown" data-am-dropdown>
-											<button
-												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
-												data-am-dropdown-toggle>
-												<span class="am-icon-cog"></span> <span
-													class="am-icon-caret-down"></span>
-											</button>
-											<ul class="am-dropdown-content">
-												<li><a href="#">1. 编辑</a></li>
-												<li><a href="#">2. 下载</a></li>
-												<li><a href="#">3. 删除</a></li>
-											</ul>
-										</div>
-									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href=""> 预览 <i class="am-icon-cloud"></i>
+									</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -163,7 +98,7 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
 								data-am-collapse="{target: '#collapse-panel-1'}">
-								文件上传<span class="am-icon-chevron-down am-fr"></span>
+								最近阅读<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
 								<ul class="am-list admin-content-file">
@@ -187,7 +122,7 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
 								data-am-collapse="{target: '#collapse-panel-2'}">
-								浏览器统计<span class="am-icon-chevron-down am-fr"></span>
+								热门文档<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div id="collapse-panel-2" class="am-in">
 								<table
@@ -238,7 +173,7 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
 								data-am-collapse="{target: '#collapse-panel-4'}">
-								任务 task<span class="am-icon-chevron-down am-fr"></span>
+								最新分享<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
 								<ul class="am-list admin-content-task">

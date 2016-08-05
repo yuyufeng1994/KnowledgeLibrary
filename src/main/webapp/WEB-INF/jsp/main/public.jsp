@@ -13,13 +13,10 @@
 	opacity: 0.8; /*其他，透明度50%*/
 }
 
-.title-header a {
+.title-header a .a-black{
 	color: #333;
 }
 
-.a-black {
-	color: #333;
-}
 </style>
 </head>
 <body>
@@ -45,12 +42,12 @@
 				<div class="am-u-sm-12">
 					<div id="my-slider" data-am-widget="slider"
 						class="am-slider  am-slider-c3"
-						data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;animationLoop&quot;:true,&quot;itemWidth&quot;:150,&quot;itemHeight&quot;:150,&quot;itemMargin&quot;:0}'>
+						data-am-slider='{&quot;animation&quot;:&quot;slide&quot;,&quot;animationLoop&quot;:true,&quot;itemWidth&quot;:150,&quot;itemHeight&quot;:150,&quot;itemMargin&quot;:5}'>
 						<ul class="am-slides">
 							<c:forEach items="${list}" var="c">
 								<li><a href="user/public/${c.classificationId}/1"
-									title="${c.classificationName} : ${c.classificationBrief}"><img
-										src="thumbnail/${c.classificationPicture}" class="am-radius"></a>
+									title="${c.classificationName} : ${c.classificationBrief}"><img style="width:130px;height:130px;"
+										src="thumbnail/${c.classificationPicture}" class="am-circle" ></a>
 									<div class="am-slider-desc">${c.classificationName}</div></li>
 							</c:forEach>
 						</ul>
@@ -63,7 +60,7 @@
 						<div class="am-g am-intro-bd">
 							<div class="am-intro-left am-u-sm-3">
 								<img src="thumbnail/${classi.classificationPicture}" alt="小娜"
-									style="width: 200px; height: 200px;" />
+									style="width:160px; height: 160px;" />
 							</div>
 							<div class="am-intro-right am-u-sm-9">
 								<h1>${classi.classificationName}</h1>
