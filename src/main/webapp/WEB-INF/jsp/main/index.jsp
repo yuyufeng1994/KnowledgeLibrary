@@ -23,13 +23,13 @@
 
 				<ul
 					class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
-					<li><a href="#" class="am-text-success"><span
+					<li><a href="user/public/1/1" class="am-text-success"><span
 							class="am-icon-btn am-icon-file-text"></span><br />今日录入<br />330</a></li>
-					<li><a href="#" class="am-text-warning"><span
+					<li><a href="user/public/1/1" class="am-text-warning"><span
 							class="am-icon-btn am-icon-briefcase"></span><br />可用文档<br />3080</a></li>
-					<li><a href="#" class="am-text-danger"><span
+					<li><a href="user/myfiles/1" class="am-text-danger"><span
 							class="am-icon-btn am-icon-recycle"></span><br />我的资源<br />82</a></li>
-					<li><a href="#" class="am-text-secondary"><span
+					<li><a href="user/myforks/-1/1" class="am-text-secondary"><span
 							class="am-icon-btn am-icon-user-md"></span><br />我的收藏<br />130</a></li>
 				</ul>
 
@@ -38,7 +38,7 @@
 						<table class="am-table am-table-bd am-table-striped">
 							<thead>
 								<tr>
-									<th colspan="5">文档推荐</th>
+									<th colspan="5">个性推荐</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -347,8 +347,8 @@
 	var host = location.host; // 192.168.1.104
 	host = host.substring(0, host.indexOf(':'));
 	var fileUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/";
+	var readUrl = "user/thumbnail/" + "${fileInfo.fileUuid}" + "/"+"${fileInfo.fileExt}";
 	var $content = $("#main-content");
 </script>
-
 <script src="resource/script/file-view.js"></script>
 </html>

@@ -229,7 +229,7 @@ public class FileManagerController {
 	}
 
 	/**
-	 * 文件下载
+	 * 文件流
 	 * 
 	 * @param request
 	 * @param response
@@ -259,5 +259,5 @@ public class FileManagerController {
 		}
 		return null;
 	}
-
+	
 }

@@ -94,7 +94,7 @@
 										</div>
 										<div class="am-intro-right am-u-sm-10">
 											<h3 class="am-comment-title">
-												<a class="a-black" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
+												<a class="a-black" target="_blank" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
 											</h3>
 											<p>简介：${f.fileBrief }</p>
 										</div>
