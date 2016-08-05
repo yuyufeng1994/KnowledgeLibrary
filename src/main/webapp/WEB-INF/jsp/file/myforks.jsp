@@ -42,7 +42,7 @@
         <div class="am-u-sm-12 am-u-md-3">
          <form action="user/myforks/-1/1" method="get">
           <div class="am-input-group am-input-group-sm">
-            <input type="text" name="search" id="search"  class="am-form-field">
+            <input type="text" name="search" id="search" value="${param.search}"  class="am-form-field">
           <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="submit">搜索</button>
           </span>
@@ -192,7 +192,7 @@
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">新建文件夹</div>
 			<div class="am-modal-bd">
-				收藏夹名称 :&nbsp&nbsp&nbsp<input required="required" type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
+				收藏夹名称 :&nbsp&nbsp&nbsp<input  type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
 			</div>
 			<div class="am-modal-footer">
 				<span class="am-modal-btn" data-am-modal-cancel>取消</span> 
@@ -227,16 +227,17 @@
 $(function() {
   $('#doc-prompt-toggle-add').on('click', function() {
     $('#my-prompt-add').modal({
+      
       relatedTarget: this,
        onConfirm: function(e) {
-    	     var docName=$("#sDocName").val();
-    	     if(docName="")
-    	    	 {
+    	   var docName=$("#sDocName").val();
+    	    if(docName=="")
+    	    {
     	    	 alert("名称不能为空");
     	    	 return ;
-    	    	 }
-    	     
+    	    }
     		 $.ajax({
+    			
     				url : "user/insertDoc",
     				data:{docName:docName},
     				type : "post",
@@ -258,10 +259,11 @@ $(function() {
 $(function() {
 	  $('#doc-prompt-toggle-delete').on('click', function() {
 		findDoc('#dSelect');
+		
 	    $('#my-prompt-delete').modal({
 	      relatedTarget: this,
 	      onConfirm: function(e) {
-	    	     var docId=$("#dSelect").val();
+	    	  var docId=$("#dSelect").val();	    
 	    		 $.ajax({
 	    				url : "user/deleteDoc",
 	    				data:{docId:docId},
