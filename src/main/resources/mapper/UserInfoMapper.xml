@@ -42,4 +42,9 @@
   		user_type = #{userType}
   		where user_id = #{userId}
   	</update>
+  		<update id="updateUserPwd"  parameterType="UserInfo">
+  		update user_info 
+  		set user_password = #{userPassword}
+  		where user_id = #{userId}
+  	</update>
 </mapper>

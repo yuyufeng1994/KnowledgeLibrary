@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hankcs.hanlp.algoritm.VectorDistance;
 import com.lib.dao.UserInfoDao;
 import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
@@ -65,9 +66,30 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(record.getUserId());
 		return user;
 	}
+	/**
+	 * 获取所有user信息
+	 * @param userId
+	 * @return
+	 */
+	public UserInfo getUserAllInfo(Long userId){
+		UserInfo user = new UserInfo();
+		UserInfo record = userInfoDao.queryById(userId);
+		user.setUserName(record.getUserName());
+		user.setUserEmail(record.getUserEmail());
+		user.setUserPhoto(record.getUserPhoto());
+		user.setUserType(record.getUserType());
+		user.setUserPassword(record.getUserPassword());
+		user.setUserId(record.getUserId());
+		return user;
+	}
 	@Override
 	public void updateUser(UserInfo user) {
 		userInfoDao.updateUserInfo(user);
 	}
+	@Override
+	public void updateUserPwd(UserInfo user) {
+		userInfoDao.updateUserPwd(user);
+	}
+	
 
 }
