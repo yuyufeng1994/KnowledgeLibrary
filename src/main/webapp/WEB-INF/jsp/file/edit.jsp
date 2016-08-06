@@ -175,7 +175,7 @@
 										placeholder="文件名称" value="${fileInfo.fileName }"> <small>输入它名字，让大家记住它...</small>
 								</div>
 								<label for="user-name" class="am-u-sm-1 am-form-label"
-									style="padding-left: 0px">.txt</label>
+									style="padding-left: 0px">.${fileInfo.fileExt }</label>
 							</div>
 
 							<div class="am-form-group">

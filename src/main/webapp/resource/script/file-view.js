@@ -62,6 +62,13 @@ if (viewJudge.pdf(ext)) {
 		f : 'rtmp://' + host + '/lib/' + uuid + '.flv',
 		c : 0
 	};
+	
+	if(ext == "mp4"){
+		flashvars = {
+				f : 'rtmp://' + host + '/lib/' + uuid + '.mp4',
+				c : 0
+			};
+	}
 	var params = {
 		bgcolor : '#FFF',
 		allowFullScreen : true,
