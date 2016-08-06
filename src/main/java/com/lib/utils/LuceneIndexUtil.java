@@ -54,8 +54,6 @@ public class LuceneIndexUtil {
 	 * @param file
 	 */
 	public synchronized static void addFileIndex(FileInfo file) {
-		
-	
 		Document document = new Document();
 		// 创建Directory对象
 		IndexWriter indexWriter = null;
