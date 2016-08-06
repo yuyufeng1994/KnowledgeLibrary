@@ -53,7 +53,7 @@ public class LuceneIndexUtil {
 	 * 添加文件索引
 	 * @param file
 	 */
-	public  static void addFileIndex(FileInfo file) {
+	public synchronized static void addFileIndex(FileInfo file) {
 		
 	
 		Document document = new Document();
