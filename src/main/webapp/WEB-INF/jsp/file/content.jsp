@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>资源主体</title>
+<title>${fileInfo.fileName }</title>
 <%@include file="../common/head.jsp"%>
 <style type="text/css">
 #main-content {

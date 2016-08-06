@@ -18,6 +18,10 @@ import com.lib.entity.UserInfo;
  */
 @Controller
 @RequestMapping("/admin")
-public class AdminLoginController {
-	
+public class AdminMainController {
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String  index() {
+		
+		return "admin/index";
+	}
 }

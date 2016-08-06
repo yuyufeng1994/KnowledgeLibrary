@@ -27,7 +27,8 @@
 								<table class="am-table table-main am-vertical-align-middle">
 									<tr>
 										<td><input id="userId" type="hidden"
-											value="${user.userId }" /> <!-- 用户头像 --></td>
+											value="${user.userId }" /> <!-- 用户头像 -->
+										</td>
 										<td><h2 for="name-box">邮箱:</h2></td>
 										<td>
 											<div id="name-box" class="  am-form-icon am-form-feedback">
@@ -43,7 +44,8 @@
 											<div class="am-form-group">
 												<div class="am-u-sm-10 am-u-sm-offset-2">
 													<button type="button" id="user-submit"
-														class="am-btn am-btn-default" data-am-modal="{target: '#my-modal-loading'}">更换邮箱绑定</button>
+														class="am-btn am-btn-default"
+														data-am-modal="{target: '#my-modal-loading'}">更换邮箱绑定</button>
 													<div class="am-modal am-modal-loading am-modal-no-btn"
 														tabindex="-1" id="my-modal-loading">
 														<div class="am-modal-dialog">

@@ -40,17 +40,20 @@ public class StringValueUtil {
 		DecimalFormat formater = new DecimalFormat("####.00");
 		if (size < 1024) {
 			return size + " bytes";
-		} else if (size < 1024 * 1024) {
+		} else if (size < 1024 * 1024l) {
 			float kbsize = size / 1024f;
 			return formater.format(kbsize) + " KB";
-		} else if (size < 1024 * 1024 * 1024) {
+		} else if (size < 1024 * 1024 * 1024l) {
 			float mbsize = size / 1024f / 1024f;
 			return formater.format(mbsize) + " MB";
-		} else if (size < 1024 * 1024 * 1024 * 1024) {
+		} else if (size < 1024 * 1024 * 1024 * 1024l) {
 			float gbsize = size / 1024f / 1024f / 1024f;
 			return formater.format(gbsize) + " GB";
 		} else {
 			return "size: error";
 		}
+	}
+	public static void main(String[] args) {
+		System.out.println(1024 * 1024 * 1024 * 1024l);
 	}
 }
