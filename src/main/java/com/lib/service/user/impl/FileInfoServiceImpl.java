@@ -22,7 +22,7 @@ import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.OfficeConvert;
-import com.lib.service.user.SearchService;
+import com.lib.service.user.LuceneService;
 import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
 import com.lib.utils.LuceneIndexUtil;
@@ -40,6 +40,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private FileInfoDao fileinfoDao;
 	@Autowired
 	private RelationInfoDao relationInfoDao;
+	
+	@Autowired
+	private LuceneService searchService;
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -126,7 +129,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 全文检索创立索引
-		LuceneIndexUtil.addFileIndex(file);
+		searchService.addFileIndex(file);
 		
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);

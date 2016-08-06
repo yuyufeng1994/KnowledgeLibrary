@@ -6,7 +6,7 @@ import java.util.List;
 public class ParagraphUtil {
 	
 	/**
-     * 将文本切割为段落
+     * 将文本切割为段落TODO
      * @param content
      * @return
      */
@@ -30,11 +30,10 @@ public class ParagraphUtil {
             {
                 continue;
                 
-            }else if(chars[i]=='。'||chars[i]=='!'||chars[i]=='?'||chars[i]=='…')
+            }else if(chars[i]=='。'||chars[i]=='!'||chars[i]=='?')
             {	
             	
-          
-            	if(chars[i+1]==' '&&chars[i+2]==' '||chars[i+1]=='\n'||chars[i+1]=='\r'||chars[i+1]=='…')
+            	if(chars[i+1]=='\n'||chars[i+1]=='\r')
             	{   
             		sb.append(chars[i]);
             		sb.append(chars[i+1]);

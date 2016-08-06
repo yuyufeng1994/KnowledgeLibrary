@@ -85,15 +85,12 @@ public class LuceneIndexUtil {
 					PDFTextStripper stripper = new PDFTextStripper();
 					result = stripper.getText(PDdoc);
 					if(result!=""){
-					System.out.println(result);
-					List<String> paragraphs=ParagraphUtil.toParagraphList(result);
-					for(String paragrap:paragraphs)
-					{
-						System.out.println(paragrap+"\n---------------------------------------------------------------------------");
-					}
+			
 					document.add(new TextField("fileText", result, Field.Store.YES));
-					List<String> fileKeyWords = HanLP.extractKeyword(result, 5);
-					document.add(new StringField("fileKeyWord",fileKeyWords.toString(), Field.Store.YES));
+					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
+					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
+					document.add(new StringField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
+					document.add(new StringField("fileSummarys",fileSummarys.toString(), Field.Store.YES));
 					}
 				} catch (Exception e) {
 					close(indexWriter,directory);

@@ -80,12 +80,12 @@ public class LuceneSearchUtil {
 	 * @param flag //是否二次查询条件
 	 * @return
 	 */
-	public static void indexDocSearch(FileInfo file, Integer pageNo, List<Long> fileClassId,int flag){
+	public static List<Map<String, String>> indexFileSearch(FileInfo file, Integer pageNo, List<Long> fileClassId,boolean flag){
 		
 		//不是第一页直接返回分页结果
 		if(pageNo!=1)
 		{
-			page(pageNo,12);
+			return page(pageNo,12);
 		}
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -102,7 +102,7 @@ public class LuceneSearchUtil {
 		    BooleanQuery booleanQuery = new BooleanQuery();
 		
 		//判断是否二次查询
-		if(flag==1)
+		if(flag==true)
 			booleanQuery.add((BooleanQuery)oldBooleanQuery,BooleanClause.Occur.MUST);
 			else{
 				oldBooleanQuery=null;
@@ -112,9 +112,9 @@ public class LuceneSearchUtil {
 	    queryText = null;
 		if (file.getFileName() != null && !"".equals(file.getFileName())) {
 			
-			String[] fields = { "fileName", "fileText", "fileBrief","fileKeyWord"};
+			String[] fields = { "fileName", "fileText", "fileBrief","fileKeyWords"};
 			Map<String, Float> boost = new HashMap<String, Float>();
-			boost.put("fileKeyWord", 4.0f);
+			boost.put("fileKeyWords", 4.0f);
 			boost.put("fileName", 3.0f);
 			boost.put("fileBrief", 2.0f);
 			boost.put("fileText", 1.0f);
@@ -150,10 +150,8 @@ public class LuceneSearchUtil {
 			BytesRef eDateStr = new BytesRef(sdf.format(eDate));
 
 			// 时间范围查询
-			Query queryUpTime = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
-			Query queryDocTime = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);//TODO
-			booleanQuery.add(queryUpTime, BooleanClause.Occur.MUST);
-			booleanQuery.add(queryDocTime, BooleanClause.Occur.MUST);
+			Query fileCreateTime = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
+			booleanQuery.add(fileCreateTime, BooleanClause.Occur.MUST);
 		}
 		// 查询条件三分类查询
 		for (Long id : fileClassId) {
@@ -180,13 +178,12 @@ public class LuceneSearchUtil {
 		oldBooleanQuery=booleanQuery;
 		// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 		hits = indexSearch.search(booleanQuery, 100000);
-		page(pageNo,12);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(ireader,directory);
 		}
-		
+		return page(pageNo,12);
 	
 	}
 	/**
@@ -234,10 +231,10 @@ public class LuceneSearchUtil {
 				map.put("fileText", fileText);
 				
 				String fileKeyWord = "";
-				if (file.get("fileKeyWord") != null&& !"".equals(file.get("fileKeyWord"))) {
-					fileKeyWord = displayHtmlHighlight(queryText, analyzer, "fileKeyWord", file.get("fileKeyWord"), 30);
+				if (file.get("fileKeyWords") != null&& !"".equals(file.get("fileKeyWords"))) {
+					fileKeyWord = displayHtmlHighlight(queryText, analyzer, "fileKeyWords", file.get("fileKeyWords"), 30);
 				}
-				map.put("fileKeyWord", fileKeyWord);
+				map.put("fileKeyWords", fileKeyWord);
 				
 				page.add(map);
 			}
@@ -260,7 +257,7 @@ public class LuceneSearchUtil {
 	 * @throws InvalidTokenOffsetsException 
 	 * @throws ParseException 
 	 */
-	public static List<String> extractSummary(Long fileId, String fileName) {
+	public static List<String> extractSummary(Long fileId, long size) {
 		
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -273,7 +270,7 @@ public class LuceneSearchUtil {
 		//new一个文档对象
 		Document document = new Document();
 		//文件简介
-		List<String> fileBriefs=new ArrayList<String>() ;
+		List<String> fileSummarys=new ArrayList<String>() ;
 		try {
 			directory = FSDirectory.open(new File(indexPath).toPath());
 
@@ -289,34 +286,28 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(termQuery, 1);
 			
 			document = indexSearch.doc(topdocs.scoreDocs[0].doc);
-
-			if (document.get("fileText") != null && !"".equals(document.get("fileText"))) {
-
-				QueryParser queryParser = new QueryParser("fileText", analyzer);
-
-				String fileText = "";
-				if (fileName != null && !"".equals(fileName)) {
-					query = queryParser.parse(fileName);
-					fileText = displayHtmlHighlight(query, analyzer, "fileText", document.get("fileText"), 2000);
-					if (fileText != "")
-						fileBriefs.add(HanLP.getSummary(fileText, 3));
-				} else {
-					fileText = document.get("fileText");
-					for (String fileBrief : HanLP.extractSummary(fileText, 3)) {
-						
-						
-						
-					}
-					// strs.add(HanLP.getSummary(str, 100).toString());
+			
+			String[] summarys=document.get("fileSummarys").split(",");
+			long total= 1;
+			for(String summary:summarys)
+			{   
+				total++;
+				fileSummarys.add(summary);
+				if(total==size);
+				{
+					break;
 				}
+				
+				
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(ireader,directory);
 		}
-		return fileBriefs;
+		return fileSummarys;
 		
 	}
 	/**
@@ -326,7 +317,7 @@ public class LuceneSearchUtil {
 	 * @return
 	 * @throws IOException 
 	 */
-	public static List<String> extractKeyword(Long fileId)  {
+	public static List<String> extractKeyword(Long fileId,long size)  {
 		
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -351,9 +342,20 @@ public class LuceneSearchUtil {
 		TopDocs topdocs = indexSearch.search(termQuery, 1);
 		
 		document = indexSearch.doc(topdocs.scoreDocs[0].doc);
-	
-		if (document.get("fileText") != null && !"".equals(document.get("fileText"))) 
-			fileKeyWords = HanLP.extractKeyword(document.get("fileText"), 3);
+		
+		String[] keyWords=document.get("fileKeyWords").split(",");
+		long total= 1;
+		for(String keyWord:keyWords)
+		{   
+			total++;
+			fileKeyWords.add(keyWord);
+			if(total==size);
+			{
+				break;
+			}
+			
+			
+		}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -390,7 +392,7 @@ public class LuceneSearchUtil {
 			indexSearch = new IndexSearcher(ireader);
 		
 		for (String fileKeyWord : fileKeyWords) {
-			TermQuery termQuery = new TermQuery(new Term("docKeyWord", fileKeyWord));
+			TermQuery termQuery = new TermQuery(new Term("fileKeyWords", fileKeyWord));
 			booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
 		}
 		// System.out.println(termQuery);
@@ -409,6 +411,61 @@ public class LuceneSearchUtil {
 		return fileIds;
 	}
 	
+	/**
+	 * 获取相关段落
+	 * @param fileId
+	 * @param keyWord
+	 * @return
+	 */
+	public static List<String> extractParagrap(Long fileId,String keyWord)  {
+		
+		// 保存索引文件的地方
+		Directory directory=null;
+		// IndexReader reader=DirectoryReader
+		DirectoryReader ireader=null;
+		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
+		IndexSearcher indexSearch = null;
+		//new一个文档对象
+		Document document = new Document();
+		//相关段落
+		List<String> relationParagraps=new ArrayList<String>();
+		try {
+		directory = FSDirectory.open(new File(indexPath).toPath());
+		
+		ireader = DirectoryReader.open(directory);
+		
+		indexSearch = new IndexSearcher(ireader);
+		
+		Term term = new Term("fileId", fileId.toString());
+		TermQuery termQuery = new TermQuery(term);
+		// System.out.println(termQuery);
+		TopDocs topdocs = indexSearch.search(termQuery, 1);
+		
+		document = indexSearch.doc(topdocs.scoreDocs[0].doc);
+		String result=document.get("fileText");
+		List<String> paragraphs=ParagraphUtil.toParagraphList(result);
+		for(String paragrap:paragraphs)
+		{
+			//size 表示查找多少关键字
+			List<String> keyWords=HanLP.extractKeyword(paragrap, 3);
+			for(String str:keyWords)
+			{
+				if(str.equals(keyWord))
+				{
+					relationParagraps.add(paragrap);
+				}
+				
+			}
+			
+			
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(ireader,directory);
+		}
+		return relationParagraps;
+	}
 	static String displayHtmlHighlight(Query query, Analyzer analyzer, String fieldName, String fieldContent,
 			int fragmentSize) throws IOException, InvalidTokenOffsetsException {
 		// 创建一个高亮器
