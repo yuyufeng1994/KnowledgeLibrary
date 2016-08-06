@@ -1,19 +1,33 @@
 package com.lib.web.user.main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
@@ -30,6 +44,7 @@ import com.lib.utils.StringValueUtil;
 @Controller
 @RequestMapping("/user")
 public class UserInfoController {
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserService userService;
 
@@ -150,5 +165,61 @@ public class UserInfoController {
 		JsonResult<StringBuffer> jr = null;
 		jr = new JsonResult<StringBuffer>(true, result);
 		return jr;
+	}
+	/**
+	 * 上传修改用户头像
+	 * @param files
+	 * @param session
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/update-img/{userId}", method = RequestMethod.POST)
+	@ResponseBody
+	public String uploadUserPhoto(@RequestParam("file") CommonsMultipartFile[] files, HttpSession session,
+			@PathVariable("userId") Long userId) throws Exception {
+		//Boolean compressState = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
+		//UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		System.out.println(userId);
+		UserInfo user = userService.getUserAllInfo(userId);
+		String userPhotoName = UUID.randomUUID().toString();
+		FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + "users/"+user.getUserId()+"/photo/"+userPhotoName+".png"), files[0].getBytes());
+		user.setUserPhoto(userPhotoName);
+		userService.updateUser(user);
+		System.out.println(userPhotoName);
+		session.setAttribute(Const.SESSION_USER, user);
+		//FileInfoVO file = fileInfoService.getFileInfoByUuid(uuid);
+		//FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + file.getFilePath()+".png"), files[0].getBytes());
+		return "success";
+	}
+	/**
+	 * 加载头像
+	 * @param request
+	 * @param session
+	 * @param response
+	 * @param uuid
+	 * @return
+	 */
+	@RequestMapping(value = "/photo/{userPhoto}", method = RequestMethod.GET)
+	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
+			@PathVariable("userPhoto") String userPhoto) {
+		UserInfo user = (UserInfo)session.getAttribute(Const.SESSION_USER);
+		String path = Const.ROOT_PATH + "users/"+user.getUserId()+"/photo/"+userPhoto+".png";
+		try {
+			InputStream inputStream = new FileInputStream(path);
+			OutputStream os = response.getOutputStream();
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = inputStream.read(b)) > 0) {
+				os.write(b, 0, length);
+			}
+			// 这里主要关闭。
+			os.close();
+			inputStream.close();
+		} catch (FileNotFoundException e) {
+			LOG.error("文件没有找到" + path);
+		} catch (IOException e) {
+		}
+		return null;
 	}
 }
