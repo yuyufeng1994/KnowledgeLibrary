@@ -24,15 +24,32 @@
 				<ul
 					class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
 					<li><a href="user/public/1/1" class="am-text-success"><span
-							class="am-icon-btn am-icon-file-text"></span><br />今日录入<br />330</a></li>
+							class="am-icon-btn am-icon-file-text"></span><br />今日录入<br /> <span
+							id="count-today">0</span></a></li>
 					<li><a href="user/public/1/1" class="am-text-warning"><span
-							class="am-icon-btn am-icon-briefcase"></span><br />可用文档<br />3080</a></li>
+							class="am-icon-btn am-icon-briefcase"></span><br />可用文档<br /> <span
+							id="count-publicfiles">0</span></a></li>
 					<li><a href="user/myfiles/1" class="am-text-danger"><span
-							class="am-icon-btn am-icon-recycle"></span><br />我的资源<br />82</a></li>
+							class="am-icon-btn am-icon-recycle"></span><br />我的资源<br /> <span
+							id="count-userfiles">0</span></a></li>
 					<li><a href="user/myforks/-1/1" class="am-text-secondary"><span
-							class="am-icon-btn am-icon-user-md"></span><br />我的收藏<br />130</a></li>
+							class="am-icon-btn am-icon-user-md"></span><br />我的收藏<br /> <span
+							id="count-forkfiles">0</span></a></li>
 				</ul>
-
+				<script type="text/javascript">
+					$.get("user/count-publicfiles", function(data) {
+						$("#count-publicfiles").text(data.data);
+					})
+					$.get("user/count-forkfiles", function(data) {
+						$("#count-forkfiles").text(data.data);
+					})
+					$.get("user/count-today", function(data) {
+						$("#count-today").text(data.data);
+					})
+					$.get("user/count-userfiles", function(data) {
+						$("#count-userfiles").text(data.data);
+					})
+				</script>
 				<div class="am-g">
 					<div class="am-u-sm-12">
 						<table class="am-table am-table-bd am-table-striped">
@@ -235,7 +252,7 @@
 								id="collapse-panel-3">
 								<ul class="ds-top-threads" data-range="weekly"
 									data-num-items="5"></ul>
-								
+
 							</div>
 						</div>
 					</div>
