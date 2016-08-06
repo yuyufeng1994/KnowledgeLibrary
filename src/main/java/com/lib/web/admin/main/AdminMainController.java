@@ -13,6 +13,7 @@ import com.lib.entity.UserInfo;
 
 /**
  * 后台登录
+ * 
  * @author Yu Yufeng
  *
  */
@@ -20,8 +21,10 @@ import com.lib.entity.UserInfo;
 @RequestMapping("/admin")
 public class AdminMainController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String  index() {
-		
+	public String index() {
+
 		return "admin/index";
 	}
+
+
 }
