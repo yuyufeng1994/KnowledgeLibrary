@@ -124,11 +124,17 @@
 				"time" : new Date()
 			};
 			$.post(url, args, function(data) {
-			}).success(function() {
-				$("emailMsg").text("修改成功");
-				window.location.href = "login";
-			}).error(function() {
-				$("emailMsg").text("修改失败");
+				alert(data.data);
+				var $modal = $('#my-modal-loading');
+				$modal.modal('close');
+				if(data.data=="发送邮箱成功"){
+					window.location.href="login";
+				}
+			})
+			.error(function(){
+				var $modal = $('#my-modal-loading');
+				$modal.modal('close');
+				alert("修改失败");
 			});
 		});
 	});

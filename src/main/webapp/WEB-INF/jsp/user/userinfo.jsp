@@ -160,7 +160,7 @@
 														});
 											</script>
 										</td>
-									<td><lable for="userName"><h2>用户名</h2>:</lable></td>
+									<td><lable for="userName"><h2>用户名:</h2></lable></td>
 									<td>
 										<div id="name-box" class="  am-form-icon am-form-feedback">
 											<input type="text" id="userName" class="am-form-field"
