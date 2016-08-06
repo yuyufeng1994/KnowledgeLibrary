@@ -5,6 +5,7 @@ import java.util.List;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.service.user.SearchService;
+import com.lib.utils.LuceneIndexUtil;
 
 public class SearchServiceImpl implements SearchService {
 
@@ -15,15 +16,13 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public void addIndex(FileInfo fileInfo) {
-		// TODO Auto-generated method stub
-		
+	public void addFileIndex(FileInfo fileInfo) {
+		LuceneIndexUtil.addFileIndex(fileInfo);
 	}
 
 	@Override
-	public void deleteIndex(FileInfo fileInfo) {
-		// TODO Auto-generated method stub
-		
+	public void deleteFileIndex(FileInfo fileInfo) {
+		LuceneIndexUtil.deteleFileIndex(fileInfo);
 	}
 
 	@Override

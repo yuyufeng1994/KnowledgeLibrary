@@ -53,7 +53,9 @@ public class LuceneIndexUtil {
 	 * 添加文件索引
 	 * @param file
 	 */
-	public static void addFileIndex(FileInfo file) {
+	public  static void addFileIndex(FileInfo file) {
+		
+	
 		Document document = new Document();
 		// 创建Directory对象
 		IndexWriter indexWriter = null;
@@ -83,16 +85,18 @@ public class LuceneIndexUtil {
 					PDFTextStripper stripper = new PDFTextStripper();
 					result = stripper.getText(PDdoc);
 					if(result!=""){
-					document.add(new TextField("fileText", result, Field.Store.YES));
-					List<String> strList = HanLP.extractKeyword(result, 3);
-					String strs = "";
-					for (String str : strList) {
-						strs = strs + str;
+					System.out.println(result);
+					List<String> paragraphs=ParagraphUtil.toParagraphList(result);
+					for(String paragrap:paragraphs)
+					{
+						System.out.println(paragrap+"\n---------------------------------------------------------------------------");
 					}
-					if(strs!="")
-					document.add(new StringField("fileKeyWord", strs, Field.Store.YES));
+					document.add(new TextField("fileText", result, Field.Store.YES));
+					List<String> fileKeyWords = HanLP.extractKeyword(result, 5);
+					document.add(new StringField("fileKeyWord",fileKeyWords.toString(), Field.Store.YES));
 					}
 				} catch (Exception e) {
+					close(indexWriter,directory);
 					e.printStackTrace();
 				} finally {
 					if (is != null) {
@@ -109,6 +113,7 @@ public class LuceneIndexUtil {
 							e.printStackTrace();
 						}
 					}
+					
 				}
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -135,18 +140,7 @@ public class LuceneIndexUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (indexWriter != null) {
-					indexWriter.commit();
-					indexWriter.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(indexWriter,directory);
 		}
 	}
 
@@ -173,21 +167,25 @@ public class LuceneIndexUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (indexWriter != null) {
-					indexWriter.commit();
-					indexWriter.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(indexWriter,directory);
 		}
 	}
-
+	
+	public static void close(IndexWriter indexWriter,Directory directory)
+	{
+		try {
+			if (indexWriter != null) {
+				indexWriter.commit();
+				indexWriter.close();
+			}
+			if (directory != null) {
+				directory.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 
 }

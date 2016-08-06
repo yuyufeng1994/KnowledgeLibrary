@@ -184,17 +184,7 @@ public class LuceneSearchUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (ireader != null) {
-					ireader.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(ireader,directory);
 		}
 		
 	
@@ -255,17 +245,7 @@ public class LuceneSearchUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (ireader != null) {
-					ireader.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(ireader,directory);
 		}
 		
 		return page;
@@ -334,17 +314,7 @@ public class LuceneSearchUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (ireader != null) {
-					ireader.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(ireader,directory);
 		}
 		return fileBriefs;
 		
@@ -388,17 +358,7 @@ public class LuceneSearchUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (ireader != null) {
-					ireader.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(ireader,directory);
 		}
 		return fileKeyWords;
 	}
@@ -444,17 +404,7 @@ public class LuceneSearchUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (ireader != null) {
-					ireader.close();
-				}
-				if (directory != null) {
-					directory.close();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close(ireader,directory);
 		}
 		return fileIds;
 	}
@@ -467,6 +417,20 @@ public class LuceneSearchUtil {
 		Fragmenter fragmenter = new SimpleFragmenter(fragmentSize);
 		highlighter.setTextFragmenter(fragmenter);
 		return highlighter.getBestFragment(analyzer, fieldName, fieldContent);
+	}
+	public static void close(DirectoryReader ireader,Directory directory)
+	{
+		try {
+			if (ireader != null) {
+				ireader.close();
+			}
+			if (directory != null) {
+				directory.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

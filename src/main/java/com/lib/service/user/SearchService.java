@@ -18,13 +18,13 @@ public interface SearchService {
 	 * 添加一个索引
 	 * @param fileInfo
 	 */
-	void addIndex(FileInfo fileInfo);
+	void addFileIndex(FileInfo fileInfo);
 	
 	/**
 	 * 删除一个索引
 	 * @param fileInfo
 	 */
-	void deleteIndex(FileInfo fileInfo);
+	void deleteFileIndex(FileInfo fileInfo);
 	
 	/**
 	 * 获取关键字(知识点)
