@@ -96,32 +96,62 @@ public class UserInfoController {
 		return jr;
 	}
 
+	/**
+	 * 修改邮箱地址
+	 * 
+	 * @param action
+	 * @param request
+	 * @param userId
+	 * @param userEmail
+	 * @param session
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
 	@RequestMapping(value = "/update-userEmail", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateUserEmail(String action, HttpServletRequest request, Long userId, String userEmail,
-			HttpSession session) throws Exception {
+	public JsonResult<StringBuffer> updateUserEmail(String action, HttpServletRequest request, Long userId,
+			String userEmail, HttpSession session) throws Exception {
+		StringBuffer result = new StringBuffer();
+		System.out.println(userEmail);
 		if ("register".equals(action)) {
 			UserInfo user = userService.getUserById(userId);
-			user.setUserEmail(userEmail);
-			user.setUserType(2);
-			// 更新邮箱
-			urService.updateEmail(user);
-			return "register/register-success";
+			UserInfo u = null;
+			try{
+			 u = userService.getBasicUserInfoByEmail(userEmail);
+			}catch(Exception e){
+				
+			}
+			if (u != null) {
+				result.append("该邮箱地址已被注册");
+			} else {
+				if (user.getUserEmail().equals(userEmail)) {
+					System.out.println("请修改邮箱地址再更换邮箱");
+					result.append("请修改邮箱地址再更换邮箱");
+				} else {
+					user.setUserEmail(userEmail);
+					user.setUserType(2);
+					// 更新邮箱
+					urService.updateEmail(user);
+					result.append("发送邮箱成功");
+					;
+				}
+			}
 		} else if ("activate".equals(action)) {
-			System.out.println(request.getLocalAddr());
 			// 激活
 			String validateCode = request.getParameter("validateCode");// 激活码
 			try {
 				urService.processActivate(userEmail, validateCode);// 调用激活方法
-				return "register/activate-success";
+				// return "register/activate-success";
 			} catch (Exception e) {
 				request.setAttribute("error", e.getMessage());
-				return "message";
 			}
 
 		}
+		JsonResult<StringBuffer> jr = null;
+		jr = new JsonResult<StringBuffer>(true, result);
 		UserInfo updateUser = userService.getBasicUserInfoByEmail(userEmail);
 		session.setAttribute(Const.SESSION_USER, updateUser);
-		return "redirect:login";
+		return jr;
 	}
 
 	/**
@@ -139,7 +169,6 @@ public class UserInfoController {
 			String newPassword, String confirmPassword) {
 		UserInfo user = userService.getUserAllInfo(userId);
 		StringBuffer result = new StringBuffer();
-		;
 		System.out.println(StringValueUtil.getMD5(oldPassword) + " " + user.getUserPassword());
 		System.out.println(user);
 		// 匹配标识符必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个
@@ -150,24 +179,26 @@ public class UserInfoController {
 				if (newPassword.equals(confirmPassword)) {
 					user.setUserPassword(StringValueUtil.getMD5(confirmPassword));
 					userService.updateUserPwd(user);
-					 result.append("修改成功");
-					 session.setAttribute(Const.SESSION_USER, user);
+					result.append("修改成功");
+					session.setAttribute(Const.SESSION_USER, user);
 				} else {
-					 result.append("两次输入密码不一致");
+					result.append("两次输入密码不一致");
 				}
 			} else {
-				 result.append("密码设置不符合规则");
+				result.append("密码设置不符合规则");
 			}
 		} else {
-			 result.append("密码不正确");
+			result.append("密码不正确");
 		}
 		System.out.println(result);
 		JsonResult<StringBuffer> jr = null;
 		jr = new JsonResult<StringBuffer>(true, result);
 		return jr;
 	}
+
 	/**
 	 * 上传修改用户头像
+	 * 
 	 * @param files
 	 * @param session
 	 * @param userId
@@ -178,22 +209,31 @@ public class UserInfoController {
 	@ResponseBody
 	public String uploadUserPhoto(@RequestParam("file") CommonsMultipartFile[] files, HttpSession session,
 			@PathVariable("userId") Long userId) throws Exception {
-		//Boolean compressState = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
-		//UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		// Boolean compressState = (Boolean)
+		// session.getAttribute(Const.SESSION_IS_COMPRESSING);
+		// UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		System.out.println(userId);
 		UserInfo user = userService.getUserAllInfo(userId);
 		String userPhotoName = UUID.randomUUID().toString();
-		FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + "users/"+user.getUserId()+"/photo/"+userPhotoName+".png"), files[0].getBytes());
+		FileUtils.writeByteArrayToFile(
+				new File(Const.ROOT_PATH + "users/" + user.getUserId() + "/photo/" + userPhotoName + ".png"),
+				files[0].getBytes());
+		File oldFile = new File(
+				Const.ROOT_PATH + "users/" + user.getUserId() + "/photo/" + user.getUserPhoto() + ".png");
 		user.setUserPhoto(userPhotoName);
 		userService.updateUser(user);
+		oldFile.delete();
 		System.out.println(userPhotoName);
 		session.setAttribute(Const.SESSION_USER, user);
-		//FileInfoVO file = fileInfoService.getFileInfoByUuid(uuid);
-		//FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + file.getFilePath()+".png"), files[0].getBytes());
+		// FileInfoVO file = fileInfoService.getFileInfoByUuid(uuid);
+		// FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH +
+		// file.getFilePath()+".png"), files[0].getBytes());
 		return "success";
 	}
+
 	/**
 	 * 加载头像
+	 * 
 	 * @param request
 	 * @param session
 	 * @param response
@@ -203,8 +243,8 @@ public class UserInfoController {
 	@RequestMapping(value = "/photo/{userPhoto}", method = RequestMethod.GET)
 	public String thumbnail(HttpServletRequest request, HttpSession session, HttpServletResponse response,
 			@PathVariable("userPhoto") String userPhoto) {
-		UserInfo user = (UserInfo)session.getAttribute(Const.SESSION_USER);
-		String path = Const.ROOT_PATH + "users/"+user.getUserId()+"/photo/"+userPhoto+".png";
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		String path = Const.ROOT_PATH + "users/" + user.getUserId() + "/photo/" + userPhoto + ".png";
 		try {
 			InputStream inputStream = new FileInputStream(path);
 			OutputStream os = response.getOutputStream();
