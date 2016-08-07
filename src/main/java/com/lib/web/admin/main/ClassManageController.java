@@ -57,13 +57,55 @@ public class ClassManageController {
 	}
 
 	/**
+	 * 修改节点
+	 * 
+	 * @param session
+	 * @param c
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/update-classpic", method = RequestMethod.POST)
+	public @ResponseBody Integer update(HttpSession session, Classification c) throws Exception {
+		int res = classService.updatePicPath(c);
+		return res;
+	}
+
+	/**
+	 * 删除节点
+	 * 
+	 * @param session
+	 * @param classId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/del-classpic/{classId}", method = RequestMethod.POST)
+	public @ResponseBody Integer del(HttpSession session, @PathVariable("classId") Long classId) throws Exception {
+		int res = classService.delete(classId);
+		return res;
+	}
+
+	/**
+	 * 增加节点
+	 * 
+	 * @param session
+	 * @param classId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/add-classpic", method = RequestMethod.POST)
+	public @ResponseBody Integer add(HttpSession session, Classification c) throws Exception {
+		c.setClassificationPicture(StringValueUtil.getUUID());
+		int res = classService.insert(c);
+		return res;
+	}
+
+	/**
 	 * 分类管理主页
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/class-manage-ui", method = RequestMethod.GET)
 	public String ManageUI() {
-		Classification c = new Classification();
 		return "admin/class-manage";
 	}
 
