@@ -2,6 +2,8 @@ package com.lib.entity;
 
 import java.util.Date;
 
+import org.springframework.web.util.HtmlUtils;
+
 /**
  * 文件信息
  * 
@@ -76,7 +78,7 @@ public class FileInfo {
 	}
 
 	public String getFileBrief() {
-		return fileBrief;
+		return HtmlUtils.htmlEscape(fileBrief);
 	}
 
 	public void setFileId(Long fileId) {

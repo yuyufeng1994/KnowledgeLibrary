@@ -9,9 +9,9 @@
 					class="am-icon-angle-right am-fr am-margin-right"></span></a>
 				<ul class="am-list am-collapse admin-sidebar-sub am-in"
 					id="collapse-nav-person">
-					<li><a href="user/myfiles/1?searchNULL=1" class="am-cf"><span
+					<li><a href="admin/index" class="am-cf"><span
 							class="am-icon-file-text"></span> 访问量</a></li>
-					<li><a href="user/upload"><span
+					<li><a href="admin/index"><span
 							class="am-icon-cloud-upload"></span> 知识节点</a></li>
 				</ul></li>
 			<li class="admin-parent"><a class="am-cf"

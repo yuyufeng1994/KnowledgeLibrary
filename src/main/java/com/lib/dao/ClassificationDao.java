@@ -88,4 +88,10 @@ public interface ClassificationDao {
 	 */
 	List<Classification> findAllfatherById(Long classificationId);
 
+	/**
+	 * 更新
+	 * @param c
+	 */
+	int update(Classification c);
+
 }

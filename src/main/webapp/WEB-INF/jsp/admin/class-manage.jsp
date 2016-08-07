@@ -5,6 +5,10 @@
 <head>
 <title>SOKLIB后台管理-分类管理</title>
 <%@include file="../common/head.jsp"%>
+<link rel="stylesheet" type="text/css"
+	href="resource/webuploader/webuploader.css">
+<!--引入JS-->
+<script type="text/javascript" src="resource/webuploader/webuploader.js"></script>
 </head>
 <body>
 	<%@include file="../common/admin-header.jsp"%>
@@ -17,155 +21,230 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding am-padding-bottom-0">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">表格</strong> / <small>Table</small>
+						<strong class="am-text-primary am-text-lg">分类管理</strong> / <small>对系统中的分类进行管理</small>
 					</div>
 				</div>
-
 				<hr>
-
 				<div class="am-g">
-					<div class="am-u-sm-12 am-u-md-6">
-						<div class="am-btn-toolbar">
-							<div class="am-btn-group am-btn-group-xs">
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-plus"></span> 新增
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-save"></span> 保存
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-archive"></span> 审核
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-trash-o"></span> 删除
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="am-u-sm-12 am-u-md-3">
+					<div class="am-u-md-3 am-form">
 						<div class="am-form-group">
-							<select data-am-selected="{btnSize: 'sm'}" style="display: none;">
-								<option value="option1">所有类别</option>
-								<option value="option2">IT业界</option>
-								<option value="option3">数码产品</option>
-								<option value="option3">笔记本电脑</option>
-								<option value="option3">平板电脑</option>
-								<option value="option3">只能手机</option>
-								<option value="option3">超极本</option>
-							</select>
-							<div class="am-selected am-dropdown " id="am-selected-aby8p"
-								data-am-dropdown="">
-								<div class="am-selected-content am-dropdown-content">
-									<h2 class="am-selected-header">
-										<span class="am-icon-chevron-left">返回</span>
-									</h2>
-									<ul class="am-selected-list">
-										<li class="am-checked" data-index="0" data-group="0"
-											data-value="option1"><span class="am-selected-text">所有类别</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="1" data-group="0"
-											data-value="option2"><span class="am-selected-text">IT业界</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="2" data-group="0"
-											data-value="option3"><span class="am-selected-text">数码产品</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="3" data-group="0"
-											data-value="option3"><span class="am-selected-text">笔记本电脑</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="4" data-group="0"
-											data-value="option3"><span class="am-selected-text">平板电脑</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="5" data-group="0"
-											data-value="option3"><span class="am-selected-text">只能手机</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="6" data-group="0"
-											data-value="option3"><span class="am-selected-text">超极本</span>
-											<i class="am-icon-check"></i></li>
-									</ul>
-									<div class="am-selected-hint"></div>
+							<label for="uploader-demo" class="am-u-sm-3 am-form-label">配图
+							</label>
+							<div id="uploader-demo">
+								<div id="fileList" class="uploader-list">
+									<div id="WU_FILE_0"
+										class="file-item thumbnail upload-state-done">
+										<img id="fileClassPicture" src=""
+											style="width: 150px; height: 150px" class="am-img-thumbnail">
+									</div>
 								</div>
+
+								<center id="filePicker" style="margin-top: 5px;">选择图片</center>
 							</div>
+							<script type="text/javascript">
+							
+							</script>
+
 						</div>
 					</div>
-					<div class="am-u-sm-12 am-u-md-3">
-						<div class="am-input-group am-input-group-sm">
-							<input type="text" class="am-form-field"> <span
-								class="am-input-group-btn">
-								<button class="am-btn am-btn-default" type="button">搜索</button>
-							</span>
+					<div class="am-u-md-7 am-form">
+						<div class="am-form-group">
+							<label for="user-name" class="am-u-sm-3 am-form-label">名称
+							</label> <input type="text" id="fileClassName" placeholder="名称 / Name">
 						</div>
+
+						<div class="am-form-group">
+							<label for="fileClassBrief" class="am-u-sm-3 am-form-label">简介
+							</label>
+							<textarea class="" rows="5" id="fileClassBrief"
+								placeholder="输入分类简介"></textarea>
+						</div>
+						<input name="fileClassId" id="fileClassId" type="hidden" value="">
+
+
+					</div>
+					<div class="am-u-md-2 am-form">
+						<label for="" class="am-u-sm-3 am-form-label">提示： </label>
 					</div>
 				</div>
-
 				<div class="am-g">
-					<div class="am-u-sm-12">
-						<form class="am-form">
-							<table
-								class="am-table am-table-striped am-table-hover table-main">
-								<thead>
-									<tr>
-										<th class="table-check"><input type="checkbox"></th>
-										<th class="table-id">ID</th>
-										<th class="table-title">标题</th>
-										<th class="table-type">类别</th>
-										<th class="table-author am-hide-sm-only">作者</th>
-										<th class="table-date am-hide-sm-only">修改日期</th>
-										<th class="table-set">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><input type="checkbox"></td>
-										<td>1</td>
-										<td><a href="#">Business management</a></td>
-										<td>default</td>
-										<td class="am-hide-sm-only">测试1号</td>
-										<td class="am-hide-sm-only">2014年9月4日 7:28:47</td>
-										<td>
-											<div class="am-btn-toolbar">
-												<div class="am-btn-group am-btn-group-xs">
-													<button
-														class="am-btn am-btn-default am-btn-xs am-text-secondary">
-														<span class="am-icon-pencil-square-o"></span> 编辑
-													</button>
-													<button
-														class="am-btn am-btn-default am-btn-xs am-hide-sm-only">
-														<span class="am-icon-copy"></span> 复制
-													</button>
-													<button
-														class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
-														<span class="am-icon-trash-o"></span> 删除
-													</button>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="am-cf">
-								共 15 条记录
-								<div class="am-fr">
-									<ul class="am-pagination">
-										<li class="am-disabled"><a href="#">«</a></li>
-										<li class="am-active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">»</a></li>
-									</ul>
-								</div>
+					<div class="am-panel am-panel-default">
+						<div class="am-panel-hd">
+							<div class="am-btn-group">
+								<button class="am-btn am-btn-primary am-round" id="reply-button"
+									onclick="reply()">
+									<i class="am-icon-angle-left"></i>
+								</button>
+								<button class="am-btn am-btn-primary am-round"
+									id="parent-button" onclick="fileClassSureParent()"></button>
 							</div>
-							<hr>
-							<p>注：.....</p>
-						</form>
+						</div>
+						<div class="am-panel-bd">
+							<div class="" id="child-content"></div>
+						</div>
 					</div>
+
+
+
 
 				</div>
 			</div>
 		</div>
+
+
+
+
 	</div>
 
 	<%@include file="../common/footer.jsp"%>
 </body>
+<script type="text/javascript">
+	var classId = 1
+	var className = "";
+	var parentId = 1;
+	var classBrief = "";
+	var classPicture = "";
+	var resdata;
+	function loadTypes() {
+		if (classId == null) {
+			classId = 1;
+		}
+		$.get("child-file-class/" + classId, function(data) {
+			resdata = data.data;
+			var str = '';
+			for (var i = 1; i < data.data.length; i++) {
+				str += "<div class='am-btn-group' style='margin-top:10px;'>" +
+					"<button class='button-margin am-btn am-btn-default am-round'" + "onclick='fileClassSure(" + i + ")'>" + data.data[i].classificationName + "</button>" +
+					"<button class='button-margin am-btn am-btn-default am-round'" +
+					"onClick=changeType(" + data.data[i].classificationId + "," + "'" + data.data[i].classificationName + "'" + ")>" +
+					"<i class='am-icon-angle-right'></i>" +
+					"</button></div>&nbsp;";
+			}
+			if (data.data.length == 1) {
+				str = '无子节点...';
+			}
+			parentId = data.data[0].parentId;
+			className = data.data[0].classificationName;
+			classId = data.data[0].classificationId;
+			classBrief = data.data[0].classificationBrief;
+			classPicture = data.data[0].classificationPicture;
+			$("#parent-button").text(className)
+			$("#child-content").html(str);
+
+			fileClassSureParent();
+
+		})
+
+	}
+
+	function changeType(id, name) {
+		classId = id;
+		className = name;
+		loadTypes();
+
+	}
+
+
+	function reply() {
+		classId = parentId;
+		loadTypes();
+	}
+
+
+	function fileClassSure(i) {
+		uploader.options.server = 'admin/update-classpic/' + resdata[i].classificationId;
+		//console.log(uploader.options.server)
+		$("#fileClassId").val(resdata[i].classificationId)
+		$("#fileClassName").val(resdata[i].classificationName)
+		$("#fileClassBrief").val(resdata[i].classificationBrief)
+		$("#fileClassPicture").attr("src", "thumbnail/" + resdata[i].classificationPicture)
+	}
+	function fileClassSureParent() {
+		$("#fileClassId").val(classId)
+		$("#fileClassName").val(className)
+		$("#fileClassBrief").val(classBrief)
+		$("#fileClassPicture").attr("src", "thumbnail/" + classPicture)
+	}
+	loadTypes();
+
+
+	//webuploader
+	var $list = $("#fileList");
+	// 初始化Web Uploader
+	var uploader = WebUploader.create({
+
+		// 选完文件后，是否自动上传。
+		auto : true,
+
+		// swf文件路径
+		swf : 'resource/webuploader/Uploader.swf',
+
+		// 文件接收服务端。
+		server : 'admin/update-classpic/' + 1,
+		// 选择文件的按钮。可选。
+		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		pick : '#filePicker',
+
+		// 只允许选择图片文件。
+		accept : {
+			title : 'Images',
+			extensions : 'gif,jpg,jpeg,bmp,png',
+			mimeTypes : 'image/*'
+		}
+	});
+	// 当有文件添加进来的时候
+	uploader.on('fileQueued', function(file) {
+		var $li = $(
+				'<div id="' + file.id + '" class="file-item thumbnail">' +
+				"<img id='fileClassPicture' style='width: 150px; height: 150px' class='am-img-thumbnail' >" +
+				'</div>'
+			),
+			$img = $li.find('img');
+
+
+		// $list为容器jQuery实例
+		$list.html($li);
+
+		// 创建缩略图
+		// 如果为非图片文件，可以不用调用此方法。
+		// thumbnailWidth x thumbnailHeight 为 100 x 100
+		uploader.makeThumb(file, function(error, src) {
+			if (error) {
+				$img.replaceWith('<span>不能预览</span>');
+				return;
+			}
+
+			$img.attr('src', src);
+		}, 150, 150);
+	});
+	// 文件上传过程中创建进度条实时显示。
+
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on('uploadSuccess', function(file) {
+		var $li = $('#' + file.id),
+			$error = $li.find('div.error');
+
+		// 避免重复创建
+		if (!$error.length) {
+			$error = $('<div class="error am-alert am-alert-success"></div>').appendTo($li);
+		}
+		$error.text('修改成功');
+	});
+
+	// 文件上传失败，显示上传出错。
+	uploader.on('uploadError', function(file) {
+		var $li = $('#' + file.id),
+			$error = $li.find('div.error');
+
+		// 避免重复创建
+		if (!$error.length) {
+			$error = $('<div class="error  am-alert am-alert-danger"></div>').appendTo($li);
+		}
+
+		$error.text('修改失败');
+	});
+
+	// 完成上传完了，成功或者失败，先删除进度条。
+	uploader.on('uploadComplete', function(file) {});
+</script>
 </html>

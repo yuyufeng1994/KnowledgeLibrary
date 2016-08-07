@@ -13,10 +13,9 @@
 	opacity: 0.8; /*其他，透明度50%*/
 }
 
-.title-header a .a-black{
+.title-header a .a-black {
 	color: #333;
 }
-
 </style>
 </head>
 <body>
@@ -46,8 +45,9 @@
 						<ul class="am-slides">
 							<c:forEach items="${list}" var="c">
 								<li><a href="user/public/${c.classificationId}/1"
-									title="${c.classificationName} : ${c.classificationBrief}"><img style="width:130px;height:130px;"
-										src="thumbnail/${c.classificationPicture}" class="am-circle" ></a>
+									title="${c.classificationName} : ${c.classificationBrief}"><img
+										style="width: 130px; height: 130px;"
+										src="thumbnail/${c.classificationPicture}" class="am-circle"></a>
 									<div class="am-slider-desc">${c.classificationName}</div></li>
 							</c:forEach>
 						</ul>
@@ -60,12 +60,13 @@
 						<div class="am-g am-intro-bd">
 							<div class="am-intro-left am-u-sm-3">
 								<img src="thumbnail/${classi.classificationPicture}" alt="小娜"
-									style="width:160px; height: 160px;" />
+									style="width: 160px; height: 160px;" />
 							</div>
 							<div class="am-intro-right am-u-sm-9">
 								<h1>${classi.classificationName}</h1>
 								<p>${classi.classificationBrief}</p>
-								<button class="am-icon-btn am-icon-link" onclick="getLinks()" title="点击查看此知识点图谱"
+								<button class="am-icon-btn am-icon-link" onclick="getLinks()"
+									title="点击查看此知识点图谱"
 									data-am-modal="{target: '#class-links', closeViaDimmer: 0, width: 800, height: 500}"></button>
 							</div>
 						</div>
@@ -76,40 +77,32 @@
 					<hr>
 					<h3>最新收录</h3>
 				</div>
-
-				<div class="am-panel am-panel-default">
-					<!-- <header class="am-panel-hd">
-						<h3 class="am-panel-title">最新录入</h3>
-					</header> -->
+				<div class="am-u-sm-12">
 					<c:forEach items="${page.list }" var="f">
 						<article>
-							<!-- 评论容器 -->
-							<div class="">
-								<div class="am-comment-bd">
-									<div class="am-g am-intro-bd">
-										<div class="am-intro-left am-u-sm-2">
-											<img src="user/thumbnail/${f.fileUuid}/png" alt="null"
-												class="am-img-thumbnail"
-												style="width: 100px; height: 100px; overflow: hidden">
-										</div>
-										<div class="am-intro-right am-u-sm-10">
-											<h3 class="am-comment-title">
-												<a class="a-black" target="_blank" href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
-											</h3>
-											<p>简介：${f.fileBrief }</p>
-										</div>
-										<div class="am-comment-meta">
-											<!-- 文件元数据 -->
-											<a href="#link-to-user" class="am-comment-author">用户:
-												${f.userName }</a>
-											<!-- 作者 -->
-											创建于
-											<time datetime="">
-												<fmt:formatDate value="${f.fileCreateTime }"
-													pattern="yyyy-MM-dd HH:mm:ss" />
-											</time>
-										</div>
+							<div class="am-comment-bd">
+								<div class="am-g am-intro-bd">
+									<div class="am-intro-left am-u-sm-2">
+										<img src="user/thumbnail/${f.fileUuid}/png" alt="null"
+											class="am-img-thumbnail"
+											style="width: 100px; height: 100px; overflow: hidden">
 									</div>
+									<div class="am-intro-right am-u-sm-10">
+										<h3 class="am-comment-title">
+											<a class="a-black" target="_blank"
+												href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
+										</h3>
+										<p>简介：${f.fileBrief }</p>
+										<a href="#link-to-user" class="am-comment-author">用户:
+											${f.userName }</a>
+										<!-- 作者 -->
+										创建于
+										<time>
+											<fmt:formatDate value="${f.fileCreateTime }"
+												pattern="yyyy-MM-dd HH:mm:ss" />
+										</time>
+									</div>
+
 								</div>
 
 							</div>

@@ -14,7 +14,9 @@
 		<!-- sidebar end -->
 		<!-- content start -->
 		<div class="admin-content">
-			<div class="admin-content-body"></div>
+			<div class="admin-content-body">
+			首页
+			</div>
 		</div>
 	</div>
 

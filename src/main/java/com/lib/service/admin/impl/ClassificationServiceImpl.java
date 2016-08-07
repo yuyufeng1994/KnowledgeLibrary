@@ -8,27 +8,28 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.lib.dao.ClassificationDao;
 import com.lib.entity.Classification;
 import com.lib.service.admin.ClassificationService;
 
+@Service
 public class ClassificationServiceImpl implements ClassificationService {
 
 	@Autowired
 	private ClassificationDao ClassificationDao;
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Override
 	public void insert(String classificationName, Long parentId) {
 		// TODO Auto-generated method stub
-		String parentPath=ClassificationDao.findFatherPathById(parentId);
-		if(parentPath==null)
-		{
-			parentPath="";
+		String parentPath = ClassificationDao.findFatherPathById(parentId);
+		if (parentPath == null) {
+			parentPath = "";
 		}
-		parentPath=parentPath+"."+parentId;
-		ClassificationDao.insert(classificationName,parentId,parentPath);
+		parentPath = parentPath + "." + parentId;
+		ClassificationDao.insert(classificationName, parentId, parentPath);
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public void modify(String classificationName, Long classificationId) {
 		// TODO Auto-generated method stub
-		ClassificationDao.modify(classificationName,classificationId);
+		ClassificationDao.modify(classificationName, classificationId);
 	}
 
 	@Override
@@ -70,33 +71,31 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public List<Classification> findAllfatherById(Long classificationId) {
 		// TODO Auto-generated method stub
-		String parentPath=ClassificationDao.findFatherPathById(classificationId);
-		String[] parentIds=parentPath.split("\\.");
-		List<Classification>  classifications=new ArrayList<Classification>();
-		for(int i=0;i<parentIds.length;i++)
-		{  
-			//System.out.println(parentIds[i]);
+		String parentPath = ClassificationDao.findFatherPathById(classificationId);
+		String[] parentIds = parentPath.split("\\.");
+		List<Classification> classifications = new ArrayList<Classification>();
+		for (int i = 0; i < parentIds.length; i++) {
+			// System.out.println(parentIds[i]);
 			classifications.add(ClassificationDao.findById(Long.parseLong(parentIds[i])));
 		}
 		return classifications;
 	}
 
 	@Override
-	public Map<String,List<Classification>> findAllChildById(String classificationId) {
-		
-		List<Classification> classifications=ClassificationDao.findAllChildById("%"+classificationId+"%");
-		Map<String,List<Classification>> mapList=new HashMap<String,List<Classification>>();	
-		for(Classification c:classifications)
-		{	String str[]=c.getParentPath().split("\\.");
-		    String key=str[str.length];
-		    if(mapList.get(key)==null)
-		    {
-		    	List<Classification> list=new ArrayList<Classification>();
+	public Map<String, List<Classification>> findAllChildById(String classificationId) {
+
+		List<Classification> classifications = ClassificationDao.findAllChildById("%" + classificationId + "%");
+		Map<String, List<Classification>> mapList = new HashMap<String, List<Classification>>();
+		for (Classification c : classifications) {
+			String str[] = c.getParentPath().split("\\.");
+			String key = str[str.length];
+			if (mapList.get(key) == null) {
+				List<Classification> list = new ArrayList<Classification>();
 				list.add(c);
-				mapList.put(key,list);
-		    }else{
-		    	mapList.get(key).add(c);
-		    }
+				mapList.put(key, list);
+			} else {
+				mapList.get(key).add(c);
+			}
 		}
 		return mapList;
 	}
@@ -104,8 +103,12 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public List<Classification> findAllChildById1(String classificationId) {
 		// TODO Auto-generated method stub
-		return ClassificationDao.findAllChildById("%"+classificationId+"%");
+		return ClassificationDao.findAllChildById("%" + classificationId + "%");
 	}
-	
+
+	@Override
+	public int updatePicPath(Classification c) {
+		return ClassificationDao.update(c);
+	}
 
 }

@@ -78,5 +78,12 @@ public interface ClassificationService {
 	 * @return
 	 */
 	List<Classification> findAllfatherById(Long classificationId);
+
+	/**
+	 * 修改节点
+	 * @param path
+	 * @return 
+	 */
+	int updatePicPath(Classification c);
 	
 }
