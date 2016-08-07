@@ -32,7 +32,7 @@ public class FileInfoDaoTest {
 		fi.setFileSize(1024l);
 		fi.setFileExt("ppt");
 		fi.setFileBrief("这是简介");
-		fi.setFileUserId(2016001l);
+		fi.setFileUserId(2016001L);
 		fi.setFileUuid(StringValueUtil.getUUID());
 		fi.setFilePath("das/dasd");
 		fi.setFileState(3);
@@ -43,7 +43,8 @@ public class FileInfoDaoTest {
 
 	@Test
 	public void testSelectByPrimaryKey() throws Exception {
-		fail("Not yet implemented");
+		fileInfoDao.getFileInfoByFileId(144L);
+		
 	}
 
 	@Test

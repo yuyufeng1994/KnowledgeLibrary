@@ -56,7 +56,7 @@ public class FileInfoVO extends FileInfo {
 
 	@Override
 	public String toString() {
-		return classificationName+super.toString() +"FileInfoVO [fileStateStr=" + fileStateStr + ", fileSizeFormat=" + fileSizeFormat + ", fileUserName="
+		return   super.toString() +"FileInfoVO [fileStateStr=" + fileStateStr + ", fileSizeFormat=" + fileSizeFormat + ", fileUserName="
 				+ userName + "]";
 	}
 
