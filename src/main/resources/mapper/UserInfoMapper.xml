@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.UserInfoDao">
-
+	<!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
+	<resultMap id="BaseResultMap" type="com.lib.entity.UserInfo">
+		<id column="USER_ID" property="userId" jdbcType="BIGINT" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="user_photo" property="userPhoto" jdbcType="VARCHAR" />
+		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectAllUserByUserName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT *
+		FROM user_info
+		WHERE 1 = 1
+		<if test="userName != null and userName !=''">
+			AND USER_NAME like #{userName,jdbcType=VARCHAR}
+		</if>
+		ORDER BY USER_ID
+	</select>
 	<select id="queryById" resultType="UserInfo">
-		SELECT user_id,user_name,user_password,user_type,user_email,user_photo
+		SELECT
+		user_id,user_name,user_password,user_type,user_email,user_photo
 		FROM
 		user_info
 		WHERE user_id = #{userInfoId}
 	</select>
-	
+
 	<select id="queryByEmail" resultType="UserInfo">
-		SELECT user_id,user_name,user_password,user_type,user_email,user_photo
+		SELECT
+		user_id,user_name,user_password,user_type,user_email,user_photo
 		FROM
 		user_info
 		WHERE user_email = #{userEmail}
 	</select>
 
 	<insert id="insertUserNoStatus" parameterType="UserInfo">
-	    insert into user_info (user_id, user_name, user_password, 
-	      user_type, user_email
-	      )
-	    values(#{userId},#{userName},#{userPassword},#{userType},#{userEmail})
-  	</insert>
-  	
-  	<update id="updateUserNoStatus"  parameterType="UserInfo">
-  		update user_info 
-  		set user_name = #{userName},user_password=#{userPassword},
-  		user_email = #{userEmail},user_type=#{userType},
-  		user_photo = #{userPhoto}
-  		where user_id = #{userId}
-  	</update>
-	<update id="updateUserInfo"  parameterType="UserInfo">
-  		update user_info 
-  		set user_name = #{userName},
-  		user_photo = #{userPhoto}
-  		where user_id = #{userId}
-  	</update>
-  	<update id="updateUserEmail"  parameterType="UserInfo">
-  		update user_info 
-  		set user_email = #{userEmail},
-  		user_type = #{userType}
-  		where user_id = #{userId}
-  	</update>
-  		<update id="updateUserPwd"  parameterType="UserInfo">
-  		update user_info 
-  		set user_password = #{userPassword}
-  		where user_id = #{userId}
-  	</update>
+		insert into user_info (user_id, user_name, user_password,
+		user_type, user_email
+		)
+		values(#{userId},#{userName},#{userPassword},#{userType},#{userEmail})
+	</insert>
+
+	<update id="updateUserNoStatus" parameterType="UserInfo">
+		update user_info
+		set user_name = #{userName},user_password=#{userPassword},
+		user_email = #{userEmail},user_type=#{userType},
+		user_photo = #{userPhoto}
+		where user_id = #{userId}
+	</update>
+	<update id="updateUserInfo" parameterType="UserInfo">
+		update user_info
+		set user_name = #{userName},
+		user_photo = #{userPhoto}
+		where user_id = #{userId}
+	</update>
+	<update id="updateUserEmail" parameterType="UserInfo">
+		update user_info
+		set user_email = #{userEmail},
+		user_type = #{userType}
+		where user_id = #{userId}
+	</update>
+	<update id="updateUserPwd" parameterType="UserInfo">
+		update user_info
+		set user_password = #{userPassword}
+		where user_id = #{userId}
+	</update>
 </mapper>

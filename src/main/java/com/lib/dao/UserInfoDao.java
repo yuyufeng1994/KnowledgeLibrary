@@ -1,6 +1,8 @@
 
 package com.lib.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.lib.entity.UserInfo;
@@ -56,4 +58,10 @@ public interface UserInfoDao {
 	 * @return
 	 */
 	int updateUserPwd(UserInfo user);
+	/**
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	List<UserInfo> selectAllUserByUserName(@Param("userName") String userName); 
 }

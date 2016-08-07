@@ -4,6 +4,7 @@ import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
 import com.lib.exception.user.UserNullAccountException;
 import com.lib.exception.user.UserPasswordWrongException;
+import com.lib.utils.PagedResult;
 
 public interface UserService {
 	/**
@@ -59,5 +60,14 @@ public interface UserService {
 	 * @return
 	 */
 	public UserInfo getUserAllInfo(Long userId);
+	/**  
+	 *   
+	 * @author loveling  
+	 * @param userName 查询条件，可为空  
+	 * @param pageNo 查询条件，可为空，默认取1  
+	 * @param pageSize 查询条件，可为空，默认取10  
+	 * @return  
+	 */  
+	PagedResult<UserInfo> queryByPage(String userName,Integer pageNo,Integer pageSize);
 
 }
