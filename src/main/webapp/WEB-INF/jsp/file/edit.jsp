@@ -457,7 +457,7 @@
 				
 				var str='';
 				for(var i = 1;i<data.data.length;i++){
-					str+="<div class='am-btn-group'>"+
+					str+="<div class='am-btn-group'  style='margin-bottom:5px;'>"+
 						"<button class='button-margin am-btn am-btn-default am-round' onclick=fileClassSure("+data.data[i].classificationId+","+"'"+data.data[i].classificationName+"'"+")>"+data.data[i].classificationName+"</button>"+
 						"<button class='button-margin am-btn am-btn-default am-round'"+
 							"onClick=changeType("+data.data[i].classificationId+","+"'"+data.data[i].classificationName+"'"+")>"+

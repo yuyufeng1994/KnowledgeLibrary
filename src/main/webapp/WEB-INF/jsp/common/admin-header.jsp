@@ -18,6 +18,7 @@
 					${session_user.userName} <span class="am-icon-caret-down"></span>
 			</a>
 				<ul class="am-dropdown-content">
+					<li><a href="user/index"><span class="am-icon-user"></span> 前台</a></li>
 					<li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
 					<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
 					<li><a href="logout"><span class="am-icon-power-off"></span>

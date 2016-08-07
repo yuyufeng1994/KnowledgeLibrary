@@ -7,10 +7,10 @@
 <%@include file="../common/head.jsp"%>
 </head>
 <body>
-	<%@include file="../common/header.jsp"%>
+	<%@include file="../common/admin-header.jsp"%>
 	<div class="am-cf admin-main">
 		<!-- sidebar start -->
-		<%@include file="../common/slidebar.jsp"%>
+		<%@include file="../common/admin-slidebar.jsp"%>
 		<!-- sidebar end -->
 		<!-- content start -->
 		<div class="admin-content">
@@ -19,5 +19,6 @@
 	</div>
 
 	<%@include file="../common/footer.jsp"%>
+
 </body>
 </html>
