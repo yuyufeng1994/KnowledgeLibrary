@@ -32,7 +32,7 @@ public class UserManageController {
 			// String searchText = new StringBuilder("%").append(searcher).append("%").toString();
 			PagedResult<UserInfo> pagedResult = userService.queryByPage(searcher, pageNumber, pageSize);
 			jsonResult = new JsonResult<PagedResult<UserInfo>>(true, pagedResult);
-			System.out.println(pagedResult.getDataList());
+			System.out.println(pagedResult.getDataList()); 
 		} catch (Exception e) {
 			jsonResult = new  JsonResult<PagedResult<UserInfo>>(false, e.getMessage());
 		}
