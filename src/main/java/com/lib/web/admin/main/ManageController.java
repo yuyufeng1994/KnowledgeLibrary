@@ -20,11 +20,32 @@ import com.lib.service.user.FileInfoService;
  */
 @Controller
 @RequestMapping("/admin")
-public class FileHandlerController {
+public class ManageController {
 	@Autowired
 	private FileInfoService fileInfoService;
 
-	@RequestMapping(value = "/transfor", method = RequestMethod.GET)
+	/**
+	 * 用户管理主页
+	 * @return
+	 */
+	@RequestMapping(value = "/user-manage-ui", method = RequestMethod.GET)
+	public String userManageUI() {
+		
+		return "admin/user-manage";
+	}
+	
+	/**
+	 * 文件管理主页
+	 * @return
+	 */
+	@RequestMapping(value = "/file-manage-ui", method = RequestMethod.GET)
+	public String ManageUI() {
+		
+		return "admin/file-manage";
+	}
+	
+	
+	@RequestMapping(value = "/user-manage", method = RequestMethod.GET)
 	public @ResponseBody JsonResult<List<FileInfo>> test() {
 		
 		return null;
