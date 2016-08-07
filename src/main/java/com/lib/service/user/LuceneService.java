@@ -2,7 +2,8 @@ package com.lib.service.user;
 
 import java.util.List;
 
-import com.lib.dto.FileInfoVO;
+import com.github.pagehelper.PageInfo;
+import com.lib.dto.LuceneSearchVo;
 import com.lib.entity.FileInfo;
 
 public interface LuceneService {
@@ -12,13 +13,13 @@ public interface LuceneService {
 	 * @param fileInfo
 	 * @return
 	 */
-	List<FileInfoVO> search(FileInfo fileInfo);
+	PageInfo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,boolean flag);
 	
 	/**
 	 * 添加一个索引
 	 * @param fileInfo
 	 */
-	void addFileIndex(FileInfo fileInfo);
+	void addFileIndex(FileInfo fileInfo,String fileUserName);
 	
 	/**
 	 * 删除一个索引
@@ -53,4 +54,6 @@ public interface LuceneService {
 	
 	
 	List<String> getParagraph(Long fileId,String keyWord);
+
+	
 }

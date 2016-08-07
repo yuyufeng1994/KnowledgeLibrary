@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.lib.dao.FileInfoDao;
 import com.lib.dao.RelationInfoDao;
+import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.RelationInfo;
@@ -38,6 +39,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private OfficeConvert officeConvert = TranslateUtils.getOfficeConvert();
 	@Autowired
 	private FileInfoDao fileinfoDao;
+	@Autowired
+	private UserInfoDao userInfoDao;
 	@Autowired
 	private RelationInfoDao relationInfoDao;
 	
@@ -129,7 +132,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 全文检索创立索引
-		searchService.addFileIndex(file);
+		
+		searchService.addFileIndex(file,userInfoDao.queryById(file.getFileUserId()).getUserName());
 		
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);

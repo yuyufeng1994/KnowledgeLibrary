@@ -53,7 +53,7 @@ public class LuceneIndexUtil {
 	 * 添加文件索引
 	 * @param file
 	 */
-	public synchronized static void addFileIndex(FileInfo file) {
+	public synchronized static void addFileIndex(FileInfo file,String fileUserName) {
 		Document document = new Document();
 		// 创建Directory对象
 		IndexWriter indexWriter = null;
@@ -86,8 +86,9 @@ public class LuceneIndexUtil {
 			
 					document.add(new TextField("fileText", result, Field.Store.YES));
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
+					
 					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
-					document.add(new StringField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
+					document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 					document.add(new StringField("fileSummarys",fileSummarys.toString(), Field.Store.YES));
 					}
 				} catch (Exception e) {
@@ -114,11 +115,15 @@ public class LuceneIndexUtil {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			// System.out.println(doc.getDocModTime()+" "+doc.getDocUpTime());
 			
-			document.add(new StringField("fileName", file.getFileName()+"", Field.Store.YES));
+			document.add(new StringField("fileUserName", fileUserName, Field.Store.YES));
+			
+			document.add(new StringField("fileUuid", file.getFileUuid()+"", Field.Store.YES));
+			
+			document.add(new TextField("fileName", file.getFileName()+"", Field.Store.YES));
 			
 			document.add(new StringField("fileExt", file.getFileExt() + "", Field.Store.YES));
 			
-			document.add(new StringField("fileBrief", file.getFileBrief() + "", Field.Store.YES));
+			document.add(new TextField("fileBrief", file.getFileBrief() + "", Field.Store.YES));
 			
 			document.add(new StringField("fileUserId", file.getFileUserId()+"", Field.Store.YES));
 			

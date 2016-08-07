@@ -34,12 +34,12 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+
 import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.dictionary.CoreSynonymDictionary;
 import com.hankcs.lucene.HanLPAnalyzer;
 import com.hankcs.lucene.HanLPTokenizer;
+import com.lib.dto.LuceneSearchVo;
 import com.lib.entity.FileInfo;
-import com.lib.enums.Const;
 /**
  * 搜索索引 Lucene 5.5+
  * 
@@ -58,9 +58,9 @@ public class LuceneSearchUtil {
 	//上一次检索条件
 	private static Object oldBooleanQuery=null;
 	//索引存放路径
-	private static String indexPath=Const.ROOT_PATH+"lucene";
+	private static String indexPath="D:/soklib/lucene";
 	//保存索引结果，分页中使用
-	private static TopDocs hits=null;
+	private static TopDocs result=null;
 	//分词器
 	private static Analyzer analyzer =  new HanLPAnalyzer() {
 		@Override
@@ -80,12 +80,12 @@ public class LuceneSearchUtil {
 	 * @param flag //是否二次查询条件
 	 * @return
 	 */
-	public static List<Map<String, String>> indexFileSearch(FileInfo file, Integer pageNo, List<Long> fileClassId,boolean flag){
+	public static List<LuceneSearchVo> indexFileSearch(FileInfo file, Integer pageNo,Integer pageSize,List<Long> fileClassId,boolean flag){
 		
-		//不是第一页直接返回分页结果
-		if(pageNo!=1)
+		
+		if(pageNo>1)
 		{
-			return page(pageNo,12);
+			page(pageNo,pageSize);
 		}
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -95,6 +95,7 @@ public class LuceneSearchUtil {
 		IndexSearcher indexSearch = null;
 		
 		try {
+		
 			directory = FSDirectory.open(new File(indexPath).toPath());
 			ireader = DirectoryReader.open(directory);
 			indexSearch = new IndexSearcher(ireader);
@@ -104,19 +105,19 @@ public class LuceneSearchUtil {
 		//判断是否二次查询
 		if(flag==true)
 			booleanQuery.add((BooleanQuery)oldBooleanQuery,BooleanClause.Occur.MUST);
-			else{
-				oldBooleanQuery=null;
+		else{
+			oldBooleanQuery=null;
 		}
 		
 		// 查询条件一 字段查询
 	    queryText = null;
 		if (file.getFileName() != null && !"".equals(file.getFileName())) {
 			
-			String[] fields = { "fileName", "fileText", "fileBrief","fileKeyWords"};
+			String[] fields = { "fileName", "fileText", "fileBriefs","fileKeyWords"};
 			Map<String, Float> boost = new HashMap<String, Float>();
 			boost.put("fileKeyWords", 4.0f);
 			boost.put("fileName", 3.0f);
-			boost.put("fileBrief", 2.0f);
+			boost.put("fileBriefs", 2.0f);
 			boost.put("fileText", 1.0f);
 			// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
 			QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
@@ -127,15 +128,15 @@ public class LuceneSearchUtil {
 		
 		// 查询条件二日期
 		Date sDate = file.getFileCreateTime();
-		Date eDate = file.getFileCreateTime();//TODO
-		if ((sDate == null || "".equals(sDate)) && (eDate != null && !"".equals(eDate))) {
+		if ((sDate == null || "".equals(sDate))) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(1900, 0, 1);
 			sDate = calendar.getTime();
 		}
 		
+		Date eDate = null;//TODO
 		//若只有起始值结束值默认为当天
-		if ((sDate != null && !"".equals(sDate)) && (eDate == null || "".equals(eDate))) {
+		if ((eDate == null || "".equals(eDate))) {
 			eDate = new Date();
 		}
 		if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
@@ -161,7 +162,7 @@ public class LuceneSearchUtil {
 		// 查询条件四类型查询
 		if (file.getFileExt() != null && !"".equals(file.getFileExt())) {
 			List<String> typeList = null;
-			if (file.getFileExt().equals("office")) {
+			if (file.getFileExt().equals("docx")) {
 				typeList = JudgeUtils.officeFile;
 			}
 			if (file.getFileExt().equals("video")) {
@@ -177,13 +178,15 @@ public class LuceneSearchUtil {
 		}
 		oldBooleanQuery=booleanQuery;
 		// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
-		hits = indexSearch.search(booleanQuery, 100000);
+		//System.out.println(booleanQuery);
+		result=indexSearch.search(booleanQuery, 10);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(ireader,directory);
 		}
-		return page(pageNo,12);
+		return page(pageNo,pageSize);
 	
 	}
 	/**
@@ -192,7 +195,7 @@ public class LuceneSearchUtil {
 	 * @param num 每页数量
 	 * @return
 	 */
-	private static List<Map<String, String>> page(Integer pageNo,Integer num){
+	private static List<LuceneSearchVo> page(Integer pageNo,Integer pageSize){
 		
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -201,42 +204,69 @@ public class LuceneSearchUtil {
 		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
 		IndexSearcher indexSearch = null;
 		// 循环hits.scoreDocs数据，并使用indexSearch.doc方法把Document还原，再拿出对应的字段的值
-		ScoreDoc[] scoreDoc = hits.scoreDocs;
+		ScoreDoc scoreDoc=null;
+		//结果集
+		List<LuceneSearchVo> page =  new ArrayList<LuceneSearchVo>();
+		if(pageNo>1){ 
+            //索引是从0开始
+            scoreDoc=result.scoreDocs[((pageNo)*pageSize-1)>result.totalHits?((pageNo)*pageSize-1):result.totalHits];  
+        } 
 		//每页的file
-		List<Map<String, String>> page = new ArrayList<Map<String, String>>();
 		try {
 			directory = FSDirectory.open(new File(indexPath).toPath());
+			
 			ireader = DirectoryReader.open(directory);
+			
 			indexSearch = new IndexSearcher(ireader);
-			for (int i = pageNo * num, j = 0; i < scoreDoc.length && j < num; i++, j++) {
-				Map<String, String> map = new HashMap<String, String>();
-				int fileId = scoreDoc[i].doc;
+			 //分页处理  
+	        TopDocs hits= indexSearch.searchAfter(scoreDoc, (Query)oldBooleanQuery, pageSize);
+	        result=hits;
+			for (int i = 0; i < hits.scoreDocs.length ; i++) {
+				LuceneSearchVo vo = new LuceneSearchVo();
+				int fileId = hits.scoreDocs[i].doc;
 				Document file = indexSearch.doc(fileId);
-				map.put("fileId", file.get("fileId"));
+				
+				vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				
+				vo.setFileCreateTime(sdf.parse(file.get("fileCreateTime")));
+				
+				vo.setFileExt(file.get("fileExt"));
+				
+				vo.setFilePath(file.get("filePath"));
+				
+				vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
+				
+				vo.setFileState(Integer.parseInt(file.get("fileState")));
+				
+				vo.setUserName(file.get("fileUserName"));
+				
+				vo.setFileUuid(file.get("fileUuid"));
 				
 				String fileName = "";
 				if (file.get("fileName") != null && !"".equals(file.get("fileName")))
 					fileName = displayHtmlHighlight(queryText, analyzer, "fileName", file.get("fileName"), 30);
-				map.put("fileName", fileName);
+				vo.setFileName(fileName);
 				
 				String fileBrief = "";
 				if (file.get("fileBrief")!= null && !"".equals(file.get("fileBrief")))
 					fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 30);
-				map.put("fileBrief", fileBrief);
+				vo.setFileBrief(fileBrief);
 				
 				String fileText = "";
 				if (file.get("fileText") != null&& !"".equals(file.get("fileText"))) {
 					fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 30);
 				}
-				map.put("fileText", fileText);
+				vo.setFileText(fileText);
 				
-				String fileKeyWord = "";
+				String fileKeyWords = "";
 				if (file.get("fileKeyWords") != null&& !"".equals(file.get("fileKeyWords"))) {
-					fileKeyWord = displayHtmlHighlight(queryText, analyzer, "fileKeyWords", file.get("fileKeyWords"), 30);
+					fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords", file.get("fileKeyWords"), 30);
 				}
-				map.put("fileKeyWords", fileKeyWord);
+				vo.setFileKeyWords(fileKeyWords);
 				
-				page.add(map);
+				page.add(vo);
 			}
 			
 		} catch (Exception e) {
@@ -244,10 +274,16 @@ public class LuceneSearchUtil {
 		} finally {
 			close(ireader,directory);
 		}
-		
 		return page;
 	}
-	
+	/**
+	 * 返回总页数
+	 * @return
+	 */
+	public static Integer totalPage()
+	{
+		return result.totalHits;
+	}
 	/**
 	 * 获取简介
 	 * @param docId

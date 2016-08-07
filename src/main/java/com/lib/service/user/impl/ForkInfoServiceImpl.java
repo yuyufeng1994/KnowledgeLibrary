@@ -88,6 +88,7 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 			}
 		}
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
+		System.out.println(page);
 		return page;
 	}
 
