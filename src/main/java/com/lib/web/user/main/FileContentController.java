@@ -28,11 +28,13 @@ import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.ForkFileInfoVo;
 import com.lib.dto.JsonResult;
+import com.lib.entity.Classification;
 import com.lib.entity.DocInfo;
 import com.lib.entity.FileInfo;
 import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.admin.ClassificationService;
 import com.lib.service.user.DocInfoService;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.ForkInfoService;
@@ -59,6 +61,9 @@ public class FileContentController {
 	// 收藏操作service
 	@Autowired
 	private ForkInfoService forkInfoService;
+	// 收藏操作service
+	@Autowired
+	private ClassificationService classificationService ;
 
 	/**
 	 * 更新缩略图
@@ -224,18 +229,16 @@ public class FileContentController {
 	}
 
 	/**
-	 * 根据文件名查找收藏
-	 * 
-	 * @param forkInfo
+	 * 获取一层子节点
+	 * @param forkId
 	 * @param session
 	 * @return
-	 *//*
-		 * @RequestMapping(value = "/findByFileName", method =
-		 * RequestMethod.POST) public String findByFileName(Model model,Integer
-		 * pageNo,String fileName,HttpSession session) { UserInfo user =
-		 * (UserInfo) session.getAttribute(Const.SESSION_USER);
-		 * PageInfo<ForkFileInfoVo> page =
-		 * forkInfoService.findByFileName(pageNo, fileName, user.getUserId());
-		 * model.addAttribute("page", page); return "file/myforks"; }
-		 */
+	 */
+	@RequestMapping(value = "/getClass", method = RequestMethod.POST)
+	public @ResponseBody JsonResult getClass(Long classId) {
+		JsonResult jr = new JsonResult(true, "获取成功");
+		List<Classification> vo=classificationService.findOneChildById(classId);
+		jr.setData(vo);
+		return jr;
+	}
 }

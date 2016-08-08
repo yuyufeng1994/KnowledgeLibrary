@@ -80,7 +80,7 @@ public class LuceneSearchUtil {
 	 * @param flag //是否二次查询条件
 	 * @return
 	 */
-	public static List<LuceneSearchVo> indexFileSearch(FileInfo file, Integer pageNo,Integer pageSize,List<Long> fileClassId,boolean flag){
+	public static List<LuceneSearchVo> indexFileSearch(FileInfo file, Integer pageNo,Integer pageSize,List<Long> fileClassId,Integer flag){
 		
 		
 		if(pageNo>1)
@@ -103,7 +103,7 @@ public class LuceneSearchUtil {
 		    BooleanQuery booleanQuery = new BooleanQuery();
 		
 		//判断是否二次查询
-		if(flag==true)
+		if(flag==1)
 			booleanQuery.add((BooleanQuery)oldBooleanQuery,BooleanClause.Occur.MUST);
 		else{
 			oldBooleanQuery=null;
@@ -179,7 +179,7 @@ public class LuceneSearchUtil {
 		oldBooleanQuery=booleanQuery;
 		// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 		//System.out.println(booleanQuery);
-		result=indexSearch.search(booleanQuery, 10);
+		result=indexSearch.search(booleanQuery, 100000);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -203,27 +203,22 @@ public class LuceneSearchUtil {
 		DirectoryReader ireader=null;
 		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
 		IndexSearcher indexSearch = null;
-		// 循环hits.scoreDocs数据，并使用indexSearch.doc方法把Document还原，再拿出对应的字段的值
-		ScoreDoc scoreDoc=null;
+		
 		//结果集
 		List<LuceneSearchVo> page =  new ArrayList<LuceneSearchVo>();
-		if(pageNo>1){ 
-            //索引是从0开始
-            scoreDoc=result.scoreDocs[((pageNo)*pageSize-1)>result.totalHits?((pageNo)*pageSize-1):result.totalHits];  
-        } 
+
 		//每页的file
 		try {
+			
 			directory = FSDirectory.open(new File(indexPath).toPath());
 			
 			ireader = DirectoryReader.open(directory);
 			
 			indexSearch = new IndexSearcher(ireader);
 			 //分页处理  
-	        TopDocs hits= indexSearch.searchAfter(scoreDoc, (Query)oldBooleanQuery, pageSize);
-	        result=hits;
-			for (int i = 0; i < hits.scoreDocs.length ; i++) {
+			for (int i = (pageNo-1)*pageSize,j=0; i < result.scoreDocs.length&&j<pageSize ; i++,j++) {
 				LuceneSearchVo vo = new LuceneSearchVo();
-				int fileId = hits.scoreDocs[i].doc;
+				int fileId = result.scoreDocs[i].doc;
 				Document file = indexSearch.doc(fileId);
 				
 				vo.setFileClassId(Long.valueOf(file.get("fileClassId")));

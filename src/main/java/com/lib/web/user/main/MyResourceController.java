@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.ForkFileInfoVo;
+import com.lib.dto.LuceneSearchVo;
+import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
 import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
@@ -22,6 +24,7 @@ import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.ForkInfoService;
+import com.lib.service.user.LuceneService;
 import com.lib.service.user.UserService;
 
 /**
@@ -44,6 +47,8 @@ public class MyResourceController {
 	// 收藏操作service
 	@Autowired
 	private ForkInfoService forkInfoService;
+	@Autowired
+	private LuceneService luceneService;
 
 	/**
 	 * 跳转到我的资源
@@ -88,5 +93,29 @@ public class MyResourceController {
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}
-
+	
+	/**
+	 * 跳转到我的搜索
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/mySearch/{flag}/{pageNo}", method = RequestMethod.GET)
+	public String mySearch(Model model,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
+		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
+		//model.addAttribute("page", page);
+		return "file/search";
+	}
+	/**
+	 * 全文检索
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/search/{flag}/{pageNo}", method = RequestMethod.POST)
+	public String search(Model model,FileInfo fileInfo,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
+		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
+		//model.addAttribute("page", page);
+		return "file/search";
+	}
 }

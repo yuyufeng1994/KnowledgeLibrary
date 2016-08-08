@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.Page;
 import com.lib.dao.ClassificationDao;
 import com.lib.dto.LuceneSearchVo;
+import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
 import com.lib.service.user.LuceneService;
 import com.lib.utils.LuceneIndexUtil;
@@ -18,7 +17,7 @@ public class LuceneServiceImpl implements LuceneService {
 	@Autowired
 	private ClassificationDao classDao;
 	@Override
-	public PageInfo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,boolean flag) {
+	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,Integer flag) {
 		
 		String parentPath=classDao.findFatherPathById(fileInfo.getFileClassId());
 		String[] parentIds=null;
@@ -33,9 +32,12 @@ public class LuceneServiceImpl implements LuceneService {
 		}
 		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo, pageNo,10,classIds, flag);
 		//System.out.println("list:"+list)
-		PageInfo<LuceneSearchVo> pageInfo = new PageInfo<LuceneSearchVo>(list);
-		//System.out.println(pageInfo);
-		return pageInfo;
+		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
+		page.setCurrPage(pageNo);
+		page.setData(list);
+		page.setPageSize(10);
+		page.setRowCount(LuceneSearchUtil.totalPage());
+		return page;
 	}
 
 	@Override

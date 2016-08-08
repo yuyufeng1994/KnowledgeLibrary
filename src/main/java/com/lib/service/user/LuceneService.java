@@ -2,8 +2,8 @@ package com.lib.service.user;
 
 import java.util.List;
 
-import com.github.pagehelper.PageInfo;
 import com.lib.dto.LuceneSearchVo;
+import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
 
 public interface LuceneService {
@@ -13,7 +13,7 @@ public interface LuceneService {
 	 * @param fileInfo
 	 * @return
 	 */
-	PageInfo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,boolean flag);
+	PageVo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,Integer flag);
 	
 	/**
 	 * 添加一个索引

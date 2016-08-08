@@ -11,8 +11,8 @@
 					id="collapse-nav-public">
 					<li><a href="user/public/1/1" class="am-cf"><span
 							class="am-icon-file-text"></span> 知识网络</a></li>
-					<li><a href="user/myforks/0/1"><span
-							class="am-icon-code-fork"></span> 综合查询</a></li>
+					<li><a href="user/mySearch/0/1"><span
+							class="am-icon-code-fork"></span> 智能检索</a></li>
 				</ul></li>
 
 			<li class="admin-parent"><a class="am-cf"
