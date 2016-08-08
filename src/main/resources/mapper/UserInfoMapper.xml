@@ -15,8 +15,8 @@
 		SELECT *
 		FROM user_info
 		WHERE 1 = 1
-		<if test="userName != null and userName !=''">
-			AND USER_NAME like #{userName,jdbcType=VARCHAR}
+		<if test="searchName != null and searchName !=''">
+			AND USER_NAME like #{searchName,jdbcType=VARCHAR}
 		</if>
 		ORDER BY USER_ID
 	</select>
@@ -67,4 +67,8 @@
 		set user_password = #{userPassword}
 		where user_id = #{userId}
 	</update>
+	
+	<delete id="deleteUserById">
+		delete from user_info where user_id = #{userId}
+	</delete>
 </mapper>

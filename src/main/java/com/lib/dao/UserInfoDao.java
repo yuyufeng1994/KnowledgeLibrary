@@ -59,9 +59,16 @@ public interface UserInfoDao {
 	 */
 	int updateUserPwd(UserInfo user);
 	/**
-	 * 
+	 * 根据搜索关键字查询
 	 * @param userName
 	 * @return
 	 */
-	List<UserInfo> selectAllUserByUserName(@Param("userName") String userName); 
+	List<UserInfo> selectAllUserByUserName(@Param("searchName") String searchName); 
+	
+	/**
+	 * 根据id删除用户
+	 * @param userId
+	 * @return
+	 */
+	boolean deleteUserById(@Param("userId") Long userId);
 }
