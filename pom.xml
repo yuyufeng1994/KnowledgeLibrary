@@ -155,6 +155,12 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
 		<!-- 4)Sping Test相关依赖 -->
 		<dependency>
 			<groupId>org.springframework</groupId>

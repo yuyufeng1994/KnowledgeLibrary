@@ -15,6 +15,10 @@
 		<!-- content start -->
 		<div class="admin-content">
 			<div class="admin-content-body">
+			<form action='user/date' method="post">
+			<input type="date" name='dateTime'>
+			<button type="submit">提交</button>
+			</form>
 			<div class="am-cf am-padding am-padding-bottom-0">
         		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">智能检索</strong> / <small>搜索知识</small></div>
      		 </div>
@@ -23,7 +27,7 @@
       <ul class="am-tabs-nav am-nav am-nav-tabs">
         <li class="am-active"><a href="#tab1">检索信息</a></li>
       </ul>
-	 <form   method="post" id="search">
+	 <form action="user/search/0/1"   method="post" id="search">
       <div class="am-tabs-bd" >
         <div class="am-tab-panel am-fade am-in am-active" >
           <div class="am-g am-margin-top">
@@ -44,7 +48,7 @@
 			
 		  <div class="am-g am-margin-top" >
             <div class="am-u-sm-4  am-text-right">文件分类</div>
-            <input type="hidden" value="1" id="classId" >
+            <input type="hidden" value="1" id="fileClassId" >
             <div class="am-u-sm-8 " id="selectId">
                 
             </div>
@@ -70,6 +74,8 @@
             <div class="am-u-sm-4  am-text-right">
                    时间范围
             </div>
+            
+           
             <div class="am-u-sm-2">
              
                 <div class="am-form-group am-form-icon">
@@ -77,13 +83,13 @@
                   <input name="fileCreateTime" type="date" style="width:70%" class="am-form-field am-input-sm" placeholder="日期">
                 </div>
             </div>
-           
             <div class="am-u-sm-2" style="margin-left:-95px;">
                 <div class="am-form-group am-form-icon " >
                   <i class="am-icon-calendar"></i>
                    <input name="endTime" type="date" style="width:70%" class="am-form-field am-input-sm" placeholder="日期">
                 </div>
             </div>
+            
             <div class="am-u-sm-4 ">
             </div>
           </div>
@@ -123,7 +129,7 @@
 <script type="text/javascript">
 $("#search1").click(function(){
 	
-	$("#search").attr("action","user/search/0/1")
+	//$("#search").attr("action","user/search/0/1")
 	$("#search").submit();
 	
 	
@@ -132,7 +138,6 @@ $("#search2").click(function(){
 	
 	$("#search").attr("action","user/search/1/1")
 	$("#search").submit();
-	
 	
 })
 $(window).load(function() {

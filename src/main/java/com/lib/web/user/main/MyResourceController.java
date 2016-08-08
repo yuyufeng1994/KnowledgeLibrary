@@ -141,9 +141,18 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/search/{flag}/{pageNo}", method = RequestMethod.POST)
-	public String search(Model model,FileInfo fileInfo,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
+	public String search(Model model,Date fileCreateTime,FileInfo fileInfo,Date endTime,String keyWord,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
 		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
 		//model.addAttribute("page", page);
+		System.out.println("abcd");
+		return "file/search";
+	}
+	
+	@RequestMapping(value = "/date")
+	public String date(Date dateTime,Model model) {
+		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
+		//model.addAttribute("page", page);
+		System.out.println(dateTime);
 		return "file/search";
 	}
 }
