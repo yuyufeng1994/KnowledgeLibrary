@@ -24,18 +24,17 @@
 					<div class="am-u-sm-12 am-u-md-3 am-u-md-push-9">
 						<div class="am-input-group am-input-group-sm">
 							<input type="search" id="searchValue" class="am-form-field"
-								placeholder="输入文件名称搜索" value="${my_file_search_value }"> <span class="am-input-group-btn">
+								placeholder="输入文件名称搜索" value="${my_file_search_value }">
+							<span class="am-input-group-btn">
 								<button class="am-btn am-btn-default" type="submit"
-									onclick="searchMyFiles()">
-									搜索
-								</button>
+									onclick="searchMyFiles()">搜索</button>
 							</span>
 						</div>
 					</div>
 				</div>
 				<script type="text/javascript">
-					function searchMyFiles(){
-						window.location.href="user/myfiles/1?searchValue="+$("#searchValue").val()
+					function searchMyFiles() {
+						window.location.href = "user/myfiles/1?searchValue=" + $("#searchValue").val()
 					}
 				</script>
 				<hr>
@@ -81,8 +80,26 @@
 											<ul class="am-dropdown-content">
 												<li><a href="user/edit/${f.fileUuid}">修改</a></li>
 												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">下载</a></li>
-												<li><a href="#">删除</a></li>
+												<li><a onclick="del(this,'${f.fileId}')"
+													style="cursor: pointer;">删除</a></li>
 											</ul>
+											<script type="text/javascript">
+												function del(mythis, id) {
+													var $mthis = $(mythis);
+													$.post("user/file-del/" + id, function(data) {
+														if (data.success == true) {
+															$mthis.parent().parent().parent().parent().parent().hide("fast");
+														} else {
+															alert("删除失败！");
+														}
+											
+											
+											
+													})
+											
+											
+												}
+											</script>
 										</div>
 									</td>
 									<td><a class="am-btn am-btn-secondary am-btn-xs"

@@ -40,14 +40,17 @@
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-bd">
 								<div class="am-g">
-									<div class="am-u-md-4"><h3>缩略图</h3></div>
+									<div class="am-u-md-4">
+										<h3>缩略图</h3>
+									</div>
 									<div class="am-u-md-8">
 										<div id="uploader-demo">
 											<div id="fileList" class="uploader-list">
-											<div id="WU_FILE_0" class="file-item thumbnail upload-state-done">
-												<img src="user/thumbnail/${fileInfo.fileUuid}/png"
-													style="width:95px; height:95px" class="am-img-thumbnail">
-											</div>
+												<div id="WU_FILE_0"
+													class="file-item thumbnail upload-state-done">
+													<img src="user/thumbnail/${fileInfo.fileUuid}/png"
+														style="width: 95px; height: 95px" class="am-img-thumbnail">
+												</div>
 											</div>
 											<div id="filePicker">选择图片</div>
 										</div>
@@ -108,13 +111,13 @@
 										// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 										uploader.on('uploadSuccess', function(file) {
 											var $li = $('#' + file.id),
-											$error = $li.find('div.error');
-								
-										// 避免重复创建
-										if (!$error.length) {
-											$error = $('<div class="error am-alert am-alert-success"></div>').appendTo($li);
-										}
-										$error.text('修改成功');
+												$error = $li.find('div.error');
+									
+											// 避免重复创建
+											if (!$error.length) {
+												$error = $('<div class="error am-alert am-alert-success"></div>').appendTo($li);
+											}
+											$error.text('修改成功');
 										});
 									
 										// 文件上传失败，显示上传出错。
@@ -131,9 +134,7 @@
 										});
 									
 										// 完成上传完了，成功或者失败，先删除进度条。
-										uploader.on('uploadComplete', function(file) {
-											
-										});
+										uploader.on('uploadComplete', function(file) {});
 									</script>
 								</div>
 							</div>
@@ -361,6 +362,24 @@
 										<select id="file-state" name="fileState">
 											<option value="5" class="am-text-center">共享</option>
 											<option value="6" class="am-text-center">私有</option>
+											<c:if test="${session_user.userType == 0 }">
+												<option value="7" class="am-text-center">冻结</option>
+											</c:if>
+										</select> <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+								<script type="text/javascript">
+								$("#file-state").val(${fileInfo.fileState});
+							</script>
+							</c:if>
+							<c:if test="${fileInfo.fileState == 7 && session_user.userType == 0}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select id="file-state" name="fileState">
+											<option value="5" class="am-text-center">共享</option>
+											<option value="6" class="am-text-center">私有</option>
+											<option value="7" class="am-text-center">冻结</option>
 										</select> <small>愿意把它分享给大家吗?</small>
 									</div>
 								</div>
@@ -369,12 +388,23 @@
 							</script>
 							</c:if>
 							<c:if
-								test="${fileInfo.fileState != 5 && fileInfo.fileState != 6}">
+								test="${fileInfo.fileState != 5 && fileInfo.fileState != 6 && fileInfo.fileState!=7}">
 								<div class="am-form-group">
 									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
 									<div class="am-u-sm-9">
 										<select disabled>
-											<option value="5" class="am-text-center">处理中或被冻结，暂时无法修改此项！</option>
+											<option value="5" class="am-text-center">文件正在被处理中，暂时无法修改此项！</option>
+										</select> <small>愿意把它分享给大家吗?</small>
+									</div>
+								</div>
+							</c:if>
+
+							<c:if test="${fileInfo.fileState == 7 && session_user.userType != 0}">
+								<div class="am-form-group">
+									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
+									<div class="am-u-sm-9">
+										<select disabled>
+											<option value="5" class="am-text-center">文件被管理员冻结，无法修改此项！</option>
 										</select> <small>愿意把它分享给大家吗?</small>
 									</div>
 								</div>

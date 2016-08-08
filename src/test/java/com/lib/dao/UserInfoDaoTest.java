@@ -1,5 +1,7 @@
 package com.lib.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -55,5 +57,9 @@ public class UserInfoDaoTest {
 		user.setUserType(2);
 		userInfoDao.updateUserNoStatus(user);
 	}
-	
+	@Test
+	public void testSelectAllUser(){
+		List<UserInfo> list = userInfoDao.selectAllUserByUserName("loveling");
+		System.out.println(list);
+	}
 }

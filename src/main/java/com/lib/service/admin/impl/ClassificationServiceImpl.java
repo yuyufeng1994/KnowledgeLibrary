@@ -1,10 +1,13 @@
 package com.lib.service.admin.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.lib.dao.ClassificationDao;
 import com.lib.entity.Classification;
+import com.lib.enums.Const;
 import com.lib.service.admin.ClassificationService;
 
 @Service
@@ -31,11 +35,23 @@ public class ClassificationServiceImpl implements ClassificationService {
 		parentPath = parentPath + "." + parentId;
 		ClassificationDao.insert(classificationName, parentId, parentPath);
 	}
+	
 
+	/**
+	 * 删除节点
+	 */
 	@Override
-	public void delete(Long classificationId) {
-		// TODO Auto-generated method stub
-		ClassificationDao.delete(classificationId);
+	public int delete(Long classificationId) {
+		Classification c = ClassificationDao.findById(classificationId);
+		int res = ClassificationDao.delete(classificationId);
+		if (res == 1) {
+			try {
+				FileUtils.forceDelete(new File(Const.ROOT_PATH + "thumbnail/" + c.getClassificationPicture() + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return res;
 	}
 
 	@Override
@@ -109,6 +125,13 @@ public class ClassificationServiceImpl implements ClassificationService {
 	@Override
 	public int updatePicPath(Classification c) {
 		return ClassificationDao.update(c);
+	}
+
+
+	@Override
+	public int insert(Classification c) {
+		// TODO Auto-generated method stub
+		return ClassificationDao.insertByc(c);
 	}
 
 }

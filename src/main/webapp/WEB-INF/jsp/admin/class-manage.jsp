@@ -29,7 +29,7 @@
 					<div class="am-u-md-3 am-form">
 						<div class="am-form-group">
 							<label for="uploader-demo" class="am-u-sm-3 am-form-label">配图
-							</label>
+							</label> <input type="hidden" value="" id="fileClassPictureHidden">
 							<div id="uploader-demo">
 								<div id="fileList" class="uploader-list">
 									<div id="WU_FILE_0"
@@ -50,7 +50,7 @@
 					<div class="am-u-md-7 am-form">
 						<div class="am-form-group">
 							<label for="user-name" class="am-u-sm-3 am-form-label">名称
-							</label> <input type="text" id="fileClassName" placeholder="名称 / Name">
+							</label> <input type="text" id="fileClassName" placeholder="请选择您要修改的节点">
 						</div>
 
 						<div class="am-form-group">
@@ -59,12 +59,40 @@
 							<textarea class="" rows="5" id="fileClassBrief"
 								placeholder="输入分类简介"></textarea>
 						</div>
-						<input name="fileClassId" id="fileClassId" type="hidden" value="">
-
+						<input name="fileClassId" id="fileClassId" type="hidden" value="1">
+						<script type="text/javascript">
+							/*					
+							$("#fileClassName").change(function() {
+								edit();
+							})
+							$("#fileClassBrief").change(function() {
+								edit();
+							})
+							*/
+							function edit() {
+								var classificationId = $("#fileClassId").val()
+								var classificationName = $("#fileClassName").val()
+								var classificationBrief = $("#fileClassBrief").val()
+								console.log(classificationId)
+								console.log(classificationName)
+								console.log(classificationBrief)
+								$.post("admin/update-classpic", {
+									classificationId : classificationId,
+									classificationName : classificationName,
+									classificationBrief : classificationBrief
+								}, function(data) {
+									loadTypes()
+								})
+						
+						
+							}
+						</script>
 
 					</div>
 					<div class="am-u-md-2 am-form">
-						<label for="" class="am-u-sm-3 am-form-label">提示： </label>
+						<button class="am-btn am-btn-primary am-round"
+							id="edit-button" onclick="edit()">修改</button>
+						<!-- <label for="" class="am-u-sm-3 am-form-label">提示： </label> -->
 					</div>
 				</div>
 				<div class="am-g">
@@ -77,6 +105,13 @@
 								</button>
 								<button class="am-btn am-btn-primary am-round"
 									id="parent-button" onclick="fileClassSureParent()"></button>
+							</div>
+
+							<div class="am-btn-group" style="float: right">
+								<button class="am-btn am-btn-primary am-round" id="reply-button"
+									data-am-modal="{target: '#add-model', closeViaDimmer: true, width: 400, height: 305}">
+									<i class='am-icon-plus'></i> 增加节点
+								</button>
 							</div>
 						</div>
 						<div class="am-panel-bd">
@@ -97,6 +132,19 @@
 	</div>
 
 	<%@include file="../common/footer.jsp"%>
+	<div class="am-modal am-modal-no-btn" tabindex="-1" id="add-model">
+		<div class="am-modal-dialog">
+			<div class="am-modal-bd">
+				<input type="text" id="addName" class="am-form-field"
+					placeholder="输入节点名称">
+				<hr>
+				<textarea rows="5" style="width: 100%" placeholder="请输入节点简介"
+					id="addBrief"></textarea>
+				<hr>
+				<button class="am-btn am-btn-primary am-round" id="add-sure-button">确定</button>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	var classId = 1
@@ -109,16 +157,18 @@
 		if (classId == null) {
 			classId = 1;
 		}
+	
 		$.get("child-file-class/" + classId, function(data) {
 			resdata = data.data;
 			var str = '';
 			for (var i = 1; i < data.data.length; i++) {
 				str += "<div class='am-btn-group' style='margin-top:10px;'>" +
+					"<button class='button-margin am-btn am-btn-default am-round' onclick='del(" + data.data[i].classificationId + ",this)'><i class='am-icon-close'></i></button>" +
 					"<button class='button-margin am-btn am-btn-default am-round'" + "onclick='fileClassSure(" + i + ")'>" + data.data[i].classificationName + "</button>" +
 					"<button class='button-margin am-btn am-btn-default am-round'" +
 					"onClick=changeType(" + data.data[i].classificationId + "," + "'" + data.data[i].classificationName + "'" + ")>" +
-					"<i class='am-icon-angle-right'></i>" +
-					"</button></div>&nbsp;";
+					"<i class='am-icon-angle-right'></i></button>"
+					+ "</div>&nbsp;";
 			}
 			if (data.data.length == 1) {
 				str = '无子节点...';
@@ -130,9 +180,9 @@
 			classPicture = data.data[0].classificationPicture;
 			$("#parent-button").text(className)
 			$("#child-content").html(str);
-
-			fileClassSureParent();
-
+			if (parentId == null) {
+				parentId = 1;
+			}
 		})
 
 	}
@@ -157,17 +207,48 @@
 		$("#fileClassId").val(resdata[i].classificationId)
 		$("#fileClassName").val(resdata[i].classificationName)
 		$("#fileClassBrief").val(resdata[i].classificationBrief)
-		$("#fileClassPicture").attr("src", "thumbnail/" + resdata[i].classificationPicture)
+		$("#fileClassPicture").attr("src", "thumbnail/" + resdata[i].classificationPicture + "?date=" + new Date())
+		$("#fileClassPictureHidden").val("thumbnail/" + resdata[i].classificationPicture);
 	}
 	function fileClassSureParent() {
+		uploader.options.server = 'admin/update-classpic/' + classId;
 		$("#fileClassId").val(classId)
 		$("#fileClassName").val(className)
 		$("#fileClassBrief").val(classBrief)
-		$("#fileClassPicture").attr("src", "thumbnail/" + classPicture)
+		$("#fileClassPicture").attr("src", "thumbnail/" + classPicture + "?date=" + new Date())
+		$("#fileClassPictureHidden").val("thumbnail/" + classPicture);
 	}
 	loadTypes();
 
 
+	//option
+	function del(id, mthis) {
+		$.post("admin/del-classpic/"+id,function(){
+			$this = $(mthis)
+			$this.parent().hide("fast", function() {
+				$this.parent().remove();
+			})
+			loadTypes();
+		})
+		
+		
+
+	}
+
+
+	$("#add-sure-button").click(function() {
+		$("#add-model").modal();
+		var addName = $("#addName").val();
+		var addBrief = $("#addBrief").val();
+		$.post("admin/add-classpic", {
+			parentId:classId,
+			classificationName : addName,
+			classificationBrief : addBrief
+		}, function() {
+			loadTypes();
+		})
+		
+	})
 	//webuploader
 	var $list = $("#fileList");
 	// 初始化Web Uploader
@@ -213,36 +294,17 @@
 				$img.replaceWith('<span>不能预览</span>');
 				return;
 			}
-
-			$img.attr('src', src);
 		}, 150, 150);
 	});
 	// 文件上传过程中创建进度条实时显示。
 
 	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 	uploader.on('uploadSuccess', function(file) {
-		var $li = $('#' + file.id),
-			$error = $li.find('div.error');
-
-		// 避免重复创建
-		if (!$error.length) {
-			$error = $('<div class="error am-alert am-alert-success"></div>').appendTo($li);
-		}
-		$error.text('修改成功');
+		$("#fileClassPicture").attr("src", $("#fileClassPictureHidden").val() + "?date=" + new Date())
 	});
 
 	// 文件上传失败，显示上传出错。
-	uploader.on('uploadError', function(file) {
-		var $li = $('#' + file.id),
-			$error = $li.find('div.error');
-
-		// 避免重复创建
-		if (!$error.length) {
-			$error = $('<div class="error  am-alert am-alert-danger"></div>').appendTo($li);
-		}
-
-		$error.text('修改失败');
-	});
+	uploader.on('uploadError', function(file) {});
 
 	// 完成上传完了，成功或者失败，先删除进度条。
 	uploader.on('uploadComplete', function(file) {});

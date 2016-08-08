@@ -15,153 +15,148 @@
 		<!-- content start -->
 		<div class="admin-content">
 			<div class="admin-content-body">
-				<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">表格</strong> / <small>Table</small>
+						<strong class="am-text-primary am-text-lg">我的资源</strong> / <small>我上传的资源</small>
 					</div>
 				</div>
-
-				<hr>
-
 				<div class="am-g">
-					<div class="am-u-sm-12 am-u-md-6">
-						<div class="am-btn-toolbar">
-							<div class="am-btn-group am-btn-group-xs">
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-plus"></span> 新增
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-save"></span> 保存
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-archive"></span> 审核
-								</button>
-								<button type="button" class="am-btn am-btn-default">
-									<span class="am-icon-trash-o"></span> 删除
-								</button>
-							</div>
-						</div>
-					</div>
-					<div class="am-u-sm-12 am-u-md-3">
-						<div class="am-form-group">
-							<select data-am-selected="{btnSize: 'sm'}" style="display: none;">
-								<option value="option1">所有类别</option>
-								<option value="option2">IT业界</option>
-								<option value="option3">数码产品</option>
-								<option value="option3">笔记本电脑</option>
-								<option value="option3">平板电脑</option>
-								<option value="option3">只能手机</option>
-								<option value="option3">超极本</option>
-							</select>
-							<div class="am-selected am-dropdown " id="am-selected-aby8p"
-								data-am-dropdown="">
-								<div class="am-selected-content am-dropdown-content">
-									<h2 class="am-selected-header">
-										<span class="am-icon-chevron-left">返回</span>
-									</h2>
-									<ul class="am-selected-list">
-										<li class="am-checked" data-index="0" data-group="0"
-											data-value="option1"><span class="am-selected-text">所有类别</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="1" data-group="0"
-											data-value="option2"><span class="am-selected-text">IT业界</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="2" data-group="0"
-											data-value="option3"><span class="am-selected-text">数码产品</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="3" data-group="0"
-											data-value="option3"><span class="am-selected-text">笔记本电脑</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="4" data-group="0"
-											data-value="option3"><span class="am-selected-text">平板电脑</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="5" data-group="0"
-											data-value="option3"><span class="am-selected-text">只能手机</span>
-											<i class="am-icon-check"></i></li>
-										<li class="" data-index="6" data-group="0"
-											data-value="option3"><span class="am-selected-text">超极本</span>
-											<i class="am-icon-check"></i></li>
-									</ul>
-									<div class="am-selected-hint"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="am-u-sm-12 am-u-md-3">
+					<div class="am-u-sm-12 am-u-md-3 am-u-md-push-9">
 						<div class="am-input-group am-input-group-sm">
-							<input type="text" class="am-form-field"> <span
+							<input type="search" id="searchValue" class="am-form-field"
+								placeholder="输入文件名" value="${my_file_search_value }"> <span
 								class="am-input-group-btn">
-								<button class="am-btn am-btn-default" type="button">搜索</button>
+								<button class="am-btn am-btn-default" type="submit"
+									onclick="searchMyFiles()">搜索</button>
 							</span>
 						</div>
 					</div>
 				</div>
+				<script type="text/javascript">
+					function searchMyFiles() {
+						window.location.href = "admin/file-manage-ui/1?searchValue=" + $("#searchValue").val()
+					}
+				</script>
+				<hr>
+				<div class="am-u-sm-12">
+					<table
+						class="am-table table-hover am-table-radius am-table-hover am-table-compact am-table-striped">
+						<thead>
+							<tr>
+								<th>文件ID</th>
+								<th>缩略图</th>
+								<th>文件名称</th>
+								<th>文件大小</th>
+								<th>文件状态</th>
+								<th>上传时间</th>
+								<th>文件类别</th>
+								<th>上传用户</th>
+								<th>管理</th>
+								<th>在线预览</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${page.list}" var="f">
+								<tr title="简介：${f.fileBrief}">
+									<td>${f.fileId }</td>
+									<td><a href="user/thumbnail/${f.fileUuid}/png"><img
+											src="user/thumbnail/${f.fileUuid}/png" alt="null"
+											class="am-img-thumbnail"
+											style="width: 50px; height: 50px; overflow: hidden"></a></td>
+									<td title="${f.fileName }.${f.fileExt }">${f.hiddenedFileName }.${f.fileExt }</td>
+									<td>${f.fileSizeFormat }</td>
+									<td>${f.fileStateStr }</td>
+									<td><fmt:formatDate value="${f.fileCreateTime }"
+											pattern="yyyy-MM-dd HH:mm:ss" /></td>
+									<td>${f.classificationName }</td>
+									<td>${f.userName }</td>
+									<td>
+										<div class="am-dropdown" data-am-dropdown="">
+											<button
+												class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
+												data-am-dropdown-toggle="">
+												<span class="am-icon-cog"></span> <span
+													class="am-icon-caret-down"></span>
+											</button>
 
-				<div class="am-g">
-					<div class="am-u-sm-12">
-						<form class="am-form">
-							<table
-								class="am-table am-table-striped am-table-hover table-main">
-								<thead>
-									<tr>
-										<th class="table-check"><input type="checkbox"></th>
-										<th class="table-id">ID</th>
-										<th class="table-title">标题</th>
-										<th class="table-type">类别</th>
-										<th class="table-author am-hide-sm-only">作者</th>
-										<th class="table-date am-hide-sm-only">修改日期</th>
-										<th class="table-set">操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><input type="checkbox"></td>
-										<td>1</td>
-										<td><a href="#">Business management</a></td>
-										<td>default</td>
-										<td class="am-hide-sm-only">测试1号</td>
-										<td class="am-hide-sm-only">2014年9月4日 7:28:47</td>
-										<td>
-											<div class="am-btn-toolbar">
-												<div class="am-btn-group am-btn-group-xs">
-													<button
-														class="am-btn am-btn-default am-btn-xs am-text-secondary">
-														<span class="am-icon-pencil-square-o"></span> 编辑
-													</button>
-													<button
-														class="am-btn am-btn-default am-btn-xs am-hide-sm-only">
-														<span class="am-icon-copy"></span> 复制
-													</button>
-													<button
-														class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
-														<span class="am-icon-trash-o"></span> 删除
-													</button>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="am-cf">
-								共 15 条记录
-								<div class="am-fr">
-									<ul class="am-pagination">
-										<li class="am-disabled"><a href="#">«</a></li>
-										<li class="am-active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">»</a></li>
-									</ul>
-								</div>
-							</div>
-							<hr>
-							<p>注：.....</p>
-						</form>
+											<ul class="am-dropdown-content">
+												<li><a onclick="freeze('${f.fileUuid}')" style="cursor: pointer;"> 
+												<c:if test="${f.fileState == 7 }">
+												取消冻结
+											</c:if> <c:if test="${f.fileState != 7 }">
+												冻结
+											</c:if>
+												</a></li>
+												<li><a href="user/download/${f.fileUuid}/${f.fileExt}">下载</a></li>
+												<li><a onclick="del(this,'${f.fileId}')"
+													style="cursor: pointer;">删除</a></li>
+											</ul>
+											<script type="text/javascript">
+												function freeze(uuid) {
+													$.post("admin/file-freeze/" + uuid, function(data) {
+														window.location.reload();
+													})
+											
+											
+												}
+											
+											
+											
+												function del(mythis, id) {
+													var $mthis = $(mythis);
+													$.post("user/file-del/" + id, function(data) {
+														if (data.success == true) {
+															$mthis.parent().parent().parent().parent().parent().hide("fast");
+														} else {
+															alert("删除失败！");
+														}
+											
+											
+											
+													})
+											
+											
+												}
+											</script>
+										</div>
+									</td>
+									<td><a class="am-btn am-btn-secondary am-btn-xs"
+										target="_blank" href="user/file/${f.fileUuid}"> 预览 <i
+											class="am-icon-cloud"></i>
+									</a></td>
+								</tr>
+							</c:forEach>
+
+						</tbody>
+					</table>
+					<div class="am-fr">
+						<ul class="am-pagination">
+							<c:if test="${page.pageNum > 1}">
+								<li><a onclick="gotoPage(${page.prePage })">«</a></li>
+							</c:if>
+
+							<c:forEach items="${page.navigatepageNums}" var="p">
+								<c:if test="${page.pageNum==p}">
+									<li class="am-active"><a onclick="gotoPage(${p})">${p}</a></li>
+								</c:if>
+								<c:if test="${page.pageNum!=p}">
+									<li><a onclick="gotoPage(${p})">${p}</a></li>
+								</c:if>
+							</c:forEach>
+							<c:if test="${page.pageNum < page.pages}">
+								<li><a onclick="gotoPage(${page.nextPage })">»</a></li>
+							</c:if>
+						</ul>
 					</div>
 
+					<script type="text/javascript">
+						var url = "admin/file-manage-ui/";
+						function gotoPage(page) {
+							window.location.href = url + page;
+						}
+					</script>
 				</div>
+
 			</div>
 		</div>
 	</div>

@@ -43,7 +43,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private UserInfoDao userInfoDao;
 	@Autowired
 	private RelationInfoDao relationInfoDao;
-	
+
 	@Autowired
 	private LuceneService searchService;
 
@@ -132,9 +132,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 全文检索创立索引
-		
-		searchService.addFileIndex(file,userInfoDao.queryById(file.getFileUserId()).getUserName());
-		
+
+		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
+
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
 	}
@@ -212,6 +212,41 @@ public class FileInfoServiceImpl implements FileInfoService {
 		relationInfoDao.delete(r);
 
 		return rs;
+	}
+
+	@Override
+	public int delFileById(Long fileId) throws Exception {
+
+		FileInfo fileInfo = fileinfoDao.getFileInfoByFileId(fileId);
+		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6) {
+			throw new Exception();
+		}
+		File file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + "." + fileInfo.getFileExt());
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+		file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + ".png");
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+		file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + ".pdf");
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+		file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + ".flv");
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+		file = new File(Const.STREAM_PATH + fileInfo.getFileUuid() + ".flv");
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+		file = new File(Const.STREAM_PATH + fileInfo.getFileUuid() + ".mp4");
+		if (file.exists()) {
+			FileUtils.forceDelete(file);
+		}
+
+		return fileinfoDao.deleteByPrimaryKey(fileId);
 	}
 
 }

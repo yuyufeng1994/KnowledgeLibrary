@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.ClassificationDao">
+
+	<insert id="insertByc" parameterType="com.lib.entity.Classification">
+		insert into classification
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="classificationId != null">
+				classification_id,
+			</if>
+			<if test="classificationName != null">
+				classification_name,
+			</if>
+			<if test="classificationPicture != null">
+				classification_picture,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="parentPath != null">
+				parent_path,
+			</if>
+			<if test="classificationBrief != null">
+				classification_brief,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="classificationId != null">
+				#{classificationId,jdbcType=BIGINT},
+			</if>
+			<if test="classificationName != null">
+				#{classificationName,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationPicture != null">
+				#{classificationPicture,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT},
+			</if>
+			<if test="parentPath != null">
+				#{parentPath,jdbcType=VARCHAR},
+			</if>
+			<if test="classificationBrief != null">
+				#{classificationBrief,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+
 	<update id="update" parameterType="com.lib.entity.Classification">
 		update classification
 		<set>
 			<if test="classificationName != null">
-				classification_name = #{classificationName,jdbcType=VARCHAR},
+				classification_name =
+				#{classificationName,jdbcType=VARCHAR},
 			</if>
 			<if test="classificationPicture != null">
-				classification_picture = #{classificationPicture,jdbcType=VARCHAR},
+				classification_picture =
+				#{classificationPicture,jdbcType=VARCHAR},
 			</if>
 			<if test="parentId != null">
 				parent_id = #{parentId,jdbcType=BIGINT},
@@ -17,7 +64,8 @@
 				parent_path = #{parentPath,jdbcType=VARCHAR},
 			</if>
 			<if test="classificationBrief != null">
-				classification_brief = #{classificationBrief,jdbcType=LONGVARCHAR},
+				classification_brief =
+				#{classificationBrief,jdbcType=LONGVARCHAR},
 			</if>
 		</set>
 		where classification_id = #{classificationId,jdbcType=BIGINT}

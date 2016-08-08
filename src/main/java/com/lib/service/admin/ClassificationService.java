@@ -11,18 +11,26 @@ public interface ClassificationService {
 	
 	/**
 	 * 添加分类
-	 * @param classificationName
+	 * @param c
 	 * @param parentId
 	 * @return
 	 */
-	void insert(String classificationName,Long parentId);
+	void insert(String name,Long parentId);
+	
+	/**
+	 * 添加分类
+	 * @param c
+	 * @param parentId
+	 * @return
+	 */
+	int insert(Classification c);
 	
 	/**
 	 * 删除分类
 	 * @param classificationId
 	 * @return
 	 */
-	void delete(Long classificationId);
+	int delete(Long classificationId);
 	
 	/**
 	 * 修改分类

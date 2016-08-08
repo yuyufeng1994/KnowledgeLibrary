@@ -31,7 +31,7 @@ public interface ClassificationDao {
 	 * @param classificationId
 	 * @return
 	 */
-	void delete(Long classificationId);
+	int delete(Long classificationId);
 
 	/**
 	 * 修改分类
@@ -93,5 +93,12 @@ public interface ClassificationDao {
 	 * @param c
 	 */
 	int update(Classification c);
+
+	/**
+	 * 增加
+	 * @param c
+	 * @return
+	 */
+	int insertByc(Classification c);
 
 }

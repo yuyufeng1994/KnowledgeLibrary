@@ -124,4 +124,11 @@ public interface FileInfoDao {
 	 */
 	List<FileInfo> searchFileInfoByNameOrId(@Param("searchInfo") String searchInfo, @Param("userId") Long userId);
 
+	/**
+	 * 得到所有文档
+	 * @param string
+	 * @return
+	 */
+	List<FileInfoVO> getFiles(String searchValue);
+
 }

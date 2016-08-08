@@ -191,19 +191,19 @@
 
 
 		var fn = {
-			getclass : function(nid, name, depth) {
+			getclass : function(nid, name, depth,index) {
 				//console.log("relen:" + re.length+" nid:"+nid)
 				if (re.length == 1) {
 					return;
 				}
-				var index = 0;
+				//var index = 0;
 				for (var i = 0; i < re.length; i++) {
 					if (re[i].parentId == nid) {
 						index++;
 						var di = {
 							name : re[i].classificationName,
 							x : index,
-							y : depth * 1.5,
+							y : depth * 3,
 						}
 						var li = {
 							source : name,
@@ -213,13 +213,13 @@
 						getData.data.push(di);
 						getData.links.push(li);
 						//console.log(re[i].parentId+" "+re[i].classificationId)
-						fn.getclass(re[i].classificationId, re[i].classificationName, depth + 1)
+						fn.getclass(re[i].classificationId, re[i].classificationName, depth+1,index++)
 					}
 
 				}
 			}
 		}
-		fn.getclass(s[0].classificationId, s[0].classificationName, 1)
+		fn.getclass(s[0].classificationId, s[0].classificationName, 1,0)
 
 
 		var option = {
