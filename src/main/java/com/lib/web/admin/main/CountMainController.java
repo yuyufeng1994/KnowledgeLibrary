@@ -21,9 +21,15 @@ import com.lib.entity.UserInfo;
 @RequestMapping("/admin")
 public class CountMainController {
 	@RequestMapping(value = "/count-ui", method = RequestMethod.GET)
-	public String index() {
+	public String indexui() {
 
 		return "admin/index";
+	}
+	
+	@RequestMapping(value = "/count/index", method = RequestMethod.GET)
+	public String index() {
+
+		return "admin/count-index";
 	}
 
 
