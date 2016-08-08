@@ -11,24 +11,7 @@
 	<!--简化配置： -->
 	<!--1）自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter -->
 	<!--2）提供一些列：数据绑定，数字和日期的format @NumberFormat @DataTimeFormart，xml,json 默认读写支持。 -->
-	<bean id="conversionService"
-		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<property name="converters">
-			<list>
-				<bean class="com.lib.web.converter.DateConverter"></bean>
-			</list>
-		</property>
-	</bean>
 
-	<!-- 校验器 -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<!-- hibernate校验器 -->
-		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
-		<!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->
-		<!-- <property name="validationMessageSource" ref="messageSource" /> -->
-	</bean>
-	
 	<mvc:annotation-driven conversion-service="conversionService"
 		validator="validator"></mvc:annotation-driven>
 
@@ -75,5 +58,23 @@
 		<property name="defaultEncoding" value="utf-8"></property>
 		<property name="maxUploadSize" value="10485760000"></property>
 		<property name="maxInMemorySize" value="40960"></property>
+	</bean>
+	<!-- 类型转化 -->
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.lib.web.converter.DateConverter"></bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 校验器 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- hibernate校验器 -->
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下的ValidationMessages.properties -->
+		<!-- <property name="validationMessageSource" ref="messageSource" /> -->
 	</bean>
 </beans>

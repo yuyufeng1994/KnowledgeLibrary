@@ -10,7 +10,7 @@
 				<ul class="am-list am-collapse admin-sidebar-sub am-in"
 					id="collapse-nav-person">
 					<li><a href="admin/count/index" class="am-cf"><span
-							class="am-icon-file-text"></span> 主页</a></li>
+							class="am-icon-file-text"></span> 图表</a></li>
 					<li><a href="admin/index"><span
 							class="am-icon-cloud-upload"></span> 数据</a></li>
 				</ul></li>
