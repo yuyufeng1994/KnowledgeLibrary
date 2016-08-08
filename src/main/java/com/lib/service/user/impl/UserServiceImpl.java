@@ -102,6 +102,13 @@ public class UserServiceImpl implements UserService {
 	    PageHelper.startPage(pageNo,pageSize);  //startPage是告诉拦截器说我要开始分页了。分页参数是这两个。  
 	    return BeanUtil.toPagedResult(userInfoDao.selectAllUserByUserName(userName)); 
 	}
-	
+	@Override
+	public boolean deleteUserByUserId(Long userId) {
+		return userInfoDao.deleteUserById(userId);
+	}
+	@Override
+	public void updateUserType(UserInfo user){
+		userInfoDao.updateUserEmail(user);
+	}
 
 }

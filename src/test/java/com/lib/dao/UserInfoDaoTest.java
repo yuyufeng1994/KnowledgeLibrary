@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.hankcs.hanlp.algoritm.VectorDistance;
 import com.lib.entity.UserInfo;
 import com.lib.utils.StringValueUtil;
 
@@ -61,5 +62,10 @@ public class UserInfoDaoTest {
 	public void testSelectAllUser(){
 		List<UserInfo> list = userInfoDao.selectAllUserByUserName("loveling");
 		System.out.println(list);
+	}
+	
+	@Test
+	public void testRemoveUserById(){
+		userInfoDao.deleteUserById(2016013l);
 	}
 }

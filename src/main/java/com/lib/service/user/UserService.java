@@ -70,4 +70,15 @@ public interface UserService {
 	 */  
 	PagedResult<UserInfo> queryByPage(String userName,Integer pageNo,Integer pageSize);
 
+	/**
+	 * 根据id删除用户
+	 * @param userId
+	 * @return
+	 */
+	public boolean deleteUserByUserId(Long userId);
+	/**
+	 * 设置用户权限
+	 * @param user
+	 */
+	public void updateUserType(UserInfo user);
 }
