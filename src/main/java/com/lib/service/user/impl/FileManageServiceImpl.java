@@ -31,6 +31,14 @@ public class FileManageServiceImpl implements FileManageService {
 	}
 
 	@Override
+	public PageInfo<FileInfoVO> getFileInfoPage(Integer pageNo, String string, String searchValue) {
+		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, string);
+		List<FileInfoVO> list = fileInfoDao.getFiles("%" + searchValue + "%");
+		PageInfo<FileInfoVO> page = new PageInfo<FileInfoVO>(list);
+		return page;
+	}
+
+	@Override
 	public List<Classification> getClassificationByParentId(Long parentId) {
 
 		return classDao.findOneChildById(parentId);
