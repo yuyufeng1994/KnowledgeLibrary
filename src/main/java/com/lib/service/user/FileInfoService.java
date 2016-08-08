@@ -7,8 +7,10 @@ import com.lib.dto.FileInfoVO;
 import com.lib.entity.FileInfo;
 import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
+
 /**
  * 用户处理文件上传和转化
+ * 
  * @author Yu Yufeng
  *
  */
@@ -30,27 +32,32 @@ public interface FileInfoService {
 	 */
 	List<String> compressFile(String string, UserInfo user) throws Exception;
 
-
 	/**
 	 * 转化一个文件
+	 * 
 	 * @param uuid
 	 */
-	void translateFile(String uuid) throws IOException ;
+	void translateFile(String uuid) throws IOException;
 
 	/**
 	 * 根据uuid查找一个文件
+	 * 
 	 * @param uuid
 	 * @return
 	 */
 	FileInfoVO getFileInfoByUuid(String uuid);
+
 	/**
 	 * 根据fileId查找一个文件
+	 * 
 	 * @param uuid
 	 * @return
 	 */
 	FileInfo getFileInfoByFileId(Long fileId);
+
 	/**
 	 * 根据uuid保存一个文件的基本信息
+	 * 
 	 * @param uuid
 	 * @return
 	 */
@@ -58,23 +65,26 @@ public interface FileInfoService {
 
 	/**
 	 * 查询一个用户可用的文档
+	 * 
 	 * @param searchInfo
 	 * @param userId
-	 * @param pageNo 
+	 * @param pageNo
 	 * @return
 	 */
 	List<FileInfo> searchFileInfoByNameOrId(String searchInfo, Long userId, Integer pageNo);
 
 	/**
 	 * 给一篇文档添加关联
+	 * 
 	 * @param mainFileId
 	 * @param list
-	 * @return 
+	 * @return
 	 */
 	int addRelations(Long mainFileId, List<Long> list);
 
 	/**
 	 * 搜索可用文件
+	 * 
 	 * @param searchInfo
 	 * @param userId
 	 * @return
@@ -83,6 +93,7 @@ public interface FileInfoService {
 
 	/**
 	 * 得到关联文档
+	 * 
 	 * @param mainFileId
 	 * @return
 	 */
@@ -90,9 +101,19 @@ public interface FileInfoService {
 
 	/**
 	 * 删除关联文档
+	 * 
 	 * @param mainFileId
 	 * @param relationFileId
 	 * @return
 	 */
 	int delRelations(Long mainFileId, Long relationFileId);
+
+	/**
+	 * 删除文件
+	 * 
+	 * @param fileId
+	 * @return
+	 * @throws IOException 
+	 */
+	int delFileById(Long fileId) throws Exception;
 }

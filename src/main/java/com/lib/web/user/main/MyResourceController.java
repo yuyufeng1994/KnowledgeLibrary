@@ -1,5 +1,6 @@
 package com.lib.web.user.main;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,10 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.ForkFileInfoVo;
+import com.lib.dto.JsonResult;
+import com.lib.entity.DocInfo;
 import com.lib.entity.FileInfo;
 import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
@@ -44,6 +48,22 @@ public class MyResourceController {
 	// 收藏操作service
 	@Autowired
 	private ForkInfoService forkInfoService;
+
+	@RequestMapping(value = "/file-del/{fileId}", method = RequestMethod.POST)
+	public @ResponseBody JsonResult delMyfile(HttpSession session, @PathVariable("fileId") Long fileId) {
+
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		JsonResult jr = null;
+		try {
+			fileInfoService.delFileById(fileId);
+			jr = new JsonResult(true, "删除成功");
+		} catch (Exception e) {
+			//e.printStackTrace();
+			jr = new JsonResult(false, "删除失败");
+		}
+
+		return jr;
+	}
 
 	/**
 	 * 跳转到我的资源
@@ -82,9 +102,11 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/myforks/{docId}/{pageNo}", method = RequestMethod.GET)
-	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo,@PathVariable("docId") Long docId,String search,HttpSession session) {
+	public String myForks(Model model, @PathVariable("pageNo") Integer pageNo, @PathVariable("docId") Long docId,
+			String search, HttpSession session) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(),docId,user.getUserName(),search);
+		PageInfo<ForkFileInfoVo> page = forkInfoService.getFileForkInfoPageByUserId(pageNo, user.getUserId(), docId,
+				user.getUserName(), search);
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}
