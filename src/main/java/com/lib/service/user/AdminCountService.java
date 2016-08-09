@@ -6,7 +6,7 @@ package com.lib.service.user;
  * @author Yu Yufeng
  *
  */
-public interface CountService {
+public interface AdminCountService {
 
 	public Long getTodaysUpload();
 

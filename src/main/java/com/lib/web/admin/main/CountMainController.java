@@ -2,6 +2,7 @@ package com.lib.web.admin.main;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lib.dto.JsonResult;
 import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
+import com.lib.service.admin.CountService;
 
 /**
- * 后台登录
+ * 后台数据统计
  * 
  * @author Yu Yufeng
  *
@@ -20,6 +22,11 @@ import com.lib.entity.UserInfo;
 @Controller
 @RequestMapping("/admin")
 public class CountMainController {
+	
+	@Autowired
+	private CountService countService;
+	
+	
 	@RequestMapping(value = "/count-ui", method = RequestMethod.GET)
 	public String indexui() {
 

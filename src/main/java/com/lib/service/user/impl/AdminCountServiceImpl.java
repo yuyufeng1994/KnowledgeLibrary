@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lib.dao.CountDao;
-import com.lib.service.user.CountService;
+import com.lib.service.user.AdminCountService;
 
 @Service
-public class CountServiceImpl implements CountService {
+public class AdminCountServiceImpl implements AdminCountService {
 
 	@Autowired
 	private CountDao countDao;

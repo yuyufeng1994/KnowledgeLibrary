@@ -118,6 +118,12 @@
 		file_uuid = #{fileUuid}
 	</update>
 
+
+	<insert id="insertClickInfo">
+		insert into click_info (user_id,file_id) values(#{userId},#{fileId})
+		
+	</insert>
+
 	<insert id="insert" parameterType="com.lib.entity.FileInfo">
 		insert into file_info
 		(file_name, file_size,
