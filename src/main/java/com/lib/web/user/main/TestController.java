@@ -1,32 +1,18 @@
 package com.lib.web.user.main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
+import com.lib.dto.SerResult;
 import com.lib.entity.Classification;
-import com.lib.entity.UserInfo;
-import com.lib.enums.Const;
 import com.lib.service.user.FileManageService;
 
 /**
@@ -40,6 +26,18 @@ public class TestController {
 	@Autowired
 	private FileManageService fileManageService;
 
+	
+	@RequestMapping(value = "/test-sub")
+	public String sub(Model model,String str) {
+		System.out.println(str);
+		model.addAttribute("str", str);
+		List<SerResult> list = null;
+		
+		
+		
+		return "test";
+	}
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String login(Model model) {
 		model.addAttribute("date", new Date());
