@@ -8,6 +8,8 @@ public class PageVo<T> {
 	
 	private int prePage;//前一页
 	
+	private int nextPage;//前一页
+	
 	private int totalPage ; // 总页
 	
 	private int rowCount ; // 总记录数
@@ -44,10 +46,20 @@ public class PageVo<T> {
 	public void setPrePage() {
 		this.prePage = this.pageNum-1;
 	}
-
+	
 	public int getTotalPage() {
 		return totalPage;
 	}
+
+	public int getNextPage() {
+		return nextPage;
+	}
+
+	public void setNextPage() {
+		this.nextPage = this.nextPage+1;
+	}
+
+	
 
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
