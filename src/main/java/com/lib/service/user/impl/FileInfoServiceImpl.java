@@ -133,6 +133,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 		}
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
+		// 全文检索创立索引
+		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
 	}
 
 	@Override

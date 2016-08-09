@@ -38,7 +38,6 @@ public class LuceneServiceImpl implements LuceneService {
 		page.setPageSize(10);
 		page.setNavigatepageNums();
 		page.setRowCount(LuceneSearchUtil.totalPage());
-		System.out.println(page);
 		return page;
 	}
 
