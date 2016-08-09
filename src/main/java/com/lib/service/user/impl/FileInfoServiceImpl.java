@@ -131,10 +131,6 @@ public class FileInfoServiceImpl implements FileInfoService {
 			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
-		// 全文检索创立索引
-
-		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
-
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
 	}

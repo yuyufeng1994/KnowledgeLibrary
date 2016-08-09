@@ -1,6 +1,7 @@
 package com.lib.service.user.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,26 +18,27 @@ public class LuceneServiceImpl implements LuceneService {
 	@Autowired
 	private ClassificationDao classDao;
 	@Override
-	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,Integer flag) {
+	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,String keyWord,Date endTime,int pageNo,Integer flag) {
 		
 		String parentPath=classDao.findFatherPathById(fileInfo.getFileClassId());
 		String[] parentIds=null;
 		List<Long>  classIds=new ArrayList<Long>();
 		if(parentPath!=null){
 			parentIds=parentPath.split("\\.");
+			for(int i=0;i<parentIds.length;i++)
+			{  
+				classIds.add(Long.valueOf(parentIds[i]));
+			}
 		}
 		classIds.add(fileInfo.getFileClassId());
-		for(int i=0;i<parentIds.length;i++)
-		{  
-			classIds.add(Long.valueOf(parentIds[i]));
-		}
-		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo, pageNo,10,classIds, flag);
-		//System.out.println("list:"+list)
+		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo,keyWord,endTime,pageNo,10,classIds, flag);
 		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
-		page.setCurrPage(pageNo);
+		page.setPageNum(pageNo);
 		page.setData(list);
 		page.setPageSize(10);
+		page.setNavigatepageNums();
 		page.setRowCount(LuceneSearchUtil.totalPage());
+		System.out.println(page);
 		return page;
 	}
 

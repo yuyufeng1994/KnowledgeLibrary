@@ -193,8 +193,7 @@ public class LoginAndRegisterController {
 		if (user.getUserPassword() != null && repassword != null) {
 			String strConfirm = new String(user.getUserPassword());
 			String strPwd = new String(repassword);
-			System.out.println(repassword);
-			System.out.println(user.getUserPassword());
+			
 			if (strConfirm.equals(strPwd)) {
 				result = "<font class='am-btn-success'>密码一致</font>";
 			} else {

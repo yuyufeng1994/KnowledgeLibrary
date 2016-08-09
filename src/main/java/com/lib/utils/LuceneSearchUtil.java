@@ -80,7 +80,7 @@ public class LuceneSearchUtil {
 	 * @param flag //是否二次查询条件
 	 * @return
 	 */
-	public static List<LuceneSearchVo> indexFileSearch(FileInfo file, Integer pageNo,Integer pageSize,List<Long> fileClassId,Integer flag){
+	public static List<LuceneSearchVo> indexFileSearch(FileInfo file,String keyWord,Date endTime,Integer pageNo,Integer pageSize,List<Long> fileClassId,Integer flag){
 		
 		
 		if(pageNo>1)
@@ -117,7 +117,7 @@ public class LuceneSearchUtil {
 			Map<String, Float> boost = new HashMap<String, Float>();
 			boost.put("fileKeyWords", 4.0f);
 			boost.put("fileName", 3.0f);
-			boost.put("fileBriefs", 2.0f);
+			boost.put("fileBrief", 2.0f);
 			boost.put("fileText", 1.0f);
 			// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
 			QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
@@ -134,7 +134,7 @@ public class LuceneSearchUtil {
 			sDate = calendar.getTime();
 		}
 		
-		Date eDate = null;//TODO
+		Date eDate = endTime;//TODO
 		//若只有起始值结束值默认为当天
 		if ((eDate == null || "".equals(eDate))) {
 			eDate = new Date();
@@ -162,14 +162,17 @@ public class LuceneSearchUtil {
 		// 查询条件四类型查询
 		if (file.getFileExt() != null && !"".equals(file.getFileExt())) {
 			List<String> typeList = null;
-			if (file.getFileExt().equals("docx")) {
+			if (file.getFileExt().equals("office")) {
 				typeList = JudgeUtils.officeFile;
 			}
 			if (file.getFileExt().equals("video")) {
 				typeList = JudgeUtils.videoFile;
+				typeList.addAll(JudgeUtils.audioFile);
 			}
 			if (file.getFileExt().equals("img")) {
 				typeList = JudgeUtils.imageFile;
+			}else if(file.getFileExt().equals("else")){
+				typeList=JudgeUtils.elseFile;
 			}
 			for (String type : typeList) {
 				TermQuery termQuery = new TermQuery(new Term("fileExt", type));
@@ -215,7 +218,7 @@ public class LuceneSearchUtil {
 			ireader = DirectoryReader.open(directory);
 			
 			indexSearch = new IndexSearcher(ireader);
-			 //分页处理  
+			
 			for (int i = (pageNo-1)*pageSize,j=0; i < result.scoreDocs.length&&j<pageSize ; i++,j++) {
 				LuceneSearchVo vo = new LuceneSearchVo();
 				int fileId = result.scoreDocs[i].doc;
@@ -223,10 +226,12 @@ public class LuceneSearchUtil {
 				
 				vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
 				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-				
-				vo.setFileCreateTime(sdf.parse(file.get("fileCreateTime")));
-				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				try {
+					vo.setFileCreateTime(sdf.parse(file.get("fileCreateTime")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				vo.setFileExt(file.get("fileExt"));
 				
 				vo.setFilePath(file.get("filePath"));
@@ -239,28 +244,52 @@ public class LuceneSearchUtil {
 				
 				vo.setFileUuid(file.get("fileUuid"));
 				
-				String fileName = "";
-				if (file.get("fileName") != null && !"".equals(file.get("fileName")))
-					fileName = displayHtmlHighlight(queryText, analyzer, "fileName", file.get("fileName"), 30);
-				vo.setFileName(fileName);
+				vo.setFileName(file.get("fileName"));
 				
-				String fileBrief = "";
-				if (file.get("fileBrief")!= null && !"".equals(file.get("fileBrief")))
-					fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 30);
-				vo.setFileBrief(fileBrief);
+				vo.setFileBrief(file.get("fileSummarys"));
 				
-				String fileText = "";
-				if (file.get("fileText") != null&& !"".equals(file.get("fileText"))) {
-					fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 30);
+				vo.setFileText(file.get("fileText"));
+				
+				vo.setFileKeyWords(file.get("fileKeyWords"));
+				
+				
+				if (queryText != null) {
+					
+					String fileName = "";
+					if (file.get("fileName") != null && !"".equals(file.get("fileName")))
+					{
+						fileName = displayHtmlHighlight(queryText, analyzer, "fileName", file.get("fileName"), 100);
+						if(!"".equals(fileName)&&fileName!=null)
+						vo.setFileName(fileName);
+					}
+				     	
+
+					String fileBrief = "";
+					if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief"))){
+						fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 100);
+						if(!"".equals(fileBrief)&&fileBrief!=null)
+						vo.setFileBrief(fileBrief);
+					}
+					
+
+					String fileText = "";
+					if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
+						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
+						if(!"".equals(fileText)&&fileText!=null)
+						vo.setFileText(fileText);
+					}
+					
+
+					String fileKeyWords = "";
+					if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
+						fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords",
+								file.get("fileKeyWords"), 100);
+						if(!"".equals(fileKeyWords)&&fileKeyWords!=null)
+						vo.setFileKeyWords(fileKeyWords);
+					}
+					
 				}
-				vo.setFileText(fileText);
-				
-				String fileKeyWords = "";
-				if (file.get("fileKeyWords") != null&& !"".equals(file.get("fileKeyWords"))) {
-					fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords", file.get("fileKeyWords"), 30);
-				}
-				vo.setFileKeyWords(fileKeyWords);
-				
+				//System.out.println(vo);
 				page.add(vo);
 			}
 			

@@ -1,5 +1,6 @@
 package com.lib.service.user;
 
+import java.util.Date;
 import java.util.List;
 
 import com.lib.dto.LuceneSearchVo;
@@ -13,7 +14,7 @@ public interface LuceneService {
 	 * @param fileInfo
 	 * @return
 	 */
-	PageVo<LuceneSearchVo> search(FileInfo fileInfo,int pageNo,Integer flag);
+	PageVo<LuceneSearchVo> search(FileInfo fileInfo,String keyWord,Date endTime,int pageNo,Integer flag);
 	
 	/**
 	 * 添加一个索引

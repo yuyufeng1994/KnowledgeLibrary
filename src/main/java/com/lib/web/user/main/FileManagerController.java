@@ -282,6 +282,7 @@ public class FileManagerController {
 			@PathVariable("uuid") String uuid, @PathVariable("ext") String ext) {
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		
 		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
 
 		try {

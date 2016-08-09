@@ -88,8 +88,12 @@ public class LuceneIndexUtil {
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
 					
 					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
+					
 					document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
+					
 					document.add(new StringField("fileSummarys",fileSummarys.toString(), Field.Store.YES));
+					
+					
 					}
 				} catch (Exception e) {
 					close(indexWriter,directory);
@@ -112,7 +116,7 @@ public class LuceneIndexUtil {
 					
 				}
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// System.out.println(doc.getDocModTime()+" "+doc.getDocUpTime());
 			
 			document.add(new StringField("fileUserName", fileUserName, Field.Store.YES));

@@ -4,7 +4,9 @@ import java.util.List;
 
 public class PageVo<T> {
 
-	private int currPage ; // 当前页
+	private int pageNum ; // 当前页
+	
+	private int prePage;//前一页
 	
 	private int totalPage ; // 总页
 	
@@ -12,14 +14,46 @@ public class PageVo<T> {
 	
 	public static int pageSize = 10; // 页大小
 	
+	private List<Integer> navigatepageNums;
+	
 	private List<T> data ; // 数据T
 
-	public int getCurrPage() {
-		return currPage;
+	public List<Integer> getNavigatepageNums() {
+		return navigatepageNums;
 	}
 
-	public void setCurrPage(int currPage) {
-		this.currPage = currPage;
+	public void setNavigatepageNums() {
+		
+		for(int i=this.pageNum,j=3;i>=1&&j>=1;i--,j--)
+		{
+			int index=this.pageNum-j;
+			if(index>0)
+			this.navigatepageNums.add(index);
+			
+		}
+		
+		for(int i=this.pageNum,j=3;i<=this.totalPage&&j>=1;i++,j--)
+		{
+			this.navigatepageNums.add(i);
+		}
+		System.out.println(this.navigatepageNums);
+		
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public int getPrePage() {
+		return prePage;
+	}
+
+	public void setPrePage() {
+		this.prePage = this.pageNum-1;
 	}
 
 	public int getTotalPage() {
@@ -58,6 +92,13 @@ public class PageVo<T> {
 	public void setData(List<T> data) {
 		this.data = data;
 	}
+
+	@Override
+	public String toString() {
+		return "PageVo [pageNum=" + pageNum + ", prePage=" + prePage + ", totalPage=" + totalPage + ", rowCount="
+				+ rowCount + ", data=" + data + ", navigatepageNums=" + navigatepageNums + "]";
+	}
+	
 	
 	
 }

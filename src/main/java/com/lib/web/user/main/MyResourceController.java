@@ -66,6 +66,9 @@ public class MyResourceController {
 		JsonResult jr = null;
 		try {
 			fileInfoService.delFileById(fileId);
+			FileInfo fileInfo = new FileInfo();
+			fileInfo.setFileId(fileId);
+			luceneService.deleteFileIndex(fileInfo);
 			jr = new JsonResult(true, "删除成功");
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -141,18 +144,12 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/search/{flag}/{pageNo}", method = RequestMethod.POST)
-	public String search(Model model,Date fileCreateTime,FileInfo fileInfo,Date endTime,String keyWord,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
-		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
-		//model.addAttribute("page", page);
-		System.out.println("abcd");
+	public String search(Model model,FileInfo fileInfo,Date endTime,String keyWord,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
+		
+		PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo,keyWord,endTime,pageNo, flag);
+		model.addAttribute("page", page);
 		return "file/search";
 	}
 	
-	@RequestMapping(value = "/date")
-	public String date(Date dateTime,Model model) {
-		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
-		//model.addAttribute("page", page);
-		System.out.println(dateTime);
-		return "file/search";
-	}
+	
 }

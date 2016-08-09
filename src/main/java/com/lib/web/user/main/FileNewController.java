@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.FileNew;
 import com.lib.dto.JsonResult;
@@ -29,6 +30,7 @@ import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
+import com.lib.service.user.LuceneService;
 import com.lib.utils.HtmlToWord;
 import com.lib.utils.StringValueUtil;
 
@@ -46,6 +48,11 @@ import net.sf.json.JSONObject;
 public class FileNewController {
 	@Autowired
 	private FileInfoService fileInfoService;
+	
+	@Autowired
+	private UserInfoDao userInfoDao;
+	@Autowired
+	private LuceneService searchService;
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -137,6 +144,12 @@ public class FileNewController {
 		if (res == 0) {
 			jr = new JsonResult(false, "修改失败");
 			return jr;
+		}else if(res!=0&&fileInfo.getFileState()==5){
+			// 全文检索创立索引
+			searchService.addFileIndex(fileInfo, userInfoDao.queryById(fileInfo.getFileUserId()).getUserName());
+		}else if(res!=0&&fileInfo.getFileState()!=5)
+		{
+			searchService.deleteFileIndex(fileInfo);
 		}
 		jr = new JsonResult(false, "修改成功");
 		return jr;
