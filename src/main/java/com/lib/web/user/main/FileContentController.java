@@ -96,6 +96,7 @@ public class FileContentController {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		model.addAttribute("fileInfo", fileInfo);
+		fileInfoService.addClick(user.getUserId(),fileInfo.getFileId());
 		return "file/content";
 	}
 

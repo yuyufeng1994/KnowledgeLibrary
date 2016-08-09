@@ -50,7 +50,7 @@
 				<p>
 					<span class="am-icon-bookmark"></span> 公告
 				</p>
-				<p>时光静好，与君语；细水流年，与君同。—— SOKLIB</p>
+				<p>知识就是力量 —— SOKLIB</p>
 			</div>
 		</div>
 

@@ -28,11 +28,11 @@
 							class="am-icon-code-fork"></span> 分类管理</a></li>
 				</ul></li>
 			<li class="admin-parent"><a class="am-cf"
-				data-am-collapse="{target: '#collapse-nav-person'}"><span
+				data-am-collapse="{target: '#collapse-nav-sys'}"><span
 					class="am-icon-user"></span> 系统<span
 					class="am-icon-angle-right am-fr am-margin-right"></span></a>
 				<ul class="am-list am-collapse admin-sidebar-sub am-in"
-					id="collapse-nav-person">
+					id="collapse-nav-sys">
 					<li><a href="admin/red5" class="am-cf"><span
 							class="am-icon-file-text"></span> 流媒体服务</a></li>
 					<li><a href="user/upload"><span

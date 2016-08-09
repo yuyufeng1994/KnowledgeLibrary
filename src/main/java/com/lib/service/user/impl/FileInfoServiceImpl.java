@@ -249,4 +249,13 @@ public class FileInfoServiceImpl implements FileInfoService {
 		return fileinfoDao.deleteByPrimaryKey(fileId);
 	}
 
+	@Override
+	public void addClick(Long userId, Long fileId) {
+		try {
+			fileinfoDao.insertClickInfo(userId, fileId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

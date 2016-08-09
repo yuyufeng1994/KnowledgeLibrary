@@ -19,7 +19,7 @@ import com.lib.dto.JsonResult;
 import com.lib.entity.Classification;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
-import com.lib.service.user.CountService;
+import com.lib.service.user.AdminCountService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.UserService;
 
@@ -37,7 +37,7 @@ public class MainController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private CountService countService;
+	private AdminCountService countService;
 
 	/**
 	 * 获取今日的录入文件数量

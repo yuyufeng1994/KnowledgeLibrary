@@ -126,9 +126,17 @@ public interface FileInfoDao {
 
 	/**
 	 * 得到所有文档
+	 * 
 	 * @param string
 	 * @return
 	 */
 	List<FileInfoVO> getFiles(String searchValue);
+
+	/**
+	 * 插入统计数据
+	 * @param userId
+	 * @param fileId
+	 */
+	int insertClickInfo(@Param("userId") Long userId, @Param("fileId") Long fileId);
 
 }

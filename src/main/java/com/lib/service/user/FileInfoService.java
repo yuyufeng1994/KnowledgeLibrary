@@ -116,4 +116,6 @@ public interface FileInfoService {
 	 * @throws IOException 
 	 */
 	int delFileById(Long fileId) throws Exception;
+
+	void addClick(Long userId, Long fileId);
 }
