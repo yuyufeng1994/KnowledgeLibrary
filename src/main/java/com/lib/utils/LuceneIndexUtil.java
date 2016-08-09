@@ -86,7 +86,6 @@ public class LuceneIndexUtil {
 					PDFTextStripper stripper = new PDFTextStripper();
 					result = stripper.getText(PDdoc);
 					if(result!=""){
-			
 					document.add(new TextField("fileText", result, Field.Store.YES));
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
 					
@@ -121,6 +120,8 @@ public class LuceneIndexUtil {
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// System.out.println(doc.getDocModTime()+" "+doc.getDocUpTime());
+			
+			document.add(new StringField("fileId", file.getFileId()+"", Field.Store.YES));
 			
 			document.add(new StringField("fileUserName", fileUserName, Field.Store.YES));
 			
@@ -170,6 +171,7 @@ public class LuceneIndexUtil {
 		config = new IndexWriterConfig(analyzer);
 		config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 	    indexWriter = new IndexWriter(directory, config);
+	    System.out.println("fileId"+file.getFileId());
 		indexWriter.deleteDocuments(new Term("fileId", file.getFileId() + ""));
 		} catch (Exception e) {
 			e.printStackTrace();

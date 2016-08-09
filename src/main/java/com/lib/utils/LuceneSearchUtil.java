@@ -179,9 +179,6 @@ public class LuceneSearchUtil {
 				booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
 			}
 		}
-		//查询条件五状态查询
-		TermQuery termQuery = new TermQuery(new Term("fileState", "6"));
-		booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
 		
 		oldBooleanQuery=booleanQuery;
 		// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值

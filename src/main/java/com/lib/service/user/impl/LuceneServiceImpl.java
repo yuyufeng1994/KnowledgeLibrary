@@ -34,10 +34,25 @@ public class LuceneServiceImpl implements LuceneService {
 		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo,keyWord,endTime,pageNo,10,classIds, flag);
 		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
 		page.setPageNum(pageNo);
-		page.setData(list);
+		//page.setData(list);
 		page.setPageSize(10);
-		page.setNavigatepageNums();
+		
+		/*for(int i=pageNo,j=3;i>=1&&j>=1;i--,j--)
+		{
+			int index=pageNo-j;
+			if(index>0)
+			this.navigatepageNums.add(index);
+			
+		}
+		
+		for(int i=this.pageNum,j=3;i<=this.totalPage&&j>=1;i++,j--)
+		{
+			this.navigatepageNums.add(i);
+		}*/
+		
+		//page.setNavigatepageNums();
 		page.setRowCount(LuceneSearchUtil.totalPage());
+		System.out.println(page);
 		return page;
 	}
 

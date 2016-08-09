@@ -22,21 +22,10 @@ public class PageVo<T> {
 		return navigatepageNums;
 	}
 
-	public void setNavigatepageNums() {
+	public void setNavigatepageNums(List) {
 		
-		for(int i=this.pageNum,j=3;i>=1&&j>=1;i--,j--)
-		{
-			int index=this.pageNum-j;
-			if(index>0)
-			this.navigatepageNums.add(index);
-			
-		}
 		
-		for(int i=this.pageNum,j=3;i<=this.totalPage&&j>=1;i++,j--)
-		{
-			this.navigatepageNums.add(i);
-		}
-		System.out.println(this.navigatepageNums);
+		this.navigatepageNums=navigatepageNums;
 		
 	}
 

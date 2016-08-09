@@ -141,15 +141,19 @@ public class FileNewController {
 	public @ResponseBody JsonResult fileEditSave(FileInfo fileInfo, HttpSession session, Model model) {
 		JsonResult jr = null;
 		int res = fileInfoService.saveBaseFileInfoByUuid(fileInfo);
+		FileInfo file = fileInfoService.getFileInfoByUuid(fileInfo.getFileUuid());
 		if (res == 0) {
 			jr = new JsonResult(false, "修改失败");
 			return jr;
 		}else if(res!=0&&fileInfo.getFileState()==5){
+			
+			//删除索引
+			searchService.deleteFileIndex(file);
 			// 全文检索创立索引
-			searchService.addFileIndex(fileInfo, userInfoDao.queryById(fileInfo.getFileUserId()).getUserName());
+			searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
 		}else if(res!=0&&fileInfo.getFileState()!=5)
 		{
-			searchService.deleteFileIndex(fileInfo);
+			searchService.deleteFileIndex(file);
 		}
 		jr = new JsonResult(false, "修改成功");
 		return jr;

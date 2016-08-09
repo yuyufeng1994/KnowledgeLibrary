@@ -117,8 +117,8 @@
 											<a class="a-black" target="_blank"
 												href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
 										</h3>
-										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" >简介：${f.fileBrief }</p>
-										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">知识点:${f.fileKeyWords}</p>
+										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" >简介:${f.fileBrief }</p>
+										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">关键词:${f.fileKeyWords}</p>
 										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">内容:${f.fileText}</p>
 										<a href="#link-to-user" class="am-comment-author">用户:
 											${f.userName}</a>
