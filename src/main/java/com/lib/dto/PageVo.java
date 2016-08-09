@@ -22,7 +22,7 @@ public class PageVo<T> {
 		return navigatepageNums;
 	}
 
-	public void setNavigatepageNums(List) {
+	public void setNavigatepageNums(List<Integer> navigatepageNums) {
 		
 		
 		this.navigatepageNums=navigatepageNums;
