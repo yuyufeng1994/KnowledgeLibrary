@@ -29,9 +29,7 @@
 
 					<div id="uploader" class="wu-example">
 						<!--用来存放文件信息-->
-						<div id="thelist" class="uploader-list">
-							
-						</div>
+						<div id="thelist" class="uploader-list"></div>
 						<div class="btns">
 							<div id="picker">添加文件</div>
 							<div id="unc-div" style="display: none;"
@@ -42,9 +40,9 @@
 									class="am-btn am-btn-xs am-btn-primary" data-am-button>导入压缩包</button>
 								<script>
 									$(function() {
-										
+								
 										$.post("user/re-compress")
-										
+								
 										var $toggleButton = $('#if-unc');
 										$toggleButton.on('click', function() {
 											setButtonStatus();
@@ -100,9 +98,9 @@
 	// 当有文件被添加进队列的时候
 	uploader.on('fileQueued', function(file) {
 		$list.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">' +
-			'<div class="am-panel-hd">' +'<span class="state am-badge am-badge-secondary">等待上传...</span>'+" "+ file.name 
-			+  '</div>' +
-			
+			'<div class="am-panel-hd">' + '<span class="state am-badge am-badge-secondary">等待上传...</span>' + " " + file.name
+			+ '</div>' +
+
 			'</div>');
 		if (file.ext == "zip" || file.ext == "rar") {
 			$("#unc-div").show("fast");
@@ -115,7 +113,7 @@
 
 		// 避免重复创建
 		if (!$percent.length) {
-			
+
 			$percent = $('<div class="am-progress am-progress-striped  am-active">' +
 				'<div class="am-progress-bar am-progress-bar-secondary"  style="width: 0%">' +
 				'</div>' +
@@ -123,15 +121,14 @@
 		}
 
 		$li.find('span.state').text('上传中');
-		var res=  (percentage * 100).toFixed(2);
-		$li.find('.am-progress-bar-secondary').text(res+"%");
+		var res = (percentage * 100).toFixed(2);
+		$li.find('.am-progress-bar-secondary').text(res + "%");
 		$percent.css('width', percentage * 100 + '%');
 	});
 	$btn.on('click', function() {
 		if (state === 'uploading') {
 			uploader.stop();
-		}
-		else {
+		} else {
 			uploader.upload();
 		}
 	});
@@ -158,7 +155,10 @@
 
 	uploader.on('uploadComplete', function(file) {
 		$('#' + file.id).find('.progress').fadeOut();
-	
+	})
+
+	uploader.on('uploadFinished', function(file) {
+		window.location.href = "user/upload-complete";
 	})
 </script>
 </html>

@@ -372,7 +372,8 @@
 								$("#file-state").val(${fileInfo.fileState});
 							</script>
 							</c:if>
-							<c:if test="${fileInfo.fileState == 7 && session_user.userType == 0}">
+							<c:if
+								test="${fileInfo.fileState == 7 && session_user.userType == 0}">
 								<div class="am-form-group">
 									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
 									<div class="am-u-sm-9">
@@ -399,7 +400,8 @@
 								</div>
 							</c:if>
 
-							<c:if test="${fileInfo.fileState == 7 && session_user.userType != 0}">
+							<c:if
+								test="${fileInfo.fileState == 7 && session_user.userType != 0}">
 								<div class="am-form-group">
 									<label for="file-state" class="am-u-sm-3 am-form-label">文件权限</label>
 									<div class="am-u-sm-9">
@@ -426,10 +428,10 @@
 										class="am-btn am-btn-primary">保存修改</button>
 								</div>
 								<div class="am-u-sm-5">
-									<a href="javascript:history.go(-1)"
+									<a href="javascript:self.location=document.referrer;"
 										class="am-btn am-btn-default">返回</a>
 								</div>
-
+ 								
 							</div>
 						</form>
 						<hr>

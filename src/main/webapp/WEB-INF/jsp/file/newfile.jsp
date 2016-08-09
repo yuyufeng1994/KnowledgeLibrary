@@ -26,7 +26,7 @@
 							<div class="am-g">
 								<div class="am-u-sm-4 am-u-md-2 am-text-right">文档标题：</div>
 								<div class="am-u-sm-8 am-u-md-4">
-									<input id="fileName" type="text" class="am-input-lg"
+									<input id="fileName" type="text" class="am-input-lg" placeholder="未知名"
 										style="width: 100%" value="${session_new_file.name }">
 								</div>
 								<div class="am-u-sm-8 am-u-md-6">

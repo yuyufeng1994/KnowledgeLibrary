@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +58,10 @@ public class FileManagerController {
 	 * @return
 	 */
 	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-	public String upload(Model model) {
-
+	public String upload(Model model, HttpSession session) {
+		session.removeAttribute(Const.SESSION_UPLOADS);
+		List<String> list = new ArrayList<>();
+		session.setAttribute(Const.SESSION_UPLOADS, list);
 		return "file/upload";
 	}
 
@@ -70,6 +75,30 @@ public class FileManagerController {
 	public String newfile(Model model) {
 
 		return "file/newfile";
+	}
+
+	/**
+	 * 跳转上传完成页面
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/upload-complete", method = RequestMethod.GET)
+	public String uploadFinish(Model model, HttpSession session) {
+		@SuppressWarnings("unchecked")
+
+		List<String> uploadfiles = (List<String>) session.getAttribute(Const.SESSION_UPLOADS);
+		if (uploadfiles != null) {
+			List<FileInfoVO> list = new ArrayList<>();
+			for (String u : uploadfiles) {
+				FileInfoVO e = fileInfoService.getFileInfoByUuid(u);
+				list.add(e);
+			}
+
+			model.addAttribute("files", list);
+		}
+
+		return "file/uploadfiles";
 	}
 
 	/**
@@ -117,6 +146,13 @@ public class FileManagerController {
 	@RequestMapping(value = "/upload-file", method = RequestMethod.POST)
 	@ResponseBody
 	public String uploadFile(@RequestParam("file") CommonsMultipartFile[] files, HttpSession session) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<String> uploadfiles = (List<String>) session.getAttribute(Const.SESSION_UPLOADS);
+		if (uploadfiles == null) {
+			uploadfiles = new ArrayList<>();
+			session.setAttribute(Const.SESSION_UPLOADS, uploadfiles);
+		}
+
 		Boolean compressState = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String uuid = StringValueUtil.getUUID();
@@ -138,6 +174,7 @@ public class FileManagerController {
 				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
 				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
 				for (String fuuid : filesUuid) {
+					uploadfiles.add(fuuid);
 					// 处理文件
 					new Thread() {
 						public void run() {
@@ -149,9 +186,14 @@ public class FileManagerController {
 						};
 					}.start();
 				}
+
 				return "success";
 			}
 		}
+
+		// 保存刚刚上传的文件
+
+		uploadfiles.add(uuid);
 
 		try {
 			FileUtils.writeByteArrayToFile(new File(filePath), files[0].getBytes());
@@ -259,5 +301,5 @@ public class FileManagerController {
 		}
 		return null;
 	}
-	
+
 }
