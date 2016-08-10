@@ -156,7 +156,7 @@ public class LuceneSearchUtil {
 				// DateTools.Resolution.MINUTE);
 				// eDateStr=DateTools.dateToString(eDate,
 				// DateTools.Resolution.MINUTE);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				BytesRef sDateStr = new BytesRef(sdf.format(sDate));
 				BytesRef eDateStr = new BytesRef(sdf.format(eDate));
 
@@ -246,7 +246,7 @@ public class LuceneSearchUtil {
 
 				vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
 
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					vo.setFileCreateTime(sdf.parse(file.get("fileCreateTime")));
 				} catch (Exception e) {
