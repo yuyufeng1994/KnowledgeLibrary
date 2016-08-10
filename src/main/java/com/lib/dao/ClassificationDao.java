@@ -22,7 +22,7 @@ public interface ClassificationDao {
 	 * @param parentId
 	 * @return
 	 */
-	void insert(@Param("classificationName") String classificationName, @Param("parentId") Long parentId,
+	int insert(@Param("classificationName") String classificationName, @Param("parentId") Long parentId,
 			@Param("parentPath") String parentPath);
 
 	/**
