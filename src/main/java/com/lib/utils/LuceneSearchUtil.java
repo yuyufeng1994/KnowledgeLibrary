@@ -542,7 +542,7 @@ public class LuceneSearchUtil {
 					String uuid = StringValueUtil.getUUID();
 					FileUtils.copyFile(new File(Const.ROOT_PATH + filePath + "." + fileExt),
 							new File(Const.CONTAINER_PATH + "resource/temp/" + uuid + ".png"));
-					list.add(new SerResult("<img style='width:400px;' src='"+Const.HEAD_URL+"resource/temp/" + uuid  + ".png' />",
+					list.add(new SerResult("<img width='400' src='"+Const.HEAD_URL+"resource/temp/" + uuid  + ".png' />",
 							fileId, fileName, fileUuid));
 
 				} else {

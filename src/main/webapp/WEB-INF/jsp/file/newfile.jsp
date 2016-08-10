@@ -120,7 +120,8 @@
 			for (var i = 0; i < checks.length; i++) {
 				content = "<p>"
 						+ $(checks[i]).parent().parent().find("td").eq(0)
-								.html() + "</p>"
+								.html() + "</p>";
+								console.log(content)
 				ue.setContent(content, true);
 			}
 			
@@ -137,7 +138,7 @@
 							function(data) {
 								var str = '';
 								if (data.success == false) {
-									str = data.data;
+									str = data.error;
 								} else {
 									for (var i = 0; i < data.data.length; i++) {
 										str += "<tr><td>"
