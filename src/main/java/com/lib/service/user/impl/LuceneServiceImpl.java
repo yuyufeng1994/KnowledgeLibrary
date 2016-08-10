@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.lib.dao.ClassificationDao;
 import com.lib.dto.LuceneSearchVo;
 import com.lib.dto.PageVo;
+import com.lib.dto.SerResult;
+import com.lib.entity.Classification;
 import com.lib.entity.FileInfo;
 import com.lib.service.user.LuceneService;
 import com.lib.utils.LuceneIndexUtil;
@@ -20,14 +22,12 @@ public class LuceneServiceImpl implements LuceneService {
 	@Override
 	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,String keyWord,Date endTime,int pageNo,Integer flag) {
 		
-		String parentPath=classDao.findFatherPathById(fileInfo.getFileClassId());
-		String[] parentIds=null;
+		List<Classification> childIds=classDao.findAllChildById(fileInfo.getFileClassId()+"");
 		List<Long>  classIds=new ArrayList<Long>();
-		if(parentPath!=null){
-			parentIds=parentPath.split("\\.");
-			for(int i=0;i<parentIds.length;i++)
-			{  
-				classIds.add(Long.valueOf(parentIds[i]));
+		if(childIds!=null){
+			for(int i=0;i<childIds.size();i++)
+			{
+				classIds.add(childIds.get(i).getClassificationId());
 			}
 		}
 		classIds.add(fileInfo.getFileClassId());
@@ -85,9 +85,9 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public List<String> getParagraph(Long fileId, String keyWord) {
+	public List<SerResult> getParagraph(String keyWord) {
 		// TODO Auto-generated method stub
-		return LuceneSearchUtil.extractParagrap(fileId, keyWord);
+		return LuceneSearchUtil.extractParagrap(keyWord);
 	}
 	
 	

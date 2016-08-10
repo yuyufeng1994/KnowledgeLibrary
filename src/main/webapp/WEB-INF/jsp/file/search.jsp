@@ -46,9 +46,10 @@
            <div class="am-g am-margin-top">
             <div class="am-u-sm-4  am-text-right">文件类型</div>
             <div class="am-u-sm-8 ">
-              <select name="fileExt" data-am-selected="{btnWidth: '32%',btnSize: 'sm'}">
+              <select name="fileExt" data-am-selected="{btnWidth: '32%',searchBox: 1,btnSize: 'sm'}">
+                <option  value="all" selected="selected">所有</option>
                 <option  value="office">office</option>
-                <option  value="vedio" >视频</option>
+                <option  value="video" >视频</option>
                 <option  value="image">图片</option>
                 <option  value="else">其他</option>
               </select>
@@ -57,7 +58,7 @@
 			
 		  <div class="am-g am-margin-top" >
             <div class="am-u-sm-4  am-text-right">文件分类</div>
-            <input type="hidden" value="1" id="fileClassId" >
+            <input type="hidden" value="1" name="fileClassId" id="fileClassId" >
             <div class="am-u-sm-8 " id="selectId">
                 
             </div>
@@ -155,7 +156,7 @@
 									</c:forEach>
 									
 									<c:if test="${page.pageNum < page.totalPage}">
-										<li><a onclick="gotoPage(${page.nextPage })">»</a></li>
+										<li><a onclick="gotoPage(${page.nextPage})">»</a></li>
 									</c:if>
 								</ul>
 				</div>
@@ -253,6 +254,13 @@ function getChild(object)
 	
 	$("#selectId").find("select").attr("data-am-selected","btnWidth:'30%',btnSize: 'sm'")
 	
+}
+
+function gotoPage(page) {
+	var url=window.location.pathname;
+	var str=url.split("/");
+	$("#search").attr("action","user/search/"+str[4]+"/"+page)
+	$("#search").submit();
 }
 
 

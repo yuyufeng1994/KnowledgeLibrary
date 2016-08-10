@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lib.dto.LuceneSearchVo;
 import com.lib.dto.PageVo;
+import com.lib.dto.SerResult;
 import com.lib.entity.FileInfo;
 
 public interface LuceneService {
@@ -54,7 +55,7 @@ public interface LuceneService {
 	
 	
 	
-	List<String> getParagraph(Long fileId,String keyWord);
+	List<SerResult>  getParagraph(String keyWord);
 
 	
 }

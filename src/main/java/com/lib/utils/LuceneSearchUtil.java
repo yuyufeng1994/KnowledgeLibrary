@@ -39,6 +39,7 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
 import com.hankcs.lucene.HanLPTokenizer;
 import com.lib.dto.LuceneSearchVo;
+import com.lib.dto.SerResult;
 import com.lib.entity.FileInfo;
 /**
  * 搜索索引 Lucene 5.5+
@@ -82,7 +83,7 @@ public class LuceneSearchUtil {
 	 */
 	public static List<LuceneSearchVo> indexFileSearch(FileInfo file,String keyWord,Date endTime,Integer pageNo,Integer pageSize,List<Long> fileClassId,Integer flag){
 		
-		
+		System.out.println(file);
 		if(pageNo>1)
 		{
 			page(pageNo,pageSize);
@@ -146,7 +147,7 @@ public class LuceneSearchUtil {
 			// DateTools.Resolution.MINUTE);
 			// eDateStr=DateTools.dateToString(eDate,
 			// DateTools.Resolution.MINUTE);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			BytesRef sDateStr = new BytesRef(sdf.format(sDate));
 			BytesRef eDateStr = new BytesRef(sdf.format(eDate));
 
@@ -160,7 +161,8 @@ public class LuceneSearchUtil {
 			booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
 		}
 		// 查询条件四类型查询
-		if (file.getFileExt() != null && !"".equals(file.getFileExt())) {
+		if (file.getFileExt() != null && !"".equals(file.getFileExt())&&!file.getFileExt().equals("all")) {
+
 			List<String> typeList = null;
 			if (file.getFileExt().equals("office")) {
 				typeList = JudgeUtils.officeFile;
@@ -308,7 +310,10 @@ public class LuceneSearchUtil {
 	 */
 	public static Integer totalPage()
 	{
+		if(result!=null)
 		return result.totalHits;
+		else
+		return 0;
 	}
 	/**
 	 * 获取简介
@@ -479,7 +484,7 @@ public class LuceneSearchUtil {
 	 * @param keyWord
 	 * @return
 	 */
-	public static List<String> extractParagrap(Long fileId,String keyWord)  {
+	public static List<SerResult> extractParagrap(String keyWord)  {
 		
 		// 保存索引文件的地方
 		Directory directory=null;
@@ -490,7 +495,7 @@ public class LuceneSearchUtil {
 		//new一个文档对象
 		Document document = new Document();
 		//相关段落
-		List<String> relationParagraps=new ArrayList<String>();
+		List<SerResult> list= new ArrayList<SerResult>();
 		try {
 		directory = FSDirectory.open(new File(indexPath).toPath());
 		
@@ -498,35 +503,38 @@ public class LuceneSearchUtil {
 		
 		indexSearch = new IndexSearcher(ireader);
 		
-		Term term = new Term("fileId", fileId.toString());
+		
+		
+		Term term = new Term("fileKeyWords", keyWord);
 		TermQuery termQuery = new TermQuery(term);
 		// System.out.println(termQuery);
-		TopDocs topdocs = indexSearch.search(termQuery, 1);
+		TopDocs topdocs = indexSearch.search(termQuery, 100);
 		
-		document = indexSearch.doc(topdocs.scoreDocs[0].doc);
-		String result=document.get("fileText");
-		List<String> paragraphs=ParagraphUtil.toParagraphList(result);
-		for(String paragrap:paragraphs)
+		for(int i=0;i<topdocs.scoreDocs.length;i++)
 		{
-			//size 表示查找多少关键字
-			List<String> keyWords=HanLP.extractKeyword(paragrap, 3);
-			for(String str:keyWords)
-			{
-				if(str.equals(keyWord))
-				{
-					relationParagraps.add(paragrap);
+				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
+				Long fileId=Long.valueOf(document.get("fileId"));
+				String result = document.get("fileText");
+				List<String> paragraphs = ParagraphUtil.toParagraphList(result);
+				for (String paragrap : paragraphs) {
+					// size 表示查找多少关键字
+					
+					List<String> keyWords = HanLP.extractKeyword(paragrap, 3);
+					for (String str : keyWords) {
+						if (str.equals(keyWord)) {
+							list.add(new SerResult(paragrap,fileId));
+						}
+
+					}
+
 				}
-				
-			}
-			
-			
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(ireader,directory);
 		}
-		return relationParagraps;
+		return list;
 	}
 	static String displayHtmlHighlight(Query query, Analyzer analyzer, String fieldName, String fieldContent,
 			int fragmentSize) throws IOException, InvalidTokenOffsetsException {
