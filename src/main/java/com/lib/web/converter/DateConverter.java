@@ -7,7 +7,7 @@ import java.util.Date;
 import org.springframework.core.convert.converter.Converter;
 
 public class DateConverter implements Converter<String, Date> {
-	public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	//2016-08-18
 	@Override
 	public Date convert(String source) {

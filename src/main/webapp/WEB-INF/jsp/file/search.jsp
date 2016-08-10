@@ -59,7 +59,6 @@
 		  <div class="am-g am-margin-top" >
             <div class="am-u-sm-4  am-text-right">文件分类</div>
             <input type="hidden" value="1" name="fileClassId" id="fileClassId" >
-            <input type="hidden" name="echo" value="1" id="echo"> 
             <div class="am-u-sm-8 " id="selectId">
                
             </div>
@@ -236,13 +235,13 @@ function getChild(object)
 }
 function getChild1(echoId)
 {	
-	var classId=$("#echo").val();
+	var classId=$("#fileClassId").val();
 	$.ajax({
 		url : "user/getClass",
 		type : "POST",
 		data:{classId:classId},
 		datatype : "json",
-		//ansyn : false,
+		ansyn : false,
 		success : function(JsonResult) {
 			
 			var len=JsonResult.data.length;
@@ -306,12 +305,15 @@ function echo()
 		getChild1(1);
 	}
 	else{
-		alert(str);
+		
 		for(var i=0;i<str.length;i++)
 		{	
+			$("#fileClassId").val(str[i]);
 			if(i+1!=str.length)
-			$("#echo").val(str[i+1]);
-			getChild1(str[i]);
+			{
+				getChild1(str[i+1]);
+			}
+		
 			
 		}
 		

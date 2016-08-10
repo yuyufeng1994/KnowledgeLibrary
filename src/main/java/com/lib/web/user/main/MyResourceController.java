@@ -153,11 +153,14 @@ public class MyResourceController {
 		PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo,keyWord,endTime,pageNo, flag);
 		model.addAttribute("page", page);
 		String classIds=classificationService.findFatherPathById(fileInfo.getFileClassId());
+		if(classIds!=null)
 		classIds=classIds+"."+fileInfo.getFileClassId();
 		model.addAttribute("classIds", classIds);
 		model.addAttribute("file", fileInfo);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("endTime", endTime);
+		System.out.println(endTime);
+		System.out.println(fileInfo);
 		return "file/search";
 	}
 	
