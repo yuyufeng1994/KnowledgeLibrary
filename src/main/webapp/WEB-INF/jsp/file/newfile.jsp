@@ -117,11 +117,11 @@
 			for (var i = 0; i < checks.length; i++) {
 				content = "<p>"
 						+ $(checks[i]).parent().parent().find("td").eq(0)
-								.html() + "</p>";
-								console.log(content)
+								.html() + "</p><br />";
+				console.log(content)
 				ue.setContent(content, true);
 			}
-			
+
 			$("#get-contens-modal").modal()
 		}
 		function contentSearch() {
@@ -138,10 +138,13 @@
 								if (data.success == false) {
 									str = data.error;
 								} else {
-										
+
 									for (var i = 0; i < data.data.length; i++) {
 										str += "<tr><td>"
-												+ data.data[i].content+"<p>——来自文档《<a target='_blank' href='/lib/user/file/"+ data.data[i].fileUuid+"'>"+data.data[i].fileName+"</a>》</p><br />"
+												+ data.data[i].content
+												+ "——来自文档《<a target='_blank' href='/lib/user/file/"+ data.data[i].fileUuid+"'>"
+												+ data.data[i].fileName
+												+ "</a>》"
 												+ "</td><td>"
 												+ "<input type='checkbox' value='" + data.data[i].fileUuid + "'>"
 												+ "</td></tr>"
