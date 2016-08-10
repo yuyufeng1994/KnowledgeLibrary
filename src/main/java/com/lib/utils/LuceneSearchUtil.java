@@ -78,9 +78,11 @@ public class LuceneSearchUtil {
 			return new TokenStreamComponents(tokenizer);
 		}
 	};
-	// 字段查询条件
+	//关键字查询条件
 	private static Query queryText = null;
-
+	
+	//知识点查找条件
+	private static TermQuery queryKeyWord=null;
 	/**
 	 * 
 	 * @param file
@@ -136,21 +138,29 @@ public class LuceneSearchUtil {
 				booleanQuery.add(queryText, BooleanClause.Occur.MUST);
 			}
 			
+			queryKeyWord=null;
+			if (keyWord != null && !"".equals(keyWord)) {
+				
+				Term term = new Term("fileKeyWords", keyWord);
+				queryKeyWord = new TermQuery(term);
+				booleanQuery.add(queryKeyWord, BooleanClause.Occur.MUST);
+
+			}
 			
 				
-				// 查询条件二日期
-				Date sDate = file.getFileCreateTime();
-				if ((sDate == null || "".equals(sDate))) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.set(1900, 0, 1);
-					sDate = calendar.getTime();
-				}
+			// 查询条件二日期
+			Date sDate = file.getFileCreateTime();
+			if ((sDate == null || "".equals(sDate))) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.set(1900, 0, 1);
+				sDate = calendar.getTime();
+			}
 
-				Date eDate = endTime;// TODO
-				// 若只有起始值结束值默认为当天
-				if ((eDate == null || "".equals(eDate))) {
-					eDate = new Date();
-				}
+			Date eDate = endTime;// TODO
+			// 若只有起始值结束值默认为当天
+			if ((eDate == null || "".equals(eDate))) {
+				eDate = new Date();
+			}
 
 			if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
 
@@ -173,6 +183,7 @@ public class LuceneSearchUtil {
 			if(fileClassId!=null)
 			{	
 				BooleanQuery queryClassId=new BooleanQuery();
+				
 				for (Long id : fileClassId) {
 					
 					TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
@@ -280,15 +291,16 @@ public class LuceneSearchUtil {
 				vo.setFileUuid(file.get("fileUuid"));
 
 				vo.setFileName(file.get("fileName"));
-
-				vo.setFileBrief(file.get("fileSummarys"));
+				
+				if(file.get("fileSummarys")!=null)
+				vo.setFileBrief(file.get("fileSummarys").substring(0, file.get("fileSummarys").length()>150?150:file.get("fileSummarys").length()));
 
 				if (file.get("fileText") == null) {
-					vo.setFileText(file.get("fileBrief"));
-
+					if(file.get("fileBrief")!=null)
+					vo.setFileText(file.get("fileBrief").substring(0, file.get("fileBrief").length()>150?150:file.get("fileBrief").length()));
 				} else {
-
-					vo.setFileText(file.get("fileText"));
+					
+					vo.setFileText(file.get("fileText").substring(0, file.get("fileText").length()>150?150:file.get("fileText").length()));
 				}
 				
 				
@@ -296,9 +308,7 @@ public class LuceneSearchUtil {
 					
 				{	
 					String[] keyWords=file.get("fileKeyWords").split(",");
-					
 					List<String> keyWordList = Arrays.asList(keyWords);
-					
 					vo.setFileKeyWords(keyWordList);
 				}
 				
@@ -342,6 +352,27 @@ public class LuceneSearchUtil {
 							
 					}
 
+				}
+				if(queryKeyWord!=null)
+				{
+					
+					String fileKeyWords = "";
+					if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
+						fileKeyWords = displayHtmlHighlight(queryKeyWord, analyzer, "fileKeyWords",
+								file.get("fileKeyWords"), 100);
+						if (!"".equals(fileKeyWords) && fileKeyWords != null)
+						{
+							
+							String[] keyWords=fileKeyWords.split(",");
+							
+							List<String> keyWordList = Arrays.asList(keyWords);
+							
+							vo.setFileKeyWords(keyWordList);
+				
+						}
+							
+					}
+					
 				}
 				// System.out.println(vo);
 				page.add(vo);

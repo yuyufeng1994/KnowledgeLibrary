@@ -41,7 +41,7 @@
 								<div class="am-g am-margin-top">
 									<div class="am-u-sm-4  am-text-right">知识点</div>
 									<div class="am-u-sm-8 ">
-										<input type="text" name="keyWord" value="${keyWord}"
+										<input type="text" id="keyWord" name="keyWord" value="${keyWord}"
 											style="width: 32%" class="am-input-lg">
 									</div>
 
@@ -64,7 +64,12 @@
 									<div class="am-u-sm-4  am-text-right">文件分类</div>
 									<input type="hidden" value="1" name="fileClassId"
 										id="fileClassId">
-									<div class="am-u-sm-8 " id="selectId"></div>
+									<div class="am-u-sm-8 " id="selectId">
+									<select>
+										<option>所有分类</option>
+									</select>
+									
+									</div>
 								</div>
 
 
@@ -130,13 +135,14 @@
 											<a class="a-black" target="_blank"
 												href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
 										</h3>
-										<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+										<p id="key" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+											<span style="font-weight: 700;color: #999;">知识点:&nbsp</span>
 											<c:forEach items="${f.fileKeyWords}" var="key">
-											<a href="#">${key}</a>
+											 <a type="button">${key}</a>
 											</c:forEach>
 										</p>
 										<p
-											style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">内容:${f.fileText}</p>
+											style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><span style="font-weight: 700;color:#999;">内容:&nbsp</span>${f.fileText}</p>
 										<a href="#link-to-user" class="am-comment-author">用户:
 											${f.userName}</a>
 										<!-- 作者 -->
@@ -209,6 +215,7 @@ $("#search2").click(function(){
 	
 })
 $(window).load(function() {
+	$("#selectId").find("select").remove();
 	echo();
 });
 function getChild(object)
@@ -216,6 +223,11 @@ function getChild(object)
 	$(object).nextAll().remove();
 	var classId=$(object).find("option:selected").val();
 	$("#fileClassId").val(classId);
+	if($(object).find("option:selected").html()=="所有分类")
+	{
+		return ;
+	}
+	
 	$.ajax({
 		url : "user/getClass",
 		type : "POST",
@@ -228,7 +240,7 @@ function getChild(object)
 			if(len==0)
 				return ;
 			var classification=JsonResult.data;
-			var innerStr="<option value='-1' selected='selected'>"+"所有分类" + "</option>";
+			var innerStr="<option value="+classId+" selected='selected'>"+"所有分类" + "</option>";
 			for(var i=0;i<len;i++)
 			{	
 					innerStr += "<option value='" + classification[i].classificationId+"'>"
@@ -249,19 +261,20 @@ function getChild(object)
 function getChild1(echoId)
 {	
 	var classId=$("#fileClassId").val();
+	//console.log(classId);
 	$.ajax({
 		url : "user/getClass",
 		type : "POST",
 		data:{classId:classId},
 		datatype : "json",
-		ansyn : true,
+		ansyn : false,
 		success : function(JsonResult) {
 			
 			var len=JsonResult.data.length;
 			if(len==0)
 				return ;
 			var classification=JsonResult.data;
-			var innerStr="<option value='-1' selected='selected'>"+"所有分类" + "</option>";
+			var innerStr="<option value="+classId+" selected='selected'>"+"所有分类" + "</option>";
 			for(var i=0;i<len;i++)
 			{	
 				   if(echoId==classification[i].classificationId)
@@ -327,14 +340,16 @@ function echo()
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
 
 }
+$("#key a").click(function (){
+	
+	$("#keyWord").val();
+	$("#keyWord").val($(this).html());
+	gotoPage(1);
+
+})
+
 
 
 </script>

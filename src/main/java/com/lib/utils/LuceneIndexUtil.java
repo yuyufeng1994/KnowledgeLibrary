@@ -90,12 +90,21 @@ public class LuceneIndexUtil {
 					document.add(new TextField("fileText", result, Field.Store.YES));
 					
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
-					
+					String _fileKeyWords="";
+					for(String str:fileKeyWords)
+					{
+						_fileKeyWords=_fileKeyWords+","+str;
+					}
 					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
+					String _fileSummarys="";
+					for(String str:fileSummarys)
+					{
+						_fileSummarys=_fileSummarys+","+str;
+					}
 					
-					document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
+					document.add(new TextField("fileKeyWords",_fileKeyWords, Field.Store.YES));
 					
-					document.add(new StringField("fileSummarys",fileSummarys.toString(), Field.Store.YES));
+					document.add(new StringField("fileSummarys",_fileSummarys.toString(), Field.Store.YES));
 					}
 				} catch (Exception e) {
 					close(indexWriter,directory);
