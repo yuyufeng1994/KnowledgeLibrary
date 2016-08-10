@@ -4,6 +4,12 @@
 <html>
 <head>
 <title>智能检索</title>
+<style>
+#key a{
+cursor:pointer;
+}
+
+</style>
 <%@include file="../common/head.jsp"%>
 </head>
 <body>
@@ -138,7 +144,7 @@
 										<p id="key" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 											<span style="font-weight: 700;color: #999;">知识点:&nbsp</span>
 											<c:forEach items="${f.fileKeyWords}" var="key">
-											 <a type="button">${key}</a>
+											 <a  type="button">${key}</a>
 											</c:forEach>
 										</p>
 										<p
