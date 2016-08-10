@@ -47,7 +47,7 @@
             <div class="am-u-sm-4  am-text-right">文件类型</div>
             <div class="am-u-sm-8 ">
               <select name="fileExt" id="fileExt"  data-am-selected="{btnWidth: '32%',searchBox: 1,btnSize: 'sm'}">
-                <option  value="all" selected="selected">所有</option>
+                <option  value="all">所有</option>
                 <option  value="office">office</option>
                 <option  value="video" >视频</option>
                 <option  value="image">图片</option>
@@ -125,7 +125,6 @@
 											<a class="a-black" target="_blank"
 												href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
 										</h3>
-										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" >简介:${f.fileBrief }</p>
 										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">关键词:${f.fileKeyWords}</p>
 										<p  style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">内容:${f.fileText}</p>
 										<a href="#link-to-user" class="am-comment-author">用户:
@@ -273,14 +272,15 @@ function echo()
 	var endTime="${endTime}";
 	$("#endTime").val(endTime); */
 	
-	var fileExt="$(file.fileExt)";
+	
+	var fileExt="${file.fileExt}";
 	for(var i=0;i<4;i++)
 	{	
-		$("#fileExt").find("option").eq(i).attr("selected","");
+		$("#fileExt").find("option").eq(i).removeAttr("selected");
 		if($("#fileExt").find("option").eq(i).val()==fileExt)
 		{   
 			
-			$("#fileExt").find("option").eq(i).attr("selected","selected");
+			$("#fileExt").find("option").eq(i).attr("selected",true);
 		}
 	}
 	

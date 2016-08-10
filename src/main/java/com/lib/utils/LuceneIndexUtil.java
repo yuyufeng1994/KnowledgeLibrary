@@ -87,6 +87,7 @@ public class LuceneIndexUtil {
 					result = stripper.getText(PDdoc);
 					if(result!=""){
 					document.add(new TextField("fileText", result, Field.Store.YES));
+					
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
 					
 					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
@@ -117,6 +118,9 @@ public class LuceneIndexUtil {
 					}
 					
 				}
+			}else{
+				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief(), 10);
+				document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// System.out.println(doc.getDocModTime()+" "+doc.getDocUpTime());

@@ -252,7 +252,15 @@ public class LuceneSearchUtil {
 				
 				vo.setFileBrief(file.get("fileSummarys"));
 				
-				vo.setFileText(file.get("fileText"));
+				if(file.get("fileText")==null)
+				{
+					vo.setFileText(file.get("fileBrief"));
+					
+				}else{
+					
+					vo.setFileText(file.get("fileText"));
+				}
+				
 				
 				vo.setFileKeyWords(file.get("fileKeyWords"));
 				
@@ -272,7 +280,7 @@ public class LuceneSearchUtil {
 					if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief"))){
 						fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 100);
 						if(!"".equals(fileBrief)&&fileBrief!=null)
-						vo.setFileBrief(fileBrief);
+						vo.setFileText(fileBrief);
 					}
 					
 
@@ -514,8 +522,8 @@ public class LuceneSearchUtil {
 		{
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
 				Long fileId=Long.valueOf(document.get("fileId"));
-				String fileName=(document.get("fileName"));
-				String fileUuid=(document.get("fileUuid"));
+				String fileName=document.get("fileName");
+				String fileUuid=document.get("fileUuid");
 				String result = document.get("fileText");
 				String fileExt = document.get("fileExt");
 				if(JudgeUtils.imageFile.contains(fileExt))
