@@ -175,7 +175,6 @@ public class LuceneIndexUtil {
 		config = new IndexWriterConfig(analyzer);
 		config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 	    indexWriter = new IndexWriter(directory, config);
-	    System.out.println("fileId"+file.getFileId());
 		indexWriter.deleteDocuments(new Term("fileId", file.getFileId() + ""));
 		} catch (Exception e) {
 			e.printStackTrace();

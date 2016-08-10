@@ -93,8 +93,6 @@ public class LuceneSearchUtil {
 	 */
 	public static List<LuceneSearchVo> indexFileSearch(FileInfo file, String keyWord, Date endTime, Integer pageNo,
 			Integer pageSize, List<Long> fileClassId, Integer flag) {
-
-		System.out.println(file);
 		if (pageNo > 1) {
 			page(pageNo, pageSize);
 		}
