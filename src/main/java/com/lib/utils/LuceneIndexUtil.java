@@ -96,8 +96,6 @@ public class LuceneIndexUtil {
 					document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 					
 					document.add(new StringField("fileSummarys",fileSummarys.toString(), Field.Store.YES));
-					
-					
 					}
 				} catch (Exception e) {
 					close(indexWriter,directory);
@@ -120,7 +118,7 @@ public class LuceneIndexUtil {
 					
 				}
 			}else{
-				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+file.getFileName(), 10);
+				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+"."+file.getFileName(), 10);
 				document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

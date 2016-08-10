@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -121,7 +122,7 @@ public class LuceneSearchUtil {
 			// 查询条件一 字段查询
 			queryText = null;
 			if (file.getFileName() != null && !"".equals(file.getFileName())) {
-
+				
 				String[] fields = { "fileName", "fileText", "fileBriefs", "fileKeyWords" };
 				Map<String, Float> boost = new HashMap<String, Float>();
 				boost.put("fileKeyWords", 4.0f);
@@ -134,52 +135,57 @@ public class LuceneSearchUtil {
 				queryText = queryParser.parse(file.getFileName());
 				booleanQuery.add(queryText, BooleanClause.Occur.MUST);
 			}
+			
+			
+				
+				// 查询条件二日期
+				Date sDate = file.getFileCreateTime();
+				if ((sDate == null || "".equals(sDate))) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(1900, 0, 1);
+					sDate = calendar.getTime();
+				}
 
-			// 查询条件二日期
-			Date sDate = file.getFileCreateTime();
-			if ((sDate == null || "".equals(sDate))) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.set(1900, 0, 1);
-				sDate = calendar.getTime();
-			}
-
-			Date eDate = endTime;// TODO
-			// 若只有起始值结束值默认为当天
-			if ((eDate == null || "".equals(eDate))) {
-				eDate = new Date();
-			}
+				Date eDate = endTime;// TODO
+				// 若只有起始值结束值默认为当天
+				if ((eDate == null || "".equals(eDate))) {
+					eDate = new Date();
+				}
 
 			if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
 
-				// Lucene日期转换格式不准，改用format格式
-				// sDateStr=DateTools.dateToString(sDate,
-				// DateTools.Resolution.MINUTE);
-				// eDateStr=DateTools.dateToString(eDate,
-				// DateTools.Resolution.MINUTE);
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				BytesRef sDateStr = new BytesRef(sdf.format(sDate));
-				BytesRef eDateStr = new BytesRef(sdf.format(eDate));
+					// Lucene日期转换格式不准，改用format格式
+					// sDateStr=DateTools.dateToString(sDate,
+					// DateTools.Resolution.MINUTE);
+					// eDateStr=DateTools.dateToString(eDate,
+					// DateTools.Resolution.MINUTE);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					BytesRef sDateStr = new BytesRef(sdf.format(sDate));
+					BytesRef eDateStr = new BytesRef(sdf.format(eDate));
 
-				// 时间范围查询
-				Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
-				booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
+					// 时间范围查询
+					Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
+					booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
 			}
-			
-			
+
 			
 			// 查询条件三分类查询
-			BooleanQuery queryClassId=new BooleanQuery();
-			for (Long id : fileClassId) {
-				
-				TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
-				queryClassId.add(termQuery, BooleanClause.Occur.SHOULD);
+			if(fileClassId!=null)
+			{	
+				BooleanQuery queryClassId=new BooleanQuery();
+				for (Long id : fileClassId) {
+					
+					TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
+					queryClassId.add(termQuery, BooleanClause.Occur.SHOULD);
+				}
+				booleanQuery.add(queryClassId, BooleanClause.Occur.MUST);
 			}
-			booleanQuery.add(queryClassId, BooleanClause.Occur.MUST);
-			
 			// 查询条件四类型查询
-			BooleanQuery queryFileExt=new BooleanQuery();
+			
 			if (file.getFileExt() != null && !"".equals(file.getFileExt()) && !file.getFileExt().equals("all")) {
-
+				
+				BooleanQuery queryFileExt=new BooleanQuery();
+				
 				List<String> typeList = null;
 				if (file.getFileExt().equals("office")) {
 					typeList = JudgeUtils.officeFile;
@@ -203,15 +209,12 @@ public class LuceneSearchUtil {
 				}
 				booleanQuery.add(queryFileExt, BooleanClause.Occur.MUST);
 			}
-			
-			
-			
+		
 			oldBooleanQuery = booleanQuery;
 			
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 			// System.out.println(booleanQuery);
 			result = indexSearch.search(booleanQuery, 100000);
-		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -256,7 +259,7 @@ public class LuceneSearchUtil {
 				int fileId = result.scoreDocs[i].doc;
 				Document file = indexSearch.doc(fileId);
 
-				vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
+				//vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				try {
@@ -268,9 +271,9 @@ public class LuceneSearchUtil {
 
 				vo.setFilePath(file.get("filePath"));
 
-				vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
+				//vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
 
-				vo.setFileState(Integer.parseInt(file.get("fileState")));
+				//vo.setFileState(Integer.parseInt(file.get("fileState")));
 
 				vo.setUserName(file.get("fileUserName"));
 
@@ -287,9 +290,18 @@ public class LuceneSearchUtil {
 
 					vo.setFileText(file.get("fileText"));
 				}
-
-				vo.setFileKeyWords(file.get("fileKeyWords"));
-
+				
+				
+				if(file.get("fileKeyWords")!=null)
+					
+				{	
+					String[] keyWords=file.get("fileKeyWords").split(",");
+					
+					List<String> keyWordList = Arrays.asList(keyWords);
+					
+					vo.setFileKeyWords(keyWordList);
+				}
+				
 				if (queryText != null) {
 
 					String fileName = "";
@@ -318,7 +330,16 @@ public class LuceneSearchUtil {
 						fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords",
 								file.get("fileKeyWords"), 100);
 						if (!"".equals(fileKeyWords) && fileKeyWords != null)
-							vo.setFileKeyWords(fileKeyWords);
+						{
+							
+							String[] keyWords=fileKeyWords.split(",");
+							
+							List<String> keyWordList = Arrays.asList(keyWords);
+							
+							vo.setFileKeyWords(keyWordList);
+				
+						}
+							
 					}
 
 				}

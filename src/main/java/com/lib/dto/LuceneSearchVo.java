@@ -1,20 +1,22 @@
 package com.lib.dto;
 
+import java.util.List;
+
 public class LuceneSearchVo extends FileInfoVO{
 	
 	
 	private String fileText;
-	private String fileKeyWords;
+	private List<String> fileKeyWords;
 	public String getFileText() {
 		return fileText;
 	}
 	public void setFileText(String fileText) {
 		this.fileText = fileText;
 	}
-	public String getFileKeyWords() {
+	public List<String> getFileKeyWords() {
 		return fileKeyWords;
 	}
-	public void setFileKeyWords(String fileKeyWords) {
+	public void setFileKeyWords(List<String> fileKeyWords) {
 		this.fileKeyWords = fileKeyWords;
 	}
 	@Override

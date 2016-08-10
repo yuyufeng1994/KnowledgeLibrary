@@ -22,15 +22,21 @@ public class LuceneServiceImpl implements LuceneService {
 	@Override
 	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,String keyWord,Date endTime,int pageNo,Integer flag) {
 		
-		List<Classification> childIds=classDao.findAllChildById(fileInfo.getFileClassId()+"");
 		List<Long>  classIds=new ArrayList<Long>();
-		if(childIds!=null){
-			for(int i=0;i<childIds.size();i++)
-			{
-				classIds.add(childIds.get(i).getClassificationId());
+		
+		if(fileInfo.getFileClassId()!=1L)
+		{    
+			List<Classification> childIds = classDao.findAllChildById(fileInfo.getFileClassId() + "");
+			if (childIds != null) {
+				for (int i = 0; i < childIds.size(); i++) {
+					classIds.add(childIds.get(i).getClassificationId());
+				}
 			}
+			classIds.add(fileInfo.getFileClassId());
+		}else
+		{
+			classIds=null;
 		}
-		classIds.add(fileInfo.getFileClassId());
 		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo,keyWord,endTime,pageNo,10,classIds, flag);
 		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
 		page.setPageNum(pageNo);
