@@ -46,7 +46,7 @@
            <div class="am-g am-margin-top">
             <div class="am-u-sm-4  am-text-right">文件类型</div>
             <div class="am-u-sm-8 ">
-              <select name="fileExt" id="fileExt"  data-am-selected="{btnWidth: '32%',searchBox: 1,btnSize: 'sm'}">
+              <select name="fileExt" id="fileExt"  >
                 <option  value="all">所有</option>
                 <option  value="office">office</option>
                 <option  value="video" >视频</option>
@@ -59,6 +59,7 @@
 		  <div class="am-g am-margin-top" >
             <div class="am-u-sm-4  am-text-right">文件分类</div>
             <input type="hidden" value="1" name="fileClassId" id="fileClassId" >
+            <input type="hidden" name="echo" id="echo"> 
             <div class="am-u-sm-8 " id="selectId">
                <select  id="select1"   onchange="getChild(this)">
                 <option  value="-1"  selected="selected">所有分类</option>
@@ -201,6 +202,7 @@ $("#search2").click(function(){
 $(window).load(function() {
 	 echo();
 	 classId=$("#fileClassId").val();
+	 echoId=$("#echo").val();
 	 $.ajax({
 			url : "user/getClass",
 			type : "POST",
@@ -213,10 +215,16 @@ $(window).load(function() {
 				var classification=JsonResult.data;
 				var innerStr="";
 				for(var i=0;i<len;i++)
-				{	
+				{		if(echoId==classification[i].classificationId)
+					   {
+							innerStr += "<option selected='selected' value='" + classification[i].classificationId+"'>"
+							+ classification[i].classificationName + "</option>"
 					
-						innerStr += "<option value='" + classification[i].classificationId+"'>"
-						+ classification[i].classificationName + "</option>"
+					   }else{
+						   innerStr += "<option value='" + classification[i].classificationId+"'>"
+							+ classification[i].classificationName + "</option>"
+					   }
+						
 					
 				}
 				$("#select1").append(innerStr);
@@ -238,6 +246,8 @@ function getChild(object)
 		success : function(JsonResult) {
 			
 			var len=JsonResult.data.length;
+			if(len==0)
+				return ;
 			var classification=JsonResult.data;
 			var innerStr="<option value='-1' selected='selected'>"+"所有分类" + "</option>";
 			for(var i=0;i<len;i++)
@@ -274,7 +284,7 @@ function echo()
 	
 	
 	var fileExt="${file.fileExt}";
-	for(var i=0;i<4;i++)
+	for(var i=0;i<$("#fileExt").find("option").length;i++)
 	{	
 		$("#fileExt").find("option").eq(i).removeAttr("selected");
 		if($("#fileExt").find("option").eq(i).val()==fileExt)
@@ -283,9 +293,22 @@ function echo()
 			$("#fileExt").find("option").eq(i).attr("selected",true);
 		}
 	}
+	var classIds="${classIds}";
+	var str=classIds.split(".");
+	
+	for(var i=1;i<str.length;i++)
+	{
+		$("#echo").val(str[i]);
+		
+		
+		
+	}
 	
 	
 	
+	
+	
+
 }
 
 

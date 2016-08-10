@@ -148,6 +148,7 @@ public class LuceneSearchUtil {
 			if ((eDate == null || "".equals(eDate))) {
 				eDate = new Date();
 			}
+
 			if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
 
 				// Lucene日期转换格式不准，改用format格式
@@ -184,10 +185,14 @@ public class LuceneSearchUtil {
 				} else if (file.getFileExt().equals("else")) {
 					typeList = JudgeUtils.elseFile;
 				}
-				for (String type : typeList) {
-					TermQuery termQuery = new TermQuery(new Term("fileExt", type));
-					booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
+				if(typeList!=null&&!typeList.equals(""))
+				{
+					for (String type : typeList) {
+						TermQuery termQuery = new TermQuery(new Term("fileExt", type));
+						booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
+					}
 				}
+				
 			}
 
 			oldBooleanQuery = booleanQuery;

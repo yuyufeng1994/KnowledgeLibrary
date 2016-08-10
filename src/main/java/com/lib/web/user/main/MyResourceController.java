@@ -29,6 +29,7 @@ import com.lib.entity.FileInfo;
 import com.lib.entity.ForkInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.admin.ClassificationService;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.ForkInfoService;
@@ -59,6 +60,8 @@ public class MyResourceController {
 	@Autowired
 	private LuceneService luceneService;
 
+	@Autowired
+	private  ClassificationService classificationService;
 
 	@RequestMapping(value = "/file-del/{fileId}", method = RequestMethod.POST)
 	public @ResponseBody JsonResult delMyfile(HttpSession session, @PathVariable("fileId") Long fileId) {
@@ -149,6 +152,9 @@ public class MyResourceController {
 		
 		PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo,keyWord,endTime,pageNo, flag);
 		model.addAttribute("page", page);
+		String classIds=classificationService.findFatherPathById(fileInfo.getFileClassId());
+		classIds=classIds+"."+fileInfo.getFileClassId();
+		model.addAttribute("classIds", classIds);
 		model.addAttribute("file", fileInfo);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("endTime", endTime);
