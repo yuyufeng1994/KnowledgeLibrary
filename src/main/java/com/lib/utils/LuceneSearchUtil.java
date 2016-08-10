@@ -541,7 +541,7 @@ public class LuceneSearchUtil {
 			Term term = new Term("fileKeyWords", keyWord);
 			TermQuery termQuery = new TermQuery(term);
 			// System.out.println(termQuery);
-			TopDocs topdocs = indexSearch.search(termQuery, 100);
+			TopDocs topdocs = indexSearch.search(termQuery, 10);
 
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);

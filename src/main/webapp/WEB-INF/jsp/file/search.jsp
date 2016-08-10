@@ -294,8 +294,6 @@ function gotoPage(page) {
 function echo()
 {   
 
-	
-	
 	var fileExt="${file.fileExt}";
 	for(var i=0;i<$("#fileExt").find("option").length;i++)
 	{	
