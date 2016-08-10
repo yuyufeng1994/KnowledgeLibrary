@@ -514,6 +514,7 @@ public class LuceneSearchUtil {
 		{
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
 				Long fileId=Long.valueOf(document.get("fileId"));
+				String fileName=(document.get("fileName"));
 				String result = document.get("fileText");
 				List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 				for (String paragrap : paragraphs) {
@@ -522,7 +523,7 @@ public class LuceneSearchUtil {
 					List<String> keyWords = HanLP.extractKeyword(paragrap, 3);
 					for (String str : keyWords) {
 						if (str.equals(keyWord)) {
-							list.add(new SerResult(paragrap,fileId));
+							list.add(new SerResult(paragrap,fileId,fileName));
 						}
 
 					}

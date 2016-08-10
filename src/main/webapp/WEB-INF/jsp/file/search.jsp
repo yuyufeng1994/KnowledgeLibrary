@@ -30,7 +30,7 @@
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4  am-text-right">关键信息</div>
             <div class="am-u-sm-8 ">
-             <input type="text" name="fileName" style="width:32%" class="am-input-lg" >
+             <input type="text" name="fileName" value="${file.fileName}" style="width:32%" class="am-input-lg" >
             </div>
              
           </div>
@@ -38,7 +38,7 @@
           <div class="am-g am-margin-top">
             <div class="am-u-sm-4  am-text-right">知识点</div>
             <div class="am-u-sm-8 ">
-               <input type="text" name="keyWord" style="width:32%"  class="am-input-lg" >
+               <input type="text" name="keyWord" value="${keyWord}" style="width:32%"  class="am-input-lg" >
             </div>
          
           </div>
@@ -46,7 +46,7 @@
            <div class="am-g am-margin-top">
             <div class="am-u-sm-4  am-text-right">文件类型</div>
             <div class="am-u-sm-8 ">
-              <select name="fileExt" data-am-selected="{btnWidth: '32%',searchBox: 1,btnSize: 'sm'}">
+              <select name="fileExt" id="fileExt"  data-am-selected="{btnWidth: '32%',searchBox: 1,btnSize: 'sm'}">
                 <option  value="all" selected="selected">所有</option>
                 <option  value="office">office</option>
                 <option  value="video" >视频</option>
@@ -60,7 +60,10 @@
             <div class="am-u-sm-4  am-text-right">文件分类</div>
             <input type="hidden" value="1" name="fileClassId" id="fileClassId" >
             <div class="am-u-sm-8 " id="selectId">
-                
+               <select  id="select1"   onchange="getChild(this)">
+                <option  value="-1"  selected="selected">所有分类</option>
+            
+              </select>
             </div>
           </div>
 				
@@ -75,13 +78,13 @@
              
                 <div class="am-form-group am-form-icon">
                   <i class="am-icon-calendar"></i>
-                  <input name="fileCreateTime" type="date" style="width:70%" class="am-form-field am-input-sm" placeholder="日期">
+                  <input name="fileCreateTime" id="fileCreateTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
                 </div>
             </div>
-            <div class="am-u-sm-2" style="margin-left:-95px;">
+            <div class="am-u-sm-2" >
                 <div class="am-form-group am-form-icon " >
                   <i class="am-icon-calendar"></i>
-                   <input name="endTime" type="date" style="width:70%" class="am-form-field am-input-sm" placeholder="日期">
+                   <input name="endTime" id="endTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
                 </div>
             </div>
             
@@ -90,13 +93,17 @@
           </div>
 
         <div class="am-g am-margin-top">
-            <div class="am-u-sm-5">
-              
+            <div class="am-u-sm-4 am-text-right">
+              &nbsp
             </div>
-            <div class="am-u-sm-7">
-                 <button type="button" id="search1"  style="margin-top:-30px;margin-left:-120px;width:15%" class="am-btn am-btn-primary ">智能搜索</button>
-               	 
-     			 <button type="button" id="search2"   style="margin-top:-30px;margin-left:40px;width:15%" class="am-btn am-btn-primary ">结果搜索</button>
+            
+            <div class="am-u-sm-2">
+                 <button type="button" id="search1"  style="margin-top:-30px" class="am-btn am-btn-primary ">智能搜索</button>
+            </div>  
+             <div class="am-u-sm-2">	 
+     			 <button type="button" id="search2"   style="margin-top:-30px" class="am-btn am-btn-primary ">结果搜索</button>
+           </div> 
+           <div class="am-u-sm-4 ">
             </div>
           </div>
         </div>
@@ -193,6 +200,7 @@ $("#search2").click(function(){
 	
 })
 $(window).load(function() {
+	 echo();
 	 classId=$("#fileClassId").val();
 	 $.ajax({
 			url : "user/getClass",
@@ -204,7 +212,7 @@ $(window).load(function() {
 				
 				var len=JsonResult.data.length;
 				var classification=JsonResult.data;
-				var innerStr="<option value='-1' selected='selected'>"+"所有分类" + "</option>";
+				var innerStr="";
 				for(var i=0;i<len;i++)
 				{	
 					
@@ -212,14 +220,9 @@ $(window).load(function() {
 						+ classification[i].classificationName + "</option>"
 					
 				}
-				var str = "<select onchange='getChild(this)'>"
-
-				+ innerStr
-
-				+ "</select>";
-				$("#selectId").append(str);
+				$("#select1").append(innerStr);
 			}
-	}) 
+	 }) 
 	
 });
 function getChild(object)
@@ -261,6 +264,14 @@ function gotoPage(page) {
 	var str=url.split("/");
 	$("#search").attr("action","user/search/"+str[4]+"/"+page)
 	$("#search").submit();
+}
+function echo()
+{   
+	var fileCreateTime=$(fileCreateTime);
+	$("#fileCreateTime").val(fileCreateTime);
+	var endTime=$(endTime);
+	$("#endTime").val(endTime);
+	
 }
 
 

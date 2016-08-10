@@ -148,6 +148,9 @@ public class MyResourceController {
 		
 		PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo,keyWord,endTime,pageNo, flag);
 		model.addAttribute("page", page);
+		model.addAttribute("file", fileInfo);
+		model.addAttribute("keyWord", keyWord);
+		model.addAttribute("endTime", endTime);
 		return "file/search";
 	}
 	
