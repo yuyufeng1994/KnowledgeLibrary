@@ -78,7 +78,7 @@
              
                 <div class="am-form-group am-form-icon">
                   <i class="am-icon-calendar"></i>
-                  <input name="fileCreateTime" id="fileCreateTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
+                  <input name="fileCreateTime"  id="fileCreateTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
                 </div>
             </div>
             <div class="am-u-sm-2" >
@@ -267,11 +267,24 @@ function gotoPage(page) {
 }
 function echo()
 {   
-	var fileCreateTime=$(fileCreateTime);
-	alert($(fileCreateTime))
+	/* var fileCreateTime="${file.fileCreateTime}";
+	alert(fileCreateTime)
 	$("#fileCreateTime").val(fileCreateTime);
-	var endTime=$(endTime);
-	$("#endTime").val(endTime);
+	var endTime="${endTime}";
+	$("#endTime").val(endTime); */
+	
+	var fileExt="$(file.fileExt)";
+	for(var i=0;i<4;i++)
+	{	
+		$("#fileExt").find("option").eq(i).attr("selected","");
+		if($("#fileExt").find("option").eq(i).val()==fileExt)
+		{   
+			
+			$("#fileExt").find("option").eq(i).attr("selected","selected");
+		}
+	}
+	
+	
 	
 }
 

@@ -517,20 +517,30 @@ public class LuceneSearchUtil {
 				String fileName=(document.get("fileName"));
 				String fileUuid=(document.get("fileUuid"));
 				String result = document.get("fileText");
-				
-				List<String> paragraphs = ParagraphUtil.toParagraphList(result);
-				for (String paragrap : paragraphs) {
-					// size 表示查找多少关键字
+				String fileExt = document.get("fileExt");
+				if(JudgeUtils.imageFile.contains(fileExt))
+				{
+					list.add(new SerResult("<img src='thumbnail'/"+fileUuid+"'/png'>",fileId,fileName,fileUuid));
 					
-					List<String> keyWords = HanLP.extractKeyword(paragrap,3);
-					for (String str : keyWords) {
-						if (str.equals(keyWord)) {
-							list.add(new SerResult(paragrap,fileId,fileName,fileUuid));
+				}else{
+					
+					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
+					for (String paragrap : paragraphs) {
+						// size 表示查找多少关键字
+						
+						List<String> keyWords = HanLP.extractKeyword(paragrap,3);
+						for (String str : keyWords) {
+							if (str.equals(keyWord)) {
+								
+								list.add(new SerResult(paragrap,fileId,fileName,fileUuid));
+							}
+
 						}
 
 					}
-
+					
 				}
+				
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
