@@ -22,22 +22,25 @@
 						<div class="am-panel-hd am-cf">近期上传</div>
 						<div class="am-panel-bd" id="collapse-panel-recent">
 							<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-							<div id="recent-charts" style="width: 800px; height: 400px;"></div>
+							<div id="recent-charts" style="width: 800px; height: 350px;"></div>
 							<script type="text/javascript">
 								// 基于准备好的dom，初始化echarts实例
-								var recentChart = echarts.init(document.getElementById('recent-charts'));
+								var recentChart = echarts.init(document
+										.getElementById('recent-charts'));
 								function randomData() {
 									now = new Date(+now + oneDay);
 									value = value + Math.random() * 21 - 10;
 									return {
 										name : now.toString(),
 										value : [
-											[ now.getFullYear(), now.getMonth() + 1, now.getDate() ].join('/'),
-											Math.round(value)
-										]
+												[ now.getFullYear(),
+														now.getMonth() + 1,
+														now.getDate() ]
+														.join('/'),
+												Math.round(value) ]
 									}
 								}
-							
+
 								var data = [];
 								var now = +new Date(1997, 9, 3);
 								var oneDay = 24 * 3600 * 1000;
@@ -45,7 +48,7 @@
 								for (var i = 0; i < 1000; i++) {
 									data.push(randomData());
 								}
-							
+
 								option = {
 									title : {
 										text : '动态数据 + 时间坐标轴'
@@ -55,7 +58,10 @@
 										formatter : function(params) {
 											params = params[0];
 											var date = new Date(params.name);
-											return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+											return date.getDate() + '/'
+													+ (date.getMonth() + 1)
+													+ '/' + date.getFullYear()
+													+ ' : ' + params.value[1];
 										},
 										axisPointer : {
 											animation : false
@@ -105,7 +111,67 @@
 				<div class="am-u-md-6">
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">文档点击率排行</div>
-						<div class="am-panel-bd" id="collapse-panel-hot">图表统计显示</div>
+						<div class="am-panel-bd" id="collapse-panel-hot">
+							<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+							<div id="filehot-charts" style="width: 500px; height: 450px;"></div>
+							<script type="text/javascript">
+								$(function() {
+									var url = "admin/count/hot-file";
+									var fileList = new Array();
+									$.get(url,function(data) {
+											fileList = data.data;
+											var fileNames = [];
+											var clickTimes = [];
+											for(var i = 0;i<fileList.length;i++){
+												fileNames[i] = fileList[i].fileName;
+												clickTimes[i] = fileList[i].fileClickTimes;
+											}
+											console.log(fileNames);
+											// 基于准备好的dom，初始化echarts实例
+											var filehotCharts = echarts.init(document.getElementById('filehot-charts'));
+											option = {
+												    color: ['#3398DB'],
+												    tooltip : {
+												        trigger: 'axis',
+												        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+												            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+												        }
+												    },
+												    grid: {
+												        left: '3%',
+												        right: '4%',
+												        bottom: '3%',
+												        containLabel: true
+												    },
+												    xAxis : [
+												        {
+												            type : 'category',
+												            data :fileNames,
+												            axisTick: {
+												                alignWithLabel: true
+												            }
+												        }
+												    ],
+												    yAxis : [
+												        {
+												            type : 'value'
+												        }
+												    ],
+												    series : [
+												        {
+												            name:'点击量',
+												            type:'bar',
+												            barWidth: '60%',
+												            data:clickTimes
+												        }
+												    ]
+												};
+											// 使用刚指定的配置项和数据显示图表。
+											filehotCharts.setOption(option);
+										});
+								});
+							</script>
+						</div>
 					</div>
 
 					<div class="am-panel am-panel-default">
