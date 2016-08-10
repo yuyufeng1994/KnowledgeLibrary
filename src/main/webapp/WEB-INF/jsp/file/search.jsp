@@ -349,9 +349,10 @@ function echo()
 
 }
 $("#key a").click(function (){
+	$this = $(this);
 	
 	$("#keyWord").val();
-	$("#keyWord").val($(this).html());
+	$("#keyWord").val($this.text());
 	gotoPage(1);
 
 })
