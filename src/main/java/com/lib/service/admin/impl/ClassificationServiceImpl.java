@@ -130,8 +130,13 @@ public class ClassificationServiceImpl implements ClassificationService {
 
 	@Override
 	public int insert(Classification c) {
-		// TODO Auto-generated method stub
-		return ClassificationDao.insertByc(c);
+		
+		String parentPath = ClassificationDao.findFatherPathById(c.getParentId());
+		if (parentPath == null) {
+			parentPath = "";
+		}
+		parentPath = parentPath + "." + c.getParentId();
+		return ClassificationDao.insert(c.getClassificationName(), c.getParentId(), parentPath);
 	}
 
 }

@@ -558,8 +558,10 @@ public class LuceneSearchUtil {
 					list.add(new SerResult("<img width='400' src='"+Const.HEAD_URL+"resource/temp/" + uuid  + ".png' />",
 							fileId, fileName, fileUuid));
 
-				} else {
-
+				} else if(result!=null) {
+					
+						
+					
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
