@@ -176,6 +176,7 @@ public class LuceneSearchUtil {
 			}else if(file.getFileExt().equals("else")){
 				typeList=JudgeUtils.elseFile;
 			}
+			if(typeList!=null&&!typeList.equals(""))
 			for (String type : typeList) {
 				TermQuery termQuery = new TermQuery(new Term("fileExt", type));
 				booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
