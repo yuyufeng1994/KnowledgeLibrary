@@ -86,6 +86,7 @@ public class LuceneIndexUtil {
 					PDFTextStripper stripper = new PDFTextStripper();
 					result = stripper.getText(PDdoc);
 					if(result!=""){
+						
 					document.add(new TextField("fileText", result, Field.Store.YES));
 					
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
@@ -119,7 +120,7 @@ public class LuceneIndexUtil {
 					
 				}
 			}else{
-				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief(), 10);
+				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+file.getFileName(), 10);
 				document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

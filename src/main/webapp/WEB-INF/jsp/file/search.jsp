@@ -59,12 +59,9 @@
 		  <div class="am-g am-margin-top" >
             <div class="am-u-sm-4  am-text-right">文件分类</div>
             <input type="hidden" value="1" name="fileClassId" id="fileClassId" >
-            <input type="hidden" name="echo" id="echo"> 
+            <input type="hidden" name="echo" value="1" id="echo"> 
             <div class="am-u-sm-8 " id="selectId">
-               <select  id="select1"   onchange="getChild(this)">
-                <option  value="-1"  selected="selected">所有分类</option>
-            
-              </select>
+               
             </div>
           </div>
 				
@@ -200,37 +197,7 @@ $("#search2").click(function(){
 	
 })
 $(window).load(function() {
-	 echo();
-	 classId=$("#fileClassId").val();
-	 echoId=$("#echo").val();
-	 $.ajax({
-			url : "user/getClass",
-			type : "POST",
-			data:{classId:classId},
-			datatype : "json",
-			//ansyn : false,
-			success : function(JsonResult) {
-				
-				var len=JsonResult.data.length;
-				var classification=JsonResult.data;
-				var innerStr="";
-				for(var i=0;i<len;i++)
-				{		if(echoId==classification[i].classificationId)
-					   {
-							innerStr += "<option selected='selected' value='" + classification[i].classificationId+"'>"
-							+ classification[i].classificationName + "</option>"
-					
-					   }else{
-						   innerStr += "<option value='" + classification[i].classificationId+"'>"
-							+ classification[i].classificationName + "</option>"
-					   }
-						
-					
-				}
-				$("#select1").append(innerStr);
-			}
-	 }) 
-	
+	echo();
 });
 function getChild(object)
 {
@@ -267,7 +234,46 @@ function getChild(object)
 	$("#selectId").find("select").attr("data-am-selected","btnWidth:'30%',btnSize: 'sm'")
 	
 }
+function getChild1(echoId)
+{	
+	var classId=$("#echo").val();
+	$.ajax({
+		url : "user/getClass",
+		type : "POST",
+		data:{classId:classId},
+		datatype : "json",
+		//ansyn : false,
+		success : function(JsonResult) {
+			
+			var len=JsonResult.data.length;
+			if(len==0)
+				return ;
+			var classification=JsonResult.data;
+			var innerStr="<option value='-1' selected='selected'>"+"所有分类" + "</option>";
+			for(var i=0;i<len;i++)
+			{	
+				   if(echoId==classification[i].classificationId)
+				   {
+						innerStr += "<option selected='selected' value='" + classification[i].classificationId+"'>"
+						+ classification[i].classificationName + "</option>"
+				
+				   }else{
+					   innerStr += "<option value='" + classification[i].classificationId+"'>"
+						+ classification[i].classificationName + "</option>"
+				   }
+			}
+			var str = "<select style='margin-right:10px;'  onchange='getChild(this)'>"
 
+			+ innerStr
+
+			+ "</select>";
+			$("#selectId").append(str);
+		}
+	}) 
+	
+	$("#selectId").find("select").attr("data-am-selected","btnWidth:'30%',btnSize: 'sm'")
+	
+}
 function gotoPage(page) {
 	var url=window.location.pathname;
 	var str=url.split("/");
@@ -295,14 +301,22 @@ function echo()
 	}
 	var classIds="${classIds}";
 	var str=classIds.split(".");
-	
-	for(var i=1;i<str.length;i++)
+	if(str=="")
 	{
-		$("#echo").val(str[i]);
-		
-		
+		getChild1(1);
+	}
+	else{
+		alert(str);
+		for(var i=0;i<str.length;i++)
+		{	
+			if(i+1!=str.length)
+			$("#echo").val(str[i+1]);
+			getChild1(str[i]);
+			
+		}
 		
 	}
+	
 	
 	
 	
