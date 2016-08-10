@@ -40,9 +40,6 @@
 											class="am-btn am-btn-default">
 											<span class="am-icon-save"></span> 暂存
 										</button>
-										<button type="button" class="am-btn am-btn-default">
-											<span class="am-icon-trash-o"></span> 删除
-										</button>
 										<button type="button" id="complete-button"
 											class="am-btn am-btn-default">
 											<span class="am-icon-save"></span> 完成
@@ -136,13 +133,15 @@
 								searchInfo : $("#search-text").val()
 							},
 							function(data) {
+								console.log(data)
 								var str = '';
 								if (data.success == false) {
 									str = data.error;
 								} else {
+										
 									for (var i = 0; i < data.data.length; i++) {
 										str += "<tr><td>"
-												+ data.data[i].content
+												+ data.data[i].content+"<p>——来自文档《<a target='_blank' href='/lib/user/file/"+ data.data[i].fileUuid+"'>"+data.data[i].fileName+"</a>》</p><br />"
 												+ "</td><td>"
 												+ "<input type='checkbox' value='" + data.data[i].fileUuid + "'>"
 												+ "</td></tr>"

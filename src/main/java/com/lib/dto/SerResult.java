@@ -48,4 +48,14 @@ public class SerResult {
 		this.fileName = fileName;
 	}
 
+	public String getFileUuid() {
+		return fileUuid;
+	}
+
+	public void setFileUuid(String fileUuid) {
+		this.fileUuid = fileUuid;
+	}
+	
+	
+
 }

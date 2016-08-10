@@ -549,7 +549,16 @@
 				setTimeout(function(){
 				      $btn.button('reset');
 				  },3000);
-				window.location.reload();
+			//	window.location.reload();
+			var ref = document.referrer;
+			ref = ref.substring(ref.lastIndexOf("/")+1,ref.length);
+			//console.log(ref)
+			if(ref == "newfile"){
+				window.location.href="/lib/user/myfiles/1?searchNULL=1";
+			}else{
+				self.location=document.referrer;
+			}
+				//
 			})
 			return false;
 		});
