@@ -75,14 +75,20 @@
              
                 <div class="am-form-group am-form-icon">
                   <i class="am-icon-calendar"></i>
-                  <input name="fileCreateTime"  id="fileCreateTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
-                </div>
+                  <input name="fileCreateTime"  id="fileCreateTime" type="date"  class="am-form-field am-input-sm" placeholder="日期" value="<fmt:formatDate value="${file.fileCreateTime }"
+													pattern="yyyy-MM-dd" />">
+		
+	
+
+				</div>
             </div>
             <div class="am-u-sm-2" >
                 <div class="am-form-group am-form-icon " >
                   <i class="am-icon-calendar"></i>
-                   <input name="endTime" id="endTime" type="date"  class="am-form-field am-input-sm" placeholder="日期">
-                </div>
+                   <input name="endTime" id="endTime" type="date"  value="<fmt:formatDate value="${endTime}"
+													pattern="yyyy-MM-dd" />" class="am-form-field am-input-sm" placeholder="日期">
+				
+					</div>
             </div>
             
             <div class="am-u-sm-4 ">
@@ -128,9 +134,9 @@
 											${f.userName}</a>
 										<!-- 作者 -->
 										创建于
-										<time>
-											<fmt:formatDate value="${f.fileCreateTime }"
-												pattern="yyyy-MM-dd HH:mm:ss" />
+										<time id="time">
+											<fmt:formatDate  value="${f.fileCreateTime }"
+												pattern="yyyy-MM-dd" />
 										</time>
 									</div>
 
@@ -241,7 +247,7 @@ function getChild1(echoId)
 		type : "POST",
 		data:{classId:classId},
 		datatype : "json",
-		ansyn : false,
+		ansyn : true,
 		success : function(JsonResult) {
 			
 			var len=JsonResult.data.length;
@@ -267,6 +273,8 @@ function getChild1(echoId)
 
 			+ "</select>";
 			$("#selectId").append(str);
+			
+			
 		}
 	}) 
 	
@@ -281,11 +289,7 @@ function gotoPage(page) {
 }
 function echo()
 {   
-	/* var fileCreateTime="${file.fileCreateTime}";
-	alert(fileCreateTime)
-	$("#fileCreateTime").val(fileCreateTime);
-	var endTime="${endTime}";
-	$("#endTime").val(endTime); */
+
 	
 	
 	var fileExt="${file.fileExt}";

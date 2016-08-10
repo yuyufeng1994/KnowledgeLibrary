@@ -159,8 +159,6 @@ public class MyResourceController {
 		model.addAttribute("file", fileInfo);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("endTime", endTime);
-		System.out.println(endTime);
-		System.out.println(fileInfo);
 		return "file/search";
 	}
 	
