@@ -14,6 +14,7 @@ import com.lib.dto.JsonResult;
 import com.lib.dto.SerResult;
 import com.lib.entity.Classification;
 import com.lib.service.user.FileManageService;
+import com.lib.service.user.LuceneService;
 
 /**
  * Test的Controller
@@ -25,14 +26,14 @@ import com.lib.service.user.FileManageService;
 public class TestController {
 	@Autowired
 	private FileManageService fileManageService;
-
+	@Autowired
+	private LuceneService lservice;
 	
 	@RequestMapping(value = "/test-sub")
 	public String sub(Model model,String str) {
-		System.out.println(str);
 		model.addAttribute("str", str);
-		List<SerResult> list = null;
-		
+		List<SerResult> list = lservice.getParagraph(str);
+		model.addAttribute("list", list);
 		
 		
 		return "test";

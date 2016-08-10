@@ -11,6 +11,8 @@
 		<input type="text" name="str" value="${str}" />
 		<button type="submit">提交</button>
 	</form>
-	<p></p>
+	<c:forEach items='${list}' var="r">
+	<tr><td>${r.content }</td><td>${r.fileId}</td></p>
+	</c:forEach>
 </body>
 </html>
