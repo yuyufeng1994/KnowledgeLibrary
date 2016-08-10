@@ -91,6 +91,12 @@ public class FileNewController {
 		String uuid = StringValueUtil.getUUID();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + "users/" + user.getUserId() + "/files/" + uuid + ".pdf";
+		System.out.println(path);
+		//判断用户有没有建文件夹
+		File dir = new File(Const.ROOT_PATH + "users/" + user.getUserId() + "/files/");
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 		try {
 			jr = new JsonResult(true, uuid);
 
@@ -123,6 +129,7 @@ public class FileNewController {
 			}.start();
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			jr = new JsonResult(false, "转化失败");
 		}
 		return jr;
@@ -161,7 +168,7 @@ public class FileNewController {
 		if (res == 0) {
 			jr = new JsonResult(false, "修改失败");
 			return jr;
-		}else if(res != 0 && fileInfo.getFileState() == null){
+		} else if (res != 0 && fileInfo.getFileState() == null) {
 			jr = new JsonResult(true, "修改成功");
 			return jr;
 		} else if (res != 0 && fileInfo.getFileState() == 5) {
