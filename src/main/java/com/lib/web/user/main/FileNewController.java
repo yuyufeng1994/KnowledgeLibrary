@@ -25,6 +25,7 @@ import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.FileNew;
 import com.lib.dto.JsonResult;
+import com.lib.dto.SerResult;
 import com.lib.entity.FileInfo;
 import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
@@ -48,13 +49,28 @@ import net.sf.json.JSONObject;
 public class FileNewController {
 	@Autowired
 	private FileInfoService fileInfoService;
-	
+
 	@Autowired
 	private UserInfoDao userInfoDao;
 	@Autowired
 	private LuceneService searchService;
 
+	@Autowired
+	private LuceneService lservice;
+
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
+	@RequestMapping(value = "/file-content-search", method = RequestMethod.POST)
+	public @ResponseBody JsonResult searchFileContent(String searchInfo) {
+		JsonResult<List<SerResult>> jr = null;
+		List<SerResult> list = lservice.getParagraph(searchInfo);
+		if (list.size() == 0) {
+			jr = new JsonResult<List<SerResult>>(false, "没有找到相关内容");
+		} else {
+			jr = new JsonResult<List<SerResult>>(true, list);
+		}
+		return jr;
+	}
 
 	@RequestMapping(value = "/edit/{uuid}", method = RequestMethod.GET)
 	public String editUI(Model model, @PathVariable("uuid") String uuid, HttpSession session) {
@@ -145,15 +161,26 @@ public class FileNewController {
 		if (res == 0) {
 			jr = new JsonResult(false, "修改失败");
 			return jr;
-		}else if(res!=0&&fileInfo.getFileState()==5){
-			
-			//删除索引
-			searchService.deleteFileIndex(file);
+		}else if(res != 0 && fileInfo.getFileState() == null){
+			jr = new JsonResult(true, "修改成功");
+			return jr;
+		} else if (res != 0 && fileInfo.getFileState() == 5) {
+
+			// 删除索引
+			try {
+				searchService.deleteFileIndex(file);
+			} catch (Exception e) {
+			}
 			// 全文检索创立索引
-			searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
-		}else if(res!=0&&fileInfo.getFileState()!=5)
-		{
-			searchService.deleteFileIndex(file);
+			try {
+				searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
+			} catch (Exception e) {
+			}
+		} else if (res != 0 && fileInfo.getFileState() != 5) {
+			try {
+				searchService.deleteFileIndex(file);
+			} catch (Exception e) {
+			}
 		}
 		jr = new JsonResult(false, "修改成功");
 		return jr;

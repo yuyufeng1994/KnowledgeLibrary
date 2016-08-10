@@ -158,7 +158,7 @@
 	})
 
 	uploader.on('uploadFinished', function(file) {
-		window.location.href = "user/upload-complete";
+		window.location.href = "/lib/user/upload-complete";
 	})
 </script>
 </html>

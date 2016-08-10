@@ -34,7 +34,7 @@
 									<div class="am-btn-group am-btn-group-xs">
 										<button type="button" class="am-btn am-btn-default"
 											onclick='getcontents()'>
-											<span class="am-icon-save"></span> 提取
+											<span class="am-icon-save"></span> 智能提取
 										</button>
 										<button type="button" id="save-button"
 											class="am-btn am-btn-default">
@@ -79,22 +79,29 @@
 					<input type="search" class="am-form-field" id="search-text"
 						placeholder="输入关键词提取"> <span class="am-input-group-btn">
 						<button class="am-btn am-btn-default" type="button"
-							onclick="relationSearch()">
-							<i class="am-icon-search"></i> 搜索
+							onclick="contentSearch()">
+							<i class="am-icon-search"></i> 智能提取
+						</button>
+					</span> <span class="am-input-group-btn">
+						<button class="am-btn am-btn-primary" onclick="contensSure()"
+							type="button">
+							<i class="am-icon-anchor"></i> 插入选择项
 						</button>
 					</span>
 				</div>
 			</div>
-			<div class="am-modal-bd">
-				<table>
+			<div class="am-modal-bd" style="height: 400px; overflow: scroll;">
+				<table class="am-table am-table-bordered">
 					<thead>
 						<tr>
 							<th>内容</th>
-							<th>来自文档</th>
-							<th>插入</th>
+							<th>操作</th>
 						</tr>
 					</thead>
+					<tbody id="content-tb">
 
+
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -104,6 +111,44 @@
 		//智能提取模块
 		function getcontents() {
 			$("#get-contens-modal").modal()
+			//var checks = $("#search-result").find('input:checked')
+		}
+
+		function contensSure() {
+			var checks = $("#content-tb").find('input:checked')
+			var content = '';
+			for (var i = 0; i < checks.length; i++) {
+				content = "<p>"
+						+ $(checks[i]).parent().parent().find("td").eq(0)
+								.html() + "</p>"
+				ue.setContent(content, true);
+			}
+			
+			$("#get-contens-modal").modal()
+		}
+		function contentSearch() {
+			$("#content-tb").html("搜索匹配中...")
+			$
+					.post(
+							"user/file-content-search",
+							{
+								searchInfo : $("#search-text").val()
+							},
+							function(data) {
+								var str = '';
+								if (data.success == false) {
+									str = data.data;
+								} else {
+									for (var i = 0; i < data.data.length; i++) {
+										str += "<tr><td>"
+												+ data.data[i].content
+												+ "</td><td>"
+												+ "<input type='checkbox' value='" + data.data[i].fileUuid + "'>"
+												+ "</td></tr>"
+									}
+								}
+								$("#content-tb").html(str)
+							})
 		}
 	</script>
 	<%@include file="../common/footer.jsp"%>
@@ -237,8 +282,10 @@
 							window.location.href = "user/edit/" + data.error;
 						} else {
 							$("#wait-modal").modal();
-							$btn.button('reset');
-							$btn.text("保存失败")
+							$btn.text("保存失败,请稍候再试")
+							setTimeout(function() {
+								$btn.button('reset');
+							}, 3000);
 						}
 
 					})
