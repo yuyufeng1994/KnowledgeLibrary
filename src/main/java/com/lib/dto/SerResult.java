@@ -10,12 +10,14 @@ public class SerResult {
 	private String content; // 内容
 	private Long fileId; // 文章id
 	private String fileName;// 文档标题
+	private String fileUuid;
 
-	public SerResult(String content, Long fileId, String fileName) {
+	public SerResult(String content, Long fileId, String fileName, String fileUuid) {
 		super();
 		this.content = content;
 		this.fileId = fileId;
 		this.fileName = fileName;
+		this.fileUuid = fileUuid;
 	}
 
 	public SerResult() {
@@ -44,11 +46,6 @@ public class SerResult {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	@Override
-	public String toString() {
-		return "SerResult [content=" + content + ", fileId=" + fileId + ", fileName=" + fileName + "]";
 	}
 
 }

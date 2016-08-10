@@ -87,10 +87,14 @@
 			</div>
 			<div class="am-modal-bd">
 				<table>
-					<tr>
-						<th>内容</th>
-						<th>来自文档</th>
-					</tr>
+					<thead>
+						<tr>
+							<th>内容</th>
+							<th>来自文档</th>
+							<th>插入</th>
+						</tr>
+					</thead>
+
 				</table>
 			</div>
 		</div>
