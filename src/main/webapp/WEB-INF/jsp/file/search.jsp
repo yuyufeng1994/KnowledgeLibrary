@@ -268,6 +268,7 @@ function gotoPage(page) {
 function echo()
 {   
 	var fileCreateTime=$(fileCreateTime);
+	alert($(fileCreateTime))
 	$("#fileCreateTime").val(fileCreateTime);
 	var endTime=$(endTime);
 	$("#endTime").val(endTime);

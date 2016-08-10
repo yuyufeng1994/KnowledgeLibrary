@@ -515,15 +515,17 @@ public class LuceneSearchUtil {
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
 				Long fileId=Long.valueOf(document.get("fileId"));
 				String fileName=(document.get("fileName"));
+				String fileUuid=(document.get("fileUuid"));
 				String result = document.get("fileText");
+				
 				List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 				for (String paragrap : paragraphs) {
 					// size 表示查找多少关键字
 					
-					List<String> keyWords = HanLP.extractKeyword(paragrap, 3);
+					List<String> keyWords = HanLP.extractKeyword(paragrap,3);
 					for (String str : keyWords) {
 						if (str.equals(keyWord)) {
-							list.add(new SerResult(paragrap,fileId,fileName));
+							list.add(new SerResult(paragrap,fileId,fileName,fileUuid));
 						}
 
 					}
