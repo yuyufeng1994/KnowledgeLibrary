@@ -156,7 +156,7 @@
 				<div class="am-fr">
 					<ul class="am-pagination">
 						<c:if test="${page.pageNum > 1}">
-							<li><a onclick="gotoPage(${page.prePage })">«</a></li>
+							<li><a onclick="gotoPage(${page.prePage})">«</a></li>
 						</c:if>
 
 						<c:forEach items="${page.navigatepageNums}" var="p">

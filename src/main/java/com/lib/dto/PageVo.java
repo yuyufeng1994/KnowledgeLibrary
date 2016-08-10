@@ -40,26 +40,18 @@ public class PageVo<T> {
 	}
 
 	public int getPrePage() {
-		return prePage;
+		return this.pageNum-1;
 	}
 
-	public void setPrePage() {
-		this.prePage = this.pageNum-1;
-	}
 	
 	public int getTotalPage() {
 		return totalPage;
 	}
 
 	public int getNextPage() {
-		return nextPage;
+		return this.pageNum+1;
 	}
 
-	public void setNextPage() {
-		this.nextPage = this.nextPage+1;
-	}
-
-	
 
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;

@@ -162,7 +162,6 @@ public class LuceneSearchUtil {
 
 				// 时间范围查询
 				Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
-				System.out.println(timeQuery);
 				booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
 			}
 			
@@ -208,11 +207,11 @@ public class LuceneSearchUtil {
 			
 			
 			oldBooleanQuery = booleanQuery;
-			System.out.println(booleanQuery);
+			
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 			// System.out.println(booleanQuery);
 			result = indexSearch.search(booleanQuery, 100000);
-			System.out.println("result"+result.totalHits);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

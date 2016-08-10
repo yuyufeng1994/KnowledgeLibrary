@@ -36,16 +36,15 @@ public class LuceneServiceImpl implements LuceneService {
 		page.setPageNum(pageNo);
 		page.setData(list);
 		page.setPageSize(10);
+		page.setRowCount(LuceneSearchUtil.totalPage());
 		List<Integer> navigatepageNums=new ArrayList<Integer>();
-		for(int i=pageNo,j=3;i>=1&&j>=1;i--,j--)
-		{
-			int index=pageNo-j;
-			if(index>0)
-			navigatepageNums.add(index);
-			
+		int index=(pageNo-3)>0?(pageNo-3):1;
+		for(int i=index,j=3;i<pageNo&&j>=1;i++,j--)
+		{	
+			navigatepageNums.add(i);
 		}
 		
-		for(int i=pageNo,j=3;i<=LuceneSearchUtil.totalPage()&&j>=1;i++,j--)
+		for(int i=pageNo,j=3;i<=page.getTotalPage()&&j>=1;i++,j--)
 		{
 			navigatepageNums.add(i);
 		}
