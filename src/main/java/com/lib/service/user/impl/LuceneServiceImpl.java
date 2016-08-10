@@ -26,7 +26,7 @@ public class LuceneServiceImpl implements LuceneService {
 		
 		if(fileInfo.getFileClassId()!=1L)
 		{    
-			List<Classification> childIds = classDao.findAllChildById(fileInfo.getFileClassId() + "");
+			List<Classification> childIds = classDao.findAllChildById("%"+fileInfo.getFileClassId()+"%");
 			if (childIds != null) {
 				for (int i = 0; i < childIds.size(); i++) {
 					classIds.add(childIds.get(i).getClassificationId());
@@ -37,6 +37,7 @@ public class LuceneServiceImpl implements LuceneService {
 		{
 			classIds=null;
 		}
+//		System.out.println(classIds);
 		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo,keyWord,endTime,pageNo,10,classIds, flag);
 		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
 		page.setPageNum(pageNo);

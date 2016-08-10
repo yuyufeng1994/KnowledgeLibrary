@@ -266,40 +266,44 @@
 
 	$(function() {
 
-		$("#complete-button").click(function() {
-			$("#wait-modal").modal();
-			var html = ue.getContent();
-			$.post("user/newfile/save", {
-				fileName : $("#fileName").val(),
-				content : html,
-				classId : 1
-			}, function(data) {
-				var $btn = $("#complete-button");
-				$btn.button('loading');
-				$btn.text("处理中...")
-				if (data.success == true) {
-					//保存
-					$.post("user/newfile/complete", {}, function(data) {
+		$("#complete-button").click(
+				function() {
+					$("#wait-modal").modal();
+					var html = ue.getContent();
+					$.post("user/newfile/save", {
+						fileName : $("#fileName").val(),
+						content : html,
+						classId : 1
+					}, function(data) {
+						var $btn = $("#complete-button");
+						$btn.button('loading');
+						$btn.text("处理中...")
 						if (data.success == true) {
-							$btn.text("保存成功")
-							window.location.href = "user/edit/" + data.error;
+							//保存
+							$.post("user/newfile/complete", {}, function(data) {
+								if (data.success == true) {
+									$btn.text("保存成功")
+									setTimeout(function() {
+										window.location.href = "user/edit/"+ data.error;
+									}, 2500);
+
+								} else {
+									$("#wait-modal").modal();
+									$btn.text("保存失败,请稍候再试")
+									setTimeout(function() {
+										$btn.button('reset');
+									}, 3000);
+								}
+
+							})
+
 						} else {
-							$("#wait-modal").modal();
-							$btn.text("保存失败,请稍候再试")
-							setTimeout(function() {
-								$btn.button('reset');
-							}, 3000);
+							$btn.text('暂存失败');
 						}
 
 					})
 
-				} else {
-					$btn.text('暂存失败');
-				}
-
-			})
-
-		})
+				})
 
 		function fn_save() {
 			var $btn = $("#save-button");
