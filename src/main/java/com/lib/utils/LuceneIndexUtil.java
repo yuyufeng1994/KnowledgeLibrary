@@ -123,7 +123,7 @@ public class LuceneIndexUtil {
 				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+file.getFileName(), 10);
 				document.add(new TextField("fileKeyWords",fileKeyWords.toString(), Field.Store.YES));
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			// System.out.println(doc.getDocModTime()+" "+doc.getDocUpTime());
 			
 			document.add(new StringField("fileId", file.getFileId()+"", Field.Store.YES));

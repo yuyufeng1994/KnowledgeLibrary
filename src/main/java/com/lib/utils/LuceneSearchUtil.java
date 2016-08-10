@@ -161,15 +161,24 @@ public class LuceneSearchUtil {
 				BytesRef eDateStr = new BytesRef(sdf.format(eDate));
 
 				// 时间范围查询
-				Query fileCreateTime = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
-				booleanQuery.add(fileCreateTime, BooleanClause.Occur.MUST);
+				Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
+				System.out.println(timeQuery);
+				booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
 			}
+			
+			
+			
 			// 查询条件三分类查询
+			BooleanQuery queryClassId=new BooleanQuery();
 			for (Long id : fileClassId) {
+				
 				TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
-				booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
+				queryClassId.add(termQuery, BooleanClause.Occur.SHOULD);
 			}
+			booleanQuery.add(queryClassId, BooleanClause.Occur.MUST);
+			
 			// 查询条件四类型查询
+			BooleanQuery queryFileExt=new BooleanQuery();
 			if (file.getFileExt() != null && !"".equals(file.getFileExt()) && !file.getFileExt().equals("all")) {
 
 				List<String> typeList = null;
@@ -185,21 +194,25 @@ public class LuceneSearchUtil {
 				} else if (file.getFileExt().equals("else")) {
 					typeList = JudgeUtils.elseFile;
 				}
+			
 				if(typeList!=null&&!typeList.equals(""))
 				{
 					for (String type : typeList) {
 						TermQuery termQuery = new TermQuery(new Term("fileExt", type));
-						booleanQuery.add(termQuery, BooleanClause.Occur.SHOULD);
+						queryFileExt.add(termQuery, BooleanClause.Occur.SHOULD);
 					}
 				}
-				
+				booleanQuery.add(queryFileExt, BooleanClause.Occur.MUST);
 			}
-
+			
+			
+			
 			oldBooleanQuery = booleanQuery;
+			System.out.println(booleanQuery);
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 			// System.out.println(booleanQuery);
 			result = indexSearch.search(booleanQuery, 100000);
-
+			System.out.println("result"+result.totalHits);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
