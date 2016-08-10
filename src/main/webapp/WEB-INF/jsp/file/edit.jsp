@@ -549,6 +549,7 @@
 				setTimeout(function(){
 				      $btn.button('reset');
 				  },3000);
+				window.location.reload();
 			})
 			return false;
 		});
