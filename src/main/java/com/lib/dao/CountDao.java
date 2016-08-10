@@ -1,8 +1,11 @@
 package com.lib.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.lib.dto.ClickInfo;
 
 /**
  * 统计信息的dao
@@ -44,5 +47,9 @@ public interface CountDao {
 	 * @return
 	 */
 	Long getCountPublicFiles(Long userId);
-
+	/**
+	 * 获取热门文档
+	 * @return
+	 */
+	List<ClickInfo> getHotFiles();
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.CountDao">
-
 	<select id="getTodaysUpload" resultType="Long">
 		SELECT count(file_id)
 		FROM
 		file_info
-		WHERE file_create_time >= #{date1} and
+		WHERE file_create_time >= #{date1}
+		and
 		file_create_time <![CDATA[ <= ]]>
 		#{date2}
 	</select>
@@ -19,17 +19,26 @@
 	</select>
 
 	<select id="getCountForkFiles" resultType="Long">
-		select count(fork_id) from fork_info where doc_id in (select doc_id from doc_info where doc_user_id = #{userId})
+		select count(fork_id)
+		from fork_info where doc_id in (select doc_id from doc_info where
+		doc_user_id = #{userId})
 	</select>
 
 	<select id="getCountPublicFiles" resultType="Long">
-		SELECT count(file_id)
+		SELECT
+		count(file_id)
 		FROM
 		file_info
 		WHERE file_user_id = #{userId} or
 		file_state = 5
 	</select>
 
-	
+	<select id="getHotFiles" resultType="com.lib.dto.ClickInfo">
+		select c.*, count(c.file_id) 'fileClickTimes' ,f.file_name 'fileName'  from click_info c
+		join file_info f on c.file_id = f.file_id
+		GROUP BY c.file_id
+		ORDER BY fileClickTimes DESC
+		LIMIT 7;
+	</select>
 
 </mapper>
