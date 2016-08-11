@@ -223,6 +223,10 @@
 	<!-- content end -->
 </body>
 <script type="text/javascript">
+(window).load(function() {
+	//加载收藏夹
+	findDoc('#select');
+});
 //添加收藏夹
 $(function() {
   $('#doc-prompt-toggle-add').on('click', function() {
@@ -317,8 +321,7 @@ $.ajax({
 	}
 })
 }
-//加载收藏夹
-findDoc('#select');
+
 //翻页
 var url = "user/myforks/";
 function gotoPage(page) {
