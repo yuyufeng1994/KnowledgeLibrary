@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -32,6 +33,7 @@ import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.TokenSources;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -125,7 +127,7 @@ public class LuceneSearchUtil {
 			queryText = null;
 			if (file.getFileName() != null && !"".equals(file.getFileName())) {
 				
-				String[] fields = { "fileName", "fileText", "fileBriefs", "fileKeyWords" };
+				String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
 				Map<String, Float> boost = new HashMap<String, Float>();
 				boost.put("fileKeyWords", 4.0f);
 				boost.put("fileName", 3.0f);

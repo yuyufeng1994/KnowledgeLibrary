@@ -73,7 +73,7 @@ public class LuceneIndexUtil {
 			config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 			indexWriter = new IndexWriter(directory, config);
 			// 判断是否需要建文档内容索引
-			if(new File(filePath).exists()){
+			if(new File(filePath).exists()&&!JudgeUtils.isVideoFile(file.getFileExt())&&!JudgeUtils.isAudioFile(file.getFileExt())&&!JudgeUtils.isImageFile(file.getFileExt())){
 				// 创建输入流读取pdf文件
 				String result = ExtractUtil.Parser(filePath,file.getFileExt());
 				
