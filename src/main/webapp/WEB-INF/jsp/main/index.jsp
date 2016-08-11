@@ -178,7 +178,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> 
 			</div>
 			<footer class="admin-content-footer">
 				<hr>
