@@ -333,7 +333,8 @@ public class LuceneSearchUtil {
 
 					String fileText = "";
 					if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
-						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
+//						System.out.println(file.get("fileText"));
+						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 300);
 						if (!"".equals(fileText) && fileText != null)
 							vo.setFileText(fileText);
 					}
