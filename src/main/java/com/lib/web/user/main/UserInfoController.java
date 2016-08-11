@@ -92,7 +92,7 @@ public class UserInfoController {
 		session.setAttribute(Const.SESSION_USER, updateUser);
 		JsonResult<UserInfo> jr = null;
 		jr = new JsonResult<UserInfo>(true, updateUser);
-		System.out.println(updateUser);
+//		System.out.println(updateUser);
 		return jr;
 	}
 

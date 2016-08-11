@@ -80,7 +80,6 @@ public class FileInfoServiceImpl implements FileInfoService {
 		fileinfoDao.setFileStateByUuid(uuid, 3);
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
-		// System.out.println(Const.STREAM_PATH + file.getFileUuid());
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
 

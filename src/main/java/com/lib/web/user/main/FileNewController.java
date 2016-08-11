@@ -91,7 +91,7 @@ public class FileNewController {
 		String uuid = StringValueUtil.getUUID();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + "users/" + user.getUserId() + "/files/" + uuid + ".pdf";
-		System.out.println(path);
+		//System.out.println(path);
 		//判断用户有没有建文件夹
 		File dir = new File(Const.ROOT_PATH + "users/" + user.getUserId() + "/files/");
 		if (!dir.exists()) {

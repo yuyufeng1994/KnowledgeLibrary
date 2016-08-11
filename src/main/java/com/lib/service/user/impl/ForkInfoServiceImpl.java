@@ -88,7 +88,6 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 			}
 		}
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
-		System.out.println(page);
 		return page;
 	}
 
@@ -103,7 +102,6 @@ public class ForkInfoServiceImpl implements ForkInfoService {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE);
 		List<ForkFileInfoVo> forkFileInfos=forkInfoDao.findByFileName("%"+fileName+"%", docUserId);
 		
-		//System.out.println(forkFileInfos);
 		PageInfo<ForkFileInfoVo> page = new PageInfo<ForkFileInfoVo>(forkFileInfos);
 		return page;
 	}

@@ -138,7 +138,7 @@ public class LoginAndRegisterController {
 			model.addAttribute("text", "注册成功");
 			return "register/register-success";
 		} else if ("activate".equals(action)) {
-			System.out.println(request.getLocalAddr());
+//			System.out.println(request.getLocalAddr());
 			// 激活
 			String email = request.getParameter("email");// 获取email
 			String validateCode = request.getParameter("validateCode");// 激活码

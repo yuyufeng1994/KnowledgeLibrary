@@ -37,7 +37,6 @@ public class LuceneServiceImpl implements LuceneService {
 		{
 			classIds=null;
 		}
-//		System.out.println(classIds);
 		List<LuceneSearchVo> list=LuceneSearchUtil.indexFileSearch(fileInfo,keyWord,endTime,pageNo,10,classIds, flag);
 		PageVo<LuceneSearchVo> page=new PageVo<LuceneSearchVo>();
 		page.setPageNum(pageNo);

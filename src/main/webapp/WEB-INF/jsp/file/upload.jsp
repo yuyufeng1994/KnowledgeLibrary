@@ -40,21 +40,28 @@
 									class="am-btn am-btn-xs am-btn-primary" data-am-button>导入压缩包</button>
 								<script>
 									$(function() {
-								
+
 										$.post("user/re-compress")
-								
+
 										var $toggleButton = $('#if-unc');
 										$toggleButton.on('click', function() {
 											setButtonStatus();
 										});
-								
+
 										function setButtonStatus() {
-											$.post("user/tog-compress", function(data) {
-												if (data == "success") {
-													var status = $toggleButton.hasClass('am-active') ? '解压导入' : '导入压缩包';
-													$('#if-unc').text(status);
-												}
-											})
+											$
+													.post(
+															"user/tog-compress",
+															function(data) {
+																if (data == "success") {
+																	var status = $toggleButton
+																			.hasClass('am-active') ? '解压导入'
+																			: '导入压缩包';
+																	$('#if-unc')
+																			.text(
+																					status);
+																}
+															})
 										}
 									})
 								</script>
@@ -73,12 +80,18 @@
 		<%@include file="../common/footer.jsp"%>
 		<!-- content end -->
 	</div>
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="info-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd">上传成功...</div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
+			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
-	$list = $('#thelist'),
-	$btn = $('#ctlBtn'),
-	state = 'pending',
-	uploader;
+	$list = $('#thelist'), $btn = $('#ctlBtn'), state = 'pending', uploader;
 
 	var uploader = WebUploader.create({
 		// swf文件路径
@@ -96,35 +109,44 @@
 	});
 
 	// 当有文件被添加进队列的时候
-	uploader.on('fileQueued', function(file) {
-		$list.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">' +
-			'<div class="am-panel-hd">' + '<span class="state am-badge am-badge-secondary">等待上传...</span>' + " " + file.name
-			+ '</div>' +
+	uploader
+			.on(
+					'fileQueued',
+					function(file) {
+						$list
+								.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">'
+										+ '<div class="am-panel-hd">'
+										+ '<span class="state am-badge am-badge-secondary">等待上传...</span>'
+										+ " " + file.name + '</div>' +
 
-			'</div>');
-		if (file.ext == "zip" || file.ext == "rar") {
-			$("#unc-div").show("fast");
-		}
-	});
+										'</div>');
+						if (file.ext == "zip" || file.ext == "rar") {
+							$("#unc-div").show("fast");
+						}
+					});
 	// 文件上传过程中创建进度条实时显示。
-	uploader.on('uploadProgress', function(file, percentage) {
-		var $li = $('#' + file.id),
-			$percent = $li.find('.am-progress .am-progress-bar');
+	uploader
+			.on(
+					'uploadProgress',
+					function(file, percentage) {
+						var $li = $('#' + file.id), $percent = $li
+								.find('.am-progress .am-progress-bar');
 
-		// 避免重复创建
-		if (!$percent.length) {
+						// 避免重复创建
+						if (!$percent.length) {
 
-			$percent = $('<div class="am-progress am-progress-striped  am-active">' +
-				'<div class="am-progress-bar am-progress-bar-secondary"  style="width: 0%">' +
-				'</div>' +
-				'</div>').appendTo($li).find('.am-progress-bar');
-		}
+							$percent = $(
+									'<div class="am-progress am-progress-striped  am-active">'
+											+ '<div class="am-progress-bar am-progress-bar-secondary"  style="width: 0%">'
+											+ '</div>' + '</div>')
+									.appendTo($li).find('.am-progress-bar');
+						}
 
-		$li.find('span.state').text('上传中');
-		var res = (percentage * 100).toFixed(2);
-		$li.find('.am-progress-bar-secondary').text(res + "%");
-		$percent.css('width', percentage * 100 + '%');
-	});
+						$li.find('span.state').text('上传中');
+						var res = (percentage * 100).toFixed(2);
+						$li.find('.am-progress-bar-secondary').text(res + "%");
+						$percent.css('width', percentage * 100 + '%');
+					});
 	$btn.on('click', function() {
 		if (state === 'uploading') {
 			uploader.stop();
@@ -158,7 +180,12 @@
 	})
 
 	uploader.on('uploadFinished', function(file) {
-		window.location.href = "/lib/user/upload-complete";
+		$("#info-modal").modal();
+		 setTimeout(function(){
+			 window.location.href = "/lib/user/upload-complete";
+		  },1500);
+		
+		
 	})
 </script>
 </html>
