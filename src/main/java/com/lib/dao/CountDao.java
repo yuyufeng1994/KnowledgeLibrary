@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 
 /**
@@ -52,4 +53,22 @@ public interface CountDao {
 	 * @return
 	 */
 	List<ClickInfo> getHotFiles();
+	
+	/**
+	 * 获取热门分类
+	 * @return
+	 */
+	List<ClassesClickInfo> getHotClasses(@Param("time") Date time);
+	
+	/**
+	 * 获取热门分类中的被收藏的文档数
+	 * @return
+	 */
+	Long getForkFileTimes(@Param("time") Date time,@Param("classId") Long classId);
+	
+	/**
+	 * 获取热门分类中的文件的点击量
+	 * @return
+	 */
+	Long getClickTimes(@Param("time") Date time,@Param("classId") Long classId);
 }

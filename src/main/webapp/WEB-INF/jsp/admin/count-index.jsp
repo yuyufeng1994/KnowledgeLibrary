@@ -126,7 +126,6 @@
 												fileNames[i] = fileList[i].fileName;
 												clickTimes[i] = fileList[i].fileClickTimes;
 											}
-											console.log(fileNames);
 											// 基于准备好的dom，初始化echarts实例
 											var filehotCharts = echarts.init(document.getElementById('filehot-charts'));
 											option = {
@@ -176,8 +175,94 @@
 
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">热门分类排行</div>
-						<div class="am-panel-bd am-collapse am-in"
-							id="collapse-panel-hot-class">图表统计显示</div>
+						<div class="am-panel-bd am-collapse am-in" id="collapse-panel-hot-class">
+							<div id="hotClass-charts" style="width: 500px; height: 450px;"></div>
+							<script type="text/javascript">
+								$(function(){
+									var url = "admin/count/hot-classes";
+									$.get(url,function(data){
+										console.log(data.data);
+										var dataList = data.data;
+										console.log(dataList[0]);
+										var name = [];
+										var clickTimes = [];
+										var forkTimes = [];
+										var uploadTimes = [];
+										var hot = [];
+										for(var i = 0;i<dataList.length;i++){
+											name[i] = dataList[i].className;
+											clickTimes[i] = dataList[i].classClickTimes;
+											forkTimes[i] = dataList[i].forkFileTimes;
+											uploadTimes[i] = dataList[i].uploadFileTimes;
+											hot[i] = dataList[i].score;
+										}
+										console.log(name);
+										var hotClassCharts = echarts.init(document.getElementById('hotClass-charts'));
+										option = {
+											    tooltip : {
+											        trigger: 'axis',
+											        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+											            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+											        }
+											    },
+											    legend: {
+											        data:['热度','上传量','点击量','收藏量']
+											    },
+											    grid: {
+											        left: '2%',
+											        right: '4%',
+											        bottom: '3%',
+											        containLabel: true
+											    },
+											    xAxis : [
+											        {
+											            type : 'category',
+											            data : name
+											        }
+											    ],
+											    yAxis : [
+											        {
+											            type : 'value'
+											        }
+											    ],
+											    series : [
+											        {
+											            name:'热度',
+											            type:'bar',
+											            data:hot,
+											            markLine : {
+											                lineStyle: {
+											                    normal: {
+											                        type: 'dashed'
+											                    }
+											                },
+											                data : [
+											                    [{type : 'min'}, {type : 'max'}]
+											                ]
+											            }
+											        },
+											        {
+											            name:'上传量',
+											            type:'bar',
+											            data:uploadTimes
+											        },
+											        {
+											            name:'点击量',
+											            type:'bar',
+											            data:clickTimes
+											        },
+											        {
+											            name:'收藏量',
+											            type:'bar',
+											            data:forkTimes
+											        },
+											    ]
+											};
+										hotClassCharts.setOption(option);
+									});
+								});
+							</script>
+						</div>
 					</div>
 
 				</div>

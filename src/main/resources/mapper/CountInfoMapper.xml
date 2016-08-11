@@ -40,5 +40,26 @@
 		ORDER BY fileClickTimes DESC
 		LIMIT 7;
 	</select>
-
+	<select id="getHotClasses" parameterType="java.util.Date" resultType="com.lib.dto.ClassesClickInfo">
+		select count(file.file_id) 'uploadFileTimes', classification_id  'classId',classification_name 'className' 
+		from file_info file
+		join classification cl on cl.classification_id = file.file_class_id
+		where file.file_create_time >#{time}
+		group by cl.classification_id
+		ORDER BY uploadFileTimes DESC
+	</select>
+	
+	<select id="getForkFileTimes" resultType="Long">
+		select count(file.file_id) 
+		from file_info file
+		join fork_info fo on fo.file_id = file.file_id
+		where file.file_create_time >#{time}
+		and file.file_class_id = #{classId}
+	</select>
+	
+	<select id="getClickTimes" resultType="Long">
+		select  count(c.file_id)  from click_info c
+		join file_info f on c.file_id = f.file_id
+		where f.file_class_id = #{classId}
+	</select>
 </mapper>
