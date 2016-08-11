@@ -97,8 +97,16 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String login(Model model) {
-		model.addAttribute("date", new Date());
+	public String login(Model model, HttpSession session) {
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		// 获取最近浏览记录
+		List<FileInfoVO> recent = fileManageService.getRecenREeadtFile(user.getUserId());
+		model.addAttribute("recent", recent);
+
+		// 获取最近分享
+		List<FileInfoVO> share = fileManageService.getRecenShareFile(user.getUserId());
+		model.addAttribute("share", share);
+
 		return "main/index";
 	}
 

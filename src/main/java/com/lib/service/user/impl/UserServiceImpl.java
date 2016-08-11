@@ -1,5 +1,7 @@
 package com.lib.service.user.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.hankcs.hanlp.algoritm.VectorDistance;
 import com.lib.dao.UserInfoDao;
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
 import com.lib.exception.user.UserNullAccountException;
@@ -33,14 +36,16 @@ public class UserServiceImpl implements UserService {
 			throw new UserPasswordWrongException("用户密码错误");
 		}
 	}
+
 	@Override
 	public boolean checkByEmail(String userEmail) {
 		UserInfo record = userInfoDao.queryByEmail(userEmail);
 		if (record == null) {
 			return true;
-		} 
+		}
 		return false;
 	}
+
 	@Override
 	public UserInfo getUserById(long l) {
 
@@ -69,12 +74,14 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(record.getUserId());
 		return user;
 	}
+
 	/**
 	 * 获取所有user信息
+	 * 
 	 * @param userId
 	 * @return
 	 */
-	public UserInfo getUserAllInfo(Long userId){
+	public UserInfo getUserAllInfo(Long userId) {
 		UserInfo user = new UserInfo();
 		UserInfo record = userInfoDao.queryById(userId);
 		user.setUserName(record.getUserName());
@@ -85,29 +92,32 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(record.getUserId());
 		return user;
 	}
+
 	@Override
 	public void updateUser(UserInfo user) {
 		userInfoDao.updateUserInfo(user);
 	}
+
 	@Override
 	public void updateUserPwd(UserInfo user) {
 		userInfoDao.updateUserPwd(user);
 	}
-	
-	
+
 	@Override
 	public PagedResult<UserInfo> queryByPage(String userName, Integer pageNo, Integer pageSize) {
-		pageNo = pageNo == null?1:pageNo;  
-	    pageSize = pageSize == null?10:pageSize;  
-	    PageHelper.startPage(pageNo,pageSize);  //startPage是告诉拦截器说我要开始分页了。分页参数是这两个。  
-	    return BeanUtil.toPagedResult(userInfoDao.selectAllUserByUserName(userName)); 
+		pageNo = pageNo == null ? 1 : pageNo;
+		pageSize = pageSize == null ? 10 : pageSize;
+		PageHelper.startPage(pageNo, pageSize); // startPage是告诉拦截器说我要开始分页了。分页参数是这两个。
+		return BeanUtil.toPagedResult(userInfoDao.selectAllUserByUserName(userName));
 	}
+
 	@Override
 	public boolean deleteUserByUserId(Long userId) {
 		return userInfoDao.deleteUserById(userId);
 	}
+
 	@Override
-	public void updateUserType(UserInfo user){
+	public void updateUserType(UserInfo user) {
 		userInfoDao.updateUserEmail(user);
 	}
 

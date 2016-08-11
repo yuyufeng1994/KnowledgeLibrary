@@ -4,6 +4,11 @@
 <html>
 <head>
 <title>首页</title>
+<style>
+.am-g a {
+	color: #333
+}
+</style>
 <%@include file="../common/head.jsp"%>
 </head>
 <body>
@@ -59,7 +64,17 @@
 								</tr>
 							</thead>
 							<tbody>
-
+								<c:forEach items="${share }" var="f">
+									<tr>
+										<td><img src="user/thumbnail/${f.fileUuid}/png"
+											alt="null" class="am-img-thumbnail"
+											style="width: 50px; height: 50px; overflow: hidden"></td>
+										<td><a target="_blank"
+											title="${f.fileName }.${f.fileExt }"
+											href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt }</a></td>
+										<td>简介：${f.fileBrief }</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -69,11 +84,25 @@
 					<div class="am-u-md-6">
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-1'}">
+								data-am-collapse="{target: '#collapse-panel-re'}">
 								最近阅读<span class="am-icon-chevron-down am-fr"></span>
 							</div>
-							<div class="am-panel-bd am-collapse am-in" id="collapse-panel-1">
+							<div id="collapse-panel-re" class="am-in">
+								<table class='am-table am-table-striped'>
+									<c:forEach items="${recent }" var="f">
+										<tr>
+											<td><img src="user/thumbnail/${f.fileUuid}/png"
+												alt="null" class="am-img-thumbnail"
+												style="width: 20px; height: 20px; overflow: hidden"></td>
+											<td><a target="_blank"
+												title="${f.fileName }.${f.fileExt }"
+												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
+											<td><fmt:formatDate value="${f.fileCreateTime }"
+													pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										</tr>
+									</c:forEach>
 
+								</table>
 							</div>
 						</div>
 						<div class="am-panel am-panel-default">
@@ -82,8 +111,19 @@
 								热门文档<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div id="collapse-panel-2" class="am-in">
-								<table
-									class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+								<table class='am-table am-table-striped'>
+									<c:forEach items="${recent }" var="f">
+										<tr>
+											<td><img src="user/thumbnail/${f.fileUuid}/png"
+												alt="null" class="am-img-thumbnail"
+												style="width: 20px; height: 20px; overflow: hidden"></td>
+											<td><a target="_blank"
+												title="${f.fileName }.${f.fileExt }"
+												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
+											<td><fmt:formatDate value="${f.fileCreateTime }"
+													pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										</tr>
+									</c:forEach>
 
 								</table>
 							</div>
@@ -93,24 +133,48 @@
 					<div class="am-u-md-6">
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-4'}">
+								data-am-collapse="{target: '#collapse-panel-sh'}">
 								最新分享<span class="am-icon-chevron-down am-fr"></span>
 							</div>
-							<div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
-								
+							<div id="collapse-panel-sh" class="am-in">
+								<table class='am-table am-table-striped'>
+									<c:forEach items="${share }" var="f">
+										<tr>
+											<td><img src="user/thumbnail/${f.fileUuid}/png"
+												alt="null" class="am-img-thumbnail"
+												style="width: 20px; height: 20px; overflow: hidden"></td>
+											<td><a target="_blank"
+												title="${f.fileName }.${f.fileExt }"
+												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
+											<td><fmt:formatDate value="${f.fileCreateTime }"
+													pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										</tr>
+									</c:forEach>
+
+								</table>
 							</div>
 						</div>
-
 						<div class="am-panel am-panel-default">
 							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-3'}">
-								最近留言<span class="am-icon-chevron-down am-fr"></span>
+								data-am-collapse="{target: '#collapse-panel-sh'}">
+								最新分享<span class="am-icon-chevron-down am-fr"></span>
 							</div>
-							<div class="am-panel-bd am-collapse am-in am-cf"
-								id="collapse-panel-3">
-								<ul class="ds-top-threads" data-range="weekly"
-									data-num-items="5"></ul>
+							<div id="collapse-panel-sh" class="am-in">
+								<table class='am-table am-table-striped'>
+									<c:forEach items="${share }" var="f">
+										<tr>
+											<td><img src="user/thumbnail/${f.fileUuid}/png"
+												alt="null" class="am-img-thumbnail"
+												style="width: 20px; height: 20px; overflow: hidden"></td>
+											<td><a target="_blank"
+												title="${f.fileName }.${f.fileExt }"
+												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
+											<td><fmt:formatDate value="${f.fileCreateTime }"
+													pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										</tr>
+									</c:forEach>
 
+								</table>
 							</div>
 						</div>
 					</div>

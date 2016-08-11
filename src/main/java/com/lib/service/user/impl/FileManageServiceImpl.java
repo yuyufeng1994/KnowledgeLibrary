@@ -92,4 +92,15 @@ public class FileManageServiceImpl implements FileManageService {
 		return page;
 	}
 
+	@Override
+	public List<FileInfoVO> getRecenREeadtFile(Long userId) {
+		return fileInfoDao.getRecentFileInfoByUserId(userId);
+	}
+
+	@Override
+	public List<FileInfoVO> getRecenShareFile(Long userId) {
+		// TODO Auto-generated method stub
+		return fileInfoDao.getRecentShare();
+	}
+
 }

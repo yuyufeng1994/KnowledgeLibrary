@@ -48,6 +48,42 @@
 		where
 		f.file_name like #{searchValue}
 	</select>
+	
+	<select id="getRecentShare" resultType="com.lib.dto.FileInfoVO">
+		select
+		file_id,
+		file_name,
+		file_size, file_ext, file_user_id, file_uuid, file_path,
+		file_state,
+		file_class_id,
+		file_create_time,file_brief,user_name
+		from
+		file_info f left join user_info u on f.file_user_id = u.user_id
+		where f.file_state = 5 order by file_create_time desc limit 0,7
+	</select>
+	
+
+
+	<select id="getRecentFileInfoByUserId" resultType="com.lib.dto.FileInfoVO">
+		select
+		f.file_id,
+		f.file_name,
+		f.file_size, f.file_ext, f.file_user_id,
+		f.file_uuid,
+		f.file_path,
+		f.file_state,
+		f.file_class_id,
+		c.click_time 'fileCreateTime',f.file_brief
+		from
+		file_info f left join click_info c
+		on f.file_id = c.file_id where c.user_id = #{userId}
+		order by
+		c.click_id
+		desc
+		limit 0,7
+	</select>
+
+
 
 	<select id="getFilesByUserId" resultType="com.lib.dto.FileInfoVO">
 		select
@@ -120,8 +156,9 @@
 
 
 	<insert id="insertClickInfo">
-		insert into click_info (user_id,file_id) values(#{userId},#{fileId})
-		
+		insert into click_info (user_id,file_id)
+		values(#{userId},#{fileId})
+
 	</insert>
 
 	<insert id="insert" parameterType="com.lib.entity.FileInfo">

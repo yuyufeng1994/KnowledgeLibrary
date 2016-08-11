@@ -74,4 +74,18 @@ public interface FileManageService {
 	 */
 	PageInfo<FileInfoVO> getFileInfoPage(Integer pageNo, String string, String searchValue);
 
+	/**
+	 * 得到用户最近的浏览记录
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfoVO> getRecenREeadtFile(Long userId);
+
+	/**
+	 * 得到最近分享
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfoVO> getRecenShareFile(Long userId);
+
 }

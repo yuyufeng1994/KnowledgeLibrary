@@ -134,9 +134,24 @@ public interface FileInfoDao {
 
 	/**
 	 * 插入统计数据
+	 * 
 	 * @param userId
 	 * @param fileId
 	 */
 	int insertClickInfo(@Param("userId") Long userId, @Param("fileId") Long fileId);
+
+	/**
+	 * 得到用户浏览历史
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<FileInfoVO> getRecentFileInfoByUserId(Long userId);
+
+	/**
+	 * 得到最近记录
+	 * @return
+	 */
+	List<FileInfoVO> getRecentShare();
 
 }

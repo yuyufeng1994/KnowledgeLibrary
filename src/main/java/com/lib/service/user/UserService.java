@@ -1,5 +1,8 @@
 package com.lib.service.user;
 
+import java.util.List;
+
+import com.lib.dto.FileInfoVO;
 import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
 import com.lib.exception.user.UserNullAccountException;
@@ -81,4 +84,6 @@ public interface UserService {
 	 * @param user
 	 */
 	public void updateUserType(UserInfo user);
+
+	
 }
