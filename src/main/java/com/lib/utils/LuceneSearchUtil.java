@@ -314,6 +314,7 @@ public class LuceneSearchUtil {
 					vo.setFileKeyWords(keyWordList);
 				}
 				
+				try{
 				if (queryText != null) {
 
 					String fileName = "";
@@ -375,6 +376,10 @@ public class LuceneSearchUtil {
 							
 					}
 					
+				}
+				}catch(Exception e)
+				{
+					e.printStackTrace();//TODO
 				}
 				// System.out.println(vo);
 				page.add(vo);
