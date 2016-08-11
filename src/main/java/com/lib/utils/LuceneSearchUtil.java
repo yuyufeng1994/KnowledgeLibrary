@@ -363,6 +363,7 @@ public class LuceneSearchUtil {
 					if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
 						fileKeyWords = displayHtmlHighlight(queryKeyWord, analyzer, "fileKeyWords",
 								file.get("fileKeyWords"), 100);
+						
 						if (!"".equals(fileKeyWords) && fileKeyWords != null)
 						{
 							
