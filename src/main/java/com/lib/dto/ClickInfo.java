@@ -73,11 +73,4 @@ public class ClickInfo {
 		this.clickTime = clickTime;
 	}
 
-	@Override
-	public String toString() {
-		return "ClickInfo [clickId=" + clickId + ", userId=" + userId + ", fileId=" + fileId + ", clickTime="
-				+ clickTime + ", fileClickTimes=" + fileClickTimes + ", fileName=" + fileName + "]";
-	}
-
-	
 }
