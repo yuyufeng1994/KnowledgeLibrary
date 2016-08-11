@@ -379,7 +379,7 @@ public class LuceneSearchUtil {
 				}
 				}catch(Exception e)
 				{
-					e.printStackTrace();//TODO
+					//e.printStackTrace();//TODO
 				}
 				// System.out.println(vo);
 				page.add(vo);
