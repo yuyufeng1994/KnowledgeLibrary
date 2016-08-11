@@ -65,7 +65,7 @@ public class LuceneIndexUtil {
 		// 创建IndexWriter对象,
 		IndexWriterConfig config=null;
 		//pdf文件存放路径
-	    String pdfPath=Const.ROOT_PATH + file.getFilePath() + ".pdf";
+	    String filePath=Const.ROOT_PATH + file.getFilePath() + "."+file.getFileExt();
 		try {
 			
 			directory = FSDirectory.open(new File(indexPath).toPath());
@@ -73,59 +73,27 @@ public class LuceneIndexUtil {
 			config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 			indexWriter = new IndexWriter(directory, config);
 			// 判断是否需要建文档内容索引
-			if(new File(pdfPath).exists()){
+			if(new File(filePath).exists()){
 				// 创建输入流读取pdf文件
-				String result = "";
-				FileInputStream is = null;
-				PDDocument PDdoc = null;
-				try {
-					is = new FileInputStream(new File(pdfPath));
-					PDFParser parser = new PDFParser(is);
-					parser.parse();
-					PDdoc = parser.getPDDocument();
-					PDFTextStripper stripper = new PDFTextStripper();
-					result = stripper.getText(PDdoc);
-					if(result!=""){
-						
+				String result = ExtractUtil.Parser(filePath,file.getFileExt());
+				
+				if (result!= "") {
 					document.add(new TextField("fileText", result, Field.Store.YES));
-					
+
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
-					String _fileKeyWords="";
-					
-					for(String str:fileKeyWords)
-					{
-						_fileKeyWords=_fileKeyWords+","+str;
+					String _fileKeyWords = "";
+
+					for (String str : fileKeyWords) {
+						_fileKeyWords = _fileKeyWords + "," + str;
 					}
-					List<String>  fileSummarys =HanLP.extractSummary(result, 10);
-					String _fileSummarys="";
-					for(String str:fileSummarys)
-					{
-						_fileSummarys=_fileSummarys+","+str;
+					List<String> fileSummarys = HanLP.extractSummary(result, 10);
+					String _fileSummarys = "";
+					for (String str : fileSummarys) {
+						_fileSummarys = _fileSummarys + "," + str;
 					}
-					
-					document.add(new TextField("fileKeyWords",_fileKeyWords, Field.Store.YES));
-					
-					document.add(new StringField("fileSummarys",_fileSummarys.toString(), Field.Store.YES));
-					}
-				} catch (Exception e) {
-					close(indexWriter,directory);
-					e.printStackTrace();
-				} finally {
-					if (is != null) {
-						try {
-							is.close();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					if (PDdoc != null) {
-						try {
-							PDdoc.close();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-					
+					document.add(new TextField("fileKeyWords", _fileKeyWords, Field.Store.YES));
+
+					document.add(new StringField("fileSummarys", _fileSummarys.toString(), Field.Store.YES));
 				}
 			}else{
 				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+"."+file.getFileName(), 10);
