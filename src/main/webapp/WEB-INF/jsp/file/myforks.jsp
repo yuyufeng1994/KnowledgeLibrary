@@ -223,10 +223,7 @@
 	<!-- content end -->
 </body>
 <script type="text/javascript">
-(window).load(function() {
-	//加载收藏夹
-	findDoc('#select');
-});
+
 //添加收藏夹
 $(function() {
   $('#doc-prompt-toggle-add').on('click', function() {
@@ -337,8 +334,10 @@ function gotoPage(page) {
 }
 //回显
 $(".modify").click(function(){
+	
 	var node=$(this).parent().parent().parent().parent();
     var fileName=node.find("#fileName").html();
+    alert(fileName);
     $("#cFileName").val(fileName);
     var forkId=node.find("#forkId").val();
     $("#cForkId").val(forkId);
@@ -409,6 +408,10 @@ function submit(){
 		}
 	    }) 
 }
+(window).load(function() {
+	//加载收藏夹
+	findDoc('#select');
+});
 </script>
 
 </html>
