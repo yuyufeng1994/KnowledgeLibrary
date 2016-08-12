@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 import com.lib.dto.JsonResult;
@@ -48,7 +49,6 @@ public class CountMainController {
 		JsonResult< List<ClickInfo>> jr = null;
 		try{
 			 List<ClickInfo> fileList = countService.getHotFiles();
-			 System.out.println(fileList);
 			jr = new JsonResult< List<ClickInfo>>(true, fileList);
 		}catch (Exception e) {
 			jr = new JsonResult< List<ClickInfo>>(false, "获取失败");
@@ -67,22 +67,17 @@ public class CountMainController {
 		}
 		return jr;
 	}
-	/*
 	@ResponseBody
-	@RequestMapping(value="/count/hot-classes", method = RequestMethod.GET)
-	public JsonResult<Map< List<ClassesClickInfo>,List<ClickInfo>>> getHotClasses(){
-		JsonResult< Map< List<ClassesClickInfo>,List<ClickInfo>>> jr = null;
+	@RequestMapping(value="/count/active-user", method = RequestMethod.GET)
+	public JsonResult< List<ActiveUserInfo>> getActiveUsers(){
+		JsonResult< List<ActiveUserInfo>> jr = null;
 		try{
-			Map< List<ClassesClickInfo>,List<ClickInfo>> map = new LinkedHashMap< List<ClassesClickInfo>,List<ClickInfo>>();
-			 List<ClassesClickInfo> classList = countService.getHotClass(1);
-			 List<ClickInfo> fileList = countService.getHotFiles();
-			 map.put(classList, fileList);
-			 System.out.println(fileList);
-			jr = new JsonResult<Map< List<ClassesClickInfo>,List<ClickInfo>>>(true, map);
+			 List<ActiveUserInfo> classesClickInfos = countService.getActiveUsers(1);
+			 System.out.println(classesClickInfos);
+			jr = new JsonResult< List<ActiveUserInfo>>(true, classesClickInfos);
 		}catch (Exception e) {
-			jr = new JsonResult< Map< List<ClassesClickInfo>,List<ClickInfo>>>(false, "获取失败");
+			jr = new JsonResult< List<ActiveUserInfo>>(false, "获取失败");
 		}
 		return jr;
 	}
-	*/
 }

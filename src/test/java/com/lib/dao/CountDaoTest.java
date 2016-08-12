@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 import com.sun.star.util.DateTime;
@@ -74,5 +75,39 @@ public class CountDaoTest {
 
 		Long l = countDao.getClickTimes(dBefore,1l);
 		System.out.println(l);
+	}
+	@Test
+	public void getActiveUsersTest(){
+		Date dNow = new Date(); //当前时间
+		Date dBefore = new Date();
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(dNow);//把当前时间赋给日历
+		calendar.add(calendar.MONTH, -1); //设置为前1月
+		dBefore = calendar.getTime(); //得到前1月的时间
+		List<ActiveUserInfo> activeUserInfos = countDao.getActiveUsers(dBefore);
+		System.out.println(activeUserInfos);
+	}
+	@Test
+	public void getUserForkFileTimes(){
+		Date dNow = new Date(); //当前时间
+		Date dBefore = new Date();
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(dNow);//把当前时间赋给日历
+		calendar.add(calendar.MONTH, -1); //设置为前1月
+		dBefore = calendar.getTime(); //得到前1月的时间
+//		List<ActiveUserInfo> activeUserInfos = countDao.getActiveUsers(dBefore);
+		System.out.println(1+""+countDao.getUserForkFileTimes(dBefore, 2016001l));
+	}
+	
+	@Test
+	public void getUserClickTimes(){
+		Date dNow = new Date(); //当前时间
+		Date dBefore = new Date();
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(dNow);//把当前时间赋给日历
+		calendar.add(calendar.MONTH, -1); //设置为前1月
+		dBefore = calendar.getTime(); //得到前1月的时间
+//		List<ActiveUserInfo> activeUserInfos = countDao.getActiveUsers(dBefore);
+		System.out.println(countDao.getUserClickTimes(dBefore, 2016001l));
 	}
 }

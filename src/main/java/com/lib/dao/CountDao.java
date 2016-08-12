@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 
@@ -71,4 +72,26 @@ public interface CountDao {
 	 * @return
 	 */
 	Long getClickTimes(@Param("time") Date time,@Param("classId") Long classId);
+	
+	/**
+	 * 获取活跃用户
+	 * @param time
+	 * @return
+	 */
+	List<ActiveUserInfo> getActiveUsers(@Param("time") Date time);
+	
+	/**
+	 * 获取活跃用户的收藏量
+	 * @param time
+	 * @param userId
+	 * @return
+	 */
+	Long getUserForkFileTimes(@Param("time") Date time,@Param("userId") Long userId);
+	/**
+	 * 获取用户点击量
+	 * @param time
+	 * @param userId
+	 * @return
+	 */
+	Long getUserClickTimes(@Param("time") Date time,@Param("userId") Long userId);
 }
