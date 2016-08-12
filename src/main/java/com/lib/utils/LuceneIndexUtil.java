@@ -40,7 +40,7 @@ public class LuceneIndexUtil {
 		@Override
 		protected TokenStreamComponents createComponents(String arg0) {
 			Tokenizer tokenizer = new HanLPTokenizer(
-					HanLP.newSegment().enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
+					HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
 							.enableNameRecognize(true).enablePlaceRecognize(true),
 							 null,true);
 			return new TokenStreamComponents(tokenizer);

@@ -68,18 +68,18 @@ public class LuceneSearchUtil {
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
-	//private static Analyzer analyzer =  new HanLPAnalyzer();
+	private static Analyzer analyzer =  new HanLPAnalyzer();
 	// 词法分析器
-		private static Analyzer analyzer = new HanLPAnalyzer() {
+	/*private static Analyzer analyzer = new HanLPAnalyzer() {
 			@Override
 			protected TokenStreamComponents createComponents(String arg0) {
 				Tokenizer tokenizer = new HanLPTokenizer(
-						HanLP.newSegment().enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
+						HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
 								.enableNameRecognize(true).enablePlaceRecognize(true),
 								 null,true);
 				return new TokenStreamComponents(tokenizer);
 			}
-		};
+		};*/
 	//关键字查询条件
 	private static Query queryText = null;
 	
@@ -149,6 +149,7 @@ public class LuceneSearchUtil {
 
 			}
 			
+		if(file.getFileCreateTime()!=null||endTime!=null){	
 				
 			// 查询条件二日期
 			Date sDate = file.getFileCreateTime();
@@ -157,7 +158,6 @@ public class LuceneSearchUtil {
 				calendar.set(1900, 0, 1);
 				sDate = calendar.getTime();
 			}
-
 			Date eDate = endTime;// TODO
 			// 若只有起始值结束值默认为当天
 			if ((eDate == null || "".equals(eDate))) {
@@ -179,8 +179,7 @@ public class LuceneSearchUtil {
 					Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
 					booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
 			}
-
-			
+			}
 			// 查询条件三分类查询
 			if(fileClassId!=null)
 			{	

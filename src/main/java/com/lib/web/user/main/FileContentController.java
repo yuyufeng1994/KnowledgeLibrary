@@ -112,7 +112,7 @@ public class FileContentController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/findAllByUserId", method = RequestMethod.POST)
+	@RequestMapping(value = "/findAllByUserId", method = RequestMethod.GET)
 	public @ResponseBody JsonResult findAllByUserId(HttpSession session) {
 
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
