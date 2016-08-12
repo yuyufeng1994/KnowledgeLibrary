@@ -96,4 +96,9 @@
 		select count(c.click_id) from click_info c
 		where c.click_time >#{time} and  c.user_id = #{userId}
 	</select>
+	
+	<select id ="getUploadTimesByTime"  resultType="Long">
+		select count(file_id) from file_info
+		where file_create_time between #{time1} and #{time2}
+	</select>
 </mapper>

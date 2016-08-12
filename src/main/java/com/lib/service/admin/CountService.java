@@ -30,5 +30,11 @@ public interface CountService {
 	 * @return
 	 */
 	public List<ActiveUserInfo> getActiveUsers(int before);
+	
+	/**
+	 * 获取一个月每天的上传文件数
+	 * @return
+	 */
+	public List<Long> getUploadTimesByTime();
 }
 

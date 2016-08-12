@@ -25,85 +25,76 @@
 							<div id="recent-charts" style="width: 800px; height: 350px;"></div>
 							<script type="text/javascript">
 								// 基于准备好的dom，初始化echarts实例
-								var recentChart = echarts.init(document
-										.getElementById('recent-charts'));
-								function randomData() {
-									now = new Date(+now + oneDay);
-									value = value + Math.random() * 21 - 10;
-									return {
-										name : now.toString(),
-										value : [
-												[ now.getFullYear(),
-														now.getMonth() + 1,
-														now.getDate() ]
-														.join('/'),
-												Math.round(value) ]
-									}
-								}
+								$(function(){
+									var url = "admin/count/recent-files";
+									$.get(url,function(data){
+										console.log(data.data);
+										var dataList = data.data;
+										var recentChart = echarts.init(document
+												.getElementById('recent-charts'));
+										var k = 0;
+										function randomData() {
+										    now = new Date(+now + oneDay);
+										    value = list[k++];
+										    return {
+										        name: now.toString(),
+										        value: [
+										            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+										           value
+										        ]
+										    }
+										}
 
-								var data = [];
-								var now = +new Date(1997, 9, 3);
-								var oneDay = 24 * 3600 * 1000;
-								var value = Math.random() * 1000;
-								for (var i = 0; i < 1000; i++) {
-									data.push(randomData());
-								}
+										var data = [];
+										var before = new Date();
+										var list = dataList;
+										before.setMonth(before.getMonth()-1);
+										var now = +new Date(before);
+										var oneDay = 24 * 3600 * 1000;
+										var value = Math.random() * 1000;
+										for (var i = 0; i <32; i++) {
+										    data.push(randomData());
+										}
 
-								option = {
-									title : {
-										text : '动态数据 + 时间坐标轴'
-									},
-									tooltip : {
-										trigger : 'axis',
-										formatter : function(params) {
-											params = params[0];
-											var date = new Date(params.name);
-											return date.getDate() + '/'
-													+ (date.getMonth() + 1)
-													+ '/' + date.getFullYear()
-													+ ' : ' + params.value[1];
-										},
-										axisPointer : {
-											animation : false
-										}
-									},
-									xAxis : {
-										type : 'time',
-										splitLine : {
-											show : false
-										}
-									},
-									yAxis : {
-										type : 'value',
-										boundaryGap : [ 0, '100%' ],
-										splitLine : {
-											show : false
-										}
-									},
-									series : [ {
-										name : '模拟数据',
-										type : 'line',
-										showSymbol : false,
-										hoverAnimation : false,
-										data : data
-									} ]
-								};
-								//时时数据
-								/*
-									app.timeTicket = setInterval(function() {
-								
-										for (var i = 0; i < 5; i++) {
-											data.shift();
-											data.push(randomData());
-										}
-								
-										myChart.setOption({
-											series : [ {
-												data : data
-											} ]
-										});
-									}, 1000);*/
-								recentChart.setOption(option);
+										option = {
+										    title: {
+										        text: '文件上传实时数据'
+										    },
+										    tooltip: {
+										        trigger: 'axis',
+										        formatter: function (params) {
+										            params = params[0];
+										            var date = new Date(params.name);
+										            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : 上传量' + params.value[1];
+										        },
+										        axisPointer: {
+										            animation: false
+										        }
+										    },
+										    xAxis: {
+										        type: 'time',
+										        splitLine: {
+										            show: false
+										        }
+										    },
+										    yAxis: {
+										        type: 'value',
+										        boundaryGap: [0, '100%'],
+										        splitLine: {
+										            show: false
+										        }
+										    },
+										    series: [{
+										        name: '模拟数据',
+										        type: 'line',
+										        showSymbol: false,
+										        hoverAnimation: false,
+										        data: data
+										    }]
+										};
+										recentChart.setOption(option);
+									});
+								});
 							</script>
 						</div>
 					</div>
@@ -148,7 +139,11 @@
 												            data :fileNames,
 												            axisTick: {
 												                alignWithLabel: true
-												            }
+												            },
+												            axisLabel : {  
+									                            show:true,  
+									                            interval: 0  
+									                        }  
 												        }
 												    ],
 												    yAxis : [
@@ -175,7 +170,8 @@
 
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">热门分类排行</div>
-						<div class="am-panel-bd am-collapse am-in" id="collapse-panel-hot-class">
+						<div class="am-panel-bd am-collapse am-in"
+							id="collapse-panel-hot-class">
 							<div id="hotClass-charts" style="width: 500px; height: 450px;"></div>
 							<script type="text/javascript">
 								$(function(){
@@ -272,7 +268,6 @@
 								$(function(){
 									var url = "admin/count/active-user";
 									$.get(url,function(data){
-										console.log(data.data);
 										var dataList = data.data;
 										var name = [];
 										var clickTimes = [];

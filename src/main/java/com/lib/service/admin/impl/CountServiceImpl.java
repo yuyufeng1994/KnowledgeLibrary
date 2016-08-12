@@ -73,4 +73,22 @@ public class CountServiceImpl implements CountService {
 		}
 		return activeUserInfos;
 	}
+
+	@Override
+	public List<Long> getUploadTimesByTime() {
+		Date now = new Date(); //当前时间
+		Date before = null;
+		List<Long> list = new ArrayList<Long>();
+		for(int i = 1;i<=31;i++){
+		Calendar   cal   =   Calendar.getInstance();
+		 cal.add(Calendar.DATE,   -i);
+		 before = cal.getTime();
+		 now.setHours(0);
+		 before.setHours(0);
+		 Long l = countDao.getUploadTimesByTime(before, now);
+		 list.add(l);
+		 now = before;
+		}
+		return list;
+	}
 }
