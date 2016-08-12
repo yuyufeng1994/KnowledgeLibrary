@@ -101,4 +101,12 @@ public interface CountDao {
 	 * @return
 	 */
 	Long getUploadTimesByTime(@Param("time1") Date time1,@Param("time2") Date time2);
+	
+	/**
+	 * 根据时间段获得网站点击率
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	Long getClickTimesByTime(@Param("time1") Date time1,@Param("time2") Date time2);
 }
