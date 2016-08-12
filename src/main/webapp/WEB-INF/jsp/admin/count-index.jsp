@@ -181,9 +181,7 @@
 								$(function(){
 									var url = "admin/count/hot-classes";
 									$.get(url,function(data){
-										console.log(data.data);
 										var dataList = data.data;
-										console.log(dataList[0]);
 										var name = [];
 										var clickTimes = [];
 										var forkTimes = [];
@@ -196,7 +194,6 @@
 											uploadTimes[i] = dataList[i].uploadFileTimes;
 											hot[i] = dataList[i].score;
 										}
-										console.log(name);
 										var hotClassCharts = echarts.init(document.getElementById('hotClass-charts'));
 										option = {
 											    tooltip : {
@@ -237,7 +234,7 @@
 											                    }
 											                },
 											                data : [
-											                    [{type : 'min'}, {type : 'max'}]
+											                    [{type : 'max'}, {type : 'min'}]
 											                ]
 											            }
 											        },
@@ -269,7 +266,92 @@
 				<div class="am-u-md-6">
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">活跃用户排行</div>
-						<div class="am-panel-bd" id="collapse-panel-hot-user">图表统计显示</div>
+						<div class="am-panel-bd" id="collapse-panel-hot-user">
+							<div id="activeUser-charts" style="width: 500px; height: 450px;"></div>
+							<script type="text/javascript">
+								$(function(){
+									var url = "admin/count/active-user";
+									$.get(url,function(data){
+										console.log(data.data);
+										var dataList = data.data;
+										var name = [];
+										var clickTimes = [];
+										var forkTimes = [];
+										var uploadTimes = [];
+										var active = [];
+										for(var i = 0;i<dataList.length;i++){
+											name[i] = dataList[i].userName;
+											clickTimes[i] = dataList[i].clickFileTimes;
+											forkTimes[i] = dataList[i].forkFileTimes;
+											uploadTimes[i] = dataList[i].uploadFileTimes;
+											active[i] = dataList[i].active;
+										}
+										var activeUserCharts = echarts.init(document.getElementById('activeUser-charts'));
+										option = {
+											    tooltip : {
+											        trigger: 'axis',
+											        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+											            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+											        }
+											    },
+											    legend: {
+											        data:['活跃度','上传量','点击量','收藏量']
+											    },
+											    grid: {
+											        left: '2%',
+											        right: '4%',
+											        bottom: '3%',
+											        containLabel: true
+											    },
+											    xAxis : [
+											        {
+											            type : 'category',
+											            data : name
+											        }
+											    ],
+											    yAxis : [
+											        {
+											            type : 'value'
+											        }
+											    ],
+											    series : [
+											        {
+											            name:'热度',
+											            type:'bar',
+											            data:active,
+											            markLine : {
+											                lineStyle: {
+											                    normal: {
+											                        type: 'dashed'
+											                    }
+											                },
+											                data : [
+											                    [{type : 'max'}, {type : 'min'}]
+											                ]
+											            }
+											        },
+											        {
+											            name:'上传量',
+											            type:'bar',
+											            data:uploadTimes
+											        },
+											        {
+											            name:'点击量',
+											            type:'bar',
+											            data:clickTimes
+											        },
+											        {
+											            name:'收藏量',
+											            type:'bar',
+											            data:forkTimes
+											        },
+											    ]
+											};
+										activeUserCharts.setOption(option);
+									});
+								});
+							</script>
+						</div>
 					</div>
 
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.lib.dao.CountDao;
 import com.lib.dao.FileInfoDao;
+import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 import com.lib.entity.FileInfo;
@@ -50,5 +51,26 @@ public class CountServiceImpl implements CountService {
 			classesClickInfo.setScore(score);
 		}
 		return classesClickInfos;
+	}
+
+	@Override
+	public List<ActiveUserInfo> getActiveUsers(int before) {
+		Date dNow = new Date(); //当前时间
+		Date dBefore = new Date();
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(dNow);//把当前时间赋给日历
+		calendar.add(calendar.MONTH, -before); //设置为前1月
+		dBefore = calendar.getTime(); //得到前1月的时间
+		List<ActiveUserInfo> activeUserInfos = countDao.getActiveUsers(dBefore);
+		for(int i = 0;i<activeUserInfos.size();i++){
+			ActiveUserInfo activeUserInfo = activeUserInfos.get(i);
+			Long userForkFileTimes = countDao.getUserForkFileTimes(dBefore, activeUserInfo.getUserId());
+			Long userClickTimes = countDao.getUserClickTimes(dBefore, activeUserInfo.getUserId());
+			activeUserInfo.setForkFileTimes(userForkFileTimes);
+			activeUserInfo.setClickFileTimes(userClickTimes);
+			Long active = activeUserInfo.getUploadFileTimes()*10+activeUserInfo.getForkFileTimes()*5+activeUserInfo.getClickFileTimes();
+			activeUserInfo.setActive(active);
+		}
+		return activeUserInfos;
 	}
 }

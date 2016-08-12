@@ -34,32 +34,66 @@
 	</select>
 
 	<select id="getHotFiles" resultType="com.lib.dto.ClickInfo">
-		select c.*, count(c.file_id) 'fileClickTimes' ,f.file_name 'fileName'  from click_info c
-		join file_info f on c.file_id = f.file_id
+		select c.*, count(c.file_id)
+		'fileClickTimes' ,f.file_name 'fileName' from click_info c
+		join
+		file_info f on c.file_id = f.file_id
 		GROUP BY c.file_id
-		ORDER BY fileClickTimes DESC
+		ORDER BY
+		fileClickTimes DESC
 		LIMIT 7;
 	</select>
-	<select id="getHotClasses" parameterType="java.util.Date" resultType="com.lib.dto.ClassesClickInfo">
-		select count(file.file_id) 'uploadFileTimes', classification_id  'classId',classification_name 'className' 
+	<select id="getHotClasses" parameterType="java.util.Date"
+		resultType="com.lib.dto.ClassesClickInfo">
+		select count(file.file_id) 'uploadFileTimes',
+		classification_id 'classId',classification_name 'className'
 		from file_info file
-		join classification cl on cl.classification_id = file.file_class_id
+		join classification cl on cl.classification_id =
+		file.file_class_id
 		where file.file_create_time >#{time}
-		group by cl.classification_id
+		group by
+		cl.classification_id
 		ORDER BY uploadFileTimes DESC
 	</select>
-	
+
 	<select id="getForkFileTimes" resultType="Long">
-		select count(file.file_id) 
+		select
+		count(file.file_id)
 		from file_info file
 		join fork_info fo on fo.file_id = file.file_id
-		where file.file_create_time >#{time}
+		where
+		file.file_create_time >#{time}
 		and file.file_class_id = #{classId}
 	</select>
-	
+
 	<select id="getClickTimes" resultType="Long">
-		select  count(c.file_id)  from click_info c
+		select count(c.file_id)
+		from click_info c
 		join file_info f on c.file_id = f.file_id
-		where f.file_class_id = #{classId}
+		where c.click_time >#{time}
+		and f.file_class_id = #{classId}
+	</select>
+
+
+	<select id="getActiveUsers" parameterType="java.util.Date"
+		resultType="com.lib.dto.ActiveUserInfo">
+		select count(file.file_id) 'uploadFileTimes', u.user_id
+		'userId',u.user_name 'userName'
+		from file_info file
+		join user_info u on
+		u.user_id = file.file_user_id
+		where file.file_create_time >#{time}
+		group by file.file_user_id
+		ORDER BY uploadFileTimes DESC
+	</select>
+	<select id="getUserForkFileTimes"  resultType="Long">
+		select count(f.fork_id) from file_info file
+		join fork_info f on file.file_id = f.file_id
+		where file.file_create_time >#{time}
+		and file.file_user_id = #{userId}
+	</select>
+	<select id="getUserClickTimes"  resultType="Long">
+		select count(c.click_id) from click_info c
+		where c.click_time >#{time} and  c.user_id = #{userId}
 	</select>
 </mapper>

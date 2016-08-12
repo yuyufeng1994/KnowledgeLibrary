@@ -3,6 +3,7 @@ package com.lib.service.admin;
 
 import java.util.List;
 
+import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
 
@@ -23,5 +24,11 @@ public interface CountService {
 	 * @return
 	 */
 	public List<ClassesClickInfo> getHotClass(int before);
+	
+	/**
+	 * 获取活跃用户
+	 * @return
+	 */
+	public List<ActiveUserInfo> getActiveUsers(int before);
 }
 
