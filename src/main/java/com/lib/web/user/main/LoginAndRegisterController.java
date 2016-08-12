@@ -203,7 +203,7 @@ public class LoginAndRegisterController {
 			} else {
 				result = "<font  class='am-btn-danger'>必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个 </font>";
 			}
-		}
+		} 
 		if (user.getUserPassword() != null && repassword != null) {
 			String strConfirm = new String(user.getUserPassword());
 			String strPwd = new String(repassword);
