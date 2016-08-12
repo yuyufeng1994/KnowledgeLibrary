@@ -86,7 +86,6 @@ public class CountMainController {
 		JsonResult< List<ActiveUserInfo>> jr = null;
 		try{
 			 List<ActiveUserInfo> classesClickInfos = countService.getActiveUsers(1);
-			 System.out.println(classesClickInfos);
 			jr = new JsonResult< List<ActiveUserInfo>>(true, classesClickInfos);
 		}catch (Exception e) {
 			jr = new JsonResult< List<ActiveUserInfo>>(false, "获取失败");
@@ -104,7 +103,6 @@ public class CountMainController {
 		try{
 			 List<Long> list = countService.getUploadTimesByTime();
 			 Collections.reverse(list);//倒序排列
-			 System.out.println(list);
 			jr = new JsonResult< List<Long>>(true, list);
 		}catch (Exception e) {
 			jr = new JsonResult< List<Long>>(false, "获取失败");
@@ -122,7 +120,6 @@ public class CountMainController {
 		try{
 			 List<Long> list = countService.getClickTimesByTime();
 			 Collections.reverse(list);//倒序排列
-			 System.out.println(list);
 			jr = new JsonResult< List<Long>>(true, list);
 		}catch (Exception e) {
 			jr = new JsonResult< List<Long>>(false, "获取失败");

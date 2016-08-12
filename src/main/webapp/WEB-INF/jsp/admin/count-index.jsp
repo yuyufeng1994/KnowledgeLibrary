@@ -28,7 +28,6 @@
 								$(function(){
 									var url = "admin/count/recent-files";
 									$.get(url,function(data){
-										console.log(data.data);
 										var dataList = data.data;
 										var recentChart = echarts.init(document
 												.getElementById('recent-charts'));
@@ -359,7 +358,6 @@
 								$(function(){
 									var url = "admin/count/click-times";
 									$.get(url,function(data){
-										console.log(data.data);
 										var dataList = data.data;
 										var recentChart = echarts.init(document
 												.getElementById('click-charts'));
