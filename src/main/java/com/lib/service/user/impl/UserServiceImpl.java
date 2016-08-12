@@ -13,6 +13,7 @@ import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
+import com.lib.exception.user.UserNoActiveException;
 import com.lib.exception.user.UserNullAccountException;
 import com.lib.exception.user.UserPasswordWrongException;
 import com.lib.service.user.UserService;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
 		} else if (!record.getUserPassword().equals(StringValueUtil.getMD5(user.getUserPassword()))) {
 			LOG.warn(record.getUserId() + "登录密码错误");
 			throw new UserPasswordWrongException("用户密码错误");
+		}else if(record.getUserType() == 2){
+			throw new UserNoActiveException("用户未激活");
 		}
 	}
 

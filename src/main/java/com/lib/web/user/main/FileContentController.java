@@ -63,7 +63,7 @@ public class FileContentController {
 	private ForkInfoService forkInfoService;
 	// 收藏操作service
 	@Autowired
-	private ClassificationService classificationService ;
+	private ClassificationService classificationService;
 
 	/**
 	 * 更新缩略图
@@ -80,7 +80,7 @@ public class FileContentController {
 		Boolean compressState = (Boolean) session.getAttribute(Const.SESSION_IS_COMPRESSING);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		FileInfoVO file = fileInfoService.getFileInfoByUuid(uuid);
-		FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + file.getFilePath()+".png"), files[0].getBytes());
+		FileUtils.writeByteArrayToFile(new File(Const.ROOT_PATH + file.getFilePath() + ".png"), files[0].getBytes());
 
 		return "success";
 	}
@@ -95,8 +95,14 @@ public class FileContentController {
 	public String upload(Model model, @PathVariable("uuid") String uuid, HttpSession session) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
+		if (fileInfo.getFileState() != 5) {
+			if (!user.getUserId().equals(fileInfo.getFileUserId())) {
+				model.addAttribute("message", "无权访问此文档！");
+				return "message";
+			}
+		}
 		model.addAttribute("fileInfo", fileInfo);
-		fileInfoService.addClick(user.getUserId(),fileInfo.getFileId());
+		fileInfoService.addClick(user.getUserId(), fileInfo.getFileId());
 		return "file/content";
 	}
 
@@ -231,6 +237,7 @@ public class FileContentController {
 
 	/**
 	 * 获取一层子节点
+	 * 
 	 * @param forkId
 	 * @param session
 	 * @return
@@ -238,7 +245,7 @@ public class FileContentController {
 	@RequestMapping(value = "/getClass", method = RequestMethod.POST)
 	public @ResponseBody JsonResult getClass(Long classId) {
 		JsonResult jr = new JsonResult(true, "获取成功");
-		List<Classification> vo=classificationService.findOneChildById(classId);
+		List<Classification> vo = classificationService.findOneChildById(classId);
 		jr.setData(vo);
 		return jr;
 	}

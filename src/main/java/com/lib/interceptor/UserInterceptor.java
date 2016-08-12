@@ -70,6 +70,10 @@ public class UserInterceptor implements HandlerInterceptor {
 					userService.checkUserByEmail(user);
 					// 在session中保存用户基本信息
 					UserInfo userBasicInfo = userService.getBasicUserInfoByEmail(user.getUserEmail());
+					if(userBasicInfo.getUserType() == 2){
+						response.sendRedirect(request.getContextPath() + "/illegal-notConfirm");
+						return false;
+					}
 					session.setAttribute(Const.SESSION_USER, userBasicInfo);
 					return true;
 				} catch (Exception e) {
