@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -33,11 +32,11 @@ import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
-import org.apache.lucene.search.highlight.TokenSources;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.codehaus.plexus.util.FileUtils;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
@@ -70,13 +69,13 @@ public class LuceneSearchUtil {
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
+	/*private static Analyzer analyzer =  new IKAnalyzer();*/
 	private static Analyzer analyzer = new HanLPAnalyzer() {
 		@Override
 		protected TokenStreamComponents createComponents(String arg0) {
 			Tokenizer tokenizer = new HanLPTokenizer(
-					HanLP.newSegment().enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
-							.enableNameRecognize(true).enablePlaceRecognize(true),
-					null, false);
+					HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true).enableNameRecognize(true).enablePlaceRecognize(true),
+					null, true);
 			return new TokenStreamComponents(tokenizer);
 		}
 	};
@@ -334,7 +333,7 @@ public class LuceneSearchUtil {
 					String fileText = "";
 					if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
 //						System.out.println(file.get("fileText"));
-						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 300);
+						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
 						if (!"".equals(fileText) && fileText != null)
 							vo.setFileText(fileText);
 					}
@@ -381,7 +380,7 @@ public class LuceneSearchUtil {
 				}
 				}catch(Exception e)
 				{
-					//e.printStackTrace();//TODO
+				   e.printStackTrace();//TODO
 				}
 				// System.out.println(vo);
 				page.add(vo);

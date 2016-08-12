@@ -9,6 +9,7 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.txt.TXTParser;
 /*import org.apache.tika.parser.asm.ClassParser;
 import org.apache.tika.parser.html.HtmlParser;
@@ -44,6 +45,7 @@ public class ExtractUtil {
             /*for(String name:metadata.names()) {  
                 System.out.println(name+":"+metadata.get(name));  
             } */
+            //System.out.println(handler.toString());
             return handler.toString();  
         }catch (Exception e){  
             e.printStackTrace();  

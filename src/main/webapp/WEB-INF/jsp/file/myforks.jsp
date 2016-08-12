@@ -37,6 +37,7 @@
             <select id="select"  data-am-selected="{searchBox: 1}" style="display: none;">
               
             </select>
+            
           </div>
         </div>
         <div class="am-u-sm-12 am-u-md-3">
@@ -287,11 +288,12 @@ $(function() {
 function findDoc(selectId){
 var str=window.location.pathname;
 var strs=str.split("/");
+
 var docName=$("#cDocName").val();
 
 $.ajax({
 	url : "user/findAllByUserId",
-	type : "get",
+	type : "post",
 	datatype : "json",
 	//ansyn : false,
 	success : function(JsonResult) {
@@ -380,7 +382,8 @@ $("#select").change(function(){
 		url = "user/myforks/"+docId+"/1"+search;
 	}
 	window.location.href = url;
-})
+});
+findDoc('#select');
 //提交修改
 function submit(){
 	
@@ -404,14 +407,10 @@ function submit(){
 			var node=$("tr").find("input[value="+forkId+"]").parent();
 			node.find("#docName").text(docName);
 			node.find("#forkNote").text(forkNote);
-			alert(JsonResult.error);
 		}
 	    }) 
 }
-(window).load(function() {
-	//加载收藏夹
-	findDoc('#select');
-});
+
 </script>
 
 </html>
