@@ -68,9 +68,9 @@ public class LuceneSearchUtil {
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
-	private static Analyzer analyzer =  new HanLPAnalyzer();
+	//private static Analyzer analyzer =  new HanLPAnalyzer();
 	// 词法分析器
-	/*private static Analyzer analyzer = new HanLPAnalyzer() {
+	private static Analyzer analyzer = new HanLPAnalyzer() {
 			@Override
 			protected TokenStreamComponents createComponents(String arg0) {
 				Tokenizer tokenizer = new HanLPTokenizer(
@@ -79,7 +79,7 @@ public class LuceneSearchUtil {
 								 null,true);
 				return new TokenStreamComponents(tokenizer);
 			}
-		};*/
+	};
 	//关键字查询条件
 	private static Query queryText = null;
 	
@@ -646,7 +646,9 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(termQuery, 10);
 
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
+				
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
+				
 				Long fileId = Long.valueOf(document.get("fileId"));
 				String fileName = document.get("fileName");
 				String fileUuid = document.get("fileUuid");
