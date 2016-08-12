@@ -48,20 +48,36 @@
 		where
 		f.file_name like #{searchValue}
 	</select>
-	
+
+	<select id="getRecentHotFile" resultType="com.lib.dto.FileInfoVO">
+		SELECT
+		f.file_id,
+		COUNT(c.file_id) as ct,file_name,
+		file_size, file_ext, file_user_id, file_uuid, file_path,file_brief,
+		file_state,
+		file_class_id
+		FROM click_info c LEFT JOIN
+		file_info f on f.file_id = c.file_id where f.file_state = 5 GROUP BY f.file_id order BY ct desc
+		LIMIT 0,7
+	</select>
+
+
 	<select id="getRecentShare" resultType="com.lib.dto.FileInfoVO">
 		select
-		file_id,
+		f.file_id,
 		file_name,
 		file_size, file_ext, file_user_id, file_uuid, file_path,
 		file_state,
 		file_class_id,
-		file_create_time,file_brief,user_name
+		file_create_time,file_brief,user_name,click_time
 		from
-		file_info f left join user_info u on f.file_user_id = u.user_id
-		where f.file_state = 5 order by file_create_time desc limit 0,7
+		file_info f
+		left join user_info u on f.file_user_id = u.user_id left
+		join click_info c on f.file_id = c.file_id
+		where f.file_state
+		= 5 order by file_create_time desc limit 0,7
 	</select>
-	
+
 
 
 	<select id="getRecentFileInfoByUserId" resultType="com.lib.dto.FileInfoVO">
@@ -73,10 +89,12 @@
 		f.file_path,
 		f.file_state,
 		f.file_class_id,
-		c.click_time 'fileCreateTime',f.file_brief
+		c.click_time
+		'fileCreateTime',f.file_brief
 		from
 		file_info f left join click_info c
-		on f.file_id = c.file_id where c.user_id = #{userId}
+		on
+		f.file_id = c.file_id where c.user_id = #{userId}
 		order by
 		c.click_id
 		desc

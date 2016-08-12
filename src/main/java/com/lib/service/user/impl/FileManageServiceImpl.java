@@ -1,6 +1,7 @@
 package com.lib.service.user.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +100,12 @@ public class FileManageServiceImpl implements FileManageService {
 
 	@Override
 	public List<FileInfoVO> getRecenShareFile(Long userId) {
-		// TODO Auto-generated method stub
 		return fileInfoDao.getRecentShare();
+	}
+
+	@Override
+	public List<FileInfoVO> getRecentHotFile() {
+		return fileInfoDao.getRecentHotFile();
 	}
 
 }

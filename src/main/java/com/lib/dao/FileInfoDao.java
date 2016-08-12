@@ -1,5 +1,6 @@
 package com.lib.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -150,8 +151,18 @@ public interface FileInfoDao {
 
 	/**
 	 * 得到最近记录
+	 * 
 	 * @return
 	 */
 	List<FileInfoVO> getRecentShare();
+
+	/**
+	 * 获得近期点击率最高的文档
+	 * 
+	 * @param date
+	 * @param date2
+	 * @return
+	 */
+	List<FileInfoVO> getRecentHotFile();
 
 }

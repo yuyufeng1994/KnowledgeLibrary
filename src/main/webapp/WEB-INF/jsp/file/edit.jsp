@@ -417,7 +417,10 @@
 								<label for="file-breif" class="am-u-sm-3 am-form-label">简介</label>
 								<div class="am-u-sm-9">
 									<textarea class="" rows="5" id="file-breif" name="fileBrief"
-										placeholder="输入文件简介">${fileInfo.fileBrief }</textarea>
+										placeholder="输入文件简介"
+										<c:if test="${fileInfo.fileState == 3}">
+										 disabled
+										</c:if>><c:if test="${fileInfo.fileState > 3}">${fileInfo.fileBrief }</c:if><c:if test="${fileInfo.fileState == 3}">后台提取中...</c:if></textarea>
 									<small>简单描述文件内容...</small>
 								</div>
 							</div>
@@ -431,7 +434,7 @@
 									<a href="javascript:self.location=document.referrer;"
 										class="am-btn am-btn-default">返回</a>
 								</div>
- 								
+
 							</div>
 						</form>
 						<hr>

@@ -88,4 +88,10 @@ public interface FileManageService {
 	 */
 	List<FileInfoVO> getRecenShareFile(Long userId);
 
+	/**
+	 * 获得最近1个月热门文档前7
+	 * @return
+	 */
+	List<FileInfoVO> getRecentHotFile();
+
 }

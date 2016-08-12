@@ -60,11 +60,11 @@
 						<table class="am-table am-table-bd am-table-striped">
 							<thead>
 								<tr>
-									<th colspan="5">个性推荐</th>
+									<th colspan="5">近期热门</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${share }" var="f">
+								<c:forEach items="${hot }" var="f">
 									<tr>
 										<td><img src="user/thumbnail/${f.fileUuid}/png"
 											alt="null" class="am-img-thumbnail"
@@ -105,29 +105,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="am-panel am-panel-default">
-							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-2'}">
-								热门文档<span class="am-icon-chevron-down am-fr"></span>
-							</div>
-							<div id="collapse-panel-2" class="am-in">
-								<table class='am-table am-table-striped'>
-									<c:forEach items="${recent }" var="f">
-										<tr>
-											<td><img src="user/thumbnail/${f.fileUuid}/png"
-												alt="null" class="am-img-thumbnail"
-												style="width: 20px; height: 20px; overflow: hidden"></td>
-											<td><a target="_blank"
-												title="${f.fileName }.${f.fileExt }"
-												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
-											<td><fmt:formatDate value="${f.fileCreateTime }"
-													pattern="yyyy-MM-dd HH:mm:ss" /></td>
-										</tr>
-									</c:forEach>
 
-								</table>
-							</div>
-						</div>
 					</div>
 
 					<div class="am-u-md-6">
@@ -154,31 +132,9 @@
 								</table>
 							</div>
 						</div>
-						<div class="am-panel am-panel-default">
-							<div class="am-panel-hd am-cf"
-								data-am-collapse="{target: '#collapse-panel-sh'}">
-								最新分享<span class="am-icon-chevron-down am-fr"></span>
-							</div>
-							<div id="collapse-panel-sh" class="am-in">
-								<table class='am-table am-table-striped'>
-									<c:forEach items="${share }" var="f">
-										<tr>
-											<td><img src="user/thumbnail/${f.fileUuid}/png"
-												alt="null" class="am-img-thumbnail"
-												style="width: 20px; height: 20px; overflow: hidden"></td>
-											<td><a target="_blank"
-												title="${f.fileName }.${f.fileExt }"
-												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
-											<td><fmt:formatDate value="${f.fileCreateTime }"
-													pattern="yyyy-MM-dd HH:mm:ss" /></td>
-										</tr>
-									</c:forEach>
 
-								</table>
-							</div>
-						</div>
 					</div>
-				</div> 
+				</div>
 			</div>
 			<footer class="admin-content-footer">
 				<hr>

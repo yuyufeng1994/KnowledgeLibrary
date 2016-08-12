@@ -106,6 +106,11 @@ public class MainController {
 		// 获取最近分享
 		List<FileInfoVO> share = fileManageService.getRecenShareFile(user.getUserId());
 		model.addAttribute("share", share);
+		
+		
+		// 获取最近热门
+		List<FileInfoVO> hot = fileManageService.getRecentHotFile();
+		model.addAttribute("hot", hot);
 
 		return "main/index";
 	}

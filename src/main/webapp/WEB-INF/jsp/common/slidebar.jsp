@@ -28,7 +28,7 @@
 					<li><a href="user/upload"><span
 							class="am-icon-cloud-upload"></span> 知识导入</a></li>
 					<li><a href="user/newfile"><span
-							class="am-icon-pencil-square-o"></span> 新建文档</a></li>
+							class="am-icon-pencil-square-o"></span> 知识归纳</a></li>
 				</ul></li>
 
 			<li class="admin-parent"><a class="am-cf"
