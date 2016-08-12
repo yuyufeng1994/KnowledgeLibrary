@@ -21,7 +21,7 @@ public interface LuceneService {
 	 * 添加一个索引
 	 * @param fileInfo
 	 */
-	void addFileIndex(FileInfo fileInfo,String fileUserName);
+	void addFileIndex(FileInfo fileInfo,String fileUserName,String fileText);
 	
 	/**
 	 * 删除一个索引

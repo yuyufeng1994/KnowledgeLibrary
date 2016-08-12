@@ -33,6 +33,7 @@ import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.LuceneService;
 import com.lib.utils.HtmlToWord;
+import com.lib.utils.LuceneSearchUtil;
 import com.lib.utils.StringValueUtil;
 
 import net.sf.json.JSON;
@@ -108,7 +109,7 @@ public class FileNewController {
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
-			fi.setFileBrief("无");
+			fi.setFileBrief("");
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath("users/" + user.getUserId() + "/files/" + uuid);
@@ -172,22 +173,17 @@ public class FileNewController {
 			jr = new JsonResult(true, "修改成功");
 			return jr;
 		} else if (res != 0 && fileInfo.getFileState() == 5) {
-
-			// 删除索引
-			try {
-				searchService.deleteFileIndex(file);
-			} catch (Exception e) {
-			}
 			// 全文检索创立索引
 			try {
-				searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName());
-			} catch (Exception e) {
-			}
-		} else if (res != 0 && fileInfo.getFileState() != 5) {
-			try {
+				String fileText=LuceneSearchUtil.judge(file.getFileId());
+				//System.out.println(fileText);
 				searchService.deleteFileIndex(file);
+				searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),fileText);
 			} catch (Exception e) {
+				
 			}
+		}else{
+			searchService.deleteFileIndex(file);
 		}
 		jr = new JsonResult(false, "修改成功");
 		return jr;

@@ -67,7 +67,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		for (FileInfo f : files) {
 			f.setFileUserId(user.getUserId());
 			f.setFileClassId(1l);
-			f.setFileBrief("无");
+			f.setFileBrief("");
 			fileinfoDao.insert(f);
 			uuids.add(f.getFileUuid());
 		}
@@ -132,6 +132,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 		}
 		// 修改文件为私有可以查看
 		fileinfoDao.setFileStateByUuid(uuid, 6);
+		//创建索引
+		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),null);
 		
 	}
 

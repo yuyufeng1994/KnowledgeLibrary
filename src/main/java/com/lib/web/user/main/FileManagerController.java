@@ -203,7 +203,7 @@ public class FileManagerController {
 			fi.setFileName(fileName);
 			fi.setFileSize(files[0].getSize());
 			fi.setFileExt(ext);
-			fi.setFileBrief("无");
+			fi.setFileBrief("");
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath(userFilePath + uuid);

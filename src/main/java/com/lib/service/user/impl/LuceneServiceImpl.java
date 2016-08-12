@@ -62,8 +62,8 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public void addFileIndex(FileInfo fileInfo,String fileUserName) {
-		LuceneIndexUtil.addFileIndex(fileInfo,fileUserName);
+	public void addFileIndex(FileInfo fileInfo,String fileUserName,String fileText) {
+		LuceneIndexUtil.addFileIndex(fileInfo,fileUserName,fileText);
 	}
 
 	@Override

@@ -37,7 +37,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.codehaus.plexus.util.FileUtils;
 import org.wltea.analyzer.lucene.IKAnalyzer;
-
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
 import com.hankcs.lucene.HanLPTokenizer;
@@ -69,16 +68,18 @@ public class LuceneSearchUtil {
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
-	/*private static Analyzer analyzer =  new IKAnalyzer();*/
-	private static Analyzer analyzer = new HanLPAnalyzer() {
-		@Override
-		protected TokenStreamComponents createComponents(String arg0) {
-			Tokenizer tokenizer = new HanLPTokenizer(
-					HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true).enableNameRecognize(true).enablePlaceRecognize(true),
-					null, true);
-			return new TokenStreamComponents(tokenizer);
-		}
-	};
+	//private static Analyzer analyzer =  new HanLPAnalyzer();
+	// 词法分析器
+		private static Analyzer analyzer = new HanLPAnalyzer() {
+			@Override
+			protected TokenStreamComponents createComponents(String arg0) {
+				Tokenizer tokenizer = new HanLPTokenizer(
+						HanLP.newSegment().enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
+								.enableNameRecognize(true).enablePlaceRecognize(true),
+								 null,true);
+				return new TokenStreamComponents(tokenizer);
+			}
+		};
 	//关键字查询条件
 	private static Query queryText = null;
 	
@@ -221,9 +222,10 @@ public class LuceneSearchUtil {
 				}
 				booleanQuery.add(queryFileExt, BooleanClause.Occur.MUST);
 			}
-		
+			//查询条件五公开状态
+			TermQuery termQuery = new TermQuery(new Term("fileState", "5"));
+			booleanQuery.add(termQuery,BooleanClause.Occur.MUST);
 			oldBooleanQuery = booleanQuery;
-			
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 			// System.out.println(booleanQuery);
 			result = indexSearch.search(booleanQuery, 100000);
@@ -293,19 +295,18 @@ public class LuceneSearchUtil {
 
 				vo.setFileName(file.get("fileName"));
 				
-				if(file.get("fileSummarys")!=null)
-				vo.setFileBrief(file.get("fileSummarys").substring(0, file.get("fileSummarys").length()>150?150:file.get("fileSummarys").length()));
 
-				if (file.get("fileText") == null) {
-					if(file.get("fileBrief")!=null)
-					vo.setFileText(file.get("fileBrief").substring(0, file.get("fileBrief").length()>150?150:file.get("fileBrief").length()));
-				} else {
-					
-					vo.setFileText(file.get("fileText").substring(0, file.get("fileText").length()>150?150:file.get("fileText").length()));
+
+				if (file.get("fileBrief") != null&&!"".equals(file.get("fileBrief")))
+					vo.setFileBrief(file.get("fileBrief"));
+				else{
+					vo.setFileBrief(file.get("fileSummarys"));
 				}
 				
+				if (file.get("fileText")!= null&&!"".equals(file.get("fileText")))
+					vo.setFileText(file.get("fileText").substring(0,file.get("fileText").length() > 150 ? 150 : file.get("fileText").length()));
 				
-				if(file.get("fileKeyWords")!=null)
+				if(file.get("fileKeyWords")!=null&&!"".equals(file.get("fileKeyWords")))
 					
 				{	
 					String[] keyWords=file.get("fileKeyWords").split(",");
@@ -327,12 +328,11 @@ public class LuceneSearchUtil {
 					if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief"))) {
 						fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 100);
 						if (!"".equals(fileBrief) && fileBrief != null)
-							vo.setFileText(fileBrief);
+							vo.setFileBrief(fileBrief);
 					}
 
 					String fileText = "";
 					if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
-//						System.out.println(file.get("fileText"));
 						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
 						if (!"".equals(fileText) && fileText != null)
 							vo.setFileText(fileText);
@@ -405,7 +405,51 @@ public class LuceneSearchUtil {
 		else
 			return 0;
 	}
+	/**
+	 * 
+	 */
+	public static String judge(Long fileId){
+		
+		// 保存索引文件的地方
+		Directory directory = null;
+		// IndexReader reader=DirectoryReader
+		DirectoryReader ireader = null;
+		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
+		IndexSearcher indexSearch = null;
+		// 生成Query对象
+		Query query = null;
+		// new一个文档对象
+		Document document = new Document();
+		// 文件简介
+		String fileText = null;
+		try {
+			directory = FSDirectory.open(new File(indexPath).toPath());
 
+			ireader = DirectoryReader.open(directory);
+
+			indexSearch = new IndexSearcher(ireader);
+
+			// Term对象
+			Term term = new Term("fileId", fileId.toString());
+
+			TermQuery termQuery = new TermQuery(term);
+
+			TopDocs topdocs = indexSearch.search(termQuery, 1);
+			
+			if(topdocs.totalHits!=0)
+			{
+				document = indexSearch.doc(topdocs.scoreDocs[0].doc);
+				fileText=document.get("fileText");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(ireader, directory);
+		}
+		return fileText;
+		
+	}
 	/**
 	 * 获取简介
 	 * 

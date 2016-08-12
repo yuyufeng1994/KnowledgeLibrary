@@ -1,27 +1,21 @@
 package com.lib.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.pdfbox.pdfparser.PDFParser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
@@ -41,13 +35,14 @@ public class LuceneIndexUtil {
 	//索引存放路径
 	private static String indexPath=Const.ROOT_PATH+"lucene";
 	// 词法分析器
+	//private static Analyzer analyzer = new HanLPAnalyzer();
 	private static Analyzer analyzer = new HanLPAnalyzer() {
 		@Override
 		protected TokenStreamComponents createComponents(String arg0) {
 			Tokenizer tokenizer = new HanLPTokenizer(
 					HanLP.newSegment().enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
 							.enableNameRecognize(true).enablePlaceRecognize(true),
-					null, true);
+							 null,true);
 			return new TokenStreamComponents(tokenizer);
 		}
 	};
@@ -55,7 +50,7 @@ public class LuceneIndexUtil {
 	 * 添加文件索引
 	 * @param file
 	 */
-	public synchronized static void addFileIndex(FileInfo file,String fileUserName) {
+	public synchronized static void addFileIndex(FileInfo file,String fileUserName,String fileText) {
 		
 		Document document = new Document();
 		// 创建Directory对象
@@ -72,12 +67,21 @@ public class LuceneIndexUtil {
 			config = new IndexWriterConfig(analyzer);
 			config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 			indexWriter = new IndexWriter(directory, config);
-			// 判断是否需要建文档内容索引
-			if(new File(filePath).exists()&&!JudgeUtils.isVideoFile(file.getFileExt())&&!JudgeUtils.isAudioFile(file.getFileExt())&&!JudgeUtils.isImageFile(file.getFileExt())){
+			String result=null;
+			 // 判断是否需要建文档内容索引
+			
+			 if(fileText!=null&&!fileText.equals(""))
+			 {
+				 result=fileText;
+				 
+			 }else  if(new File(filePath).exists()&&!JudgeUtils.isVideoFile(file.getFileExt())&&!JudgeUtils.isAudioFile(file.getFileExt())&&!JudgeUtils.isImageFile(file.getFileExt())){
 				// 创建输入流读取pdf文件
-				String result = ExtractUtil.Parser(filePath,file.getFileExt());
+				result = ExtractUtil.Parser(filePath,file.getFileExt());
+				//System.out.println(result);
+			 }
 				
-				if (result!= "") {
+				
+			if (result!= "") {
 					document.add(new TextField("fileText", result, Field.Store.YES));
 
 					List<String> fileKeyWords = HanLP.extractKeyword(result, 10);
@@ -94,8 +98,8 @@ public class LuceneIndexUtil {
 					document.add(new TextField("fileKeyWords", _fileKeyWords, Field.Store.YES));
 
 					document.add(new StringField("fileSummarys", _fileSummarys.toString(), Field.Store.YES));
-				}
-			}else{
+			}
+			else{
 				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief()+"."+file.getFileName(), 10);
 				String _fileKeyWords="";
 				for(String str:fileKeyWords)
@@ -157,6 +161,7 @@ public class LuceneIndexUtil {
 		config = new IndexWriterConfig(analyzer);
 		config.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 	    indexWriter = new IndexWriter(directory, config);
+	    //System.out.println("删除成功");
 		indexWriter.deleteDocuments(new Term("fileId", file.getFileId() + ""));
 		} catch (Exception e) {
 			e.printStackTrace();
