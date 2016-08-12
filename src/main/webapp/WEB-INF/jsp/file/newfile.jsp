@@ -91,6 +91,7 @@
 				<table class="am-table am-table-bordered">
 					<thead>
 						<tr>
+							<th>排序</th>
 							<th>内容</th>
 							<th>操作</th>
 						</tr>
@@ -116,9 +117,9 @@
 			var content = '';
 			for (var i = 0; i < checks.length; i++) {
 				content = "<p>"
-						+ $(checks[i]).parent().parent().find("td").eq(0)
+						+ $(checks[i]).parent().parent().find("td").eq(1)
 								.html() + "</p><br />";
-				console.log(content)
+				//console.log(content)
 				ue.setContent(content, true);
 			}
 
@@ -133,14 +134,14 @@
 								searchInfo : $("#search-text").val()
 							},
 							function(data) {
-								console.log(data)
+								//console.log(data)
 								var str = '';
 								if (data.success == false) {
 									str = data.error;
 								} else {
 
 									for (var i = 0; i < data.data.length; i++) {
-										str += "<tr><td>"
+										str += "<tr><td><button onclick='upthis(this)'><i class='am-icon-caret-up'></i></button><br><button onclick='downthis(this)'><i class='am-icon-caret-down'></i></button></td><td>"
 												+ data.data[i].content
 												+ "——来自文档《<a target='_blank' href='/lib/user/file/"+ data.data[i].fileUuid+"'>"
 												+ data.data[i].fileName
@@ -152,6 +153,21 @@
 								}
 								$("#content-tb").html(str)
 							})
+		}
+
+		function upthis(mythis) {
+			$this = $(mythis);
+			$thisTr = $this.parent().parent()
+			$prevTr = $thisTr.prev();
+			$thisTr.insertBefore($prevTr)
+
+		}
+
+		function downthis(mythis) {
+			$this = $(mythis);
+			$thisTr = $this.parent().parent()
+			$nextTr = $thisTr.next();
+			$thisTr.insertAfter($nextTr);
 		}
 	</script>
 	<%@include file="../common/footer.jsp"%>
@@ -284,7 +300,8 @@
 								if (data.success == true) {
 									$btn.text("保存成功")
 									setTimeout(function() {
-										window.location.href = "user/edit/"+ data.error;
+										window.location.href = "user/edit/"
+												+ data.error;
 									}, 2500);
 
 								} else {
