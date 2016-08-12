@@ -27,6 +27,7 @@ import org.springframework.web.context.ContextLoader;
 import com.lib.dto.JsonResult;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.exception.user.UserNoActiveException;
 import com.lib.exception.user.UserNullAccountException;
 import com.lib.exception.user.UserPasswordWrongException;
 import com.lib.service.user.UserRegisterService;
@@ -56,7 +57,7 @@ public class LoginAndRegisterController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, HttpServletRequest request) {
-		
+
 		return "login";
 	}
 
@@ -84,10 +85,13 @@ public class LoginAndRegisterController {
 			session.setAttribute(Const.SESSION_USER, userBasicInfo);
 
 		} catch (UserNullAccountException e) {
-			result = new JsonResult(false, "用户不存在");
+			result = new JsonResult(false, e.getMessage());
 		} catch (UserPasswordWrongException e2) {
-			result = new JsonResult(false, "密码错误");
+			result = new JsonResult(false, e2.getMessage());
+		} catch (UserNoActiveException e3) {
+			result = new JsonResult(false, e3.getMessage());
 		}
+
 		return result;
 	}
 
@@ -118,6 +122,12 @@ public class LoginAndRegisterController {
 		return "message";
 	}
 
+	@RequestMapping(value = "/illegal-notConfirm", method = RequestMethod.GET)
+	public String notConfirm(Model model, HttpServletRequest request) {
+		model.addAttribute("message", "帐号未激活！");
+		return "message";
+	}
+
 	/**
 	 * 
 	 * @param request
@@ -135,10 +145,10 @@ public class LoginAndRegisterController {
 			// 注册
 			String email = request.getParameter("email");
 			urService.processregister(userName, userPassword, email);// 发邮箱激活
-			model.addAttribute("text", "注册成功");
-			return "register/register-success";
+			email = email.substring(email.lastIndexOf("@")+1,email.length());
+			return "redirect:register-success?host="+email;
 		} else if ("activate".equals(action)) {
-//			System.out.println(request.getLocalAddr());
+			// System.out.println(request.getLocalAddr());
 			// 激活
 			String email = request.getParameter("email");// 获取email
 			String validateCode = request.getParameter("validateCode");// 激活码
@@ -153,6 +163,10 @@ public class LoginAndRegisterController {
 		return "register-success";
 	}
 
+	@RequestMapping(value = "/register-success", method = RequestMethod.GET)
+	public String toSuccessPage(Model model,String host){
+		return "register/register-success";
+	}
 	/**
 	 * 注册校验
 	 * 
@@ -189,11 +203,11 @@ public class LoginAndRegisterController {
 			} else {
 				result = "<font  class='am-btn-danger'>必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个 </font>";
 			}
-		}
+		} 
 		if (user.getUserPassword() != null && repassword != null) {
 			String strConfirm = new String(user.getUserPassword());
 			String strPwd = new String(repassword);
-			
+
 			if (strConfirm.equals(strPwd)) {
 				result = "<font class='am-btn-success'>密码一致</font>";
 			} else {

@@ -1,7 +1,9 @@
 package com.lib.service.user.impl;
 
+import java.io.File;
 import java.util.Date;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.lib.dao.UserInfoDao;
 import com.lib.dao.UserRegisterDao;
 import com.lib.entity.UserInfo;
 import com.lib.entity.UserRegister;
+import com.lib.enums.Const;
 import com.lib.service.user.UserRegisterService;
 import com.lib.utils.MD5Util;
 import com.lib.utils.SendEmail;
@@ -23,6 +26,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 	private UserInfoDao userInfoDao;
 	@Autowired
 	private UserRegisterDao userRegisterDao;
+
 	/**
 	 * 
 	 * @param userName
@@ -30,7 +34,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 	 * @param email
 	 */
 	public void updateEmail(UserInfo user) {
-		userInfoDao.updateUserEmail(user);//更新email
+		userInfoDao.updateUserEmail(user);// 更新email
 		UserRegister ur = userRegisterDao.queryById(user.getUserId());
 		/// 如果处于安全，可以将激活码处理的更复杂点，这里我稍做简单处理
 		// user.setValidateCode(MD5Tool.MD5Encrypt(email));
@@ -42,7 +46,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		System.out.println(ur);
 
 		/// 邮件的内容
-		StringBuffer sb = new StringBuffer("点击下面链接激活SOKLIB知识库管理系统网站账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！</br>");
+		StringBuffer sb = new StringBuffer("点击下面链接更换SOKLIB知识库管理系统网站账号，48小时生效，链接只能使用一次</br>");
 		sb.append("<a href=\"http://localhost:8080/lib/user/update-userEmail?action=activate&userEmail=");
 		sb.append(user.getUserEmail());
 		sb.append("&validateCode=");
@@ -58,6 +62,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		System.out.println("发送邮件");
 
 	}
+
 	/**
 	 * 处理注册
 	 */
@@ -77,9 +82,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		ur.setValidateCode(MD5Util.encode2hex(email));
 		ur.setRegisterTime(new Date());
 		userRegisterDao.insertNoStatus(ur);
-
 		/// 邮件的内容
-		StringBuffer sb = new StringBuffer("点击下面链接更换SOKLIB知识库管理系统网站账号，48小时生效，否则更换账号失效，链接只能使用一次，请尽快激活！</br>");
+		StringBuffer sb = new StringBuffer("用户：" + userName + ",您好！<br>欢迎使用SOKLIB知识库管理系统，请点击下面链接激活您的帐号<br>");
 		sb.append("<a href=\"http://localhost:8080/lib/register?action=activate&email=");
 		sb.append(email);
 		sb.append("&validateCode=");
@@ -90,9 +94,17 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		sb.append(ur.getValidateCode());
 		sb.append("</a>");
 
-		// 发送邮件
-		SendEmail.send(email, sb.toString());
-		System.out.println("发送邮件");
+		new Thread() {
+			@Override
+			public void run() {
+				// 发送邮件
+				try {
+					SendEmail.send(email, sb.toString());
+				} catch (Exception e) {
+					LOG.error("发送到邮箱：" + email + " 失败！");
+				}
+			}
+		}.start();
 
 	}
 
@@ -119,6 +131,12 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 					if (validateCode.equals(ur.getValidateCode())) {
 						// 激活成功， //并更新用户的激活状态，为已激活
 						user.setUserType(1);// 把状态改为激活
+						// 设置默认头像
+						String photoUuid = StringValueUtil.getUUID();
+						user.setUserPhoto(photoUuid);
+						FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/user-no.png"), new File(
+								Const.ROOT_PATH + "users/" + user.getUserId() + "/photo/" + photoUuid + ".png"));
+
 						userInfoDao.updateUserNoStatus(user);
 						userRegisterDao.updateNoStatus(ur);
 					} else {

@@ -14,13 +14,14 @@
 					消息 <span class="am-badge am-badge-warning">5</span></a></li>
 			<li class="am-dropdown" data-am-dropdown><a
 				class="am-dropdown-toggle" data-am-dropdown-toggle
-				href="javascript:;"> <img alt="" class="am-radius" src="user/photo/${session_user.userPhoto}" style="width:17px;height:17px;">
+				href="javascript:;"> <img alt="null" class="am-radius" src="user/photo/${session_user.userPhoto}" style="width:17px;height:17px;">
 					${session_user.userName} <span class="am-icon-caret-down"></span>
 			</a>
 				<ul class="am-dropdown-content">
-					<li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-					<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-					<li><a href="admin/index"><span class="am-icon-user"></span> 管理员</a></li>
+					<li><a href="user/userinfo"><span class="am-icon-user"></span>个人信息</a></li>
+					<c:if test="${session_user.userType == 0 }">
+						<li><a href="admin/index"><span class="am-icon-user"></span> 管理员选项</a></li>
+					</c:if>
 					<li><a href="logout"><span class="am-icon-power-off"></span>
 							退出</a></li>
 				</ul></li>

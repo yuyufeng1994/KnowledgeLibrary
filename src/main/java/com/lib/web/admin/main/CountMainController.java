@@ -1,6 +1,7 @@
 package com.lib.web.admin.main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,10 @@ public class CountMainController {
 		
 		return "admin/count-index";
 	}
+	/**
+	 * 热门文档
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/count/hot-file", method = RequestMethod.GET)
 	public JsonResult< List<ClickInfo>> getHotFiles(){
@@ -55,6 +60,10 @@ public class CountMainController {
 		}
 		return jr;
 	}
+	/**
+	 * 热门分类
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/count/hot-classes", method = RequestMethod.GET)
 	public JsonResult< List<ClassesClickInfo>> getHotClasses(){
@@ -67,26 +76,50 @@ public class CountMainController {
 		}
 		return jr;
 	}
+	/**
+	 * 活跃用户
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/count/active-user", method = RequestMethod.GET)
 	public JsonResult< List<ActiveUserInfo>> getActiveUsers(){
 		JsonResult< List<ActiveUserInfo>> jr = null;
 		try{
 			 List<ActiveUserInfo> classesClickInfos = countService.getActiveUsers(1);
-			 System.out.println(classesClickInfos);
 			jr = new JsonResult< List<ActiveUserInfo>>(true, classesClickInfos);
 		}catch (Exception e) {
 			jr = new JsonResult< List<ActiveUserInfo>>(false, "获取失败");
 		}
 		return jr;
 	}
+	/**
+	 * 最近上传
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/count/recent-files", method = RequestMethod.GET)
 	public JsonResult< List<Long>> getRecentUploadFiles(){
 		JsonResult< List<Long>> jr = null;
 		try{
 			 List<Long> list = countService.getUploadTimesByTime();
-			 System.out.println(list);
+			 Collections.reverse(list);//倒序排列
+			jr = new JsonResult< List<Long>>(true, list);
+		}catch (Exception e) {
+			jr = new JsonResult< List<Long>>(false, "获取失败");
+		}
+		return jr;
+	}
+	/**
+	 * 网站点击
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/count/click-times", method = RequestMethod.GET)
+	public JsonResult< List<Long>> getClickTims(){
+		JsonResult< List<Long>> jr = null;
+		try{
+			 List<Long> list = countService.getClickTimesByTime();
+			 Collections.reverse(list);//倒序排列
 			jr = new JsonResult< List<Long>>(true, list);
 		}catch (Exception e) {
 			jr = new JsonResult< List<Long>>(false, "获取失败");

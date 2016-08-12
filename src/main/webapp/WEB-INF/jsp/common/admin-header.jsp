@@ -14,13 +14,15 @@
 					消息 <span class="am-badge am-badge-warning">5</span></a></li>
 			<li class="am-dropdown" data-am-dropdown><a
 				class="am-dropdown-toggle" data-am-dropdown-toggle
-				href="javascript:;"> <span class="am-icon-user"></span>
-					${session_user.userName} <span class="am-icon-caret-down"></span>
+				href="javascript:;"> <img alt="" class="am-radius"
+					src="user/photo/${session_user.userPhoto}"
+					style="width: 17px; height: 17px;"> ${session_user.userName}
+					<span class="am-icon-caret-down"></span>
 			</a>
 				<ul class="am-dropdown-content">
-					<li><a href="user/index"><span class="am-icon-user"></span> 前台</a></li>
-					<li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
-					<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+					<li><a href="user/index"><span class="am-icon-user"></span>
+							前台</a></li>
+					<li><a href="user/userinfo"><span class="am-icon-user"></span>个人信息</a></li>
 					<li><a href="logout"><span class="am-icon-power-off"></span>
 							退出</a></li>
 				</ul></li>
@@ -32,7 +34,10 @@
 		role="search">
 		<div class="am-form-group">
 			<input type="text" class="am-form-field am-input-sm"
-				placeholder="搜索公共知识库"><button class="am-form-field am-input-sm"><i class="am-icon-search"></i> 搜索</button>
+				placeholder="搜索公共知识库">
+			<button class="am-form-field am-input-sm">
+				<i class="am-icon-search"></i> 搜索
+			</button>
 		</div>
 	</form>
 

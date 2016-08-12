@@ -101,4 +101,9 @@
 		select count(file_id) from file_info
 		where file_create_time between #{time1} and #{time2}
 	</select>
+	
+	<select id ="getClickTimesByTime"  resultType="Long">
+		select count(click_id) from click_info
+		where click_time between #{time1} and #{time2}
+	</select>
 </mapper>

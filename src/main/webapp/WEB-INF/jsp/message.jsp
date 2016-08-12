@@ -3,11 +3,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>首页</title>
+<title>${message}</title>
 <%@include file="common/head.jsp"%>
 </head>
 <body>
-	<h1>${message}</h1>
-	<a href="javascript:history.go(-1)">返回</a>
+	<hr>
+
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<h2 class="am-text-center am-text-xxxl am-margin-top-lg">${message}</h2>
+			<p class="am-text-center"><a href="/lib/">返回首页</a></p>
+			<pre class="page-404">
+   │＼＿＿╭╭╭╭╭＿＿／│  
+│　　　　　　　　　　　│  
+│　　　　　　　　　　　│  
+│　＞　　　　　　　●　│  
+│≡　　╰┬┬┬╯　　≡│  
+│　　　　╰—╯　　　　│  
+╰——┬ｏ———ｏ┬——╯  
+　　　│SOKLIB│  
+　　　╰┬———┬╯ 
+   
+        </pre>
+		</div>
+	</div>
+	</div>
+
 </body>
 </html>

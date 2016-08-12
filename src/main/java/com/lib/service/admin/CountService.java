@@ -1,6 +1,7 @@
 package com.lib.service.admin;
 
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.lib.dto.ActiveUserInfo;
@@ -36,5 +37,12 @@ public interface CountService {
 	 * @return
 	 */
 	public List<Long> getUploadTimesByTime();
+	
+	/**
+	 * 获取一个月内的网站点击量
+	 * @return
+	 */
+	public List<Long> getClickTimesByTime()throws ParseException ;
+	
 }
 

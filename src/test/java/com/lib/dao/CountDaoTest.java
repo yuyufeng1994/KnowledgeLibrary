@@ -129,4 +129,22 @@ public class CountDaoTest {
 		}
 		System.out.println(list);
 	}
+	@Test
+	public void getClickTimesByTimeTest(){
+		Date now = new Date(); //当前时间
+		Date before = null;
+		List<Long> list = new ArrayList<Long>();
+		for(int i = 1;i<=30;i++){
+		Calendar   cal   =   Calendar.getInstance();
+		 cal.add(Calendar.DATE,   -i);
+		 before = cal.getTime();
+		 now.setHours(0);
+		 before.setHours(0);
+		 System.out.println("before:"+before.getTime()+"now"+now.toLocaleString());
+		 Long l = countDao.getClickTimesByTime(before, now);
+		 list.add(l);
+		 now = before;
+		}
+		System.out.println(list);
+	}
 }

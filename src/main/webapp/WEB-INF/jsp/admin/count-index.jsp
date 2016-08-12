@@ -22,13 +22,12 @@
 						<div class="am-panel-hd am-cf">近期上传</div>
 						<div class="am-panel-bd" id="collapse-panel-recent">
 							<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-							<div id="recent-charts" style="width: 800px; height: 350px;"></div>
+							<div id="recent-charts" style="width: 1000px; height: 350px;"></div>
 							<script type="text/javascript">
 								// 基于准备好的dom，初始化echarts实例
 								$(function(){
 									var url = "admin/count/recent-files";
 									$.get(url,function(data){
-										console.log(data.data);
 										var dataList = data.data;
 										var recentChart = echarts.init(document
 												.getElementById('recent-charts'));
@@ -44,7 +43,6 @@
 										        ]
 										    }
 										}
-
 										var data = [];
 										var before = new Date();
 										var list = dataList;
@@ -99,12 +97,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="am-u-md-6">
+				<div class="am-u-md-12">
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">文档点击率排行</div>
 						<div class="am-panel-bd" id="collapse-panel-hot">
 							<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-							<div id="filehot-charts" style="width: 500px; height: 450px;"></div>
+							<div id="filehot-charts" style="width: 1000px; height: 350px;"></div>
 							<script type="text/javascript">
 								$(function() {
 									var url = "admin/count/hot-file";
@@ -155,7 +153,7 @@
 												        {
 												            name:'点击量',
 												            type:'bar',
-												            barWidth: '60%',
+												            barWidth: '40%',
 												            data:clickTimes
 												        }
 												    ]
@@ -172,7 +170,7 @@
 						<div class="am-panel-hd am-cf">热门分类排行</div>
 						<div class="am-panel-bd am-collapse am-in"
 							id="collapse-panel-hot-class">
-							<div id="hotClass-charts" style="width: 500px; height: 450px;"></div>
+							<div id="hotClass-charts" style="width: 1000px; height: 350px;"></div>
 							<script type="text/javascript">
 								$(function(){
 									var url = "admin/count/hot-classes";
@@ -259,11 +257,11 @@
 					</div>
 
 				</div>
-				<div class="am-u-md-6">
+				<div class="am-u-md-12">
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">活跃用户排行</div>
 						<div class="am-panel-bd" id="collapse-panel-hot-user">
-							<div id="activeUser-charts" style="width: 500px; height: 450px;"></div>
+							<div id="activeUser-charts" style="width: 1000px; height: 450px;"></div>
 							<script type="text/javascript">
 								$(function(){
 									var url = "admin/count/active-user";
@@ -352,7 +350,82 @@
 
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd am-cf">网站点击率</div>
-						<div class="am-panel-bd" id="collapse-panel-site-click">图表统计显示</div>
+						<div class="am-panel-bd" id="collapse-panel-site-click">
+							<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+							<div id="click-charts" style="width: 1000px; height: 350px;"></div>
+							<script type="text/javascript">
+								// 基于准备好的dom，初始化echarts实例
+								$(function(){
+									var url = "admin/count/click-times";
+									$.get(url,function(data){
+										var dataList = data.data;
+										var recentChart = echarts.init(document
+												.getElementById('click-charts'));
+										var k = 0;
+										function randomData() {
+										    now = new Date(+now + oneDay);
+										    value = list[k++];
+										    return {
+										        name: now.toString(),
+										        value: [
+										            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+										           value
+										        ]
+										    }
+										}
+
+										var data = [];
+										var before = new Date();
+										var list = dataList;
+										before.setMonth(before.getMonth()-1);
+										var now = +new Date(before);
+										var oneDay = 24 * 3600 * 1000;
+										var value = Math.random() * 1000;
+										for (var i = 0; i <dataList.length; i++) {
+										    data.push(randomData());
+										}
+
+										option = {
+										    title: {
+										        text: '网站点击率'
+										    },
+										    tooltip: {
+										        trigger: 'axis',
+										        formatter: function (params) {
+										            params = params[0];
+										            var date = new Date(params.name);
+										            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : 上传量' + params.value[1];
+										        },
+										        axisPointer: {
+										            animation: false
+										        }
+										    },
+										    xAxis: {
+										        type: 'time',
+										        splitLine: {
+										            show: false
+										        }
+										    },
+										    yAxis: {
+										        type: 'value',
+										        boundaryGap: [0, '100%'],
+										        splitLine: {
+										            show: false
+										        }
+										    },
+										    series: [{
+										        name: '模拟数据',
+										        type: 'line',
+										        showSymbol: false,
+										        hoverAnimation: false,
+										        data: data
+										    }]
+										};
+										recentChart.setOption(option);
+									});
+								});
+							</script>
+						</div>
 					</div>
 
 				</div>

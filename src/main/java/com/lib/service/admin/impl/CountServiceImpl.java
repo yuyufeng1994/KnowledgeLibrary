@@ -1,5 +1,7 @@
 package com.lib.service.admin.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,13 +81,31 @@ public class CountServiceImpl implements CountService {
 		Date now = new Date(); //当前时间
 		Date before = null;
 		List<Long> list = new ArrayList<Long>();
-		for(int i = 1;i<=31;i++){
+		for(int i = 1;i<=32;i++){
 		Calendar   cal   =   Calendar.getInstance();
 		 cal.add(Calendar.DATE,   -i);
 		 before = cal.getTime();
 		 now.setHours(0);
 		 before.setHours(0);
 		 Long l = countDao.getUploadTimesByTime(before, now);
+		 list.add(l);
+		 now = before;
+		}
+		return list;
+	}
+
+	@Override
+	public List<Long> getClickTimesByTime() throws ParseException {
+		Date now = new Date(); //当前时间
+		Date before = null;
+		List<Long> list = new ArrayList<Long>();
+		for(int i = 1;i<=32;i++){
+		Calendar   cal   =   Calendar.getInstance();
+		 cal.add(Calendar.DATE,   -i);
+		 before = cal.getTime();
+		 now.setHours(0);
+		 before.setHours(0);
+		 Long l = countDao.getClickTimesByTime(before, now);
 		 list.add(l);
 		 now = before;
 		}
