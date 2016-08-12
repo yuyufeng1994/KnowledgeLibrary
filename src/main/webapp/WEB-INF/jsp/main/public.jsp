@@ -67,7 +67,7 @@
 								<p>${classi.classificationBrief}</p>
 								<button class="am-icon-btn am-icon-link" onclick="getLinks()"
 									title="点击查看此知识点图谱"
-									data-am-modal="{target: '#class-links', closeViaDimmer: 0, width: 800, height: 500}"></button>
+									data-am-modal="{target: '#class-links', closeViaDimmer: true, width: 800, height: 500}"></button>
 							</div>
 						</div>
 					</div>
@@ -155,6 +155,9 @@
 	<div class="am-modal am-modal-no-btn" tabindex="-1" id="class-links">
 		<div class="am-modal-dialog">
 			<div class="am-modal-hd">
+				<h3 class="am-text-left">
+					<a title="点击显示全部" href="javascript:nodeId=1;getLinks();">知识图谱</a>
+				</h3>
 				<a href="javascript: void(0)" class="am-close am-close-spin"
 					data-am-modal-close>&times;</a>
 			</div>
@@ -163,7 +166,6 @@
 		</div>
 	</div>
 
-	<div class="am-modal-bd" id="class-charts"></div>
 </body>
 <script type="text/javascript">
 	var nodeId = ${classi.classificationId};
@@ -179,6 +181,7 @@
 			name : s[0].classificationName,
 			x : 6,
 			y : 0,
+			value: s[0].classificationId
 		});
 		var re = [];
 		for (var i = 0; i < s.length; i++) {
@@ -189,21 +192,26 @@
 			})
 		}
 
-
+		var denlen=new Array();;
 		var fn = {
 			getclass : function(nid, name, depth,index) {
 				//console.log("relen:" + re.length+" nid:"+nid)
 				if (re.length == 1) {
 					return;
 				}
-				//var index = 0;
+				if(denlen[depth] == null){
+					denlen[depth] = 0;
+				}
+				
 				for (var i = 0; i < re.length; i++) {
 					if (re[i].parentId == nid) {
-						index++;
+						denlen[depth] = denlen[depth]+2;
+						//console.log(denlen[depth]+' '+re[i].classificationName)
 						var di = {
 							name : re[i].classificationName,
-							x : index,
+							x : denlen[depth],
 							y : depth * 3,
+							value:re[i].classificationId
 						}
 						var li = {
 							source : name,
@@ -213,7 +221,7 @@
 						getData.data.push(di);
 						getData.links.push(li);
 						//console.log(re[i].parentId+" "+re[i].classificationId)
-						fn.getclass(re[i].classificationId, re[i].classificationName, depth+1,index++)
+						fn.getclass(re[i].classificationId, re[i].classificationName, depth+1,0)
 					}
 
 				}
@@ -224,7 +232,6 @@
 
 		var option = {
 			title : {
-				text : '知识图谱'
 			},
 			tooltip : {},
 			animationDurationUpdate : 1500,
@@ -263,6 +270,9 @@
 		};
 		var myChart = echarts.init(document.getElementById('class-charts'));
 		myChart.setOption(option);
+		myChart.on('click', function (params) {
+		   window.location.href="user/public/"+params.value+"/1"
+		});
 	})
 	}
 </script>
