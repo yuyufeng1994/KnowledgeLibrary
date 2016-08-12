@@ -1,6 +1,7 @@
 package com.lib.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -109,5 +110,23 @@ public class CountDaoTest {
 		dBefore = calendar.getTime(); //得到前1月的时间
 //		List<ActiveUserInfo> activeUserInfos = countDao.getActiveUsers(dBefore);
 		System.out.println(countDao.getUserClickTimes(dBefore, 2016001l));
+	}
+	@Test
+	public void getUploadTimesByTimeTest(){
+		Date now = new Date(); //当前时间
+		Date before = null;
+		List<Long> list = new ArrayList<Long>();
+		for(int i = 1;i<=30;i++){
+		Calendar   cal   =   Calendar.getInstance();
+		 cal.add(Calendar.DATE,   -i);
+		 before = cal.getTime();
+		 now.setHours(0);
+		 before.setHours(0);
+		 System.out.println("before:"+before.getTime()+"now"+now.toLocaleString());
+		 Long l = countDao.getUploadTimesByTime(before, now);
+		 list.add(l);
+		 now = before;
+		}
+		System.out.println(list);
 	}
 }

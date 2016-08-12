@@ -80,4 +80,17 @@ public class CountMainController {
 		}
 		return jr;
 	}
+	@ResponseBody
+	@RequestMapping(value="/count/recent-files", method = RequestMethod.GET)
+	public JsonResult< List<Long>> getRecentUploadFiles(){
+		JsonResult< List<Long>> jr = null;
+		try{
+			 List<Long> list = countService.getUploadTimesByTime();
+			 System.out.println(list);
+			jr = new JsonResult< List<Long>>(true, list);
+		}catch (Exception e) {
+			jr = new JsonResult< List<Long>>(false, "获取失败");
+		}
+		return jr;
+	}
 }

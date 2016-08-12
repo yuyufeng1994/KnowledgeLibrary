@@ -94,4 +94,11 @@ public interface CountDao {
 	 * @return
 	 */
 	Long getUserClickTimes(@Param("time") Date time,@Param("userId") Long userId);
+	
+	/**
+	 * 根据时间段取得上传文件数
+	 * @param time
+	 * @return
+	 */
+	Long getUploadTimesByTime(@Param("time1") Date time1,@Param("time2") Date time2);
 }
