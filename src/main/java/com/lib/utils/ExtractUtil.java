@@ -46,7 +46,7 @@ public class ExtractUtil {
                 System.out.println(name+":"+metadata.get(name));  
             } */
             //System.out.println(handler.toString());
-            return handler.toString();  
+            return handler.toString().trim();  
         }catch (Exception e){  
             e.printStackTrace();  
         }finally {  

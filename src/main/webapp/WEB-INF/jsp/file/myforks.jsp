@@ -293,7 +293,7 @@ var docName=$("#cDocName").val();
 
 $.ajax({
 	url : "user/findAllByUserId",
-	type : "post",
+	type : "get",
 	datatype : "json",
 	//ansyn : false,
 	success : function(JsonResult) {
@@ -339,7 +339,6 @@ $(".modify").click(function(){
 	
 	var node=$(this).parent().parent().parent().parent();
     var fileName=node.find("#fileName").html();
-    alert(fileName);
     $("#cFileName").val(fileName);
     var forkId=node.find("#forkId").val();
     $("#cForkId").val(forkId);
@@ -398,7 +397,7 @@ function submit(){
 		$.ajax({
 		url : "user/modifyFork",
 		data:{forkId:forkId,docId:docId,forkNote:forkNote},
-		type : "POST",
+		type : "post",
 		datatype : "json",
 		//ansyn : false,
 		success : function(JsonResult) {
