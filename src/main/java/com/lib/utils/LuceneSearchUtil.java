@@ -715,10 +715,220 @@ public class LuceneSearchUtil {
 		}
 	}
 
-	public static List<LuceneSearchVo> indexFileSearchNoHighLine(FileInfo sf, String string, Object object, int i,
-			int j, Object object2, int k) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public static List<LuceneSearchVo> indexFileSearchNoHighLine(FileInfo file, String keyWord, Date endTime, Integer pageNo,
+			Integer pageSize, List<Long> fileClassId, Integer flag) {
+		if (pageNo > 1) {
+			page(pageNo, pageSize);
+		}
+		// 保存索引文件的地方
+		Directory directory = null;
+		// IndexReader reader=DirectoryReader
+		DirectoryReader ireader = null;
+		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
+		IndexSearcher indexSearch = null;
 
+		try {
+
+			directory = FSDirectory.open(new File(indexPath).toPath());
+			ireader = DirectoryReader.open(directory);
+			indexSearch = new IndexSearcher(ireader);
+			// 多个条件组合查询
+			BooleanQuery booleanQuery = new BooleanQuery();
+
+			// 判断是否二次查询
+			if (flag == 1)
+				booleanQuery.add((BooleanQuery) oldBooleanQuery, BooleanClause.Occur.MUST);
+			else {
+				oldBooleanQuery = null;
+			}
+
+			// 查询条件一 字段查询
+			queryText = null;
+			if (file.getFileName() != null && !"".equals(file.getFileName())) {
+
+				String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
+				Map<String, Float> boost = new HashMap<String, Float>();
+				boost.put("fileKeyWords", 4.0f);
+				boost.put("fileName", 3.0f);
+				boost.put("fileBrief", 2.0f);
+				boost.put("fileText", 1.0f);
+				// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
+				QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
+				// 生成Query对象
+				queryText = queryParser.parse(file.getFileName());
+				booleanQuery.add(queryText, BooleanClause.Occur.MUST);
+			}
+
+			queryKeyWord = null;
+			if (keyWord != null && !"".equals(keyWord)) {
+
+				Term term = new Term("fileKeyWords", keyWord);
+				queryKeyWord = new TermQuery(term);
+				booleanQuery.add(queryKeyWord, BooleanClause.Occur.MUST);
+
+			}
+
+			if (file.getFileCreateTime() != null || endTime != null) {
+
+				// 查询条件二日期
+				Date sDate = file.getFileCreateTime();
+				if ((sDate == null || "".equals(sDate))) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(1900, 0, 1);
+					sDate = calendar.getTime();
+				}
+				Date eDate = endTime;// TODO
+				// 若只有起始值结束值默认为当天
+				if ((eDate == null || "".equals(eDate))) {
+					eDate = new Date();
+				}
+
+				if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
+
+					// Lucene日期转换格式不准，改用format格式
+					// sDateStr=DateTools.dateToString(sDate,
+					// DateTools.Resolution.MINUTE);
+					// eDateStr=DateTools.dateToString(eDate,
+					// DateTools.Resolution.MINUTE);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					BytesRef sDateStr = new BytesRef(sdf.format(sDate));
+					BytesRef eDateStr = new BytesRef(sdf.format(eDate));
+
+					// 时间范围查询
+					Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
+					booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
+				}
+			}
+			// 查询条件三分类查询
+			if (fileClassId != null) {
+				BooleanQuery queryClassId = new BooleanQuery();
+
+				for (Long id : fileClassId) {
+
+					TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
+					queryClassId.add(termQuery, BooleanClause.Occur.SHOULD);
+				}
+				booleanQuery.add(queryClassId, BooleanClause.Occur.MUST);
+			}
+			// 查询条件四类型查询
+
+			if (file.getFileExt() != null && !"".equals(file.getFileExt()) && !file.getFileExt().equals("all")) {
+
+				BooleanQuery queryFileExt = new BooleanQuery();
+
+				List<String> typeList = null;
+				if (file.getFileExt().equals("office")) {
+					typeList = JudgeUtils.officeFile;
+				}
+				if (file.getFileExt().equals("video")) {
+					typeList = JudgeUtils.videoFile;
+					typeList.addAll(JudgeUtils.audioFile);
+				}
+				if (file.getFileExt().equals("img")) {
+					typeList = JudgeUtils.imageFile;
+				} else if (file.getFileExt().equals("else")) {
+					typeList = JudgeUtils.elseFile;
+				}
+
+				if (typeList != null && !typeList.equals("")) {
+					for (String type : typeList) {
+						TermQuery termQuery = new TermQuery(new Term("fileExt", type));
+						queryFileExt.add(termQuery, BooleanClause.Occur.SHOULD);
+					}
+				}
+				booleanQuery.add(queryFileExt, BooleanClause.Occur.MUST);
+			}
+			// 查询条件五公开状态
+			TermQuery termQuery = new TermQuery(new Term("fileState", "5"));
+			booleanQuery.add(termQuery, BooleanClause.Occur.MUST);
+			oldBooleanQuery = booleanQuery;
+			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
+			// System.out.println(booleanQuery);
+			result = indexSearch.search(booleanQuery, 100000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(ireader, directory);
+		}
+		return page1(pageNo, pageSize);
+		
+	}
+	private static List<LuceneSearchVo> page1(Integer pageNo, Integer pageSize) {
+
+		// 保存索引文件的地方
+		Directory directory = null;
+		// IndexReader reader=DirectoryReader
+		DirectoryReader ireader = null;
+		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
+		IndexSearcher indexSearch = null;
+
+		// 结果集
+		List<LuceneSearchVo> page = new ArrayList<LuceneSearchVo>();
+
+		// 每页的file
+		try {
+
+			directory = FSDirectory.open(new File(indexPath).toPath());
+
+			ireader = DirectoryReader.open(directory);
+
+			indexSearch = new IndexSearcher(ireader);
+
+			for (int i = (pageNo - 1) * pageSize, j = 0; i < result.scoreDocs.length && j < pageSize; i++, j++) {
+				LuceneSearchVo vo = new LuceneSearchVo();
+				int fileId = result.scoreDocs[i].doc;
+				Document file = indexSearch.doc(fileId);
+
+				// vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
+
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					vo.setFileCreateTime(sdf.parse(file.get("fileCreateTime")));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				vo.setFileId(Long.valueOf(file.get("fileId")));
+				vo.setFileExt(file.get("fileExt"));
+
+				vo.setFilePath(file.get("filePath"));
+
+				// vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
+
+				// vo.setFileState(Integer.parseInt(file.get("fileState")));
+
+				vo.setUserName(file.get("fileUserName"));
+
+				vo.setFileUuid(file.get("fileUuid"));
+
+				vo.setFileName(file.get("fileName"));
+
+				if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief")))
+					vo.setFileBrief(file.get("fileBrief"));
+				else {
+					vo.setFileBrief(file.get("fileSummarys"));
+				}
+
+				if (file.get("fileText") != null && !"".equals(file.get("fileText")))
+					vo.setFileText(file.get("fileText").substring(0,
+							file.get("fileText").length() > 150 ? 150 : file.get("fileText").length()));
+
+				if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords")))
+
+				{
+					String[] keyWords = file.get("fileKeyWords").split(",");
+					List<String> keyWordList = Arrays.asList(keyWords);
+					vo.setFileKeyWords(keyWordList);
+				}
+
+				// System.out.println(vo);
+				page.add(vo);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(ireader, directory);
+		}
+		return page;
+	}
 }
