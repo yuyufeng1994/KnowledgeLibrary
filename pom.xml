@@ -248,12 +248,13 @@
 		</dependency>
 
 		<!-- lucene 插件 -->
+		
 		<dependency>
 			<groupId>hanlp-lucene</groupId>
 			<artifactId>hanlp-lucene</artifactId>
 			<version>1.1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hanlp-solr-plugin-1.1.2.jar</systemPath>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hanlp-lucene-1.1.1.jar</systemPath>
 		</dependency>
 		
 		<dependency>

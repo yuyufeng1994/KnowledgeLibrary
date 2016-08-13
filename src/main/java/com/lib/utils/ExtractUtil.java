@@ -9,7 +9,6 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.txt.TXTParser;
 /*import org.apache.tika.parser.asm.ClassParser;
 import org.apache.tika.parser.html.HtmlParser;

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -459,7 +461,7 @@ public class LuceneSearchUtil {
 	 * @throws InvalidTokenOffsetsException
 	 * @throws ParseException
 	 */
-	public static List<String> extractSummary(Long fileId, long size) {
+	public static String extractSummary(Long fileId, long size) {
 
 		// 保存索引文件的地方
 		Directory directory = null;
@@ -471,8 +473,8 @@ public class LuceneSearchUtil {
 		Query query = null;
 		// new一个文档对象
 		Document document = new Document();
-		// 文件简介
-		List<String> fileSummarys = new ArrayList<String>();
+		
+		String  fileSummarys=null;
 		try {
 			directory = FSDirectory.open(new File(indexPath).toPath());
 
@@ -489,18 +491,8 @@ public class LuceneSearchUtil {
 
 			document = indexSearch.doc(topdocs.scoreDocs[0].doc);
 
-			String[] summarys = document.get("fileSummarys").split(",");
-			long total = 1;
-			for (String summary : summarys) {
-				total++;
-				fileSummarys.add(summary);
-				if (total == size)
-					;
-				{
-					break;
-				}
-
-			}
+			fileSummarys = document.get("fileSummarys");
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -667,16 +659,27 @@ public class LuceneSearchUtil {
 						
 					
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
+					
+					Map<String,Float> KeyWordRank =new 
+					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
+						Map<String,Float> map=  new HashMap<String, Float>();
+						map.put(paragrap, HanLP.getKeyWordRank(paragrap, keyWord));
+						KeyWordRank.add(map);
+					}
+					 Collections.sort(KeyWordRank,new Comparator<Map<String,Float>>() {  
+				          //升序排序  
+				          public int compare(Map<String,Float> o1,  
+				        		  Map<String,Float> o2) {  
+				              return o1.get().compareTo(o2.getValue());  
+				          }  
+				  
+				      });  
+					for (String str : keyWords) {
+						if (str.equals(keyWord)) {
 
-						List<String> keyWords = HanLP.extractKeyword(paragrap, 3);
-						for (String str : keyWords) {
-							if (str.equals(keyWord)) {
-
-								list.add(new SerResult(paragrap, fileId, fileName, fileUuid));
-							}
-
+							list.add(new SerResult(paragrap, fileId, fileName, fileUuid));
 						}
 
 					}

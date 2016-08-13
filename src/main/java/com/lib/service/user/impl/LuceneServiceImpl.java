@@ -78,7 +78,7 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public List<String> getSummary(FileInfo fileInfo, Long size) {
+	public String getSummary(FileInfo fileInfo, Long size) {
 		// TODO Auto-generated method stub
 		return LuceneSearchUtil.extractSummary(fileInfo.getFileId(),size);
 	}

@@ -131,10 +131,16 @@ public class FileInfoServiceImpl implements FileInfoService {
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 修改文件为私有可以查看
-		fileinfoDao.setFileStateByUuid(uuid, 6);
+//		fileinfoDao.setFileStateByUuid(uuid, 6);
+		file.setFileState(6);
 		//创建索引
 		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),null);
-		
+		if(file.getFileBrief()==null||file.getFileBrief().equals("")){
+			
+			String text = searchService.getSummary(file, 3L).toString();
+			file.setFileBrief(text);
+		}
+		fileinfoDao.updateByUuid(file);
 	}
 
 	@Override

@@ -90,14 +90,13 @@ public class LuceneIndexUtil {
 				for (String str : fileKeyWords) {
 					_fileKeyWords = _fileKeyWords + "," + str;
 				}
-				List<String> fileSummarys = HanLP.extractSummary(result, 10);
-				String _fileSummarys = "";
-				for (String str : fileSummarys) {
-					_fileSummarys = _fileSummarys + "," + str;
-				}
+				List<String> fileSummarys = HanLP.extractSummary(result, 3);
+				
 				document.add(new TextField("fileKeyWords", _fileKeyWords, Field.Store.YES));
-
-				document.add(new StringField("fileSummarys", _fileSummarys.toString(), Field.Store.YES));
+				
+				//System.out.println(_fileSummarys.toString());
+				document.add(new StringField("fileSummarys", fileSummarys.toString(), Field.Store.YES));
+				
 			} else {
 				List<String> fileKeyWords = HanLP.extractKeyword(file.getFileBrief() + "." + file.getFileName(), 10);
 				String _fileKeyWords = "";

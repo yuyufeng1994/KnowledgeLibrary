@@ -45,7 +45,7 @@ cursor:pointer;
 								</div>
 
 								<div class="am-g am-margin-top">
-									<div class="am-u-sm-4  am-text-right">知识点</div>
+									<div class="am-u-sm-4  am-text-right">关键词</div>
 									<div class="am-u-sm-8 ">
 										<input type="text" id="keyWord" name="keyWord" value="${keyWord}"
 											style="width: 32%" class="am-input-lg">
@@ -142,7 +142,7 @@ cursor:pointer;
 												href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt}</a>
 										</h3>
 										<p id="key" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-											<span style="font-weight: 700;color: #999;">知识点:&nbsp</span>
+											<span style="font-weight: 700;color: #999;">关键词:&nbsp</span>
 											<c:forEach items="${f.fileKeyWords}" var="key">
 											 <a  type="button">${key}</a>
 											</c:forEach>

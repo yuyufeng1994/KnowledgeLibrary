@@ -44,7 +44,7 @@ public interface LuceneService {
 	 * @param size
 	 * @return
 	 */
-	List<String> getSummary(FileInfo fileInfo,Long size);
+	String getSummary(FileInfo fileInfo,Long size);
 	
 	/**
 	 * 获取关联文档ids

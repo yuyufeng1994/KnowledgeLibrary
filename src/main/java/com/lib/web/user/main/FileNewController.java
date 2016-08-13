@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.hankcs.hanlp.HanLP;
 import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.FileNew;
@@ -109,7 +110,7 @@ public class FileNewController {
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
-			fi.setFileBrief("");
+			fi.setFileBrief(HanLP.extractSummary(fn.getContent(), 3).toString());
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath("users/" + user.getUserId() + "/files/" + uuid);
