@@ -169,8 +169,8 @@ public class LoginAndRegisterController {
 				urService.processActivate(email, validateCode);// 调用激活方法
 				return "register/activate-success";
 			} catch (Exception e) {
-				request.setAttribute("error", e.getMessage());
-				return "error";
+				request.setAttribute("message", "帐号已激活或失败，请联系管理员");
+				return "message";
 			}
 		}
 		return "register-success";

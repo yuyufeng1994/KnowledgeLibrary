@@ -68,23 +68,24 @@ public class LuceneSearchUtil {
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
-	//private static Analyzer analyzer =  new HanLPAnalyzer();
+	// private static Analyzer analyzer = new HanLPAnalyzer();
 	// 词法分析器
 	private static Analyzer analyzer = new HanLPAnalyzer() {
-			@Override
-			protected TokenStreamComponents createComponents(String arg0) {
-				Tokenizer tokenizer = new HanLPTokenizer(
-						HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true).enableIndexMode(true)
-								.enableNameRecognize(true).enablePlaceRecognize(true),
-								 null,true);
-				return new TokenStreamComponents(tokenizer);
-			}
+		@Override
+		protected TokenStreamComponents createComponents(String arg0) {
+			Tokenizer tokenizer = new HanLPTokenizer(
+					HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true)
+							.enableIndexMode(true).enableNameRecognize(true).enablePlaceRecognize(true),
+					null, true);
+			return new TokenStreamComponents(tokenizer);
+		}
 	};
-	//关键字查询条件
+	// 关键字查询条件
 	private static Query queryText = null;
-	
-	//知识点查找条件
-	private static TermQuery queryKeyWord=null;
+
+	// 知识点查找条件
+	private static TermQuery queryKeyWord = null;
+
 	/**
 	 * 
 	 * @param file
@@ -126,7 +127,7 @@ public class LuceneSearchUtil {
 			// 查询条件一 字段查询
 			queryText = null;
 			if (file.getFileName() != null && !"".equals(file.getFileName())) {
-				
+
 				String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
 				Map<String, Float> boost = new HashMap<String, Float>();
 				boost.put("fileKeyWords", 4.0f);
@@ -139,32 +140,32 @@ public class LuceneSearchUtil {
 				queryText = queryParser.parse(file.getFileName());
 				booleanQuery.add(queryText, BooleanClause.Occur.MUST);
 			}
-			
-			queryKeyWord=null;
+
+			queryKeyWord = null;
 			if (keyWord != null && !"".equals(keyWord)) {
-				
+
 				Term term = new Term("fileKeyWords", keyWord);
 				queryKeyWord = new TermQuery(term);
 				booleanQuery.add(queryKeyWord, BooleanClause.Occur.MUST);
 
 			}
-			
-		if(file.getFileCreateTime()!=null||endTime!=null){	
-				
-			// 查询条件二日期
-			Date sDate = file.getFileCreateTime();
-			if ((sDate == null || "".equals(sDate))) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.set(1900, 0, 1);
-				sDate = calendar.getTime();
-			}
-			Date eDate = endTime;// TODO
-			// 若只有起始值结束值默认为当天
-			if ((eDate == null || "".equals(eDate))) {
-				eDate = new Date();
-			}
 
-			if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
+			if (file.getFileCreateTime() != null || endTime != null) {
+
+				// 查询条件二日期
+				Date sDate = file.getFileCreateTime();
+				if ((sDate == null || "".equals(sDate))) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(1900, 0, 1);
+					sDate = calendar.getTime();
+				}
+				Date eDate = endTime;// TODO
+				// 若只有起始值结束值默认为当天
+				if ((eDate == null || "".equals(eDate))) {
+					eDate = new Date();
+				}
+
+				if ((sDate != null && !"".equals(sDate)) && (eDate != null || !"".equals(eDate))) {
 
 					// Lucene日期转换格式不准，改用format格式
 					// sDateStr=DateTools.dateToString(sDate,
@@ -178,26 +179,25 @@ public class LuceneSearchUtil {
 					// 时间范围查询
 					Query timeQuery = new TermRangeQuery("fileCreateTime", sDateStr, eDateStr, true, true);
 					booleanQuery.add(timeQuery, BooleanClause.Occur.MUST);
-			}
+				}
 			}
 			// 查询条件三分类查询
-			if(fileClassId!=null)
-			{	
-				BooleanQuery queryClassId=new BooleanQuery();
-				
+			if (fileClassId != null) {
+				BooleanQuery queryClassId = new BooleanQuery();
+
 				for (Long id : fileClassId) {
-					
+
 					TermQuery termQuery = new TermQuery(new Term("fileClassId", id + ""));
 					queryClassId.add(termQuery, BooleanClause.Occur.SHOULD);
 				}
 				booleanQuery.add(queryClassId, BooleanClause.Occur.MUST);
 			}
 			// 查询条件四类型查询
-			
+
 			if (file.getFileExt() != null && !"".equals(file.getFileExt()) && !file.getFileExt().equals("all")) {
-				
-				BooleanQuery queryFileExt=new BooleanQuery();
-				
+
+				BooleanQuery queryFileExt = new BooleanQuery();
+
 				List<String> typeList = null;
 				if (file.getFileExt().equals("office")) {
 					typeList = JudgeUtils.officeFile;
@@ -211,9 +211,8 @@ public class LuceneSearchUtil {
 				} else if (file.getFileExt().equals("else")) {
 					typeList = JudgeUtils.elseFile;
 				}
-			
-				if(typeList!=null&&!typeList.equals(""))
-				{
+
+				if (typeList != null && !typeList.equals("")) {
 					for (String type : typeList) {
 						TermQuery termQuery = new TermQuery(new Term("fileExt", type));
 						queryFileExt.add(termQuery, BooleanClause.Occur.SHOULD);
@@ -221,9 +220,9 @@ public class LuceneSearchUtil {
 				}
 				booleanQuery.add(queryFileExt, BooleanClause.Occur.MUST);
 			}
-			//查询条件五公开状态
+			// 查询条件五公开状态
 			TermQuery termQuery = new TermQuery(new Term("fileState", "5"));
-			booleanQuery.add(termQuery,BooleanClause.Occur.MUST);
+			booleanQuery.add(termQuery, BooleanClause.Occur.MUST);
 			oldBooleanQuery = booleanQuery;
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
 			// System.out.println(booleanQuery);
@@ -272,7 +271,7 @@ public class LuceneSearchUtil {
 				int fileId = result.scoreDocs[i].doc;
 				Document file = indexSearch.doc(fileId);
 
-				//vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
+				// vo.setFileClassId(Long.valueOf(file.get("fileClassId")));
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				try {
@@ -280,106 +279,103 @@ public class LuceneSearchUtil {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
+				vo.setFileId(Long.valueOf(file.get("fileId")));
 				vo.setFileExt(file.get("fileExt"));
 
 				vo.setFilePath(file.get("filePath"));
 
-				//vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
+				// vo.setFileUserId(Long.valueOf(file.get("fileUserId")));
 
-				//vo.setFileState(Integer.parseInt(file.get("fileState")));
+				// vo.setFileState(Integer.parseInt(file.get("fileState")));
 
 				vo.setUserName(file.get("fileUserName"));
 
 				vo.setFileUuid(file.get("fileUuid"));
 
 				vo.setFileName(file.get("fileName"));
-				
 
-
-				if (file.get("fileBrief") != null&&!"".equals(file.get("fileBrief")))
+				if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief")))
 					vo.setFileBrief(file.get("fileBrief"));
-				else{
+				else {
 					vo.setFileBrief(file.get("fileSummarys"));
 				}
-				
-				if (file.get("fileText")!= null&&!"".equals(file.get("fileText")))
-					vo.setFileText(file.get("fileText").substring(0,file.get("fileText").length() > 150 ? 150 : file.get("fileText").length()));
-				
-				if(file.get("fileKeyWords")!=null&&!"".equals(file.get("fileKeyWords")))
-					
-				{	
-					String[] keyWords=file.get("fileKeyWords").split(",");
+
+				if (file.get("fileText") != null && !"".equals(file.get("fileText")))
+					vo.setFileText(file.get("fileText").substring(0,
+							file.get("fileText").length() > 150 ? 150 : file.get("fileText").length()));
+
+				if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords")))
+
+				{
+					String[] keyWords = file.get("fileKeyWords").split(",");
 					List<String> keyWordList = Arrays.asList(keyWords);
 					vo.setFileKeyWords(keyWordList);
 				}
-				
-				try{
-				if (queryText != null) {
 
-					String fileName = "";
-					if (file.get("fileName") != null && !"".equals(file.get("fileName"))) {
-						fileName = displayHtmlHighlight(queryText, analyzer, "fileName", file.get("fileName"), 100);
-						if (!"".equals(fileName) && fileName != null)
-							vo.setFileName(fileName);
-					}
+				try {
+					if (queryText != null) {
 
-					String fileBrief = "";
-					if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief"))) {
-						fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"), 100);
-						if (!"".equals(fileBrief) && fileBrief != null)
-							vo.setFileBrief(fileBrief);
-					}
-
-					String fileText = "";
-					if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
-						fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
-						if (!"".equals(fileText) && fileText != null)
-							vo.setFileText(fileText);
-					}
-
-					String fileKeyWords = "";
-					if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
-						fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords",
-								file.get("fileKeyWords"), 100);
-						if (!"".equals(fileKeyWords) && fileKeyWords != null)
-						{
-							
-							String[] keyWords=fileKeyWords.split(",");
-							
-							List<String> keyWordList = Arrays.asList(keyWords);
-							
-							vo.setFileKeyWords(keyWordList);
-				
+						String fileName = "";
+						if (file.get("fileName") != null && !"".equals(file.get("fileName"))) {
+							fileName = displayHtmlHighlight(queryText, analyzer, "fileName", file.get("fileName"), 100);
+							if (!"".equals(fileName) && fileName != null)
+								vo.setFileName(fileName);
 						}
-							
-					}
 
-				}
-				if(queryKeyWord!=null)
-				{
-					
-					String fileKeyWords = "";
-					if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
-						fileKeyWords = displayHtmlHighlight(queryKeyWord, analyzer, "fileKeyWords",
-								file.get("fileKeyWords"), 100);
-						
-						if (!"".equals(fileKeyWords) && fileKeyWords != null)
-						{
-							
-							String[] keyWords=fileKeyWords.split(",");
-							
-							List<String> keyWordList = Arrays.asList(keyWords);
-							
-							vo.setFileKeyWords(keyWordList);
-				
+						String fileBrief = "";
+						if (file.get("fileBrief") != null && !"".equals(file.get("fileBrief"))) {
+							fileBrief = displayHtmlHighlight(queryText, analyzer, "fileBrief", file.get("fileBrief"),
+									100);
+							if (!"".equals(fileBrief) && fileBrief != null)
+								vo.setFileBrief(fileBrief);
 						}
-							
+
+						String fileText = "";
+						if (file.get("fileText") != null && !"".equals(file.get("fileText"))) {
+							fileText = displayHtmlHighlight(queryText, analyzer, "fileText", file.get("fileText"), 100);
+							if (!"".equals(fileText) && fileText != null)
+								vo.setFileText(fileText);
+						}
+
+						String fileKeyWords = "";
+						if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
+							fileKeyWords = displayHtmlHighlight(queryText, analyzer, "fileKeyWords",
+									file.get("fileKeyWords"), 100);
+							if (!"".equals(fileKeyWords) && fileKeyWords != null) {
+
+								String[] keyWords = fileKeyWords.split(",");
+
+								List<String> keyWordList = Arrays.asList(keyWords);
+
+								vo.setFileKeyWords(keyWordList);
+
+							}
+
+						}
+
 					}
-					
-				}
-				}catch(Exception e)
-				{
-				   e.printStackTrace();//TODO
+					if (queryKeyWord != null) {
+
+						String fileKeyWords = "";
+						if (file.get("fileKeyWords") != null && !"".equals(file.get("fileKeyWords"))) {
+							fileKeyWords = displayHtmlHighlight(queryKeyWord, analyzer, "fileKeyWords",
+									file.get("fileKeyWords"), 100);
+
+							if (!"".equals(fileKeyWords) && fileKeyWords != null) {
+
+								String[] keyWords = fileKeyWords.split(",");
+
+								List<String> keyWordList = Arrays.asList(keyWords);
+
+								vo.setFileKeyWords(keyWordList);
+
+							}
+
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();// TODO
 				}
 				// System.out.println(vo);
 				page.add(vo);
@@ -404,11 +400,12 @@ public class LuceneSearchUtil {
 		else
 			return 0;
 	}
+
 	/**
 	 * 
 	 */
-	public static String judge(Long fileId){
-		
+	public static String judge(Long fileId) {
+
 		// 保存索引文件的地方
 		Directory directory = null;
 		// IndexReader reader=DirectoryReader
@@ -434,21 +431,21 @@ public class LuceneSearchUtil {
 			TermQuery termQuery = new TermQuery(term);
 
 			TopDocs topdocs = indexSearch.search(termQuery, 1);
-			
-			if(topdocs.totalHits!=0)
-			{
+
+			if (topdocs.totalHits != 0) {
 				document = indexSearch.doc(topdocs.scoreDocs[0].doc);
-				fileText=document.get("fileText");
+				fileText = document.get("fileText");
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			close(ireader, directory);
 		}
 		return fileText;
-		
+
 	}
+
 	/**
 	 * 获取简介
 	 * 
@@ -646,9 +643,9 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(termQuery, 10);
 
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
-				
+
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
-				
+
 				Long fileId = Long.valueOf(document.get("fileId"));
 				String fileName = document.get("fileName");
 				String fileUuid = document.get("fileUuid");
@@ -659,13 +656,12 @@ public class LuceneSearchUtil {
 					String uuid = StringValueUtil.getUUID();
 					FileUtils.copyFile(new File(Const.ROOT_PATH + filePath + "." + fileExt),
 							new File(Const.CONTAINER_PATH + "resource/temp/" + uuid + ".png"));
-					list.add(new SerResult("<img width='400' src='"+Const.HEAD_URL+"resource/temp/" + uuid  + ".png' />",
-							fileId, fileName, fileUuid));
+					list.add(new SerResult(
+							"<img width='400' src='" + Const.HEAD_URL + "resource/temp/" + uuid + ".png' />", fileId,
+							fileName, fileUuid));
 
-				} else if(result!=null) {
-					
-						
-					
+				} else if (result != null) {
+
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
@@ -714,6 +710,12 @@ public class LuceneSearchUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public static List<LuceneSearchVo> indexFileSearchNoHighLine(FileInfo sf, String string, Object object, int i,
+			int j, Object object2, int k) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
