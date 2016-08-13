@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.document.Document;
@@ -656,29 +659,30 @@ public class LuceneSearchUtil {
 
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					
-					/*Map<String,Float> KeyWordRank =new 
+					Map<String, Float> maps = new TreeMap<String, Float>();
 					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
-						Map<String,Float> map=  new HashMap<String, Float>();
-						map.put(paragrap, HanLP.getKeyWordRank(paragrap, keyWord));
-						KeyWordRank.add(map);
+						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
+						maps.put(paragrap,HanLP.getKeyWordRank(paragrap, keyWord));
 					}
-					 Collections.sort(KeyWordRank,new Comparator<Map<String,Float>>() {  
-				          //升序排序  
-				          public int compare(Map<String,Float> o1,  
-				        		  Map<String,Float> o2) {  
-				              return o1.get().compareTo(o2.getValue());  
-				          }  
-				  
-				      });  
-					for (String str : keyWords) {
-						if (str.equals(keyWord)) {
+					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
+					
+					Collections.sort(KeyWordRank,new Comparator<Map.Entry<String,Float>>() {
 
-							list.add(new SerResult(paragrap, fileId, fileName, fileUuid));
+						@Override
+						public int compare(Entry<String, Float> o1, Entry<String, Float> o2) {
+							
+							return o2.getValue().compareTo(o1.getValue());
 						}
 
-					}*/
+			        });
+					 
+					for (Entry<String, Float> map : KeyWordRank) {
+						
+							list.add(new SerResult(map.getKey(), fileId, fileName, fileUuid));
+						
+					}
 
 				}
 
