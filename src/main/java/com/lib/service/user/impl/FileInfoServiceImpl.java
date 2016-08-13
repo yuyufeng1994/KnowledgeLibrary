@@ -170,23 +170,20 @@ public class FileInfoServiceImpl implements FileInfoService {
 		List<RelationInfo> rs = new ArrayList<>();
 		RelationInfo r = null;
 		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
-		FileInfo sf = new FileInfo();
-		sf.setFileName(file.getFileName());
-		List<LuceneSearchVo> list = LuceneSearchUtil.indexFileSearchNoHighLine(sf, "", null, 1, 5, null,
-				0); 
-		for (LuceneSearchVo l : list) {
-			if (file.getFileId().equals(l.getFileId())) {
+		List<Long> list = searchService.getRelation(file.getFileName());
+		for (Long l : list) {
+			if (file.getFileId().equals(l)) {
 				continue;
 			}
 			
 			r = new RelationInfo();
 			r.setMainFileId(file.getFileId());
-			r.setRelationFileId(l.getFileId());
+			r.setRelationFileId(l);
 			rs.add(r);
 
 			// 反向也要关联
 			r = new RelationInfo();
-			r.setMainFileId(l.getFileId());
+			r.setMainFileId(l);
 			r.setRelationFileId(file.getFileId());
 			rs.add(r);
 

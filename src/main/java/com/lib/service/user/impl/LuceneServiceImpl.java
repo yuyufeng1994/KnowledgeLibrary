@@ -84,9 +84,9 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public List<Long> getRelation(List<String> fileKeyWords) {
+	public List<Long> getRelation(String fileName) {
 		// TODO Auto-generated method stub
-		return LuceneSearchUtil.extractRelation(fileKeyWords);
+		return LuceneSearchUtil.extractRelation(fileName);
 	}
 
 	@Override
