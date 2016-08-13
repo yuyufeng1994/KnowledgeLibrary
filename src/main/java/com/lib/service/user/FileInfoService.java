@@ -118,4 +118,10 @@ public interface FileInfoService {
 	int delFileById(Long fileId) throws Exception;
 
 	void addClick(Long userId, Long fileId);
+
+	/**
+	 * 自动关联
+	 * @param uuid
+	 */
+	int autoRelation(String uuid);
 }

@@ -111,9 +111,11 @@
 											fileList = data.data;
 											var fileNames = [];
 											var clickTimes = [];
+											var files = [];
 											for(var i = 0;i<fileList.length;i++){
 												fileNames[i] = fileList[i].fileName;
 												clickTimes[i] = fileList[i].fileClickTimes;
+												files.push({name:fileList[i].fileName,value:fileList[i].fileUUID});
 											}
 											// 基于准备好的dom，初始化echarts实例
 											var filehotCharts = echarts.init(document.getElementById('filehot-charts'));
@@ -160,6 +162,15 @@
 												};
 											// 使用刚指定的配置项和数据显示图表。
 											filehotCharts.setOption(option);
+											filehotCharts.on('click', function (params) {
+												var jValue;
+												for(var item in files){  
+											        if(files[item].name==params.name){  //item 表示Json串中的属性，如'name'  
+											        	jValue =files[item].value;//key所对应的value  
+											        }  
+											    }  
+											    window.open('http://localhost:8080/lib/user/file/' +jValue);
+											});
 										});
 								});
 							</script>

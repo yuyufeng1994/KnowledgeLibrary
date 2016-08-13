@@ -17,6 +17,8 @@ import com.lib.dao.FileInfoDao;
 import com.lib.dao.RelationInfoDao;
 import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
+import com.lib.dto.LuceneSearchVo;
+import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
 import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
@@ -27,6 +29,7 @@ import com.lib.service.user.LuceneService;
 import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
 import com.lib.utils.LuceneIndexUtil;
+import com.lib.utils.LuceneSearchUtil;
 import com.lib.utils.ThumbnailUtils;
 import com.lib.utils.TranslateUtils;
 
@@ -131,6 +134,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 		}
 		// 修改文件为私有可以查看
+
 //		fileinfoDao.setFileStateByUuid(uuid, 6);
 		file.setFileState(6);
 		//创建索引
@@ -141,6 +145,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 			file.setFileBrief(text);
 		}
 		fileinfoDao.updateByUuid(file);
+
 	}
 
 	@Override
@@ -158,6 +163,43 @@ public class FileInfoServiceImpl implements FileInfoService {
 		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, null);
 		List<FileInfo> list = fileinfoDao.searchFileInfoByNameOrId("%" + searchInfo + "%", userId);
 		return list;
+	}
+
+	@Override
+	public int autoRelation(String uuid) {
+		List<RelationInfo> rs = new ArrayList<>();
+		RelationInfo r = null;
+		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
+		FileInfo sf = new FileInfo();
+		sf.setFileName(file.getFileName());
+		List<LuceneSearchVo> list = LuceneSearchUtil.indexFileSearchNoHighLine(sf, "", null, 1, 5, null,
+				0); 
+		for (LuceneSearchVo l : list) {
+			if (file.getFileId().equals(l.getFileId())) {
+				continue;
+			}
+			
+			r = new RelationInfo();
+			r.setMainFileId(file.getFileId());
+			r.setRelationFileId(l.getFileId());
+			rs.add(r);
+
+			// 反向也要关联
+			r = new RelationInfo();
+			r.setMainFileId(l.getFileId());
+			r.setRelationFileId(file.getFileId());
+			rs.add(r);
+
+		}
+
+		int res = 0;
+		try {
+			res = relationInfoDao.insertList(rs);
+		} catch (Exception e) {
+
+		}
+
+		return res / 2;
 	}
 
 	@Override

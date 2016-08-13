@@ -93,8 +93,8 @@ public class FileNewController {
 		String uuid = StringValueUtil.getUUID();
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		String path = Const.ROOT_PATH + "users/" + user.getUserId() + "/files/" + uuid + ".pdf";
-		//System.out.println(path);
-		//判断用户有没有建文件夹
+		// System.out.println(path);
+		// 判断用户有没有建文件夹
 		File dir = new File(Const.ROOT_PATH + "users/" + user.getUserId() + "/files/");
 		if (!dir.exists()) {
 			dir.mkdirs();
@@ -176,14 +176,14 @@ public class FileNewController {
 		} else if (res != 0 && fileInfo.getFileState() == 5) {
 			// 全文检索创立索引
 			try {
-				String fileText=LuceneSearchUtil.judge(file.getFileId());
-				//System.out.println(fileText);
+				String fileText = LuceneSearchUtil.judge(file.getFileId());
+				// System.out.println(fileText);
 				searchService.deleteFileIndex(file);
-				searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),fileText);
+				searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(), fileText);
 			} catch (Exception e) {
-				
+
 			}
-		}else{
+		} else {
 			searchService.deleteFileIndex(file);
 		}
 		jr = new JsonResult(false, "修改成功");
@@ -212,12 +212,34 @@ public class FileNewController {
 		List<Long> list = new ArrayList<Long>();
 
 		for (String l : listStr) {
-			list.add(Long.valueOf(l));
+			if (mainFileId != Long.valueOf(l) && !mainFileId.equals(l)) {
+				list.add(Long.valueOf(l));
+			}
 		}
 
 		int res = fileInfoService.addRelations(mainFileId, list);
 		JsonResult<Integer> jr = null;
 		jr = new JsonResult<Integer>(true, res);
+		return jr;
+	}
+
+	/**
+	 * 自动关联
+	 * 
+	 * @param mainFileId
+	 * @return
+	 */
+	@RequestMapping(value = "/auto-relation/{uuid}", method = RequestMethod.POST)
+	public @ResponseBody JsonResult<Integer> autoRelations(@PathVariable("uuid") String uuid) {
+		JsonResult<Integer> jr = null;
+		if(uuid!=null){
+			int res = fileInfoService.autoRelation(uuid);
+			 jr = new JsonResult<Integer>(true, res);
+		}else{
+			 jr = new JsonResult<Integer>(false, 0);
+		}
+		
+		
 		return jr;
 	}
 

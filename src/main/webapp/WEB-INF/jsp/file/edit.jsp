@@ -168,7 +168,7 @@
 						<form id="myform" class="am-form am-form-horizontal" method="post"
 							onkeypress="if(event.keyCode==13||event.which==13){return false;}"
 							action="user/file-edit-submit">
-							<input name="fileUuid" type="hidden" value="${fileInfo.fileUuid}">
+							<input name="fileUuid" id="fileUuid" type="hidden" value="${fileInfo.fileUuid}">
 							<div class="am-form-group">
 								<label for="user-name" class="am-u-sm-3 am-form-label">文件名称</label>
 								<div class="am-u-sm-8" style="padding-right: 0px">
@@ -278,7 +278,16 @@
 								}
 								
 								function autoRelation() {
-								
+									var uuid = $("#fileUuid").val();
+									$("#wait-modal").modal();
+									$.post("user/auto-relation/"+uuid,function(res){
+										$("#wait-model-text").text("成功关联 "+res.data+" 个文件");
+										getRelation();
+										setTimeout(function(){
+											$("#wait-modal").modal();
+										 },1000);
+									});
+									
 								}
 								
 								function relationSure() {
