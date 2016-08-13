@@ -266,13 +266,25 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>tika-app</groupId>
-			<artifactId>tika-app</artifactId>
-			<version>1.6</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/tika-app-1.6.jar</systemPath>
+		<groupId>tika-app</groupId>
+		<artifactId>tika-app</artifactId>
+		<version>1.6</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/tika-app-1.6.jar</systemPath>
 		</dependency>
 		
+		<!-- 爬虫工具 -->
+		<dependency>
+		<groupId>us.codecraft</groupId>
+		<artifactId>webmagic-core</artifactId>
+		<version>0.5.3</version>
+		</dependency>
+		
+		<dependency>
+		<groupId>us.codecraft</groupId>
+		<artifactId>webmagic-extension</artifactId>
+		<version>0.5.3</version>
+		</dependency>
 
 		<!-- baidu ueditor -->
 		<dependency>

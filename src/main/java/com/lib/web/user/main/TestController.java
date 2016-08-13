@@ -32,7 +32,7 @@ public class TestController {
 	@RequestMapping(value = "/test-sub")
 	public String sub(Model model,String str) {
 		model.addAttribute("str", str);
-		List<SerResult> list = lservice.getParagraph(str);
+		List<SerResult> list = lservice.getParagraph(str,10L);
 		model.addAttribute("list", list);
 		
 		

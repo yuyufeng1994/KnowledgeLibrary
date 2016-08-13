@@ -55,7 +55,7 @@ public interface LuceneService {
 	
 	
 	
-	List<SerResult>  getParagraph(String keyWord);
+	List<SerResult>  getParagraph(String keyWord,Long size);
 
 	
 }

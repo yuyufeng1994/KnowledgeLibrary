@@ -620,7 +620,7 @@ public class LuceneSearchUtil {
 	 * @param keyWord
 	 * @return
 	 */
-	public static List<SerResult> extractParagrap(String keyWord) {
+	public static List<SerResult> extractParagrap(String keyWord,Long size) {
 
 		// 保存索引文件的地方
 		Directory directory = null;
@@ -643,7 +643,8 @@ public class LuceneSearchUtil {
 			TermQuery termQuery = new TermQuery(term);
 			// System.out.println(termQuery);
 			TopDocs topdocs = indexSearch.search(termQuery, 10);
-
+			
+			//HanLP.segment(keyWord);
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
 
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
@@ -671,6 +672,7 @@ public class LuceneSearchUtil {
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
+						
 						maps.put(paragrap,HanLP.getKeyWordRank(paragrap, keyWord));
 					}
 					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
@@ -689,6 +691,8 @@ public class LuceneSearchUtil {
 							list.add(new SerResult(map.getKey(), fileId, fileName, fileUuid));
 					}
 				}
+				if(list.size()>=size)
+					return list;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

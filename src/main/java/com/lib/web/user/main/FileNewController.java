@@ -65,7 +65,7 @@ public class FileNewController {
 	@RequestMapping(value = "/file-content-search", method = RequestMethod.POST)
 	public @ResponseBody JsonResult searchFileContent(String searchInfo) {
 		JsonResult<List<SerResult>> jr = null;
-		List<SerResult> list = lservice.getParagraph(searchInfo);
+		List<SerResult> list = lservice.getParagraph(searchInfo,10L);
 		if (list.size() == 0) {
 			jr = new JsonResult<List<SerResult>>(false, "没有找到相关内容");
 		} else {

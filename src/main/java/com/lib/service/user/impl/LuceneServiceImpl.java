@@ -90,9 +90,9 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public List<SerResult> getParagraph(String keyWord) {
+	public List<SerResult> getParagraph(String keyWord,Long size) {
 		// TODO Auto-generated method stub
-		return LuceneSearchUtil.extractParagrap(keyWord);
+		return LuceneSearchUtil.extractParagrap(keyWord,size);
 	}
 	
 	
