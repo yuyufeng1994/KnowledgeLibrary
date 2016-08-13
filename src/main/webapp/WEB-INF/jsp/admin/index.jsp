@@ -15,7 +15,24 @@
 		<!-- content start -->
 		<div class="admin-content">
 			<div class="admin-content-body">
-			首页
+			<hr><hr><hr><hr><hr>
+				<div class="am-g">
+					<div class="am-u-sm-12">
+						<h2 class="am-text-center am-text-xxxl am-margin-top-lg">欢迎来到SOKLIB知识库管理系统后台</h2>
+						<pre class="page-404">
+   │＼＿＿╭╭╭╭╭＿＿／│  
+│　　　　　　　　　　　│  
+│　　　　　　　　　　　│  
+│　＞　　　　　　　●　│  
+│≡　　╰┬┬┬╯　　≡│  
+│　　　　╰—╯　　　　│  
+╰——┬ｏ———ｏ┬——╯  
+　　　│SOKLIB│  
+　　　╰┬———┬╯ 
+   
+        </pre>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

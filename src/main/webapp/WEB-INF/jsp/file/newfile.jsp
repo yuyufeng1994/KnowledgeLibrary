@@ -87,12 +87,12 @@
 					</span>
 				</div>
 			</div>
-			<div class="am-modal-bd" style="height: 400px; overflow: scroll;">
-				<table class="am-table am-table-bordered">
+			<div class="am-modal-bd" style="height: 400px;overflow-y:scroll;overflow-x:hidden  ">
+				<table class="am-table am-table-bordered am-table-striped am-table-hover" style="table-layout:fixed">
 					<thead>
 						<tr>
 							<th>排序</th>
-							<th>内容</th>
+							<th style="width:400px;word-break:break-all">内容</th>
 							<th>操作</th>
 						</tr>
 					</thead>

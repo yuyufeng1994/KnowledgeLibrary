@@ -50,7 +50,6 @@ public class ManageController {
 	public String userManageUI(Model model) {
 		try {
 			PagedResult<UserInfo> pagedResult = userService.queryByPage(null, null, null);
-			System.out.println(pagedResult.getDataList());
 			model.addAttribute("pages", pagedResult);
 		} catch (Exception e) {
 

@@ -96,7 +96,7 @@ public class FileContentController {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		if (fileInfo.getFileState() != 5) {
-			if (!user.getUserId().equals(fileInfo.getFileUserId())) {
+			if (user.getUserType() != 0 && !user.getUserId().equals(fileInfo.getFileUserId())) {
 				model.addAttribute("message", "无权访问此文档！");
 				return "message";
 			}
