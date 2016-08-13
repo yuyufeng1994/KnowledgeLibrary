@@ -10,6 +10,7 @@ public class ClickInfo {
 	private Long clickId;
 	private Long userId;
 	private Long fileId;
+	private String fileUUID;
 	private Date clickTime;
 	private Long fileClickTimes;
 	private String fileName;
@@ -17,13 +18,21 @@ public class ClickInfo {
 		super();
 	}
 
-	public ClickInfo(Long clickId, Long userId, Long fileId, Date clickTime) {
+
+
+	public ClickInfo(Long clickId, Long userId, Long fileId, String fileUUID, Date clickTime, Long fileClickTimes,
+			String fileName) {
 		super();
 		this.clickId = clickId;
 		this.userId = userId;
 		this.fileId = fileId;
+		this.fileUUID = fileUUID;
 		this.clickTime = clickTime;
+		this.fileClickTimes = fileClickTimes;
+		this.fileName = fileName;
 	}
+
+
 
 	public String getFileName() {
 		return fileName;
@@ -71,6 +80,20 @@ public class ClickInfo {
 
 	public void setClickTime(Date clickTime) {
 		this.clickTime = clickTime;
+	}
+
+	public String getFileUUID() {
+		return fileUUID;
+	}
+
+	public void setFileUUID(String fileUUID) {
+		this.fileUUID = fileUUID;
+	}
+
+	@Override
+	public String toString() {
+		return "ClickInfo [clickId=" + clickId + ", userId=" + userId + ", fileId=" + fileId + ", fileUUID=" + fileUUID
+				+ ", clickTime=" + clickTime + ", fileClickTimes=" + fileClickTimes + ", fileName=" + fileName + "]";
 	}
 
 }

@@ -34,8 +34,8 @@
 	</select>
 
 	<select id="getHotFiles" resultType="com.lib.dto.ClickInfo">
-		select c.*, count(c.file_id)
-		'fileClickTimes' ,f.file_name 'fileName' from click_info c
+		select c.*, count(c.file_id) 'fileClickTimes' ,
+		f.file_uuid 'fileUUID',f.file_name 'fileName' from click_info c
 		join
 		file_info f on c.file_id = f.file_id
 		GROUP BY c.file_id
