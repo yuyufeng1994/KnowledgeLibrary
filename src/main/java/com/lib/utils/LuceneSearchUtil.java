@@ -79,8 +79,7 @@ public class LuceneSearchUtil {
 		@Override
 		protected TokenStreamComponents createComponents(String arg0) {
 			Tokenizer tokenizer = new HanLPTokenizer(
-					HanLP.newSegment().enableOffset(true).enableIndexMode(true).enableJapaneseNameRecognize(true)
-							.enableIndexMode(true).enableNameRecognize(true).enablePlaceRecognize(true),
+					HanLP.newSegment().enableMultithreading(true).enableAllNamedEntityRecognize(true).enableOffset(true).enableIndexMode(true),
 					null, true);
 			return new TokenStreamComponents(tokenizer);
 		}
@@ -639,12 +638,21 @@ public class LuceneSearchUtil {
 
 			indexSearch = new IndexSearcher(ireader);
 
-			Term term = new Term("fileKeyWords", keyWord);
-			TermQuery termQuery = new TermQuery(term);
+			String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
+			Map<String, Float> boost = new HashMap<String, Float>();
+			boost.put("fileName", 4.0f);
+			boost.put("fileBrief", 3.0f);
+			boost.put("fileText", 2.0f);
+			boost.put("fileKeyWords", 1.0f);
+			// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
+			QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
+			// 生成Query对象
+			Query query = queryParser.parse(keyWord);
 			// System.out.println(termQuery);
-			TopDocs topdocs = indexSearch.search(termQuery, 10);
+			TopDocs topdocs = indexSearch.search(query, 10);
 			
-			//HanLP.segment(keyWord);
+			
+			
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
 
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
@@ -672,13 +680,17 @@ public class LuceneSearchUtil {
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
-
-						
-						maps.put(paragrap,HanLP.getKeyWordRank(paragrap, keyWord));
-
-						Float f=HanLP.getKeyWordRank(paragrap, keyWord);
-						if(f!=null)
-						maps.put(paragrap,f);
+						float total=0;
+						for(String str:HanLP.extractKeyword(keyWord, 10))
+						{
+							Float f=HanLP.getKeyWordRank(paragrap, str);
+							//System.out.println(str+":"+f);
+							if(f!=null)
+							total+=f;
+							
+						}
+						if(total!=0)
+						maps.put(paragrap,total);
 
 					}
 					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
