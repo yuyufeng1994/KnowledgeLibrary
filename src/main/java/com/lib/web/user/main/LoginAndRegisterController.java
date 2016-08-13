@@ -1,6 +1,8 @@
 package com.lib.web.user.main;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -32,6 +36,7 @@ import com.lib.exception.user.UserNullAccountException;
 import com.lib.exception.user.UserPasswordWrongException;
 import com.lib.service.user.UserRegisterService;
 import com.lib.service.user.UserService;
+import com.lib.utils.NetworkUtil;
 
 /**
  * 前台登录
@@ -46,6 +51,8 @@ public class LoginAndRegisterController {
 
 	@Autowired
 	private UserRegisterService urService;
+	
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	// @Autowired
 	//
@@ -75,13 +82,14 @@ public class LoginAndRegisterController {
 
 	@RequestMapping(value = "/login-submit", method = RequestMethod.POST, produces = {
 			"application/json;charset=UTF-8" })
-	public @ResponseBody JsonResult loginSub(UserInfo user, HttpSession session) {
+	public @ResponseBody JsonResult loginSub(UserInfo user, HttpSession session,HttpServletRequest req) throws IOException {
 		JsonResult<String> result = null;
+		UserInfo userBasicInfo = null;
 		try {
 			userService.checkUserByEmail(user);
 			result = new JsonResult(true, null);
 			// 在session中保存用户基本信息
-			UserInfo userBasicInfo = userService.getBasicUserInfoByEmail(user.getUserEmail());
+			userBasicInfo = userService.getBasicUserInfoByEmail(user.getUserEmail());
 			session.setAttribute(Const.SESSION_USER, userBasicInfo);
 
 		} catch (UserNullAccountException e) {
@@ -91,7 +99,9 @@ public class LoginAndRegisterController {
 		} catch (UserNoActiveException e3) {
 			result = new JsonResult(false, e3.getMessage());
 		}
-
+		
+		System.out.println(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
+		LOG.info(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
 		return result;
 	}
 
@@ -135,16 +145,19 @@ public class LoginAndRegisterController {
 	 * @param model
 	 * @return
 	 * @throws ParseException
+	 * @throws MalformedURLException 
 	 */
 	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
 	public String load(String userName, String password, HttpServletRequest request, HttpServletResponse response,
-			Model model) throws ParseException {
+			Model model) throws ParseException, MalformedURLException {
+		String url = request.getRequestURL().toString();
+		URL u = new URL(url);
 		String userPassword = password;
 		String action = request.getParameter("action");
 		if ("register".equals(action)) {
 			// 注册
 			String email = request.getParameter("email");
-			urService.processregister(userName, userPassword, email);// 发邮箱激活
+			urService.processregister(userName, userPassword, email,u.getHost());// 发邮箱激活
 			email = email.substring(email.lastIndexOf("@")+1,email.length());
 			return "redirect:register-success?host="+email;
 		} else if ("activate".equals(action)) {
@@ -195,13 +208,12 @@ public class LoginAndRegisterController {
 			}
 		}
 		if (user.getUserPassword() != null || user.getUserPassword() != null && repassword != null) {
-			// 匹配标识符必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个
-			String regex = "(^[a-z0-9A-Z])[a-z0-9A-Z_]{1,5}([a-z0-9-A-Z])";
+			String regex = "^\\w{5,12}$";
 			boolean flg = Pattern.matches(regex, user.getUserPassword());
 			if (flg) {
 				result = "<font class='am-btn-success'>正常</font>";
 			} else {
-				result = "<font  class='am-btn-danger'>必须由字母、数字、下划线组成，且开头和结尾不能有下划线,且中间的字符至少1个不能超过5个 </font>";
+				result = "<font  class='am-btn-danger'>密码必须5-12个字符组成 </font>";
 			}
 		} 
 		if (user.getUserPassword() != null && repassword != null) {

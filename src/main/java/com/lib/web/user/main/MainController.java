@@ -1,8 +1,13 @@
 package com.lib.web.user.main;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,7 @@ import com.lib.enums.Const;
 import com.lib.service.user.AdminCountService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.UserService;
+import com.lib.utils.NetworkUtil;
 
 /**
  * 主要页面跳转
@@ -97,7 +103,7 @@ public class MainController {
 	 * @return
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String login(Model model, HttpSession session) {
+	public String login(Model model, HttpSession session, HttpServletRequest req) {
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		// 获取最近浏览记录
 		List<FileInfoVO> recent = fileManageService.getRecenREeadtFile(user.getUserId());
@@ -106,8 +112,7 @@ public class MainController {
 		// 获取最近分享
 		List<FileInfoVO> share = fileManageService.getRecenShareFile(user.getUserId());
 		model.addAttribute("share", share);
-		
-		
+
 		// 获取最近热门
 		List<FileInfoVO> hot = fileManageService.getRecentHotFile();
 		model.addAttribute("hot", hot);
@@ -133,4 +138,11 @@ public class MainController {
 		return "main/public";
 	}
 
+	public static void main(String[] args) throws Exception {
+		String url = "http://yyf.tunnel.qydev.com/lib/user/index";
+		URL u = new URL(url);
+		System.out.println(u.getPath());
+		System.out.println(u.getHost());
+		System.out.println(u.getProtocol());
+	}
 }

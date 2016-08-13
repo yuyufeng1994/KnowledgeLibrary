@@ -100,7 +100,7 @@ public class UserManageController {
 		JsonResult jsonResult = null;
 		try{
 			UserInfo user = userService.getUserAllInfo(userId);
-			user.setUserPassword(StringValueUtil.getMD5("123456"));
+			user.setUserPassword(StringValueUtil.getMD5("12345"));
 			 userService.updateUserPwd(user);
 			jsonResult = new JsonResult(true, "success");
 			jsonResult.setData("success");

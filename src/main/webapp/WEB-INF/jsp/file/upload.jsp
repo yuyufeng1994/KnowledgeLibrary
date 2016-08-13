@@ -21,7 +21,7 @@
 			<div class="admin-content-body">
 				<div class="am-cf am-padding">
 					<div class="am-fl am-cf">
-						<strong class="am-text-primary am-text-lg">导入知识</strong> / <small>支持文件的批量上传及压缩包导入，支持Office文档、PDF、图像、音视频和图纸等各类型文件。</small>
+						<strong class="am-text-primary am-text-lg">导入知识</strong> / <small>支持文件的批量上传及压缩包导入，支持Office文档、PDF、图像、音视频和图纸等各类型文件。(注：单个文件不超过100MB)</small>
 					</div>
 				</div>
 
@@ -105,7 +105,8 @@
 		pick : '#picker',
 
 		// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-		resize : false
+		resize : false,
+		fileSingleSizeLimit:104857600   //大小限制 100M
 	});
 
 	// 当有文件被添加进队列的时候
@@ -117,7 +118,7 @@
 								.append('<div id="' + file.id + '" class="am-panel am-panel-secondary" style="margin-bottom:3px">'
 										+ '<div class="am-panel-hd">'
 										+ '<span class="state am-badge am-badge-secondary">等待上传...</span>'
-										+ " " + file.name + '</div>' +
+										+ " 文件名： " + file.name + '    大小：'+(file.size/1024/1024).toFixed(2)+' MB </div>' +
 
 										'</div>');
 						if (file.ext == "zip" || file.ext == "rar") {

@@ -55,7 +55,7 @@
 					<input type="submit" name="" value="登 录" id="login-button"
 						data-am-loading="{spinner: 'circle-o-notch', loadingText: '登录中...', resetText: '登录'}"
 						class="am-btn am-btn-primary am-btn-sm am-fl btn-loading-example">
-					<input type="submit" name="" value="忘记密码 ^_^? "
+					<input type="button" onclick="javascript:alert('请联系管理员')"  value="忘记密码 ^_^? "
 						class="am-btn am-btn-default am-btn-sm am-fr">
 				</div>
 				<p align="right">

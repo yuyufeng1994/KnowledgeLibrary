@@ -1,5 +1,8 @@
 package com.lib.utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
@@ -12,20 +15,35 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.lib.enums.Const;
+
 /**
  * 
  * @author Liou CZ
  */
 public class SendEmail {
 
-	public static final String HOST = "smtp.qq.com";
-	public static final String PROTOCOL = "smtp";
-	public static final int PORT = 587;
-	public static final String FROM = "416530244@qq.com";// 发件人的email
-	public static final String PWD = "razendhwhgtibghc";// 发件人密码
-	//student_yyf@163.com yyfyyf1994
-	//587 416530244@qq.com razendhwhgtibghc
-	//13574472762@163.com a13574472762
+	public static String HOST = null;
+	public static String PROTOCOL = "smtp";
+	public static int PORT = 0;
+	public static String FROM = null;// 发件人的email
+	public static String PWD = null;// 发件人密码
+	
+
+	static {
+		Properties prop = new Properties();
+		InputStream in = Const.class.getResourceAsStream("/jdbc.properties");
+		try {
+			prop.load(in);
+			HOST = prop.getProperty("mail_host").trim();
+			PORT = Integer.valueOf(prop.getProperty("mail_port"));
+			FROM = prop.getProperty("mail_user").trim();
+			PWD = prop.getProperty("mail_pwd").trim();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		send("13574472507@163.com", "test");
 	}

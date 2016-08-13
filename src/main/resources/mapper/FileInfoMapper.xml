@@ -32,6 +32,7 @@
 		= 5 and file_id like #{searchInfo}
 		or file_state = 5 and file_name like
 		#{searchInfo}
+		order by file_id desc
 	</select>
 
 	<select id="getFiles" resultType="com.lib.dto.FileInfoVO">

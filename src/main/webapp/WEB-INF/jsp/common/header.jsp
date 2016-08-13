@@ -10,7 +10,7 @@
 	<div class="am-collapse am-topbar-collapse am-topbar-right"
 		id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav  admin-header-list">
-			<li><a href="javascript:;"><span class="am-icon-envelope-o"></span>
+			<li><a href="javascript:alert('开发中');"><span class="am-icon-envelope-o"></span>
 					消息 <span class="am-badge am-badge-warning">5</span></a></li>
 			<li class="am-dropdown" data-am-dropdown><a
 				class="am-dropdown-toggle" data-am-dropdown-toggle

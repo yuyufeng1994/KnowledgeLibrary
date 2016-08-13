@@ -66,7 +66,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 	/**
 	 * 处理注册
 	 */
-	public void processregister(String userName, String userPassword, String email) {
+	public void processregister(String userName, String userPassword, String email,String url) {
 		UserInfo user = new UserInfo();
 		user.setUserName(userName);
 		user.setUserPassword(StringValueUtil.getMD5(userPassword));
@@ -84,11 +84,11 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		userRegisterDao.insertNoStatus(ur);
 		/// 邮件的内容
 		StringBuffer sb = new StringBuffer("用户：" + userName + ",您好！<br>欢迎使用SOKLIB知识库管理系统，请点击下面链接激活您的帐号<br>");
-		sb.append("<a href=\"http://localhost:8080/lib/register?action=activate&email=");
+		sb.append("<a href=\"http://"+url+"/lib/register?action=activate&email=");
 		sb.append(email);
 		sb.append("&validateCode=");
 		sb.append(ur.getValidateCode());
-		sb.append("\">http://localhost:8080/lib/register?action=activate&email=");
+		sb.append("\">http://"+url+"/lib/register?action=activate&email=");
 		sb.append(email);
 		sb.append("&validateCode=");
 		sb.append(ur.getValidateCode());
