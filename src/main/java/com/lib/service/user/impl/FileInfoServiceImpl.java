@@ -165,7 +165,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		FileInfo sf = new FileInfo();
 		sf.setFileName(file.getFileName());
 		List<LuceneSearchVo> list = LuceneSearchUtil.indexFileSearchNoHighLine(sf, "", null, 1, 5, null,
-				0);
+				0); 
 		for (LuceneSearchVo l : list) {
 			if (file.getFileId().equals(l.getFileId())) {
 				continue;
