@@ -671,7 +671,9 @@ public class LuceneSearchUtil {
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
-						maps.put(paragrap,HanLP.getKeyWordRank(paragrap, keyWord));
+						Float f=HanLP.getKeyWordRank(paragrap, keyWord);
+						if(f!=null)
+						maps.put(paragrap,f);
 					}
 					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
 					
