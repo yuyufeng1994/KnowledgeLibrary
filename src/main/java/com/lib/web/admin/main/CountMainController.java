@@ -110,9 +110,23 @@ public class CountMainController {
 		return jr;
 	}
 	/**
-	 * 网站点击
+	 *推荐文档
 	 * @return
 	 */
+	@ResponseBody
+	@RequestMapping(value="/recommend", method = RequestMethod.POST)
+	public JsonResult< List<FileInfo>> recommend(Long userId){
+		JsonResult< List<FileInfo>> jr = null;
+		int recomNum = 2;
+		try{
+			 List<FileInfo> list = countService.getFileScoreList(userId, recomNum);
+			 Collections.reverse(list);//倒序排列
+	//		jr = new JsonResult< List<FileInfo>>(true, list);
+		}catch (Exception e) {
+			jr = new JsonResult< List<FileInfo>>(false, "获取失败");
+		}
+		return jr;
+	}
 	@ResponseBody
 	@RequestMapping(value="/count/click-times", method = RequestMethod.GET)
 	public JsonResult< List<Long>> getClickTims(){

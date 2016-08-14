@@ -7,5 +7,18 @@
 <%@include file="common/head.jsp"%>
 </head>
 <body>
+	<button id="btn">点我</button>
+
 </body>
+<script type="text/javascript">
+	$(function(){
+		$("#btn").click(function(){
+			var url = "admin/recommend";
+			var args = {"userId":"2016001"};
+			$.post(url,args,function(data){
+				console.log(data.data);
+			});
+		});
+	});
+</script>
 </html>

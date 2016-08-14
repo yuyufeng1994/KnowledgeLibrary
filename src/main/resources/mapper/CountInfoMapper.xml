@@ -34,8 +34,10 @@
 	</select>
 
 	<select id="getHotFiles" resultType="com.lib.dto.ClickInfo">
-		select c.*, count(c.file_id) 'fileClickTimes' ,
-		f.file_uuid 'fileUUID',f.file_name 'fileName' from click_info c
+		select c.*, count(c.file_id)
+		'fileClickTimes' ,
+		f.file_uuid 'fileUUID',f.file_name 'fileName' from
+		click_info c
 		join
 		file_info f on c.file_id = f.file_id
 		GROUP BY c.file_id
@@ -47,7 +49,8 @@
 		resultType="com.lib.dto.ClassesClickInfo">
 		select count(file.file_id) 'uploadFileTimes',
 		classification_id 'classId',classification_name 'className'
-		from file_info file
+		from
+		file_info file
 		join classification cl on cl.classification_id =
 		file.file_class_id
 		where file.file_create_time >#{time}
@@ -60,17 +63,20 @@
 		select
 		count(file.file_id)
 		from file_info file
-		join fork_info fo on fo.file_id = file.file_id
+		join fork_info fo on fo.file_id
+		= file.file_id
 		where
 		file.file_create_time >#{time}
-		and file.file_class_id = #{classId}
+		and
+		file.file_class_id = #{classId}
 	</select>
 
 	<select id="getClickTimes" resultType="Long">
 		select count(c.file_id)
 		from click_info c
 		join file_info f on c.file_id = f.file_id
-		where c.click_time >#{time}
+		where
+		c.click_time >#{time}
 		and f.file_class_id = #{classId}
 	</select>
 
@@ -86,24 +92,55 @@
 		group by file.file_user_id
 		ORDER BY uploadFileTimes DESC
 	</select>
-	<select id="getUserForkFileTimes"  resultType="Long">
-		select count(f.fork_id) from file_info file
-		join fork_info f on file.file_id = f.file_id
+	<select id="getUserForkFileTimes" resultType="Long">
+		select
+		count(f.fork_id) from file_info file
+		join fork_info f on file.file_id =
+		f.file_id
 		where file.file_create_time >#{time}
-		and file.file_user_id = #{userId}
+		and file.file_user_id =
+		#{userId}
 	</select>
-	<select id="getUserClickTimes"  resultType="Long">
-		select count(c.click_id) from click_info c
-		where c.click_time >#{time} and  c.user_id = #{userId}
+	<select id="getUserClickTimes" resultType="Long">
+		select
+		count(c.click_id) from click_info c
+		where c.click_time >#{time} and
+		c.user_id = #{userId}
 	</select>
-	
-	<select id ="getUploadTimesByTime"  resultType="Long">
-		select count(file_id) from file_info
-		where file_create_time between #{time1} and #{time2}
+
+	<select id="getUploadTimesByTime" resultType="Long">
+		select
+		count(file_id) from file_info
+		where file_create_time between #{time1}
+		and #{time2}
 	</select>
-	
-	<select id ="getClickTimesByTime"  resultType="Long">
-		select count(click_id) from click_info
-		where click_time between #{time1} and #{time2}
+
+	<select id="getClickTimesByTime" resultType="Long">
+		select
+		count(click_id) from click_info
+		where click_time between #{time1} and
+		#{time2}
 	</select>
+
+	<select id="getFileScoreList" resultType="com.lib.dto.FileScoreInfo">
+		select user_id
+		'userId', file_id 'fileId',count(file_id) 'score',click_time 'time'
+		from click_info
+		group by file_id
+	</select>
+	<insert id="insertFileScore" parameterType="com.lib.dto.FileScoreInfo">
+		insert into
+		file_score (user_id, file_id,
+		score,time)
+		values(#{userId},#{fileId},#{score},#{time})
+	</insert>
+		<select id="queryFileScoreByUserAndFile" resultType="com.lib.dto.FileScoreInfo">
+		select * from file_score
+		where user_id = #{userId} and file_id = #{fileId}
+	</select>
+		<update id="updateFileScore" parameterType="com.lib.dto.FileScoreInfo">
+		update file_score
+		set score = #{score},time = #{time}
+		where user_id = #{userId} and file_id = #{fileId}
+	</update>
 </mapper>

@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +20,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
+import com.lib.dto.FileScoreInfo;
+import com.lib.service.admin.impl.CountServiceImpl;
+import com.lib.utils.MahoutRecommender;
 import com.sun.star.util.DateTime;
 
 
@@ -147,4 +152,34 @@ public class CountDaoTest {
 		}
 		System.out.println(list);
 	}
+	@Test
+	public void getFileScoreListTest(){
+		List<FileScoreInfo> list = countDao.getFileScoreList();
+		System.out.println(list);
+	}
+	
+	@Test
+	public void insertFileScoreTest() throws TasteException{
+		/*
+		List<FileScoreInfo> list = countDao.getFileScoreList();
+		for(int i = 0;i<list.size();i++){
+			System.out.println(list.get(i));
+			countDao.insertFileScore(list.get(i));
+		}
+		*/
+		List<RecommendedItem> list = MahoutRecommender.recommender(2016001l,2);
+	}
+	@Test
+	public void queryFileScoreByUserAndFileTest(){
+		FileScoreInfo fsi = countDao.queryFileScoreByUserAndFile(2016001l, 100l);
+		System.out.println(fsi);
+	}
+	@Test
+	public void updateFileScoreTest(){
+		FileScoreInfo f = countDao.queryFileScoreByUserAndFile(2016001l, 100l);
+		f.setScore(5l);
+		countDao.updateFileScore(f);
+		System.out.println(f);
+	}
+	
 }
