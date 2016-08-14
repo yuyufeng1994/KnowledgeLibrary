@@ -9,6 +9,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<spring-version>4.1.7.RELEASE</spring-version>
+		<mahout.version>0.7</mahout.version>
 	</properties>
 	<dependencies>
 		<!-- Jmail邮箱验证 -->
@@ -47,7 +48,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -155,7 +155,7 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -248,7 +248,7 @@
 		</dependency>
 
 		<!-- lucene 插件 -->
-		
+
 		<dependency>
 			<groupId>hanlp-lucene</groupId>
 			<artifactId>hanlp-lucene</artifactId>
@@ -256,7 +256,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hanlp-lucene-1.1.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>IKANalyzer</groupId>
 			<artifactId>IKANalyzer</artifactId>
@@ -264,26 +264,26 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKANalyzer-5.0.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
-		<groupId>tika-app</groupId>
-		<artifactId>tika-app</artifactId>
-		<version>1.6</version>
-		<scope>system</scope>
-		<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/tika-app-1.6.jar</systemPath>
+			<groupId>tika-app</groupId>
+			<artifactId>tika-app</artifactId>
+			<version>1.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/tika-app-1.6.jar</systemPath>
 		</dependency>
-		
+
 		<!-- 爬虫工具 -->
 		<dependency>
-		<groupId>us.codecraft</groupId>
-		<artifactId>webmagic-core</artifactId>
-		<version>0.5.3</version>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-core</artifactId>
+			<version>0.5.3</version>
 		</dependency>
-		
+
 		<dependency>
-		<groupId>us.codecraft</groupId>
-		<artifactId>webmagic-extension</artifactId>
-		<version>0.5.3</version>
+			<groupId>us.codecraft</groupId>
+			<artifactId>webmagic-extension</artifactId>
+			<version>0.5.3</version>
 		</dependency>
 
 		<!-- baidu ueditor -->
@@ -352,6 +352,22 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>3.7</version>
 		</dependency>
+		<!-- mahout -->
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-core</artifactId>
+			<version>${mahout.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-math</artifactId>
+			<version>${mahout.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-integration</artifactId>
+			<version>${mahout.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>lib</finalName>
@@ -381,6 +397,7 @@
 
 
 			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>

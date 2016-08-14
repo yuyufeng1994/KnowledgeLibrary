@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lib.dao.FileInfoDao;
 import com.lib.entity.FileInfo;
 import com.lib.enums.Const;
+import com.lib.service.admin.CountService;
 
 import base.BaseTest;
+
 
 public class FileInfoServiceTest extends BaseTest {
 
@@ -20,7 +22,7 @@ public class FileInfoServiceTest extends BaseTest {
 
 	@Autowired
 	private FileInfoDao fileInfoDao;
-
+	
 	@Test
 	public void testInsertFile() {
 		fail("Not yet implemented");

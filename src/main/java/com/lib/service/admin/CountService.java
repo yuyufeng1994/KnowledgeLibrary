@@ -7,6 +7,8 @@ import java.util.List;
 import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
+import com.lib.dto.FileScoreInfo;
+import com.lib.entity.FileInfo;
 
 
 /**
@@ -43,6 +45,12 @@ public interface CountService {
 	 * @return
 	 */
 	public List<Long> getClickTimesByTime()throws ParseException ;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<FileInfo> getFileScoreList(Long userId,int recomNum);
 	
 }
 

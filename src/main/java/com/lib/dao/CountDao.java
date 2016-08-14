@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.lib.dto.ActiveUserInfo;
 import com.lib.dto.ClassesClickInfo;
 import com.lib.dto.ClickInfo;
+import com.lib.dto.FileScoreInfo;
 
 /**
  * 统计信息的dao
@@ -109,4 +110,29 @@ public interface CountDao {
 	 * @return
 	 */
 	Long getClickTimesByTime(@Param("time1") Date time1,@Param("time2") Date time2);
+	/**
+	 * 获取用户和文件的评分信息
+	 * @return
+	 */
+	List<FileScoreInfo> getFileScoreList();
+	
+	/**
+	 * 插入用户文件评分信息
+	 * @param fileScore
+	 * @return
+	 */
+	int insertFileScore(FileScoreInfo fileScore);
+	
+	/**
+	 *  更新用户文件评分信息
+	 * @param fileScore
+	 * @return
+	 */
+	int updateFileScore(FileScoreInfo fileScore);
+	
+	/**
+	 * 根据用户id和文件id获得评分信息表
+	 * @return
+	 */
+	FileScoreInfo queryFileScoreByUserAndFile(@Param("userId") Long userId,@Param("fileId") Long fileId);
 }
