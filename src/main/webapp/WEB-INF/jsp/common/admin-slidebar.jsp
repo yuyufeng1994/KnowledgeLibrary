@@ -24,8 +24,6 @@
 							class="am-icon-code-fork"></span> 用户管理</a></li>
 					<li><a href="admin/class-manage-ui"><span
 							class="am-icon-code-fork"></span> 分类管理</a></li>
-					<li><a href="admin/message"><span
-							class="am-icon-code-fork"></span> 消息管理</a></li>
 				</ul></li>
 			<li class="admin-parent"><a class="am-cf"
 				data-am-collapse="{target: '#collapse-nav-sys'}"><span
