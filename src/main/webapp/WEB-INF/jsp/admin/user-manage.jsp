@@ -56,7 +56,6 @@
 									<th class="table-id">ID</th>
 									<th class="tabble-img">头像</th>
 									<th class="table-title">昵称</th>
-									<th class="table-password">密码</th>
 									<th class="table-author ">邮箱地址</th>
 									<th class="table-type am-hide-sm-only">权限</th>
 									<th class="table-set">操作</th>
@@ -70,7 +69,6 @@
 										<td><img src="user/photo/${user.userPhoto }"
 											style="width: 50px; height: 50px" /></td>
 										<td>${user.userName }</td>
-										<td class="am-hide-sm-only">${user.userPassword }</td>
 										<td class="am-hide-sm-only">${user.userEmail }</td>
 										<td class="am-hide-sm-only"><c:if
 												test="${user.userType ==0}">管理员</c:if> <c:if
@@ -88,8 +86,13 @@
 													</select>
 													<button
 														class="refreshBtn am-btn am-btn-default am-btn-xs am-hide-sm-only">
+														<span class="am-icon-refresh"></span> 发送消息
+													</button>
+													<button
+														class="refreshBtn am-btn am-btn-default am-btn-xs am-hide-sm-only">
 														<span class="am-icon-refresh"></span> 初始化密码
 													</button>
+
 													<button
 														class="deleteBtn am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
 														<span class="am-icon-trash-o"></span> 删除
