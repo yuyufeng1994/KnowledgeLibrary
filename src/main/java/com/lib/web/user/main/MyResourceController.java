@@ -75,7 +75,7 @@ public class MyResourceController {
 			luceneService.deleteFileIndex(fileInfo);
 			jr = new JsonResult(true, "删除成功");
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			jr = new JsonResult(false, "删除失败");
 		}
 

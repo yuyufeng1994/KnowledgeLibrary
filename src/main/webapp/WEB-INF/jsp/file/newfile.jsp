@@ -126,7 +126,7 @@
 			$("#get-contens-modal").modal()
 		}
 		function contentSearch() {
-			$("#content-tb").html("搜索匹配中...")
+			$("#content-tb").html("<tr><td  colspan='3'>搜索匹配中...</td></tr>")
 			$
 					.post(
 							"user/file-content-search",

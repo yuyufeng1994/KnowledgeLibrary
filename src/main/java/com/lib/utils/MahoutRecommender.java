@@ -10,7 +10,8 @@ import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;  
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;  
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;  
-import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;  
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;  
 import org.apache.mahout.cf.taste.model.JDBCDataModel;  
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;  
@@ -35,6 +36,8 @@ public class MahoutRecommender {
 	private static String IID = null;
 	private static String VAL = null;
 	private static String TIME = null;
+	private static MysqlDataSource dataSource;
+	private static JDBCDataModel dataModel;
 	static {
 		Properties prop = new Properties();
 		InputStream in = Const.class.getResourceAsStream("/jdbc.properties");
@@ -49,6 +52,12 @@ public class MahoutRecommender {
 			IID = prop.getProperty("mahout_iid").trim();
 			VAL = prop.getProperty("mahout_val").trim();
 			TIME = prop.getProperty("mahout_time").trim();
+			dataSource =new MysqlDataSource();  
+	        dataSource.setServerName(SERVER_NAME);  
+	        dataSource.setUser(USER);  
+	        dataSource.setPassword(PASSWORD);  
+	        dataSource.setDatabaseName(DATABASE_NAME);  
+	        dataModel =new MySQLJDBCDataModel(dataSource,TABLE,UID,IID,VAL, TIME);  
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,17 +65,12 @@ public class MahoutRecommender {
     public static  List<RecommendedItem> recommender(Long userId,int recomNum) throws TasteException {  
         // TODO Auto-generated method stub  
         long t1=System.currentTimeMillis();  
-        MysqlDataSource dataSource=new MysqlDataSource();  
-        dataSource.setServerName(SERVER_NAME);  
-        dataSource.setUser(USER);  
-        dataSource.setPassword(PASSWORD);  
-        dataSource.setDatabaseName(DATABASE_NAME);  
-        JDBCDataModel dataModel=new MySQLJDBCDataModel(dataSource,TABLE,UID,IID,VAL, TIME);  
+
         DataModel model=dataModel;  
      // 相似度 度量方式，采用皮尔逊相关系数度量，也可以采用其他度量方式  
         UserSimilarity similarity=new PearsonCorrelationSimilarity(model);  
         // 用户邻居，与给定用户最相似的一组用户  
-        UserNeighborhood neighborhood=new NearestNUserNeighborhood(2,similarity,model);  
+        UserNeighborhood neighborhood=new NearestNUserNeighborhood(10,similarity,model);  
         // the Recommender.recommend() method's arguments: first one is the user id;  
         //     the second one is the number recommended  
         // 推荐引擎，合并这些组件，实现推荐  

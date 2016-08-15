@@ -1,7 +1,11 @@
 package com.lib.web.user.main;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +44,10 @@ public class TestController {
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String login(Model model) {
-		model.addAttribute("date", new Date());
+	public String login(Model model,HttpServletRequest req) throws MalformedURLException {
+		String url = req.getRequestURL().toString();
+		URL u = new URL(url);
+		System.out.println(u.getHost()+":"+u.getPort());
 		return "test";
 	}
 

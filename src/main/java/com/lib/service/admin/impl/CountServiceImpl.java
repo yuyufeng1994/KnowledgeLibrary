@@ -120,17 +120,8 @@ public class CountServiceImpl implements CountService {
 
 	@Override
 	public List<FileInfo> getFileScoreList(Long userId,int recomNum) {
-		List<FileScoreInfo> list = countDao.getFileScoreList();
 		List<FileInfo> files = new ArrayList<FileInfo>();
 		try {
-			for (int i = 0; i < list.size(); i++) {
-				FileScoreInfo fsi = list.get(i);
-				if (countDao.queryFileScoreByUserAndFile(fsi.getUserId(), fsi.getFileId()) == null) {
-					countDao.insertFileScore(fsi);
-				} else {
-					countDao.updateFileScore(fsi);
-				}
-			}
 			List<RecommendedItem> recomList = MahoutRecommender.recommender(userId,recomNum);
 			for(int i = 0;i<recomList.size();i++){
 				files.add(fileInfoDao.getFileInfoByFileId(recomList.get(i).getItemID()));

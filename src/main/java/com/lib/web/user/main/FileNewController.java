@@ -65,9 +65,9 @@ public class FileNewController {
 	@RequestMapping(value = "/file-content-search", method = RequestMethod.POST)
 	public @ResponseBody JsonResult searchFileContent(String searchInfo) {
 		JsonResult<List<SerResult>> jr = null;
-		List<SerResult> list = lservice.getParagraph(searchInfo,10L);
+		List<SerResult> list = lservice.getParagraph(searchInfo, 10L);
 		if (list.size() == 0) {
-			jr = new JsonResult<List<SerResult>>(false, "没有找到相关内容");
+			jr = new JsonResult<List<SerResult>>(false, "<tr  colspan='3'><td  colspan='3'>没有找到相关内容</td></tr>");
 		} else {
 			jr = new JsonResult<List<SerResult>>(true, list);
 		}
@@ -233,14 +233,13 @@ public class FileNewController {
 	@RequestMapping(value = "/auto-relation/{uuid}", method = RequestMethod.POST)
 	public @ResponseBody JsonResult<Integer> autoRelations(@PathVariable("uuid") String uuid) {
 		JsonResult<Integer> jr = null;
-		if(uuid!=null){
+		if (uuid != null) {
 			int res = fileInfoService.autoRelation(uuid);
-			 jr = new JsonResult<Integer>(true, res);
-		}else{
-			 jr = new JsonResult<Integer>(false, 0);
+			jr = new JsonResult<Integer>(true, res);
+		} else {
+			jr = new JsonResult<Integer>(false, 0);
 		}
-		
-		
+
 		return jr;
 	}
 
