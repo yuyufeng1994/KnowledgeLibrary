@@ -47,10 +47,26 @@ public interface CountService {
 	public List<Long> getClickTimesByTime()throws ParseException ;
 	
 	/**
-	 * 
+	 * 基于用户的推荐
 	 * @return
 	 */
 	public List<FileInfo> getFileScoreList(Long userId,int recomNum);
+	
+	/**
+	 * 基于物品的推荐
+	 * @param userId
+	 * @param recomNum
+	 * @return
+	 */
+	public List<FileInfo> getFileScoreListByItemCF(Long userId,int recomNum);
+	
+	/**
+	 * slopone推荐
+	 * @param userId
+	 * @param recomNum
+	 * @return
+	 */
+	public List<FileInfo> getFileScoreListBySlopOne(Long userId,int recomNum);
 	
 }
 

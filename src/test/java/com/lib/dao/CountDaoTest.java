@@ -167,7 +167,7 @@ public class CountDaoTest {
 			countDao.insertFileScore(list.get(i));
 		}
 		*/
-		List<RecommendedItem> list = MahoutRecommender.recommender(2016001l,2);
+		List<RecommendedItem> list = MahoutRecommender.UserCFRcommender(2016001l,2);
 	}
 	@Test
 	public void queryFileScoreByUserAndFileTest(){

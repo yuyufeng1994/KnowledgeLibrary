@@ -127,6 +127,10 @@ public class CountMainController {
 		}
 		return jr;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/count/click-times", method = RequestMethod.GET)
 	public JsonResult< List<Long>> getClickTims(){
