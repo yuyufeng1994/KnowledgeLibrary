@@ -25,8 +25,8 @@
         <div class="am-u-sm-12 am-u-md-6">
           <div class="am-btn-toolbar">
             <div class="am-btn-group am-btn-group-xs">
-              <button type="button" class="am-btn am-btn-default"  id="doc-prompt-toggle-add"><span class="am-icon-plus"></span> 新增收藏夹</button>
-              <button type="button" class="am-btn am-btn-default" id="doc-prompt-toggle-delete"><span class="am-icon-trash-o"></span> 删除收藏夹</button>
+              <button type="button" class="am-btn am-btn-primary "id="doc-prompt-toggle-add"><span class="am-icon-plus"></span> 新增收藏夹</button>
+              <button type="button" class="am-btn am-btn-primary "  style="margin-left:10PX;"  id="doc-prompt-toggle-delete"><span class="am-icon-trash-o"></span> 删除收藏夹</button>
             </div>
           </div>
         </div>

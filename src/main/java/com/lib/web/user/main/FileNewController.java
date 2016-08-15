@@ -110,6 +110,7 @@ public class FileNewController {
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
+			if(fn.getContent()!=null)
 			fi.setFileBrief(HanLP.extractSummary(fn.getContent(), 3).toString());
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);

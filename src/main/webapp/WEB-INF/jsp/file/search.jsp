@@ -266,6 +266,7 @@ function getChild(object)
 }
 function getChild1(echoId)
 {	
+	console.log(echoId)
 	var classId=$("#fileClassId").val();
 	//console.log(classId);
 	$.ajax({

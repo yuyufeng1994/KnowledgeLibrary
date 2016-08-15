@@ -679,9 +679,10 @@ public class LuceneSearchUtil {
 					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
-						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
+						//System.out.println(HanLP.extractKeyword(keyWord, 10));
 						float total=0;
-						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(paragrap, 10));
+						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(keyWord, 10));
+						if(total>0)
 						maps.put(paragrap,total);
 
 					}
@@ -735,6 +736,30 @@ public class LuceneSearchUtil {
 			e.printStackTrace();
 		}
 	}
-
+	
+/*	*//**分页查询
+	 * @param page 当前页数
+	 * @param perPage 每页显示条数
+	 * @param searcher searcher查询器
+	 * @param query 查询条件
+	 * @return
+	 * @throws IOException
+	 *//*
+	public static TopDocs getScoreDocsByPerPage(int page,int perPage,IndexSearcher searcher,Query query) throws IOException{
+		TopDocs result = null;
+		if(query == null){
+	System.out.println(" Query is null return null ");
+	return null;
+	}
+	ScoreDoc before = null;
+	if(page != 1){
+	TopDocs docsBefore = searcher.search(query, (page-1)*perPage);
+	ScoreDoc[] scoreDocs = docsBefore.scoreDocs;
+	if(scoreDocs.length > 0){
+	before = scoreDocs[scoreDocs.length - 1];
+	}
+	}
+	*/
+	
 	
 }
