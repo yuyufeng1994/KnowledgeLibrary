@@ -100,8 +100,11 @@ public class LoginAndRegisterController {
 			result = new JsonResult(false, e3.getMessage());
 		}
 		
-		System.out.println(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
-		LOG.info(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
+		try {
+			System.out.println(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
+			LOG.info(userBasicInfo.getUserEmail()+"在 ip:"+NetworkUtil.getIpAddress(req)+" 登录");
+		} catch (Exception e) {
+		}
 		return result;
 	}
 
@@ -157,7 +160,7 @@ public class LoginAndRegisterController {
 		if ("register".equals(action)) {
 			// 注册
 			String email = request.getParameter("email");
-			urService.processregister(userName, userPassword, email,u.getHost());// 发邮箱激活
+			urService.processregister(userName, userPassword, email,u.getHost()+":"+u.getPort());// 发邮箱激活
 			email = email.substring(email.lastIndexOf("@")+1,email.length());
 			return "redirect:register-success?host="+email;
 		} else if ("activate".equals(action)) {

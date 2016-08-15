@@ -261,7 +261,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int delFileById(Long fileId) throws Exception {
 
 		FileInfo fileInfo = fileinfoDao.getFileInfoByFileId(fileId);
-		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6) {
+		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6 && fileInfo.getFileState() != 1) {
 			throw new Exception();
 		}
 		File file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + "." + fileInfo.getFileExt());
