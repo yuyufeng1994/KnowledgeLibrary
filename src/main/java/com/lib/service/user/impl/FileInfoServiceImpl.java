@@ -145,7 +145,6 @@ public class FileInfoServiceImpl implements FileInfoService {
 		//创建索引
 		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),null);
 		if(file.getFileBrief()==null||file.getFileBrief().equals("")){
-			
 			String text = searchService.getSummary(file, 3L).toString();
 			file.setFileBrief(text);
 		}
@@ -266,9 +265,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int delFileById(Long fileId) throws Exception {
 
 		FileInfo fileInfo = fileinfoDao.getFileInfoByFileId(fileId);
-		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6 && fileInfo.getFileState() != 1) {
-			throw new Exception();
-		}
+//		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6 && fileInfo.getFileState() != 1) {
+//			throw new Exception();
+//		}
 		File file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + "." + fileInfo.getFileExt());
 		if (file.exists()) {
 			FileUtils.forceDelete(file);
