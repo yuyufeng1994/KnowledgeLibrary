@@ -60,6 +60,24 @@
 						<table class="am-table am-table-bd am-table-striped">
 							<thead>
 								<tr>
+									<th colspan="5">个性推荐</th>
+								</tr>
+							</thead>
+							<tbody id="person-intr">
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<script type="text/javascript">
+					//推荐的js代码
+				</script>
+
+				<div class="am-g">
+					<div class="am-u-sm-12">
+						<table class="am-table am-table-bd am-table-striped">
+							<thead>
+								<tr>
 									<th colspan="5">近期热门</th>
 								</tr>
 							</thead>
@@ -72,7 +90,7 @@
 										<td><a target="_blank"
 											title="${f.fileName }.${f.fileExt }"
 											href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt }</a></td>
-										<td style="width:60%">简介：${f.fileBrief }</td>
+										<td style="width: 60%">简介：${f.fileBrief }</td>
 									</tr>
 								</c:forEach>
 							</tbody>

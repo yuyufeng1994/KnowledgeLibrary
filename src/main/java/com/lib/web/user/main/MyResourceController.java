@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.support.logging.Log;
 import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.ForkFileInfoVo;
@@ -61,27 +64,32 @@ public class MyResourceController {
 	private LuceneService luceneService;
 
 	@Autowired
-	private  ClassificationService classificationService;
+	private ClassificationService classificationService;
+
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/file-del/{fileId}", method = RequestMethod.POST)
 	public @ResponseBody JsonResult delMyfile(HttpSession session, @PathVariable("fileId") Long fileId) {
 
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		JsonResult jr = null;
-		try {
-			fileInfoService.delFileById(fileId);
-			FileInfo fileInfo = new FileInfo();
-			fileInfo.setFileId(fileId);
-			luceneService.deleteFileIndex(fileInfo);
-			jr = new JsonResult(true, "删除成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			jr = new JsonResult(false, "删除失败");
-		}
+		new Thread() {
+			public void run() {
+				try {
+					fileInfoService.delFileById(fileId);
+					FileInfo fileInfo = new FileInfo();
+					fileInfo.setFileId(fileId);
+					luceneService.deleteFileIndex(fileInfo);
+				} catch (Exception e) {
+					LOG.error("删除文件失败" + e.getMessage());
+				}
 
+			};
+		}.start();
+
+		jr = new JsonResult(true, "删除成功");
 		return jr;
 	}
-
 
 	/**
 	 * 跳转到我的资源
@@ -128,7 +136,7 @@ public class MyResourceController {
 		model.addAttribute("page", page);
 		return "file/myforks";
 	}
-	
+
 	/**
 	 * 跳转到我的搜索
 	 * 
@@ -136,11 +144,13 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mySearch/{flag}/{pageNo}", method = RequestMethod.GET)
-	public String mySearch(Model model,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
-		//PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo, pageNo, flag);
-		//model.addAttribute("page", page);
+	public String mySearch(Model model, @PathVariable("pageNo") Integer pageNo, @PathVariable("flag") Integer flag) {
+		// PageVo<LuceneSearchVo> page=luceneService.search(fileInfo, pageNo,
+		// flag);
+		// model.addAttribute("page", page);
 		return "file/search";
 	}
+
 	/**
 	 * 全文检索
 	 * 
@@ -148,19 +158,19 @@ public class MyResourceController {
 	 * @return
 	 */
 	@RequestMapping(value = "/search/{flag}/{pageNo}", method = RequestMethod.POST)
-	public String search(Model model,FileInfo fileInfo,Date endTime,String keyWord,@PathVariable("pageNo") Integer pageNo,@PathVariable("flag") Integer flag) {
-		
-		PageVo<LuceneSearchVo>  page=luceneService.search(fileInfo,keyWord,endTime,pageNo, flag);
+	public String search(Model model, FileInfo fileInfo, Date endTime, String keyWord,
+			@PathVariable("pageNo") Integer pageNo, @PathVariable("flag") Integer flag) {
+
+		PageVo<LuceneSearchVo> page = luceneService.search(fileInfo, keyWord, endTime, pageNo, flag);
 		model.addAttribute("page", page);
-		String classIds=classificationService.findFatherPathById(fileInfo.getFileClassId());
-		if(classIds!=null)
-		classIds=classIds+"."+fileInfo.getFileClassId();
+		String classIds = classificationService.findFatherPathById(fileInfo.getFileClassId());
+		if (classIds != null)
+			classIds = classIds + "." + fileInfo.getFileClassId();
 		model.addAttribute("classIds", classIds);
 		model.addAttribute("file", fileInfo);
 		model.addAttribute("keyWord", keyWord);
 		model.addAttribute("endTime", endTime);
 		return "file/search";
 	}
-	
-	
+
 }
