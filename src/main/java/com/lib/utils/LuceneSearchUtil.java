@@ -681,15 +681,7 @@ public class LuceneSearchUtil {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.getKeyWordRank(paragrap, keyWord));
 						float total=0;
-						for(String str:HanLP.extractKeyword(keyWord, 10))
-						{
-							Float f=HanLP.getKeyWordRank(paragrap, str);
-							//System.out.println(str+":"+f);
-							if(f!=null)
-							total+=f;
-							
-						}
-						if(total!=0)
+						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(paragrap, 10));
 						maps.put(paragrap,total);
 
 					}

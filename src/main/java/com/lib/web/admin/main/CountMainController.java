@@ -121,7 +121,6 @@ public class CountMainController {
 		try{
 			 List<FileInfo> list = countService.getFileScoreList(userId, recomNum);
 			 System.out.println(list);
-			// Collections.reverse(list);//倒序排列
 			jr = new JsonResult< List<FileInfo>>(true, list);
 		}catch (Exception e) {
 			jr = new JsonResult< List<FileInfo>>(false, "获取失败");
