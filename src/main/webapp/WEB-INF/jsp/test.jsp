@@ -14,7 +14,7 @@
 	$(function(){
 		$("#btn").click(function(){
 			var url = "admin/recommend";
-			var args = {"userId":"2016001"};
+			var args = {"userId":"2016014"};
 			$.post(url,args,function(data){
 				console.log(data.data);
 			});

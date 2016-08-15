@@ -114,14 +114,16 @@ public class CountMainController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/recommend", method = RequestMethod.POST)
+	@RequestMapping(value="/recommend", method = {RequestMethod.POST,RequestMethod.GET})
 	public JsonResult< List<FileInfo>> recommend(Long userId){
 		JsonResult< List<FileInfo>> jr = null;
 		int recomNum = 2;
 		try{
+			System.out.println(userId);
 			 List<FileInfo> list = countService.getFileScoreList(userId, recomNum);
-			 Collections.reverse(list);//倒序排列
-	//		jr = new JsonResult< List<FileInfo>>(true, list);
+			 System.out.println(list);
+			// Collections.reverse(list);//倒序排列
+			jr = new JsonResult< List<FileInfo>>(true, list);
 		}catch (Exception e) {
 			jr = new JsonResult< List<FileInfo>>(false, "获取失败");
 		}

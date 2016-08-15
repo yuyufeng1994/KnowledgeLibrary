@@ -3,6 +3,7 @@ package com.lib.service.user.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
+import com.lib.dao.CountDao;
 import com.lib.dao.FileInfoDao;
 import com.lib.dao.RelationInfoDao;
 import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
+import com.lib.dto.FileScoreInfo;
 import com.lib.dto.LuceneSearchVo;
 import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
@@ -46,6 +49,8 @@ public class FileInfoServiceImpl implements FileInfoService {
 	private UserInfoDao userInfoDao;
 	@Autowired
 	private RelationInfoDao relationInfoDao;
+	@Autowired
+	private CountDao countDao;
 
 	@Autowired
 	private LuceneService searchService;
@@ -296,6 +301,14 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public void addClick(Long userId, Long fileId) {
 		try {
 			fileinfoDao.insertClickInfo(userId, fileId);
+			FileScoreInfo fsi = new FileScoreInfo(userId, fileId,1l,new Date());
+			FileScoreInfo fileScore = countDao.queryFileScoreByUserAndFile(userId, fileId);
+			if (fileScore == null) {
+				countDao.insertFileScore(fsi);
+			} else {
+				fileScore.setScore(fileScore.getScore()+1);
+				countDao.updateFileScore(fileScore);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
