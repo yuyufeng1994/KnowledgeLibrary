@@ -146,7 +146,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),null);
 		if(file.getFileBrief()==null||file.getFileBrief().equals("")){
 			
-			String text = searchService.getSummary(file, 3L).toString();
+			String text = searchService.getSummary(file, 3L);
 			file.setFileBrief(text);
 		}
 		fileinfoDao.updateByUuid(file);
