@@ -6,7 +6,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.hankcs.hanlp.HanLP;
 import com.lib.dto.JsonResult;
@@ -24,26 +27,25 @@ import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
 
-
 @TargetUrl("http://wenku.baidu.com/view/\\w+")
 @HelpUrl("http://baike.baidu.com/wikitag/taglist?tagId=68031")
-class test implements PageModelPipeline<WebMagicTest>{
-	
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({ "classpath:spring/spring-dao.xml" })
+class test implements PageModelPipeline<WebMagicTest> {
+
 	@Resource
 	private FileInfoService fileInfoService;
-	
+
 	@Override
-	public  void  process(WebMagicTest t, Task task) {
+	public void process(WebMagicTest t, Task task) {
 		// TODO Auto-generated method stub
 		System.out.println(t.getTitle());
 		System.out.println(t.getBrief());
 		String uuid = StringValueUtil.getUUID();
 		String path = "D:/soklib/" + "users/" + "2016001" + "/files/" + uuid + ".pdf";
 		try {
-			
-			//HtmlToWord.HtmlToPdf(t.getBrief(), path);
-			
 			File file = new File(path);
+			
 			FileInfo fi = new FileInfo();
 			fi.setFileName(t.getTitle());
 			fi.setFileSize(file.length());
@@ -55,27 +57,29 @@ class test implements PageModelPipeline<WebMagicTest>{
 			fi.setFileState(2);
 			fi.setFileClassId(1l);
 			System.out.println(fi);
-			fileInfoService.insertFile(fi);
-
+			int res = fileInfoService.insertFile(fi);
+			HtmlToWord.HtmlToPdf("<P>" + t.getBrief() + "</P>", path);
+			System.out.println(res);
 			// 处理文件
 			new Thread() {
 				public void run() {
 					try {
+						
 						fileInfoService.translateFile(uuid);
-					} catch (IOException e) {
-						//LOG.error(uuid + "文件处理失败");
+					} catch (Exception e) {
+						// LOG.error(uuid + "文件处理失败");
 					}
 				};
 			}.start();
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		}
 	}
-	
-	
+
 }
+
 public class WebMagicTest {
 
 	@ExtractBy(value = "//dd[@class='lemmaWgt-lemmaTitle-title']/h1/text()", notNull = true)
@@ -83,45 +87,37 @@ public class WebMagicTest {
 
 	@ExtractBy("//div[@class='lemma-summary']/allText()")
 	private String brief;
-	
+
 	@Override
 	public String toString() {
-		
+
 		return "WebMagicTest [title=" + title + ", brief=" + brief + "]";
 	}
-	
-	
 
 	public String getTitle() {
 		return title;
 	}
 
-
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-
 
 	public String getBrief() {
 		return brief;
 	}
 
-
-
 	public void setBrief(String brief) {
 		this.brief = brief;
 	}
 
-
-
+	public void testMain(){
+		
+	}
 	public static void main(String[] args) {
-		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new test()
-			,WebMagicTest.class).addUrl("http://baike.baidu.com/view/127346.htm?fromtitle=photoshop&fromid=133866&type=syn").thread(1).run();
-		
-		
+		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new test(), WebMagicTest.class)
+				.addUrl("http://baike.baidu.com/view/127346.htm?fromtitle=photoshop&fromid=133866&type=syn").thread(1)
+				.run();
+
 	}
 
 }
-
