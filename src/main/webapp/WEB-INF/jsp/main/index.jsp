@@ -6,7 +6,7 @@
 <title>首页</title>
 <style>
 .am-g a {
-	color: #333
+	
 }
 </style>
 <%@include file="../common/head.jsp"%>
@@ -72,7 +72,7 @@
 										<td><a target="_blank"
 											title="${f.fileName }.${f.fileExt }"
 											href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt }</a></td>
-										<td>简介：${f.fileBrief }</td>
+										<td style="width:60%">简介：${f.fileBrief }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -88,12 +88,12 @@
 								最近阅读<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div id="collapse-panel-re" class="am-in">
-								<table class='am-table am-table-striped'>
+								<table class='am-table am-table-striped am-text-nowrap'>
 									<c:forEach items="${recent }" var="f">
 										<tr>
 											<td><img src="user/thumbnail/${f.fileUuid}/png"
 												alt="null" class="am-img-thumbnail"
-												style="width: 20px; height: 20px; overflow: hidden"></td>
+												style="width: 30px; height: 30px; overflow: hidden"></td>
 											<td><a target="_blank"
 												title="${f.fileName }.${f.fileExt }"
 												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>
@@ -115,12 +115,12 @@
 								最新分享<span class="am-icon-chevron-down am-fr"></span>
 							</div>
 							<div id="collapse-panel-sh" class="am-in">
-								<table class='am-table am-table-striped'>
+								<table class='am-table am-table-striped am-text-nowrap'>
 									<c:forEach items="${share }" var="f">
 										<tr>
 											<td><img src="user/thumbnail/${f.fileUuid}/png"
 												alt="null" class="am-img-thumbnail"
-												style="width: 20px; height: 20px; overflow: hidden"></td>
+												style="width: 30px; height: 30px; overflow: hidden"></td>
 											<td><a target="_blank"
 												title="${f.fileName }.${f.fileExt }"
 												href="user/file/${f.fileUuid}">${f.hiddenedFileName }.${f.fileExt }</a></td>

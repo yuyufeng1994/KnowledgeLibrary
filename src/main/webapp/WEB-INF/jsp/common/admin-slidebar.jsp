@@ -35,7 +35,7 @@
 					id="collapse-nav-sys">
 					<li><a href="admin/red5" class="am-cf"><span
 							class="am-icon-file-text"></span> 流媒体服务</a></li>
-					<li><a href="user/upload"><span
+					<li><a href="admin/log"><span
 							class="am-icon-cloud-upload"></span>系统日志 </a></li>
 				</ul></li>
 		</ul>
