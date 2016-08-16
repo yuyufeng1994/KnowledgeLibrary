@@ -22,8 +22,10 @@ import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
 import com.lib.entity.Classification;
+import com.lib.entity.FileInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.admin.CountService;
 import com.lib.service.user.AdminCountService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.UserService;
@@ -44,6 +46,8 @@ public class MainController {
 	private UserService userService;
 	@Autowired
 	private AdminCountService countService;
+	@Autowired
+	private CountService ctService;
 
 	/**
 	 * 获取今日的录入文件数量
@@ -116,6 +120,12 @@ public class MainController {
 		// 获取最近热门
 		List<FileInfoVO> hot = fileManageService.getRecentHotFile();
 		model.addAttribute("hot", hot);
+		
+		//获取推荐文档
+	//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+		List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
+	//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
+		model.addAttribute("recommed", recommed);
 
 		return "main/index";
 	}

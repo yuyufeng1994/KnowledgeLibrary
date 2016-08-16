@@ -11,8 +11,6 @@
 					id="collapse-nav-person">
 					<li><a href="admin/count/index" class="am-cf"><span
 							class="am-icon-file-text"></span> 图表</a></li>
-					<li><a href="admin/index"><span
-							class="am-icon-cloud-upload"></span> 数据</a></li>
 				</ul></li>
 			<li class="admin-parent"><a class="am-cf"
 				data-am-collapse="{target: '#collapse-nav-public'}"><span
@@ -35,8 +33,8 @@
 					id="collapse-nav-sys">
 					<li><a href="admin/red5" class="am-cf"><span
 							class="am-icon-file-text"></span> 流媒体服务</a></li>
-					<li><a href="admin/log"><span
-							class="am-icon-cloud-upload"></span>系统日志 </a></li>
+					<li><a href="admin/log"><span class="am-icon-cloud-upload"></span>系统日志
+					</a></li>
 				</ul></li>
 		</ul>
 

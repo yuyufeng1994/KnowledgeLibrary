@@ -64,7 +64,17 @@
 								</tr>
 							</thead>
 							<tbody id="person-intr">
-
+								<c:forEach items="${recommed }" var="f">
+									<tr>
+										<td><img src="user/thumbnail/${f.fileUuid}/png"
+											alt="null" class="am-img-thumbnail"
+											style="width: 50px; height: 50px; overflow: hidden"></td>
+										<td><a target="_blank"
+											title="${f.fileName }.${f.fileExt }"
+											href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt }</a></td>
+										<td style="width: 60%">简介：${f.fileBrief }</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -166,6 +176,5 @@
 
 </body>
 <script type="text/javascript">
-	
 </script>
 </html>

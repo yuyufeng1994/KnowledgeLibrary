@@ -122,7 +122,31 @@ public class CountServiceImpl implements CountService {
 	public List<FileInfo> getFileScoreList(Long userId,int recomNum) {
 		List<FileInfo> files = new ArrayList<FileInfo>();
 		try {
-			List<RecommendedItem> recomList = MahoutRecommender.recommender(userId,recomNum);
+			List<RecommendedItem> recomList = MahoutRecommender.UserCFRcommender(userId,recomNum);
+			for(int i = 0;i<recomList.size();i++){
+				files.add(fileInfoDao.getFileInfoByFileId(recomList.get(i).getItemID()));
+			}
+		} catch (Exception e) {
+
+		}
+		return files;
+	}
+	public List<FileInfo> getFileScoreListByItemCF(Long userId,int recomNum) {
+		List<FileInfo> files = new ArrayList<FileInfo>();
+		try {
+			List<RecommendedItem> recomList = MahoutRecommender.ItemCFRecommender(userId,recomNum);
+			for(int i = 0;i<recomList.size();i++){
+				files.add(fileInfoDao.getFileInfoByFileId(recomList.get(i).getItemID()));
+			}
+		} catch (Exception e) {
+
+		}
+		return files;
+	}
+	public List<FileInfo> getFileScoreListBySlopOne(Long userId,int recomNum) {
+		List<FileInfo> files = new ArrayList<FileInfo>();
+		try {
+			List<RecommendedItem> recomList = MahoutRecommender.SlopOneRecommender(userId,recomNum);
 			for(int i = 0;i<recomList.size();i++){
 				files.add(fileInfoDao.getFileInfoByFileId(recomList.get(i).getItemID()));
 			}
