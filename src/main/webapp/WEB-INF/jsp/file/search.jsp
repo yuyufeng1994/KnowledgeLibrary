@@ -264,7 +264,7 @@ function echoClass()
 	var classId="${classIds}";
 	if(classId=="")
 	{
-		classId+="1.";
+		classId+="1";
 		
 	}
 	var classIds=classId.split(".");
