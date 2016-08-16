@@ -90,7 +90,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
-
+			if(!file.getFileExt().equals("pdf"))
 			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"

@@ -15,7 +15,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;

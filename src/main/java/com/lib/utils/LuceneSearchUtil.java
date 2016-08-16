@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -163,7 +164,7 @@ public class LuceneSearchUtil {
 					calendar.set(1900, 0, 1);
 					sDate = calendar.getTime();
 				}
-				Date eDate = endTime;// TODO
+				Date eDate = endTime;
 				// 若只有起始值结束值默认为当天
 				if ((eDate == null || "".equals(eDate))) {
 					eDate = new Date();
@@ -675,15 +676,28 @@ public class LuceneSearchUtil {
 
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					
-					Map<String, Float> maps = new TreeMap<String, Float>();
+					Map<String, Float> maps = new LinkedHashMap<String, Float>();
 					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.extractKeyword(keyWord, 10));
 						float total=0;
 						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(keyWord, 10));
-						if(total>0)
-						maps.put(paragrap,total);
+						if(total>0){
+							
+							boolean flag=true;
+							for (Entry<String, Float> entry : maps.entrySet()) {  
+								
+								if(Tfidf.Tfidf(HanLP.segment1(entry.getKey()), HanLP.segment1(paragrap))>0.95)
+								{
+									flag=false;
+								};
+								
+							}
+							if(flag==true)
+							maps.put(paragrap, total);
+						}
+						
 
 					}
 					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());

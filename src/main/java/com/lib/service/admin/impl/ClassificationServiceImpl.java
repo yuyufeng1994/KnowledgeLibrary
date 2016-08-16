@@ -98,22 +98,15 @@ public class ClassificationServiceImpl implements ClassificationService {
 	}
 
 	@Override
-	public Map<String, List<Classification>> findAllChildById(String classificationId) {
-
-		List<Classification> classifications = ClassificationDao.findAllChildById("%" + classificationId + "%");
-		Map<String, List<Classification>> mapList = new HashMap<String, List<Classification>>();
-		for (Classification c : classifications) {
-			String str[] = c.getParentPath().split("\\.");
-			String key = str[str.length];
-			if (mapList.get(key) == null) {
-				List<Classification> list = new ArrayList<Classification>();
-				list.add(c);
-				mapList.put(key, list);
-			} else {
-				mapList.get(key).add(c);
-			}
+	public List<List<Classification>> findAllChildById(String classId) {
+		
+		List<List<Classification>> list=new ArrayList<List<Classification>>();
+		String[] classIds=classId.split("\\.");
+		for(String id:classIds)
+		{
+			list.add(ClassificationDao.findOneChildById(Long.valueOf(id)));
 		}
-		return mapList;
+		return list;
 	}
 
 	@Override

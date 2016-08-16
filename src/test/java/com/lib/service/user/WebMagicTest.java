@@ -29,12 +29,19 @@ import us.codecraft.webmagic.pipeline.PageModelPipeline;
 
 @TargetUrl("http://wenku.baidu.com/view/\\w+")
 @HelpUrl("http://baike.baidu.com/wikitag/taglist?tagId=68031")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:spring/spring-dao.xml" })
 class test implements PageModelPipeline<WebMagicTest> {
 
 	@Resource
 	private FileInfoService fileInfoService;
+	
+	
+
+	public test(FileInfoService fileInfoService) {
+		super();
+		this.fileInfoService = fileInfoService;
+	}
+
+
 
 	@Override
 	public void process(WebMagicTest t, Task task) {
@@ -44,6 +51,7 @@ class test implements PageModelPipeline<WebMagicTest> {
 		String uuid = StringValueUtil.getUUID();
 		String path = "D:/soklib/" + "users/" + "2016001" + "/files/" + uuid + ".pdf";
 		try {
+			HtmlToWord.HtmlToPdf("<P>" + t.getBrief() + "</P>", path);
 			File file = new File(path);
 			
 			FileInfo fi = new FileInfo();
@@ -58,7 +66,7 @@ class test implements PageModelPipeline<WebMagicTest> {
 			fi.setFileClassId(1l);
 			System.out.println(fi);
 			int res = fileInfoService.insertFile(fi);
-			HtmlToWord.HtmlToPdf("<P>" + t.getBrief() + "</P>", path);
+			
 			System.out.println(res);
 			// 处理文件
 			new Thread() {
@@ -110,14 +118,6 @@ public class WebMagicTest {
 		this.brief = brief;
 	}
 
-	public void testMain(){
-		
-	}
-	public static void main(String[] args) {
-		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new test(), WebMagicTest.class)
-				.addUrl("http://baike.baidu.com/view/127346.htm?fromtitle=photoshop&fromid=133866&type=syn").thread(1)
-				.run();
 
-	}
 
 }
