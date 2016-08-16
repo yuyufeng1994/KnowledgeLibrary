@@ -5,11 +5,62 @@
 	<resultMap id="BaseResultMap" type="com.lib.entity.UserInfo">
 		<id column="USER_ID" property="userId" jdbcType="BIGINT" />
 		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
-		<result column="USER_PASSWORD" property="userPassword" jdbcType="VARCHAR" />
+		<result column="USER_PASSWORD" property="userPassword"
+			jdbcType="VARCHAR" />
 		<result column="user_type" property="userType" jdbcType="INTEGER" />
 		<result column="user_photo" property="userPhoto" jdbcType="VARCHAR" />
 		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" />
 	</resultMap>
+
+	<select id="select" resultType="com.lib.entity.UserInfo">
+		select *
+		from user_info
+	</select>
+	<insert id="insertSelective" parameterType="com.lib.entity.UserInfo">
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="userPassword != null">
+				user_password,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="userEmail != null">
+				user_email,
+			</if>
+			<if test="userPhoto != null">
+				user_photo,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userPassword != null">
+				#{userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userEmail != null">
+				#{userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhoto != null">
+				#{userPhoto,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
 	<select id="selectAllUserByUserName" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		SELECT *
@@ -37,7 +88,8 @@
 	</select>
 
 	<insert id="insertUserNoStatus" parameterType="UserInfo">
-		insert into user_info (user_id, user_name, user_password,
+		insert into
+		user_info (user_id, user_name, user_password,
 		user_type, user_email
 		)
 		values(#{userId},#{userName},#{userPassword},#{userType},#{userEmail})
@@ -46,28 +98,35 @@
 	<update id="updateUserNoStatus" parameterType="UserInfo">
 		update user_info
 		set user_name = #{userName},user_password=#{userPassword},
-		user_email = #{userEmail},user_type=#{userType},
+		user_email =
+		#{userEmail},user_type=#{userType},
 		user_photo = #{userPhoto}
-		where user_id = #{userId}
+		where
+		user_id = #{userId}
 	</update>
 	<update id="updateUserInfo" parameterType="UserInfo">
 		update user_info
-		set user_name = #{userName},
+		set
+		user_name = #{userName},
 		user_photo = #{userPhoto}
-		where user_id = #{userId}
+		where user_id =
+		#{userId}
 	</update>
 	<update id="updateUserEmail" parameterType="UserInfo">
 		update user_info
-		set user_email = #{userEmail},
+		set
+		user_email = #{userEmail},
 		user_type = #{userType}
-		where user_id = #{userId}
+		where user_id =
+		#{userId}
 	</update>
 	<update id="updateUserPwd" parameterType="UserInfo">
 		update user_info
-		set user_password = #{userPassword}
+		set
+		user_password = #{userPassword}
 		where user_id = #{userId}
 	</update>
-	
+
 	<delete id="deleteUserById">
 		delete from user_info where user_id = #{userId}
 	</delete>

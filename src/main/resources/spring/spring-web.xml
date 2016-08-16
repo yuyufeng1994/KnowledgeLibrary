@@ -66,6 +66,12 @@
 			<mvc:mapping path="/user/**" />
 			<bean class="com.lib.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<!--/** 表示所有url 包括子url路径 -->
+			<mvc:mapping path="/admin/**" />
+			<bean class="com.lib.interceptor.AdminInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 
