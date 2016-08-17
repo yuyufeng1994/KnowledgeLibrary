@@ -74,9 +74,10 @@ public class LuceneIndexUtil {
 
 			} else if (new File(filePath).exists() && !JudgeUtils.isVideoFile(file.getFileExt())
 					&& !JudgeUtils.isAudioFile(file.getFileExt()) && !JudgeUtils.isImageFile(file.getFileExt())) {
+				
 				// 创建输入流读取pdf文件
 				result = ExtractUtil.Parser(filePath, file.getFileExt());
-				// System.out.println(result);
+			//	System.out.println(result);
 			}
 
 			if (result != null && !"".equals(result)) {

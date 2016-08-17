@@ -270,7 +270,10 @@ public class LuceneSearchUtil {
 			ireader = DirectoryReader.open(directory);
 
 			indexSearch = new IndexSearcher(ireader);
-
+			
+			//ScoreDoc last = getLastScoreDoc(pageNo, pageSize, (Query)oldBooleanQuery, indexSearch);
+			//TopDocs result = indexSearch.searchAfter(last, (Query)oldBooleanQuery, pageSize);
+			
 			for (int i = (pageNo - 1) * pageSize, j = 0; i < result.scoreDocs.length && j < pageSize; i++, j++) {
 				LuceneSearchVo vo = new LuceneSearchVo();
 				int fileId = result.scoreDocs[i].doc;
@@ -764,29 +767,15 @@ public class LuceneSearchUtil {
 		}
 	}
 	
-/*	*//**分页查询
-	 * @param page 当前页数
-	 * @param perPage 每页显示条数
-	 * @param searcher searcher查询器
-	 * @param query 查询条件
-	 * @return
-	 * @throws IOException
-	 *//*
-	public static TopDocs getScoreDocsByPerPage(int page,int perPage,IndexSearcher searcher,Query query) throws IOException{
-		TopDocs result = null;
-		if(query == null){
-	System.out.println(" Query is null return null ");
-	return null;
-	}
-	ScoreDoc before = null;
-	if(page != 1){
-	TopDocs docsBefore = searcher.search(query, (page-1)*perPage);
-	ScoreDoc[] scoreDocs = docsBefore.scoreDocs;
-	if(scoreDocs.length > 0){
-	before = scoreDocs[scoreDocs.length - 1];
-	}
-	}
-	*/
 	
+	private static ScoreDoc getLastScoreDoc(int pageNum, int pageSize, Query query,
+            IndexSearcher searcher) throws IOException {
+        if (pageNum == 1) {
+            return null;
+        }
+        int num = pageSize * (pageNum - 1);
+        TopDocs tds = searcher.search(query, num);
+        return tds.scoreDocs[num - 1];
+    }
 	
 }
