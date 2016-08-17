@@ -22,7 +22,7 @@
 							class="am-icon-file-text"></span> 文件管理</a></li>
 					<li><a href="admin/user-manage-ui/1"><span
 							class="am-icon-code-fork"></span> 用户管理</a></li>
-					<li><a href="admin/user-manage-ui"><span
+					<li><a href="admin/user-manage-ui/1"><span
 							class="am-icon-users"></span> 用户管理</a></li>
 					<li><a href="admin/class-manage-ui"><span
 							class="am-icon-sort"></span> 分类管理</a></li>
