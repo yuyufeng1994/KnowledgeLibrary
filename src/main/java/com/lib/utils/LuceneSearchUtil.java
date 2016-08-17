@@ -438,6 +438,7 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(termQuery, 1);
 
 			if (topdocs.totalHits != 0) {
+				
 				document = indexSearch.doc(topdocs.scoreDocs[0].doc);
 				fileText = document.get("fileText");
 			}
@@ -653,7 +654,7 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(query, 10);
 			
 			
-			
+			//System.out.println(topdocs.scoreDocs.length);
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
 
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
@@ -676,44 +677,56 @@ public class LuceneSearchUtil {
 
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					
-					Map<String, Float> maps = new LinkedHashMap<String, Float>();
+					Map<String, Integer> maps = new LinkedHashMap<String, Integer>();
 					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.extractKeyword(keyWord, 10));
-						float total=0;
-						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(keyWord, 10));
-						if(total>0){
+						
+						Integer total=0;
+						for(String str1:HanLP.extractKeyword(paragrap,3))
+						{
+							for(String str2:HanLP.segment1(keyWord))
+							{
+								if(str1.equals(str2))
+								{
+									total++;
+								}
+							}
 							
+						}
+						if(total>0)
+						maps.put(paragrap, total);
+						
+					}
+					List<Map.Entry<String,Integer>> KeyWordRank = new ArrayList<Map.Entry<String,Integer>>(maps.entrySet());
+					
+					Collections.sort(KeyWordRank,new Comparator<Map.Entry<String,Integer>>() {
+
+						@Override
+						public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+							
+							return o2.getValue().compareTo(o1.getValue());
+						}
+			        });
+					for (Entry<String, Integer> map : KeyWordRank) {
+							
+							
+							//System.out.println(map.getKey());
+							//Tf-idf判重
 							boolean flag=true;
-							for (Entry<String, Float> entry : maps.entrySet()) {  
-								
-								if(Tfidf.Tfidf(HanLP.segment1(entry.getKey()), HanLP.segment1(paragrap))>0.95)
+							for(int j=0;j<list.size();j++)
+							{
+								if(Tfidf.Tfidf(HanLP.segment1(list.get(j).getContent()), HanLP.segment1(map.getKey()))>0.95)
 								{
 									flag=false;
 								};
 								
 							}
-							if(flag==true)
-							maps.put(paragrap, total);
-						}
-						
-
-					}
-					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
-					
-					Collections.sort(KeyWordRank,new Comparator<Map.Entry<String,Float>>() {
-
-						@Override
-						public int compare(Entry<String, Float> o1, Entry<String, Float> o2) {
-							
-							return o2.getValue().compareTo(o1.getValue());
-						}
-			        });
-					 
-					for (Entry<String, Float> map : KeyWordRank) {
-						
+							if(flag)
 							list.add(new SerResult(map.getKey(), fileId, fileName, fileUuid));
+							if(list.size()>=size)
+								return list;
 					}
 				}
 				if(list.size()>=size)

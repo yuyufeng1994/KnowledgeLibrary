@@ -30,10 +30,9 @@ public class SpiderTest extends BaseTest{
 	@Test
 	public void test() throws Exception{
 		
-		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new test(fileInfoService), WebMagicTest.class)
+		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new Pipeline(fileInfoService), WebMagicVo.class)
 		.addUrl("http://baike.baidu.com/view/16168.htm").thread(5)
 		.run();
-		
 	}
 	
 	@Test

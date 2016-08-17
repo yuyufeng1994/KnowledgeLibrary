@@ -1,5 +1,6 @@
 package com.lib.utils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,11 +21,11 @@ public class ParagraphUtil {
     	
     	StringBuilder sb = new StringBuilder();
 
-        List<String> paragraps = new LinkedList<String>();
+        List<String> paragraps = new ArrayList<String>();
         
         String  paragrap = "";
         
-        for (int i = 0; i < chars.length; ++i)
+        for (int i = 0; i < chars.length-1; ++i)
         {
             if (sb.length() == 0 && (Character.isWhitespace(chars[i])))
             {
