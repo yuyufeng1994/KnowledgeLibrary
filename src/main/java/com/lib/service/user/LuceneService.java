@@ -56,6 +56,24 @@ public interface LuceneService {
 	
 	
 	List<SerResult>  getParagraph(String keyWord,Long size);
+	
+	
+	
+	/**
+	 * 删除所有索引
+	 * @param fileInfo
+	 */
+	void deleteAllIndex();
+
+	/**
+	 * 创建所有文件索引
+	 * @param fileInfo
+	 * @param fileUserName
+	 * @param fileText
+	 */
+	void addAllIndex();
+	
+	
 
 	
 }

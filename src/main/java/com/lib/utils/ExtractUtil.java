@@ -9,7 +9,13 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.asm.ClassParser;
+import org.apache.tika.parser.html.HtmlParser;
+import org.apache.tika.parser.microsoft.ooxml.OOXMLParser;
+import org.apache.tika.parser.odf.OpenDocumentParser;
+import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.parser.txt.TXTParser;
+import org.apache.tika.parser.xml.XMLParser;
 /*import org.apache.tika.parser.asm.ClassParser;
 import org.apache.tika.parser.html.HtmlParser;
 import org.apache.tika.parser.microsoft.ooxml.OOXMLParser;
@@ -22,16 +28,11 @@ import org.xml.sax.ContentHandler;
 
 public class ExtractUtil {
 
-	
+	static Parser  parser =  new AutoDetectParser();  
 	public static String Parser(String filePath,String fileExt){
 		
-		
-		Parser parser = new AutoDetectParser();
-		if(fileExt.equals("txt"))
-		{
-			parser=new TXTParser();
-		}
         InputStream input = null;  
+        //JudgeParser(fileExt);
         try{  
             Metadata metadata = new Metadata();  
             metadata.set(Metadata.CONTENT_ENCODING, "utf-8");  
@@ -39,7 +40,7 @@ public class ExtractUtil {
             input = new FileInputStream(new File(filePath));  
             ContentHandler handler = new BodyContentHandler(1024*1024*10);//当文件大于100000时，new BodyContentHandler(1024*1024*10);   
             ParseContext context = new ParseContext();  
-            //context.set(Parser.class,parser);  
+            context.set(Parser.class,parser);  
             parser.parse(input,handler, metadata,context);  
             /*for(String name:metadata.names()) {  
                 System.out.println(name+":"+metadata.get(name));  
@@ -58,17 +59,18 @@ public class ExtractUtil {
         return null;  
 		
 	}
+	
+	
 	public static String Parser(FileInputStream input){
 		
 		
-		Parser parser = new AutoDetectParser();  
 		
         try{  
             Metadata metadata = new Metadata();  
             metadata.set(Metadata.CONTENT_ENCODING, "utf-8");   
             ContentHandler handler = new BodyContentHandler(1024*1024*10);//当文件大于100000时，new BodyContentHandler(1024*1024*10);   
             ParseContext context = new ParseContext();  
-            context.set(Parser.class,parser);  
+            //context.set(Parser.class,parser);
             parser.parse(input,handler, metadata,context);  
             /*for(String name:metadata.names()) {  
                 System.out.println(name+":"+metadata.get(name));  
@@ -87,7 +89,7 @@ public class ExtractUtil {
 		
 	}
 	
-	/*private static  void JudgeParser(String fileExt)
+	private static  void JudgeParser(String fileExt)
 	{
 		if(fileExt.equals("xml"))
 		{
@@ -111,5 +113,5 @@ public class ExtractUtil {
 			parser = new ClassParser();
 		}
 
-	}*/
+	}
 }

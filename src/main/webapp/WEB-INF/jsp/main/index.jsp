@@ -64,23 +64,27 @@
 								</tr>
 							</thead>
 							<tbody id="person-intr">
-								<c:forEach items="${recommed }" var="f">
-									<tr>
-										<td><img src="user/thumbnail/${f.fileUuid}/png"
-											alt="null" class="am-img-thumbnail"
-											style="width: 50px; height: 50px; overflow: hidden"></td>
-										<td><a target="_blank"
-											title="${f.fileName }.${f.fileExt }"
-											href="user/file/${f.fileUuid}">${f.fileName }.${f.fileExt }</a></td>
-										<td style="width: 60%">简介：${f.fileBrief }</td>
-									</tr>
-								</c:forEach>
 							</tbody>
 						</table>
 					</div>
 				</div>
 				<script type="text/javascript">
-					//推荐的js代码
+					$(function(){
+						var url = "user/recommend";
+						var args ={};
+						$.post(url,args,function(data){
+							console.log(data);
+							var list = data.data;
+							console.log(list[0]);
+							var tbody = $("#person-intr");
+							for(var i = 0;i<list.length;i++){
+								tbody.append("<tr><td><img src='user/thumbnail/"+list[i].fileUuid+"/png' alt='null' class='am-img-thumbnail' style='width: 50px; height: 50px; overflow: hidden'></td>"+
+										"<td><a target='_blank' title='"+list[i].fileName+"."+list[i].fileExt+"' href='user/file/"+list[i].fileUuid+"'>"+list[i].fileName+"."+list[i].fileExt +"</a></td>"+
+										"<td style='width: 60%'>简介："+list[i].fileBrief+" </td></tr>");
+							}
+							
+						});
+					});
 				</script>
 
 				<div class="am-g">

@@ -10,8 +10,8 @@
 	<div class="am-collapse am-topbar-collapse am-topbar-right"
 		id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav  admin-header-list">
-			<li><a href="javascript:alert('开发中');"><span class="am-icon-envelope-o"></span>
-					消息 <span class="am-badge am-badge-warning">5</span></a></li>
+			<li><a href="user/message/1"><span class="am-icon-envelope-o"></span>
+					消息 <span id ="msg" class="am-badge am-badge-warning"></span></a></li>
 			<li class="am-dropdown" data-am-dropdown><a
 				class="am-dropdown-toggle" data-am-dropdown-toggle
 				href="javascript:;"> <img alt="null" class="am-radius" src="user/photo/${session_user.userPhoto}" style="width:17px;height:17px;">
@@ -36,5 +36,12 @@
 				placeholder="搜索公共知识库"><button class="am-form-field am-input-sm"><i class="am-icon-search"></i> 搜索</button>
 		</div>
 	</form>
-
+<script type="text/javascript">
+	$(function(){
+		$.get("user/count-msg",function(data){
+			var msgNum = data.data;
+			$("#msg").text(msgNum);
+		});
+	});
+</script>
 </header>

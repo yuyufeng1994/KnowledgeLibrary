@@ -71,7 +71,7 @@ public interface FileInfoDao {
 	 * @return
 	 */
 	FileInfo getFileInfoByFileId(Long fileId);
-
+	
 	/**
 	 * 设置文件的状态
 	 * 

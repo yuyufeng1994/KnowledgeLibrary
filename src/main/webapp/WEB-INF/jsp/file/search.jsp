@@ -85,7 +85,7 @@ cursor:pointer;
 
 										<div class="am-form-group am-form-icon">
 											<i class="am-icon-calendar"></i> <input name="fileCreateTime"
-												id="fileCreateTime" type="date"
+												id="fileCreateTime" type="date" style="width:110%"
 												class="am-form-field am-input-sm" placeholder="日期"
 												value="<fmt:formatDate value="${file.fileCreateTime }"
 													pattern="yyyy-MM-dd" />">
@@ -97,8 +97,8 @@ cursor:pointer;
 									<div class="am-u-sm-2">
 										<div class="am-form-group am-form-icon ">
 											<i class="am-icon-calendar"></i> <input name="endTime"
-												id="endTime" type="date"
-												value="<fmt:formatDate value="${endTime}"
+												id="endTime" type="date" style="width:110%"
+												value="<fmt:formatDate value="${endTime}"  
 													pattern="yyyy-MM-dd" />"
 												class="am-form-field am-input-sm" placeholder="日期">
 
@@ -186,17 +186,8 @@ cursor:pointer;
 						</c:if>
 					</ul>
 				</div>
-
 			</div>
-
-
 		</div>
-
-
-
-
-
-
 	</div>
 	</div>
 	</div>

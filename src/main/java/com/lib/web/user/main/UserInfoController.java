@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -27,10 +28,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.dto.JsonResult;
+import com.lib.entity.FileInfo;
+import com.lib.entity.MessageInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
+import com.lib.service.user.MessageService;
 import com.lib.service.user.UserRegisterService;
 import com.lib.service.user.UserService;
 import com.lib.utils.StringValueUtil;
@@ -50,6 +55,9 @@ public class UserInfoController {
 
 	@Autowired
 	private UserRegisterService urService;
+	
+	@Autowired
+	private MessageService msgService;
 
 	/**
 	 * 跳转到个人中心
@@ -64,7 +72,70 @@ public class UserInfoController {
 		model.addAttribute("date", new Date());
 		return "user/userinfo";
 	}
-
+	/**
+	 * 跳转到我的消息
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/message/{pageNo}", method = RequestMethod.GET)
+	public String message(@PathVariable("pageNo") Integer pageNo,Model model, HttpSession session) {
+		try {
+			if (pageNo == null) {
+				pageNo = 1;
+			}
+			UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+			PageInfo<MessageInfo> page = msgService.queryByPage(pageNo, user.getUserId());
+			model.addAttribute("user", user);
+			model.addAttribute("date", new Date());
+			model.addAttribute("page", page);
+		}catch (Exception e) {
+		}
+		return "user/message";
+	}
+	/**
+	 * 统计未读消息
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/count-msg", method = {RequestMethod.POST,RequestMethod.GET})
+	public JsonResult< Long> countUserMsg(HttpSession session){
+		JsonResult<Long> jr = null;
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		Long num = msgService.countMsgByUserId(user.getUserId());
+		try{
+			//获取推荐文档
+			//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+//				List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
+			//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
+			jr = new JsonResult< Long>(true, num);
+		}catch (Exception e) {
+			jr = new JsonResult<Long>(false, "获取失败");
+		}
+		return jr;
+	}
+	/**
+	 * 
+	 * @param msgId
+	 * @return
+	 */
+	@RequestMapping(value = "/isread", method = {RequestMethod.GET,RequestMethod.POST})
+	public String isRead(Long msgId) {
+		System.out.println(msgId);
+		msgService.isReadMsg(msgId);
+		return "redirect:message/1";
+	}
+	/**
+	 * 删除一条消息记录
+	 * @param msgId
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = {RequestMethod.GET,RequestMethod.POST})
+	public String deleteMsgByMsgId(Long msgId) {
+		msgService.deleteMsgByMsgId(msgId);
+		return "redirect:message/1";
+	}
 	/**
 	 * 跳转到账户设置
 	 * 

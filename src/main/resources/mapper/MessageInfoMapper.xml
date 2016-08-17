@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.MessageInfoDao">
+<resultMap id="BaseResultMap" type="com.lib.entity.MessageInfo">
+		<id column="message_id" property="msgId" jdbcType="BIGINT" />
+		<result column="message_title" property="msgTitle" jdbcType="VARCHAR" />
+		<result column="message_content" property="msgContent" jdbcType="VARCHAR" />
+		<result column="message_is_read" property="isRead" jdbcType="INTEGER" />
+		<result column="message_to_user_id" property="userId" jdbcType="BIGINT" />
+		<result column="message_time" property="msgTime"  />
+	</resultMap>
+	<select id="queryMsgByUserId" 
+		resultMap="BaseResultMap" >
+		select *
+		from message_info where message_to_user_id = #{userId}
+	</select>
+	<insert id="insertMsg">
+		insert into
+		message_info(message_title,message_content,message_is_read,message_to_user_id,message_time)
+		values(#{msgTitle},#{msgContent},#{isRead},#{userId},#{msgTime});
+	</insert>
+	<select id="countMsgByUserId" 
+		resultType="java.lang.Long" >
+		select count(*)
+		from message_info where message_to_user_id = #{userId} and message_is_read = false
+	</select>
+	<update id="isReadMsg">
+		update message_info set message_is_read = true where message_id = #{msgId}
+	</update>
+	<delete id="deleteMsgByMsgId">
+		delete from message_info where message_id = #{msgId}
+	</delete>
+</mapper>
