@@ -409,8 +409,11 @@ public class LuceneSearchUtil {
 			return 0;
 	}
 
+
 	/**
-	 * 
+	 * 判断并获取索引内容
+	 * @param fileId
+	 * @return
 	 */
 	public static String judge(Long fileId) {
 
@@ -455,6 +458,7 @@ public class LuceneSearchUtil {
 
 	}
 
+	
 	/**
 	 * 获取简介
 	 * 
@@ -473,8 +477,6 @@ public class LuceneSearchUtil {
 		DirectoryReader ireader = null;
 		// 创建 IndexSearcher对象，相比IndexWriter对象，这个参数就要提供一个索引的目录就行了
 		IndexSearcher indexSearch = null;
-		// 生成Query对象
-		Query query = null;
 		// new一个文档对象
 		Document document = new Document();
 		
@@ -768,6 +770,7 @@ public class LuceneSearchUtil {
 	}
 	
 	
+	@SuppressWarnings("unused")
 	private static ScoreDoc getLastScoreDoc(int pageNum, int pageSize, Query query,
             IndexSearcher searcher) throws IOException {
         if (pageNum == 1) {

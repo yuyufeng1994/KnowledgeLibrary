@@ -9,16 +9,14 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import com.hankcs.hanlp.seg.common.Term;
-
+import com.hankcs.hanlp.dictionary.CoreSynonymDictionary;
 public class TextRank {
 	 /**
      * 提取多少个关键字
      */
     int nKeyword = 10;
     /**
-     * 阻尼系数（ＤａｍｐｉｎｇＦａｃｔｏｒ），一般取值为0.85
+     * 阻尼系数一般取值为0.85
      */
     final static float d = 0.85f;
     /**
@@ -38,32 +36,29 @@ public class TextRank {
      
 //        System.out.println(wordList);
         Map<String, Set<String>> words = new TreeMap<String, Set<String>>();
+        Map<Map<String,String>,Long> weights= new HashMap<Map<String,String>,Long>();
         Queue<String> que = new LinkedList<String>();
-        for (String w : wordList)
+        for (String w1 : wordList)
         {
-            if (!words.containsKey(w))
-            {
-                words.put(w, new TreeSet<String>());
-            }
-            que.offer(w);
-            if (que.size() > 5)
-            {
-                que.poll();
-            }
-
-            for (String w1 : que)
-            {
-                for (String w2 : que)
-                {
-                    if (w1.equals(w2))
-                    {
-                        continue;
-                    }
-
-                    words.get(w1).add(w2);
-                    words.get(w2).add(w1);
-                }
-            }
+           for(String w2 : wordList)
+           {
+        	   
+        	   if (!words.containsKey(w1))
+               {
+                   words.put(w1, new TreeSet<String>());
+               }
+        	   long weight=CoreSynonymDictionary.distance(w1, w2);
+        	   if(weight!=0&&weight<10000000)
+        	   {
+        		 
+        		   words.get(w1).add(w2);
+                   words.get(w2).add(w1);
+                   Map<String,String> map=new HashMap<String, String>();
+                   map.put(w1, w2);
+                   map.put(w2, w1);
+                   weights.put(map, weight);
+        	   }
+           }
         }
 //        System.out.println(words);
         Map<String, Float> score = new HashMap<String, Float>();
@@ -78,9 +73,12 @@ public class TextRank {
                 
                 for (String element : value)
                 {
-                    int size = words.get(element).size();
-                    if (key.equals(element) || size == 0) continue;
-                    m.put(key, (1-d) + d / size * (score.get(element) == null ? 0 : score.get(element)));
+                	  Map<String,String> map=new HashMap<String, String>();
+                      map.put(key, element);
+                      map.put(element, key);
+                      long weight=weights.get(map);
+                    if (key.equals(element) || weight == 0) continue;
+                    m.put(key, (1-d) + d / weight * (score.get(element) == null ? 0 : score.get(element)));
                 }
                 max_diff = Math.max(max_diff, Math.abs(m.get(key) - (score.get(key) == null ? 0 : score.get(key))));
             }
@@ -89,5 +87,9 @@ public class TextRank {
         }
         
         return score;
+    }
+    public static void main(String[] args) {
+    	
+    	
     }
 }

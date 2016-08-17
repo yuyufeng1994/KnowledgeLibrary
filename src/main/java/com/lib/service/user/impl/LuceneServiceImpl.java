@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lib.dao.ClassificationDao;
+import com.lib.dao.FileInfoDao;
+import com.lib.dao.UserInfoDao;
 import com.lib.dto.LuceneSearchVo;
 import com.lib.dto.PageVo;
 import com.lib.dto.SerResult;
@@ -19,6 +21,10 @@ import com.lib.utils.LuceneSearchUtil;
 public class LuceneServiceImpl implements LuceneService {
 	@Autowired
 	private ClassificationDao classDao;
+	@Autowired
+	private   FileInfoDao  fileInfoDao;
+	@Autowired
+	private UserInfoDao userInfoDao;
 	@Override
 	public PageVo<LuceneSearchVo> search(FileInfo fileInfo,String keyWord,Date endTime,int pageNo,Integer flag) {
 		
@@ -94,6 +100,31 @@ public class LuceneServiceImpl implements LuceneService {
 		// TODO Auto-generated method stub
 		return LuceneSearchUtil.extractParagrap(keyWord,size);
 	}
+
+	
+
+	@Override
+	public void deleteAllIndex() {
+		// TODO Auto-generated method stub
+		List<FileInfo> lists=fileInfoDao.getFilesByState(5);
+		for(FileInfo list:lists)
+		{
+			LuceneIndexUtil.deteleFileIndex(list);
+		}
+	}
+
+	@Override
+	public void addAllIndex() {
+		// TODO Auto-generated method stub
+		List<FileInfo> lists=fileInfoDao.getFilesByState(5);
+		for(FileInfo list:lists)
+		{
+			String fileText = LuceneSearchUtil.judge(list.getFileId());
+			LuceneIndexUtil.addFileIndex(list,userInfoDao.queryById(list.getFileUserId()).getUserName(),fileText);
+		}
+		
+	}
+
 	
 	
 
