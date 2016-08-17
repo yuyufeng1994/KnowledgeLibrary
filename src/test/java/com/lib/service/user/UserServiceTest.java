@@ -32,9 +32,9 @@ public class UserServiceTest extends BaseTest{
 	}
 	@Test
 	public void pageUserByUserName(){
-		PagedResult<UserInfo> pagedResult = userService.queryByPage("loveling", null, 10);
-		List<UserInfo> list = pagedResult.getDataList();
-		System.out.println(list.get(0));
+//		PagedResult<UserInfo> pagedResult = userService.queryByPage("loveling", null, 10);
+//		List<UserInfo> list = pagedResult.getDataList();
+//		System.out.println(list.get(0));
 		
 	}
 }

@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hankcs.hanlp.algoritm.VectorDistance;
 import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.UserInfo;
+import com.lib.enums.Const;
 import com.lib.exception.user.UserException;
 import com.lib.exception.user.UserNoActiveException;
 import com.lib.exception.user.UserNullAccountException;
@@ -107,11 +109,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public PagedResult<UserInfo> queryByPage(String userName, Integer pageNo, Integer pageSize) {
-		pageNo = pageNo == null ? 1 : pageNo;
-		pageSize = pageSize == null ? 10 : pageSize;
-		PageHelper.startPage(pageNo, pageSize); // startPage是告诉拦截器说我要开始分页了。分页参数是这两个。
-		return BeanUtil.toPagedResult(userInfoDao.selectAllUserByUserName(userName));
+	public PageInfo<UserInfo> queryByPage(Integer pageNo, String string, String searchValue) {
+		PageHelper.startPage(pageNo, Const.COMMON_PAGE_SIZE, string);
+		List<UserInfo> list = userInfoDao.selectAllUserByUserName("%" + searchValue + "%");
+		PageInfo<UserInfo> page = new PageInfo<UserInfo>(list);
+		return page;
 	}
 
 	@Override

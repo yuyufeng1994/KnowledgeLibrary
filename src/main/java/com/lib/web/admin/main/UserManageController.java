@@ -1,6 +1,7 @@
 package com.lib.web.admin.main;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lib.dto.JsonResult;
+import com.lib.entity.MessageInfo;
 import com.lib.entity.UserInfo;
+import com.lib.service.user.MessageService;
 import com.lib.service.user.UserService;
 import com.lib.utils.PagedResult;
 import com.lib.utils.StringValueUtil;
@@ -26,6 +29,9 @@ public class UserManageController {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MessageService msgService;
 	/**
 	 * 分页以及查询
 	 * @param pageNumber
@@ -33,19 +39,6 @@ public class UserManageController {
 	 * @param searcher
 	 * @return
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/user-list/{pageNumber}", method ={ RequestMethod.POST,RequestMethod.GET})
-	public JsonResult<PagedResult<UserInfo>> getUserList(@PathVariable("pageNumber") Integer pageNumber, Integer pageSize, String searcher) {
-		JsonResult<PagedResult<UserInfo>> jsonResult = null;
-		try {
-			// String searchText = new StringBuilder("%").append(searcher).append("%").toString();
-			PagedResult<UserInfo> pagedResult = userService.queryByPage(searcher, pageNumber, pageSize);
-			jsonResult = new JsonResult<PagedResult<UserInfo>>(true, pagedResult);
-		} catch (Exception e) {
-			jsonResult = new  JsonResult<PagedResult<UserInfo>>(false, e.getMessage());
-		}
-		return jsonResult;
-	}
 	/**
 	 * 删除用户
 	 * @param userId
@@ -85,6 +78,31 @@ public class UserManageController {
 			jsonResult.setData("success");
 		}catch (Exception e) {
 			jsonResult = new JsonResult(false, "error");
+		}
+		return jsonResult;
+	}
+	
+	/**
+	 * 初始化密码
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/send-msg", method ={ RequestMethod.POST,RequestMethod.GET})
+	public JsonResult sendMessage(Long userId,String msgTitle,String msgContent){
+		JsonResult jsonResult = null;
+		try{
+			MessageInfo msg = new MessageInfo();
+			msg.setMsgTitle(msgTitle);
+			msg.setMsgContent(msgContent);
+			msg.setRead(false);
+			msg.setUserId(userId);
+			msg.setMsgTime(new Date());
+			msgService.insertMsg(msg);
+			jsonResult = new JsonResult(true, "success");
+			jsonResult.setData("success");
+		}catch(Exception e){
+			jsonResult = new JsonResult(true, "error");
 		}
 		return jsonResult;
 	}

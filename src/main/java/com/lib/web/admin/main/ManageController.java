@@ -21,7 +21,6 @@ import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.FileManageService;
 import com.lib.service.user.UserService;
-import com.lib.utils.PagedResult;
 
 /**
  * 后台处理文件的Controller
@@ -46,11 +45,26 @@ public class ManageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/user-manage-ui", method = RequestMethod.GET)
-	public String userManageUI(Model model) {
+	@RequestMapping(value = "/user-manage-ui/{pageNo}", method = {RequestMethod.GET,RequestMethod.POST})
+	public String userManageUI(Model model,@PathVariable("pageNo") Integer pageNo, HttpSession session, String searchValue,
+			String searchNULL) {
 		try {
-			PagedResult<UserInfo> pagedResult = userService.queryByPage(null, null, null);
-			model.addAttribute("pages", pagedResult);
+			if (pageNo == null) {
+				pageNo = 1;
+			}
+
+			if (searchNULL != null) {
+				searchValue = "";
+			}
+			if (searchValue == null) {
+//				searchValue = (String) session.getAttribute("searchValue");
+				if (searchValue == null) {
+					searchValue = "";
+				}
+			}
+//			session.setAttribute("searchValue", searchValue);
+			PageInfo<UserInfo> pagedResult = userService.queryByPage(pageNo, searchNULL, searchValue);
+			model.addAttribute("page", pagedResult);
 		} catch (Exception e) {
 
 		}

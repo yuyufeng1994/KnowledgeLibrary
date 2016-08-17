@@ -121,15 +121,32 @@ public class MainController {
 		List<FileInfoVO> hot = fileManageService.getRecentHotFile();
 		model.addAttribute("hot", hot);
 		
-		//获取推荐文档
-	//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
-		List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
-	//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
-		model.addAttribute("recommed", recommed);
-
+	
 		return "main/index";
 	}
-
+	/**
+	 * 
+	 * 文档推荐
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/recommend", method = {RequestMethod.POST,RequestMethod.GET})
+	public JsonResult< List<FileInfo>> recommend(HttpSession session){
+		JsonResult< List<FileInfo>> jr = null;
+		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
+		int recomNum = 2;
+		try{
+			//获取推荐文档
+			//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+				List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
+			//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
+			jr = new JsonResult< List<FileInfo>>(true, recommed);
+		}catch (Exception e) {
+			jr = new JsonResult< List<FileInfo>>(false, "获取失败");
+		}
+		return jr;
+	}
 	@RequestMapping(value = "/public/{fileClassId}/{pageNo}", method = RequestMethod.GET)
 	public String publicResource(Model model, @PathVariable("fileClassId") Long fileClassId,
 			@PathVariable("pageNo") Integer pageNo) {

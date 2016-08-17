@@ -42,6 +42,7 @@ public class SpiderTest extends BaseTest{
 		user.setUserPassword("123456789");
 		userService.checkUserByEmail(user );
 	}
+	/*
 	@Test
 	public void pageUserByUserName(){
 		PagedResult<UserInfo> pagedResult = userService.queryByPage("loveling", null, 10);
@@ -49,4 +50,5 @@ public class SpiderTest extends BaseTest{
 		System.out.println(list.get(0));
 		
 	}
+	*/
 }
