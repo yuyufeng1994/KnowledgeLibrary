@@ -14,14 +14,9 @@
 <title>知识库管理系统</title>
 <!-- No Baidu Siteapp-->
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<link rel="icon" type="image/png" href="resource/amazeui/i/favicon.png">
-
+<link rel="icon" type="image/png" href="resource/image/bitbug_favicon_3.ico">
 <!-- Add to homescreen for Chrome on Android -->
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" sizes="192x192"
-	href="resource/amazeui/i/app-icon72x72@2x.png">
-
 <!-- Add to homescreen for Safari on iOS -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">

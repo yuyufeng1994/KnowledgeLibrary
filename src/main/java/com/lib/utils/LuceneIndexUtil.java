@@ -15,7 +15,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.lucene.HanLPAnalyzer;
@@ -75,9 +74,10 @@ public class LuceneIndexUtil {
 
 			} else if (new File(filePath).exists() && !JudgeUtils.isVideoFile(file.getFileExt())
 					&& !JudgeUtils.isAudioFile(file.getFileExt()) && !JudgeUtils.isImageFile(file.getFileExt())) {
+				
 				// 创建输入流读取pdf文件
 				result = ExtractUtil.Parser(filePath, file.getFileExt());
-				// System.out.println(result);
+			//	System.out.println(result);
 			}
 
 			if (result != null && !"".equals(result)) {

@@ -65,7 +65,8 @@ public interface ClassificationService {
 	 * @param classificationId
 	 * @return
 	 */
-	Map<String,List<Classification>> findAllChildById(String classificationId);
+	List<List<Classification>> findAllChildById(String classIds);
+	
 	/**
 	 * 查找所有的孩子节点
 	 * @param classificationId

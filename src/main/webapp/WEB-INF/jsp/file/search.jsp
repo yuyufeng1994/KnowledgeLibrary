@@ -71,9 +71,7 @@ cursor:pointer;
 									<input type="hidden" value="1" name="fileClassId"
 										id="fileClassId">
 									<div class="am-u-sm-8 " id="selectId">
-									<select>
-										<option>所有分类</option>
-									</select>
+								
 									
 									</div>
 								</div>
@@ -87,7 +85,7 @@ cursor:pointer;
 
 										<div class="am-form-group am-form-icon">
 											<i class="am-icon-calendar"></i> <input name="fileCreateTime"
-												id="fileCreateTime" type="date"
+												id="fileCreateTime" type="date" style="width:110%"
 												class="am-form-field am-input-sm" placeholder="日期"
 												value="<fmt:formatDate value="${file.fileCreateTime }"
 													pattern="yyyy-MM-dd" />">
@@ -99,8 +97,8 @@ cursor:pointer;
 									<div class="am-u-sm-2">
 										<div class="am-form-group am-form-icon ">
 											<i class="am-icon-calendar"></i> <input name="endTime"
-												id="endTime" type="date"
-												value="<fmt:formatDate value="${endTime}"
+												id="endTime" type="date" style="width:110%"
+												value="<fmt:formatDate value="${endTime}"  
 													pattern="yyyy-MM-dd" />"
 												class="am-form-field am-input-sm" placeholder="日期">
 
@@ -188,17 +186,8 @@ cursor:pointer;
 						</c:if>
 					</ul>
 				</div>
-
 			</div>
-
-
 		</div>
-
-
-
-
-
-
 	</div>
 	</div>
 	</div>
@@ -207,6 +196,10 @@ cursor:pointer;
 
 </body>
 <script type="text/javascript">
+$(window).load(function() {
+	$("#selectId").find("select").remove();
+	echo();
+});
 $("#search1").click(function(){
 	
 	$("#search").attr("action","user/search/0/1")
@@ -220,10 +213,6 @@ $("#search2").click(function(){
 	$("#search").submit();
 	
 })
-$(window).load(function() {
-	$("#selectId").find("select").remove();
-	echo();
-});
 function getChild(object)
 {
 	$(object).nextAll().remove();
@@ -233,9 +222,8 @@ function getChild(object)
 	{
 		return ;
 	}
-	
 	$.ajax({
-		url : "user/getClass",
+		url : "user/getOneClass",
 		type : "POST",
 		data:{classId:classId},
 		datatype : "json",
@@ -246,7 +234,7 @@ function getChild(object)
 			if(len==0)
 				return ;
 			var classification=JsonResult.data;
-			var innerStr="<option value="+classId+" selected='selected'>"+"所有分类" + "</option>";
+			var innerStr="<option value="+classId+">"+"所有分类" + "</option>";
 			for(var i=0;i<len;i++)
 			{	
 					innerStr += "<option value='" + classification[i].classificationId+"'>"
@@ -260,52 +248,66 @@ function getChild(object)
 			$("#selectId").append(str);
 		}
 	}) 
-	
-	$("#selectId").find("select").attr("data-am-selected","btnWidth:'30%',btnSize: 'sm'")
-	
 }
-function getChild1(echoId)
+function echoClass()
 {	
-	console.log(echoId)
-	var classId=$("#fileClassId").val();
-	//console.log(classId);
+	$("selctedId").find("select").remove();
+	var classId="${classIds}";
+	if(classId=="")
+	{
+		classId+="1";
+		
+	}
+	var classIds=classId.split(".");
+	$("#fileClassId").val(classIds[classIds.length-1]);
 	$.ajax({
-		url : "user/getClass",
+		url : "user/getAllClass",
 		type : "POST",
-		data:{classId:classId},
+		data:{classIds:classId},
 		datatype : "json",
-		ansyn : false,
+		ansyn : true,
 		success : function(JsonResult) {
 			
-			var len=JsonResult.data.length;
-			if(len==0)
-				return ;
-			var classification=JsonResult.data;
-			var innerStr="<option value="+classId+" selected='selected'>"+"所有分类" + "</option>";
-			for(var i=0;i<len;i++)
+			for(var j=0;j<JsonResult.data.length;j++)
 			{	
-				   if(echoId==classification[i].classificationId)
-				   {
-						innerStr += "<option selected='selected' value='" + classification[i].classificationId+"'>"
-						+ classification[i].classificationName + "</option>"
+				var list=new Array(100);
+				list=JsonResult.data[j];
+				if(list.length==0)
+					return ;
+				var innerStr="<option value="+classIds[j]+" >"+"所有分类" + "</option>";
+				for(var i in list){
+					 if(classIds[j+1]==list[i].classificationId)
+					 {
+							innerStr += "<option selected='selected' value='" + list[i].classificationId+"'>"
+							+ list[i].classificationName + "</option>"
+					
+					 }else{
+						   innerStr += "<option value='" + list[i].classificationId+"'>"
+							+ list[i].classificationName + "</option>"
+					 } 
+				}
 				
-				   }else{
-					   innerStr += "<option value='" + classification[i].classificationId+"'>"
-						+ classification[i].classificationName + "</option>"
-				   }
+				var str = "<select style='margin-right:10px;'  onchange='getChild(this)'>"+ innerStr+ "</select>";
+				$("#selectId").append(str);
 			}
-			var str = "<select style='margin-right:10px;'  onchange='getChild(this)'>"
-
-			+ innerStr
-
-			+ "</select>";
-			$("#selectId").append(str);
-			
 			
 		}
 	}) 
+}
+//回显
+function echo()
+{   
 	
-	$("#selectId").find("select").attr("data-am-selected","btnWidth:'30%',btnSize: 'sm'")
+	var fileExt="${file.fileExt}";
+	for(var i=0;i<$("#fileExt").find("option").length;i++)
+	{	
+		$("#fileExt").find("option").eq(i).removeAttr("selected");
+		if($("#fileExt").find("option").eq(i).val()==fileExt)
+		{  
+			$("#fileExt").find("option").eq(i).attr("selected",true);
+		}
+	}
+	echoClass();
 	
 }
 function gotoPage(page) {
@@ -314,52 +316,12 @@ function gotoPage(page) {
 	$("#search").attr("action","user/search/"+str[4]+"/"+page)
 	$("#search").submit();
 }
-function echo()
-{   
-
-	var fileExt="${file.fileExt}";
-	for(var i=0;i<$("#fileExt").find("option").length;i++)
-	{	
-		$("#fileExt").find("option").eq(i).removeAttr("selected");
-		if($("#fileExt").find("option").eq(i).val()==fileExt)
-		{   
-			
-			$("#fileExt").find("option").eq(i).attr("selected",true);
-		}
-	}
-	var classIds="${classIds}";
-	var str=classIds.split(".");
-	if(str=="")
-	{
-		getChild1(1);
-	}
-	else{
-		
-		for(var i=0;i<str.length;i++)
-		{	
-			$("#fileClassId").val(str[i]);
-			if(i+1!=str.length)
-			{
-				getChild1(str[i+1]);
-			}
-		
-			
-		}
-		
-	}
-
-}
 $("#key a").click(function (){
 	$this = $(this);
-	
 	$("#keyWord").val();
 	$("#keyWord").val($this.text());
 	gotoPage(1);
-
 })
-
-
-
 </script>
 
 </html>

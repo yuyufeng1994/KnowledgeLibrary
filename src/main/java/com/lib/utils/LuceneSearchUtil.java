@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -163,7 +164,7 @@ public class LuceneSearchUtil {
 					calendar.set(1900, 0, 1);
 					sDate = calendar.getTime();
 				}
-				Date eDate = endTime;// TODO
+				Date eDate = endTime;
 				// 若只有起始值结束值默认为当天
 				if ((eDate == null || "".equals(eDate))) {
 					eDate = new Date();
@@ -269,7 +270,10 @@ public class LuceneSearchUtil {
 			ireader = DirectoryReader.open(directory);
 
 			indexSearch = new IndexSearcher(ireader);
-
+			
+			//ScoreDoc last = getLastScoreDoc(pageNo, pageSize, (Query)oldBooleanQuery, indexSearch);
+			//TopDocs result = indexSearch.searchAfter(last, (Query)oldBooleanQuery, pageSize);
+			
 			for (int i = (pageNo - 1) * pageSize, j = 0; i < result.scoreDocs.length && j < pageSize; i++, j++) {
 				LuceneSearchVo vo = new LuceneSearchVo();
 				int fileId = result.scoreDocs[i].doc;
@@ -437,6 +441,7 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(termQuery, 1);
 
 			if (topdocs.totalHits != 0) {
+				
 				document = indexSearch.doc(topdocs.scoreDocs[0].doc);
 				fileText = document.get("fileText");
 			}
@@ -652,7 +657,7 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(query, 10);
 			
 			
-			
+			//System.out.println(topdocs.scoreDocs.length);
 			for (int i = 0; i < topdocs.scoreDocs.length; i++) {
 
 				document = indexSearch.doc(topdocs.scoreDocs[i].doc);
@@ -675,31 +680,56 @@ public class LuceneSearchUtil {
 
 					List<String> paragraphs = ParagraphUtil.toParagraphList(result);
 					
-					Map<String, Float> maps = new TreeMap<String, Float>();
+					Map<String, Integer> maps = new LinkedHashMap<String, Integer>();
 					
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.extractKeyword(keyWord, 10));
-						float total=0;
-						total=HanLP.getKeyWordRank(paragrap, HanLP.extractKeyword(keyWord, 10));
+						
+						Integer total=0;
+						for(String str1:HanLP.extractKeyword(paragrap,3))
+						{
+							for(String str2:HanLP.segment1(keyWord))
+							{
+								if(str1.equals(str2))
+								{
+									total++;
+								}
+							}
+							
+						}
 						if(total>0)
-						maps.put(paragrap,total);
-
+						maps.put(paragrap, total);
+						
 					}
-					List<Map.Entry<String,Float>> KeyWordRank = new ArrayList<Map.Entry<String,Float>>(maps.entrySet());
+					List<Map.Entry<String,Integer>> KeyWordRank = new ArrayList<Map.Entry<String,Integer>>(maps.entrySet());
 					
-					Collections.sort(KeyWordRank,new Comparator<Map.Entry<String,Float>>() {
+					Collections.sort(KeyWordRank,new Comparator<Map.Entry<String,Integer>>() {
 
 						@Override
-						public int compare(Entry<String, Float> o1, Entry<String, Float> o2) {
+						public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
 							
 							return o2.getValue().compareTo(o1.getValue());
 						}
 			        });
-					 
-					for (Entry<String, Float> map : KeyWordRank) {
-						
+					for (Entry<String, Integer> map : KeyWordRank) {
+							
+							
+							//System.out.println(map.getKey());
+							//Tf-idf判重
+							boolean flag=true;
+							for(int j=0;j<list.size();j++)
+							{
+								if(Tfidf.Tfidf(HanLP.segment1(list.get(j).getContent()), HanLP.segment1(map.getKey()))>0.95)
+								{
+									flag=false;
+								};
+								
+							}
+							if(flag)
 							list.add(new SerResult(map.getKey(), fileId, fileName, fileUuid));
+							if(list.size()>=size)
+								return list;
 					}
 				}
 				if(list.size()>=size)
@@ -737,29 +767,15 @@ public class LuceneSearchUtil {
 		}
 	}
 	
-/*	*//**分页查询
-	 * @param page 当前页数
-	 * @param perPage 每页显示条数
-	 * @param searcher searcher查询器
-	 * @param query 查询条件
-	 * @return
-	 * @throws IOException
-	 *//*
-	public static TopDocs getScoreDocsByPerPage(int page,int perPage,IndexSearcher searcher,Query query) throws IOException{
-		TopDocs result = null;
-		if(query == null){
-	System.out.println(" Query is null return null ");
-	return null;
-	}
-	ScoreDoc before = null;
-	if(page != 1){
-	TopDocs docsBefore = searcher.search(query, (page-1)*perPage);
-	ScoreDoc[] scoreDocs = docsBefore.scoreDocs;
-	if(scoreDocs.length > 0){
-	before = scoreDocs[scoreDocs.length - 1];
-	}
-	}
-	*/
 	
+	private static ScoreDoc getLastScoreDoc(int pageNum, int pageSize, Query query,
+            IndexSearcher searcher) throws IOException {
+        if (pageNum == 1) {
+            return null;
+        }
+        int num = pageSize * (pageNum - 1);
+        TopDocs tds = searcher.search(query, num);
+        return tds.scoreDocs[num - 1];
+    }
 	
 }

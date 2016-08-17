@@ -15,6 +15,17 @@ import com.lib.entity.UserInfo;
  *
  */
 public interface UserInfoDao {
+
+	List<UserInfo> select();
+
+	/**
+	 * 插入一条用户数据
+	 * 
+	 * @param user
+	 * @return
+	 */
+	int insertSelective(UserInfo user);
+
 	/**
 	 * 根据帐号查询一个用户的信息
 	 * 

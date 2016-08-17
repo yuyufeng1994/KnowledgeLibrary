@@ -22,7 +22,7 @@ public class Tfidf {
 	}
 	private Double Count(List<String> list1,List<String> list2)
 	{
-		
+	
 		for(String str:list1)
 		{
 			if (!map1.containsKey(str)) {
@@ -56,15 +56,15 @@ public class Tfidf {
 		long num2=0;
 		for (Entry<String, Integer> entry : map1.entrySet()) {  
 			  
-		   num1+=entry.getValue();
+		   num1+=entry.getValue()*entry.getValue();
 		   if(map2.containsKey(entry.getKey()))
 		   {
-			   num2+=map2.get(entry.getKey());
+			   num2+=map2.get(entry.getKey())*map2.get(entry.getKey());
 			   num+=entry.getValue()*map2.get(entry.getKey());
 		   }
 		   
 		}
-		tfidf=((double)num/(Math.sqrt(num1)+Math.sqrt(num2)));
+		tfidf=((double)num/(Math.sqrt(num1)*Math.sqrt(num2)));
 		return tfidf;
 	}
 	
@@ -76,9 +76,9 @@ public class Tfidf {
 		list1.add("b");
 		list1.add("c");
 		list1.add("d");
-		list2.add("e");
+		list2.add("c");
 		list2.add("b");
-		list2.add("h");
+		list2.add("a");
 		list2.add("d");
 		long before=System.currentTimeMillis();
 		System.out.println(Tfidf(list1, list2));

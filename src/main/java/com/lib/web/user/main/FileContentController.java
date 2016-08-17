@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.antlr.grammar.v3.ANTLRv3Parser.alternative_return;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -236,14 +237,29 @@ public class FileContentController {
 	}
 
 	/**
+	 * 获取全部子节点
+	 * 
+	 * @param forkId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/getAllClass", method = RequestMethod.POST)
+	public @ResponseBody JsonResult getAllClass(String classIds) {
+		JsonResult jr = new JsonResult(true, "获取成功");
+		List<List<Classification>> vo = classificationService.findAllChildById(classIds);
+		jr.setData(vo);
+		return jr;
+	}
+	
+	/**
 	 * 获取一层子节点
 	 * 
 	 * @param forkId
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/getClass", method = RequestMethod.POST)
-	public @ResponseBody JsonResult getClass(Long classId) {
+	@RequestMapping(value = "/getOneClass", method = RequestMethod.POST)
+	public @ResponseBody JsonResult getOneClass(Long classId) {
 		JsonResult jr = new JsonResult(true, "获取成功");
 		List<Classification> vo = classificationService.findOneChildById(classId);
 		jr.setData(vo);

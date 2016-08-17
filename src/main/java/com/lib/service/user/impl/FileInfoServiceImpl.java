@@ -86,13 +86,13 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public void translateFile(String uuid) throws IOException {
 		// 设置文件问后台处理中
 		fileinfoDao.setFileStateByUuid(uuid, 3);
-		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
+		FileInfo file = getFileInfoByUuid(uuid);
 		LOG.debug("开始转化文件" + uuid);
 		if (JudgeUtils.isOfficeFile(file.getFileExt())) {
 			// 文档转化
-
-			officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
-					new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
+			if (!file.getFileExt().equals("pdf"))
+				officeConvert.convertToPDF(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".pdf"));
 			// 获取pdf缩略图 路径为 + Const.ROOT_PATH + file.getFilePath()+".png"
 
 			if (new File(Const.ROOT_PATH + file.getFilePath() + ".pdf").exists()) {
@@ -135,21 +135,25 @@ public class FileInfoServiceImpl implements FileInfoService {
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
 		} else {
-			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
-					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+			File filetemp = new File(Const.ROOT_PATH + "defaultfile/" + file.getFileExt() + ".png");
+			if (filetemp.exists()) {
+				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/" + file.getFileExt() + ".png"),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+			} else {
+				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+			}
+
 		}
 		// 修改文件为私有可以查看
 
-//		fileinfoDao.setFileStateByUuid(uuid, 6);
+		// fileinfoDao.setFileStateByUuid(uuid, 6);
 		file.setFileState(6);
-		//创建索引
-		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(),null);
-		if(file.getFileBrief()==null||file.getFileBrief().equals("")){
+		// 创建索引
+		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(), null);
+		if (file.getFileBrief() == null || file.getFileBrief().equals("")) {
 
-
-			
 			String text = searchService.getSummary(file, 3L);
-
 
 			file.setFileBrief(text);
 		}
@@ -159,7 +163,7 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 	@Override
 	public FileInfoVO getFileInfoByUuid(String uuid) {
-		return fileinfoDao.getFileInfoByUuid(uuid);// TODO 判断文件是否私有
+		return fileinfoDao.getFileInfoByUuid(uuid).get(0);// TODO 判断文件是否私有
 	}
 
 	@Override
@@ -178,13 +182,13 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int autoRelation(String uuid) {
 		List<RelationInfo> rs = new ArrayList<>();
 		RelationInfo r = null;
-		FileInfo file = fileinfoDao.getFileInfoByUuid(uuid);
+		FileInfo file = getFileInfoByUuid(uuid);
 		List<Long> list = searchService.getRelation(file.getFileName());
 		for (Long l : list) {
 			if (file.getFileId().equals(l)) {
 				continue;
 			}
-			
+
 			r = new RelationInfo();
 			r.setMainFileId(file.getFileId());
 			r.setRelationFileId(l);
@@ -270,9 +274,10 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int delFileById(Long fileId) throws Exception {
 
 		FileInfo fileInfo = fileinfoDao.getFileInfoByFileId(fileId);
-//		if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6 && fileInfo.getFileState() != 1) {
-//			throw new Exception();
-//		}
+		// if (fileInfo.getFileState() != 5 && fileInfo.getFileState() != 6 &&
+		// fileInfo.getFileState() != 1) {
+		// throw new Exception();
+		// }
 		File file = new File(Const.ROOT_PATH + fileInfo.getFilePath() + "." + fileInfo.getFileExt());
 		if (file.exists()) {
 			FileUtils.forceDelete(file);
@@ -305,12 +310,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public void addClick(Long userId, Long fileId) {
 		try {
 			fileinfoDao.insertClickInfo(userId, fileId);
-			FileScoreInfo fsi = new FileScoreInfo(userId, fileId,1l,new Date());
+			FileScoreInfo fsi = new FileScoreInfo(userId, fileId, 1l, new Date());
 			FileScoreInfo fileScore = countDao.queryFileScoreByUserAndFile(userId, fileId);
 			if (fileScore == null) {
 				countDao.insertFileScore(fsi);
 			} else {
-				fileScore.setScore(fileScore.getScore()+1);
+				fileScore.setScore(fileScore.getScore() + 1);
 				countDao.updateFileScore(fileScore);
 			}
 		} catch (Exception e) {
