@@ -122,9 +122,9 @@ public class MainController {
 		model.addAttribute("hot", hot);
 		
 		//获取推荐文档
-	//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
-		List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
-	//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
+//		List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+//		List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
+		List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
 		model.addAttribute("recommed", recommed);
 
 		return "main/index";
