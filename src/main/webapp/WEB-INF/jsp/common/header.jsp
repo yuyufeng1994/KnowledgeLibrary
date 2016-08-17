@@ -18,9 +18,9 @@
 					${session_user.userName} <span class="am-icon-caret-down"></span>
 			</a>
 				<ul class="am-dropdown-content">
-					<li><a href="user/userinfo"><span class="am-icon-user"></span>个人信息</a></li>
+					<li><a href="user/userinfo"><span class="am-icon-user"></span> 个人信息</a></li>
 					<c:if test="${session_user.userType == 0 }">
-						<li><a href="admin/index"><span class="am-icon-user"></span> 管理员选项</a></li>
+						<li><a href="admin/index"><span class="am-icon-cog"></span> 管理员选项</a></li>
 					</c:if>
 					<li><a href="logout"><span class="am-icon-power-off"></span>
 							退出</a></li>

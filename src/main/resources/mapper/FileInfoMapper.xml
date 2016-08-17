@@ -157,7 +157,7 @@
 		file_info f left join user_info u on f.file_user_id = u.user_id left
 		join classification c on f.file_class_id = c.classification_id
 		where
-		f.file_uuid = #{fileUuid,jdbcType=VARCHAR}
+		f.file_uuid = #{fileUuid,jdbcType=VARCHAR} limit 0,1
 	</select>
 
 	<select id="getFileInfoByFileId" resultType="com.lib.entity.FileInfo">

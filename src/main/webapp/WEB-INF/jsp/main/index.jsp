@@ -29,16 +29,16 @@
 				<ul
 					class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
 					<li><a href="user/public/1/1" class="am-text-success"><span
-							class="am-icon-btn am-icon-file-text"></span><br />今日录入<br /> <span
+							class="am-icon-btn am-icon-cloud-upload"></span><br />今日录入<br /> <span
 							id="count-today">0</span></a></li>
 					<li><a href="user/public/1/1" class="am-text-warning"><span
-							class="am-icon-btn am-icon-briefcase"></span><br />可用文档<br /> <span
+							class="am-icon-btn am-icon-file-word-o"></span><br />可用文档<br /> <span
 							id="count-publicfiles">0</span></a></li>
 					<li><a href="user/myfiles/1" class="am-text-danger"><span
-							class="am-icon-btn am-icon-recycle"></span><br />我的资源<br /> <span
+							class="am-icon-btn am-icon-database"></span><br />我的资源<br /> <span
 							id="count-userfiles">0</span></a></li>
 					<li><a href="user/myforks/-1/1" class="am-text-secondary"><span
-							class="am-icon-btn am-icon-user-md"></span><br />我的收藏<br /> <span
+							class="am-icon-btn am-icon-heart-o"></span><br />我的收藏<br /> <span
 							id="count-forkfiles">0</span></a></li>
 				</ul>
 				<script type="text/javascript">

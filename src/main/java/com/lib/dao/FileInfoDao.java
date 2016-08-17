@@ -62,7 +62,7 @@ public interface FileInfoDao {
 	 * @param uuid
 	 * @return
 	 */
-	FileInfoVO getFileInfoByUuid(String fileUuid);
+	List<FileInfoVO> getFileInfoByUuid(String fileUuid);
 
 	/**
 	 * 通过fileId得到一个文件
