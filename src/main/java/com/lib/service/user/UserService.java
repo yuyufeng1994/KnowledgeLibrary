@@ -2,6 +2,7 @@ package com.lib.service.user;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.lib.dto.FileInfoVO;
 import com.lib.entity.UserInfo;
 import com.lib.exception.user.UserException;
@@ -71,7 +72,7 @@ public interface UserService {
 	 * @param pageSize 查询条件，可为空，默认取10  
 	 * @return  
 	 */  
-	PagedResult<UserInfo> queryByPage(String userName,Integer pageNo,Integer pageSize);
+	public PageInfo<UserInfo> queryByPage(Integer pageNo, String string, String searchValue);
 
 	/**
 	 * 根据id删除用户

@@ -62,7 +62,7 @@
 								</tr>
 							</thead>
 							<tbody id="json-list">
-								<c:forEach items="${pages.dataList}" var="user">
+								<c:forEach items="${page.list}" var="user">
 									<tr id="tr-list">
 										<td><input type="checkbox" value="${user.userId }"></td>
 										<td value="${user.userId }">${user.userId }</td>
@@ -84,10 +84,11 @@
 														<option value="1">普通用户</option>
 														<option value="2">锁定</option>
 													</select>
-													<button
-														class="refreshBtn am-btn am-btn-default am-btn-xs am-hide-sm-only">
+													<button id="doc-prompt-toggle"
+														class="msgBtn am-btn am-btn-default am-btn-xs am-hide-sm-only" value="${user.userId }">
 														<span class="am-icon-refresh"></span> 发送消息
 													</button>
+
 													<button
 														class="refreshBtn am-btn am-btn-default am-btn-xs am-hide-sm-only">
 														<span class="am-icon-refresh"></span> 初始化密码
@@ -104,18 +105,24 @@
 								</c:forEach>
 							</tbody>
 						</table>
-						<div class="am-cf">
-							<span id="total">共 ${pages.total } 条记录</span>
-							<div class="am-fr">
-								<ul class="am-pagination am-pagination-select">
-									<li class="am-pagination-prev "><span id="prev"
-										class="am-btn am-btn-default">上一页</span></li>
-									<li class="am-pagination-input"><input type="text"
-										id="page-count" value="${ pages.pageNo}" /></li>
-									<li class="am-pagination-next "><span id="next"
-										class="am-btn am-btn-default">下一页</span></li>
-								</ul>
-							</div>
+						<div class="am-fr">
+							<ul class="am-pagination">
+								<c:if test="${page.pageNum > 1}">
+									<li><a onclick="gotoPage(${page.prePage })">«</a></li>
+								</c:if>
+
+								<c:forEach items="${page.navigatepageNums}" var="p">
+									<c:if test="${page.pageNum==p}">
+										<li class="am-active"><a onclick="gotoPage(${p})">${p}</a></li>
+									</c:if>
+									<c:if test="${page.pageNum!=p}">
+										<li><a onclick="gotoPage(${p})">${p}</a></li>
+									</c:if>
+								</c:forEach>
+								<c:if test="${page.pageNum < page.pages}">
+									<li><a onclick="gotoPage(${page.nextPage })">»</a></li>
+								</c:if>
+							</ul>
 						</div>
 						<hr>
 						<p>注：.....</p>
@@ -125,30 +132,54 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+	  <div class="am-modal-dialog">
+	    <div class="am-modal-hd"><input type="text" class="am-modal-prompt-input" placeholder="请输入标题"></div>
+	    <div class="am-modal-bd">
+	    <textarea rows="5" cols="55" class="am-modal-prompt-input" placeholder="清输入消息内容"></textarea>
+	    </div>
+	    <div class="am-modal-footer">
+	      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+	      <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+	    </div>
+	  </div>
+	</div>
 	<%@include file="../common/footer.jsp"%>
 </body>
 <script type="text/javascript">
+function gotoPage(page) {
+	window.location.href = "admin/user-manage-ui/" + page;
+}
 	$(function(){
-		var pn =10;
-		function getJson(current){
-			if(current==null){
-				current = 1;
-			}
-			var pageNumber = current;
-			var pageSize = 10;
+		$('#doc-prompt-toggle').on('click', function() {
+			var userId = $(this).val();
+		    $('#my-prompt').modal({
+		      relatedTarget: this,
+		      onConfirm: function(e) {
+		    	  var datas = e.data;
+		    	  if(datas[0]==""){
+		    		 alert("请输入标题");
+		    	  }
+		    	  else if(datas[1]==""){
+		    		  alert("请输入消息内容");
+		    	  }else{
+		    		  var url = "admin/send-msg";
+		    		  var args = {"userId":userId,"msgTitle":datas[0],"msgContent":datas[1]};
+		        	$.post(url,args,function(data){
+		        	})
+		    	  }
+		      },
+		      onCancel: function(e) {
+		      }
+		    });
+		  });
+		function getJson(){
 			var searchName = $("#searchName").val();
-			var url = "admin/user-list/"+current;
-			var args = {"searcher":searchName,"pageNumber":pageNumber,"pageSize":pageSize,"time":new Date()};
-			$.post(url,args,function(data){
-				pn = data.data.pages;
+			var url = "admin/user-manage-ui/1?searchValue=" +searchName;
+			window.location.href = url;
+			/*
+			$.get(url,function(data){
 				var dataList = data.data.dataList;
-				//console.log(data.data);
-				 var totalCount = data.data.total; // 总记录数  
-	             var pageSize = 10; // 每页显示几条记录  
-	             var pageTotal = Math.ceil(totalCount/pageSize);//总页数 
-	             var startPage = pageSize * (current  - 1);  //第一个
-	             var endPage = startPage + pageSize - 1;  //最后一个
 	             var $table = $("#json-list");  
 	             $("#total").empty().text("共"+totalCount+"条记录");
 	             $table.empty();  
@@ -184,32 +215,11 @@
 						"</button></div></div>"+"</td>") 
 			            }  
 			        } 
-			        $("#page-count").attr("value",current);
 			});
+			*/
 		}
 		$("#searcher").click(function(){
-			getJson(1);
-			$("#page-count").attr("value",1);
-		});
-		$(document).on("click","#prev",function(){
-			var current = $("#page-count").val();
-			if(current==1){
-				alert("已经是第一页了");
-			}else{
-				current--;
-				$("#page-count").attr("value",current);
-				getJson(current);
-			}
-		});
-		$(document).on("click","#next",function(){
-			var current = $("#page-count").val();
-			if(current==pn){
-				alert("最后一页了");
-			}else{
-				current++;
-				$("#page-count").attr("value",current);
-				getJson(current);
-			}
+			getJson();
 		});
 		$(document).on("click",".deleteBtn",function(){
 			console.log(this);
@@ -221,7 +231,7 @@
 			$.post(url,args,function(data){
 				if(data.data == "success"){
 		   			var current = $("#page-count").val();
-		 			 getJson(current);
+		 			 getJson();
 			}else{
 				alert("修改失败");
 			}
@@ -236,7 +246,7 @@
 			$.post(url,args,function(data){
 				if(data.data == "success"){
 			   			var current = $("#page-count").val();
-			 			 getJson(current);
+			 			 getJson();
 				}else{
 					alert("修改失败");
 				}
@@ -253,7 +263,7 @@
 			$.post(url,args,function(data){
 				if(data.data == "success"){
 			   			var current = $("#page-count").val();
-			 			 getJson(current);
+			 			 getJson();
 				}else{
 					alert("修改失败");
 				}
@@ -286,17 +296,12 @@
 				$.post(url,args,function(data){
 					if(data.data == "success"){
 			   			var current = $("#page-count").val();
-			 			 getJson(current);
+			 			 getJson();
 				}else{
 					alert("修改失败");
 				}
 				});
-		});
-		$(document).on("change","#page-count",function(){
-			var current = $(this).val();
-			getJson(current);
-		});
-		
+		});	
 	});
 </script>
 </html>
