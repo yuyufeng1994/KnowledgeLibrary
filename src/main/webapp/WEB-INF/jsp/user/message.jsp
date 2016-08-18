@@ -25,7 +25,6 @@
 						<table class="am-table am-table-striped am-table-hover table-main">
 							<thead>
 								<tr>
-									<th class="table-id">ID</th>
 									<th class="table-title">标题</th>
 									<th class="table-author ">内容</th>
 									<th class="table-type am-hide-sm-only">状态</th>
@@ -35,7 +34,6 @@
 							<tbody id="json-list">
 								<c:forEach items="${page.list}" var="msg" varStatus="s">
 									<tr id="tr-list">
-										<td>${s.index+1 }</td>
 										<td>${msg.msgTitle }</td>
 										<td><textarea
 												style="overflow: hidden; background: #ffffff; resize: none; BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; BORDER-RIGHT: 0px solid; BORDER-TOP: 0px solid;"
