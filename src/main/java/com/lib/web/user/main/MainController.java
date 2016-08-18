@@ -145,8 +145,8 @@ public class MainController {
 		int recomNum = 2;
 		try{
 			//获取推荐文档
-			//	List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
-				List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
+				List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+			//	List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
 			//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
 			jr = new JsonResult< List<FileInfo>>(true, recommed);
 		}catch (Exception e) {

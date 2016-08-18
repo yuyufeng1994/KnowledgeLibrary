@@ -85,7 +85,7 @@
 														<option value="2">锁定</option>
 													</select>
 													<button id="doc-prompt-toggle"
-														class="msgBtn am-btn am-btn-default am-btn-xs am-hide-sm-only" value="${user.userId }">
+														class="doc-prompt-toggle msgBtn am-btn am-btn-default am-btn-xs am-hide-sm-only" value="${user.userId }">
 														<span class="am-icon-refresh"></span> 发送消息
 													</button>
 
@@ -151,7 +151,7 @@ function gotoPage(page) {
 	window.location.href = "admin/user-manage-ui/" + page;
 }
 	$(function(){
-		$('#doc-prompt-toggle').on('click', function() {
+		$('.doc-prompt-toggle').on('click', function() {
 			var userId = $(this).val();
 		    $('#my-prompt').modal({
 		      relatedTarget: this,
@@ -177,46 +177,6 @@ function gotoPage(page) {
 			var searchName = $("#searchName").val();
 			var url = "admin/user-manage-ui/1?searchValue=" +searchName;
 			window.location.href = url;
-			/*
-			$.get(url,function(data){
-				var dataList = data.data.dataList;
-	             var $table = $("#json-list");  
-	             $("#total").empty().text("共"+totalCount+"条记录");
-	             $table.empty();  
-	             for (var i = 0; i < pageSize; i++) {  
-	             	 $table.append('<tr class="tr-tag"></tr>');  
-	             }
-				 if (current !=0) {     // 当只有一页时  
-			            for (var j = 0; j < pageSize; j++) {  
-			            	if(j==totalCount%10&&pageTotal==current&&totalCount%10!=0){
-			            		break;
-			            	}
-			            	var type;
-			            	if(dataList[j].userType==0){type = "管理员";}
-			            	else if(dataList[j].userType==1){type = "普通用户";}
-			            	else if(dataList[j].userType==2){type = "锁定";}
-			                $(".tr-tag").eq(j).append("<td class='col1'><input class='table-check' type='checkbox' value='"+ dataList[j].userId+"'/></td>")  
-			               .append("<td class='col3'>" + dataList[j].userId   + "</td>")
-			               .append("<td class='col4'><img src=user/photo/"+dataList[j].userPhoto+" style='width: 50px; height:50px'/></td>")
-			               .append("<td class='col5'>" + dataList[j].userName    + "</td>")
-			                .append("<td class='col6'>" + dataList[j].userPassword     + "</td>")
-			                  .append("<td class='col7'>" + dataList[j].userEmail   + "</td>")
-			             .append("<td class='col8'>" + type     + "</td>")    
-			             .append("<td>"+
-			            " <div class='am-btn-toolbar'><div class='am-btn-group am-btn-group-xs'>"+
-                            "<select  class='selector am-btn am-btn-default am-btn-xs am-hide-sm-only'>"+
-							"<option>权限操作</option><option value='0'>管理员</option>"+
-							"<option value='1'>普通用户</option>"+
-							"<option value='2'>未激活用户</option></select>"+
-						"<button class='refreshBtn am-btn am-btn-default am-btn-xs am-hide-sm-only'>"+
-						"<span class='am-icon-copy'></span> 初始化密码</button>"+
-						"<button class='deleteBtn am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only'>"+
-						"<span class='am-icon-trash-o'></span> 删除"+
-						"</button></div></div>"+"</td>") 
-			            }  
-			        } 
-			});
-			*/
 		}
 		$("#searcher").click(function(){
 			getJson();
