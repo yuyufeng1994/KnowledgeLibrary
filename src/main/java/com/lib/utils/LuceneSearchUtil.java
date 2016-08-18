@@ -70,7 +70,7 @@ public class LuceneSearchUtil {
 	// 上一次检索条件
 	private static Object oldBooleanQuery = null;
 	// 索引存放路径
-	private static String indexPath = "D:/soklib/lucene";
+	private static String indexPath = Const.ROOT_PATH+"lucene";
 	// 保存索引结果，分页中使用
 	private static TopDocs result = null;
 	// 分词器
