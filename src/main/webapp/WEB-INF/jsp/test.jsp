@@ -8,7 +8,7 @@
 </head>
 <body>
 	<button id="btn">点我</button>
-
+ 
 </body>
 <script type="text/javascript">
 	$(function(){
