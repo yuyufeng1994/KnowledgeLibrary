@@ -28,11 +28,11 @@ import org.xml.sax.ContentHandler;
 
 public class ExtractUtil {
 
-	static Parser  parser =  new AutoDetectParser();  
+	static Parser  parser =  null;  
 	public static String Parser(String filePath,String fileExt){
 		
         InputStream input = null;  
-        //JudgeParser(fileExt);
+        JudgeParser(fileExt);
         try{  
             Metadata metadata = new Metadata();  
             metadata.set(Metadata.CONTENT_ENCODING, "utf-8");  

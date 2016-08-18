@@ -188,7 +188,7 @@
 	<!-- 新建文件夹 -->
 	<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt-add">
 		<div class="am-modal-dialog">
-			<div class="am-modal-hd">新建文件夹</div>
+			<div class="am-modal-hd">新建收藏夹</div>
 			<div class="am-modal-bd">
 				收藏夹名称 :&nbsp&nbsp&nbsp<input  type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
 			</div>
@@ -202,7 +202,7 @@
 	<!-- 删除文件夹 -->
 	<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt-delete">
 		<div class="am-modal-dialog">
-			<div class="am-modal-hd">删除文件夹</div>
+			<div class="am-modal-hd">删除收藏夹</div>
 			<div class="am-modal-bd">
 				选择收藏夹:&nbsp&nbsp&nbsp
               <select data-am-selected="{searchBox: 1}" id="dSelect"> 
