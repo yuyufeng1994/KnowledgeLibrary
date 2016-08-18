@@ -56,7 +56,7 @@
 
 										option = {
 										    title: {
-										        text: '文件上传实时数据'
+										        text: ''
 										    },
 										    tooltip: {
 										        trigger: 'axis',
@@ -398,7 +398,7 @@
 
 										option = {
 										    title: {
-										        text: '网站点击率'
+										        text: ''
 										    },
 										    tooltip: {
 										        trigger: 'axis',

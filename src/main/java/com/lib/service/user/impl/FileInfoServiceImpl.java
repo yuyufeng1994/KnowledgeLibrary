@@ -106,8 +106,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 		} else if (JudgeUtils.isVideoFile(file.getFileExt())) {
 
 			if (file.getFileExt().equals("flv")) {
-				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/flv.png"),
-						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+				try {
+					FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/flv.png"),
+							new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+				} catch (Exception e) {
+					LOG.error("flv默认图标不存在");
+				}
 				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 						new File(Const.STREAM_PATH + file.getFileUuid() + ".flv"));
 			} else if (file.getFileExt().equals("mp4")) {
@@ -129,8 +133,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 					Const.ROOT_PATH + file.getFilePath() + ".png");
 
 		} else if (JudgeUtils.isAudioFile(file.getFileExt())) {
-			FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/mp3.png"),
-					new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+			try {
+				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/mp3.png"),
+						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+			} catch (Exception e) {
+				LOG.error("mp3默认图标不存在");
+			}
 			// ffmpeg转换成flv
 			TranslateUtils.processFLV(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 					Const.STREAM_PATH + file.getFileUuid() + ".flv");
@@ -140,8 +148,12 @@ public class FileInfoServiceImpl implements FileInfoService {
 				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/" + file.getFileExt() + ".png"),
 						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
 			} else {
-				FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
-						new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+				try {
+					FileUtils.copyFile(new File(Const.ROOT_PATH + "defaultfile/question.png"),
+							new File(Const.ROOT_PATH + file.getFilePath() + ".png"));
+				} catch (Exception e) {
+					LOG.error("?默认图标不存在");
+				}
 			}
 
 		}

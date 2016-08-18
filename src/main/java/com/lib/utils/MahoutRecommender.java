@@ -102,8 +102,6 @@ public class MahoutRecommender {
      */
     public static  List<RecommendedItem> ItemCFRecommender(Long userId,int recomNum) throws TasteException {
     	  // TODO Auto-generated method stub  
-        long t1=System.currentTimeMillis();  
-
         DataModel model=dataModel;  
      // 相似度 度量方式，采用皮尔逊相关系数度量，也可以采用其他度量方式  
         ItemSimilarity itemSimilarity = new PearsonCorrelationSimilarity(model);
@@ -111,10 +109,6 @@ public class MahoutRecommender {
         Recommender recommender=new GenericItemBasedRecommender(model, itemSimilarity);
         // 为userID为2016001的用户推荐2个item  
         List<RecommendedItem> recommendations=recommender.recommend(userId, recomNum);  
-        for(RecommendedItem recommendation:recommendations){  
-            System.out.println(recommendation);  
-        }  
-        System.out.println("done and time spend:"+(System.currentTimeMillis()-t1));  
         return recommendations;
     }
     /**
