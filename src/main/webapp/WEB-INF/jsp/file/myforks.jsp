@@ -191,6 +191,7 @@
 			<div class="am-modal-hd">新建收藏夹</div>
 			<div class="am-modal-bd">
 				收藏夹名称 :&nbsp&nbsp&nbsp<input  type="text" style="display:inline;width:200px;" id="sDocName" class="am-modal-prompt-input">
+				<span style="color:red;display:none">名称不能为空</span>
 			</div>
 			<div class="am-modal-footer">
 				<span class="am-modal-btn" data-am-modal-cancel>取消</span> 
@@ -217,6 +218,16 @@
 		</div>
 	</div>
 	
+	<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1"
+		id="wait-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-hd" id="wait-model-text"></div>
+			<div class="am-modal-bd">
+				<span class="am-icon-spinner am-icon-spin"></span>
+			</div>
+		</div>
+	</div>
+	
 	<%@include file="../common/footer.jsp"%>
 	<!-- content end -->
 </body>
@@ -228,23 +239,34 @@ $(function() {
     $('#my-prompt-add').modal({
       
       relatedTarget: this,
-       onConfirm: function(e) {
-    	   var docName=$("#sDocName").val();
+      onConfirm: function(e) {
+    	    var docName=$("#sDocName").val();
     	    if(docName=="")
     	    {
-    	    	 alert("名称不能为空");
-    	    	 return ;
+
+    	    	$("#wait-model-text").html("添加失败,名称不能为空");
+				$("#wait-modal").modal();
+				setTimeout(function(){
+				      //$("#wait-modal").modal();
+				      findDoc('#select');
+				 }, 500);
+    	    	return ;
     	    }
     		 $.ajax({
-    			
     				url : "user/insertDoc",
     				data:{docName:docName},
     				type : "post",
     				datatype : "json",
     				//ansyn : false,
     				success : function(JsonResult) {
-    					alert(JsonResult.error);
-    					findDoc('#select');
+    					
+    					$("#wait-model-text").html(JsonResult.error);
+    					$("#wait-modal").modal();
+    					setTimeout(function(){
+    					      //$("#wait-modal").modal();
+    					      findDoc('#select');
+    					 }, 500);
+    					
     				}
     			})
        },
@@ -270,8 +292,13 @@ $(function() {
 	    				datatype : "json",
 	    				//ansyn : false,
 	    				success : function(JsonResult) {
-	    					alert(JsonResult.error);
-	    					findDoc('#select');
+	    					$("#wait-model-text").html(JsonResult.error);
+	    					$("#wait-modal").modal();
+	    					setTimeout(function(){
+	    					      //$("#wait-modal").modal();
+	    					      findDoc('#select');
+	    					 }, 500);
+	    					
 	    				}
 	    			})
 	      },
@@ -360,7 +387,11 @@ $(".delete").click(function(){
 		/* var len=JsonResult.data.length;
 		var docInfos=JsonResult.data; */
 		node.remove();
-		alert(JsonResult.error);
+		$("#wait-model-text").html(JsonResult.error);
+		$("#wait-modal").modal();
+		setTimeout(function(){
+		      $("#wait-modal").modal();
+		 }, 500);
 	}
     }) 
     
@@ -390,7 +421,7 @@ function submit(){
 	    if(forkNote=="")
 		{
 			forkNote="无";
-		} 
+		}
 		$.ajax({
 		url : "user/modifyFork",
 		data:{forkId:forkId,docId:docId,forkNote:forkNote},
@@ -403,6 +434,11 @@ function submit(){
 			var node=$("tr").find("input[value="+forkId+"]").parent();
 			node.find("#docName").text(docName);
 			node.find("#forkNote").text(forkNote);
+			$("#wait-model-text").html(JsonResult.error);
+			$("#wait-modal").modal();
+			setTimeout(function(){
+			      $("#wait-modal").modal();
+			 }, 500);
 		}
 	    }) 
 }

@@ -295,7 +295,6 @@
    		} 
    		fileId=${fileInfo.fileId};
    		 $.ajax({
-   			
 			url : "user/insertFork",
 			data:{docId:docId,forkNote:forkNote,fileId:fileId},
 			type : "POST",
@@ -314,8 +313,6 @@
 		
    		
    	}
-   	
-   	
    	
    	var mainFileId = ${fileInfo.fileId};
    	//关联文档的获取

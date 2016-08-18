@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.cassandra.cli.CliParser.newColumnFamily_return;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
@@ -28,11 +29,13 @@ import org.xml.sax.ContentHandler;
 
 public class ExtractUtil {
 
-	static Parser  parser =  null;  
+	static Parser  parser =  new AutoDetectParser();  
 	public static String Parser(String filePath,String fileExt){
 		
         InputStream input = null;  
-        JudgeParser(fileExt);
+        if(fileExt.equals("txt")){
+			parser=new TXTParser();
+        }
         try{  
             Metadata metadata = new Metadata();  
             metadata.set(Metadata.CONTENT_ENCODING, "utf-8");  
