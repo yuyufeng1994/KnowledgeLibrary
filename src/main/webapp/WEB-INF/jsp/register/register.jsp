@@ -23,6 +23,17 @@
 </style>
 <script type="text/javascript">
 	$(function() {
+		$("#login-button").click(function(){
+			var input = $(":input[name='email']").val();
+			var password = $(":input[name='password']").val();
+			var repassword = $(":input[name='repassword']").val();
+			var userName = $(":input[name='userName']").val();
+			if(input!=""&&password!=""&&repassword!=""&&userName!=""){
+				$(this).attr("data-am-modal","{target: '#my-modal-loading'}");
+			}else{
+			}
+		});
+		
 		$(":input[name='email']").change(function() {
 			var val = $(this).val();
 			val = $.trim(val);
@@ -97,7 +108,7 @@
 					required><label id="nameMsg"></label> <br>
 				<div class="am-cf">
 					<input type="submit" name="submit" value="立即注册" id="login-button"
-						class="am-btn am-btn-primary am-btn-sm am-fl" 	data-am-modal="{target: '#my-modal-loading'}"> <a
+						class="am-btn am-btn-primary am-btn-sm am-fl" 	data-am-modal=""> <a
 						class="am-btn am-btn-default am-btn-sm am-fl"
 						href="javascript:history.go(-1)">返回</a>
 					<div class="am-modal am-modal-loading am-modal-no-btn"
