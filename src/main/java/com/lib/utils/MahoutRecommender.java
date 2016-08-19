@@ -87,10 +87,7 @@ public class MahoutRecommender {
         Recommender recommender=new GenericUserBasedRecommender(model,neighborhood,similarity);  
         // 为userID为2016001的用户推荐2个item  
         List<RecommendedItem> recommendations=recommender.recommend(userId, recomNum);  
-        for(RecommendedItem recommendation:recommendations){  
-            System.out.println(recommendation);  
-        }  
-        System.out.println("done and time spend:"+(System.currentTimeMillis()-t1));  
+        
         return recommendations;
     }  
     /**
@@ -120,16 +117,16 @@ public class MahoutRecommender {
      */
     public static  List<RecommendedItem> SlopOneRecommender(Long userId,int recomNum) throws TasteException {
   	  // TODO Auto-generated method stub  
-      long t1=System.currentTimeMillis();  
+//      long t1=System.currentTimeMillis();  
 
       DataModel model=dataModel;  
       Recommender recommender=new SlopeOneRecommender(model);
       // 为userID为2016001的用户推荐2个item  
       List<RecommendedItem> recommendations=recommender.recommend(userId, recomNum);  
-      for(RecommendedItem recommendation:recommendations){  
-          System.out.println(recommendation);  
-      }  
-      System.out.println("done and time spend:"+(System.currentTimeMillis()-t1));  
+//      for(RecommendedItem recommendation:recommendations){  
+//          System.out.println(recommendation);  
+//      }  
+//      System.out.println("done and time spend:"+(System.currentTimeMillis()-t1));  
       return recommendations;
   }
 }  

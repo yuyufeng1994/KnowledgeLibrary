@@ -142,10 +142,10 @@ public class MainController {
 	public JsonResult< List<FileInfo>> recommend(HttpSession session){
 		JsonResult< List<FileInfo>> jr = null;
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		int recomNum = 2;
+		int recomNum = 6;
 		try{
 			//获取推荐文档
-				List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
+				List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), recomNum);
 			//	List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
 			//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
 			jr = new JsonResult< List<FileInfo>>(true, recommed);
@@ -175,8 +175,6 @@ public class MainController {
 	public static void main(String[] args) throws Exception {
 		String url = "http://yyf.tunnel.qydev.com/lib/user/index";
 		URL u = new URL(url);
-		System.out.println(u.getPath());
-		System.out.println(u.getHost());
-		System.out.println(u.getProtocol());
+		
 	}
 }
