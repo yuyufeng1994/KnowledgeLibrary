@@ -59,7 +59,7 @@ public class LuceneIndexUtil {
 		// 创建IndexWriter对象,
 		IndexWriterConfig config = null;
 		// pdf文件存放路径
-		String filePath = Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt();
+		String filePath = Const.ROOT_PATH + file.getFilePath() + ".pdf" ;
 		try {
 
 			directory = FSDirectory.open(new File(indexPath).toPath());
@@ -72,12 +72,16 @@ public class LuceneIndexUtil {
 			if (fileText != null && !fileText.equals("")) {
 				result = fileText;
 
-			} else if (new File(filePath).exists() && !JudgeUtils.isVideoFile(file.getFileExt())
-					&& !JudgeUtils.isAudioFile(file.getFileExt()) && !JudgeUtils.isImageFile(file.getFileExt())) {
+			} else if (new File(filePath).exists()) {
 				
 				// 创建输入流读取pdf文件
 				result = ExtractUtil.Parser(filePath, file.getFileExt());
-			//	System.out.println(result);
+				//System.out.println(result);
+			}else if(!JudgeUtils.isVideoFile(file.getFileExt())&& !JudgeUtils.isAudioFile(file.getFileExt()) && !JudgeUtils.isImageFile(file.getFileExt()))
+			{
+				
+				result = ExtractUtil.Parser(Const.ROOT_PATH + file.getFilePath() + "."+file.getFileExt(), file.getFileExt());
+				
 			}
 
 			if (result != null && !"".equals(result)) {
