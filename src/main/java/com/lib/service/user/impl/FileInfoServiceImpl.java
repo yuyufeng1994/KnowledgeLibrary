@@ -115,11 +115,14 @@ public class FileInfoServiceImpl implements FileInfoService {
 				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 						new File(Const.STREAM_PATH + file.getFileUuid() + ".flv"));
 			} else if (file.getFileExt().equals("mp4")) {
+				
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
+				
 				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 						new File(Const.STREAM_PATH + file.getFileUuid() + "." + file.getFileExt()));
 			} else {
+				
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 				// ffmpeg转换成flv

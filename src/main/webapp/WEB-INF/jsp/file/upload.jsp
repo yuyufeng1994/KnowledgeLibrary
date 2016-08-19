@@ -91,6 +91,7 @@
 	</div>
 </body>
 <script type="text/javascript">
+	$(window).bind('beforeunload',function(){return '您输入的内容尚未保存，确定离开此页面吗？';});
 	$list = $('#thelist'), $btn = $('#ctlBtn'), state = 'pending', uploader;
 
 	var uploader = WebUploader.create({
@@ -182,6 +183,7 @@
 
 	uploader.on('uploadFinished', function(file) {
 		$("#info-modal").modal();
+		$(window).unbind('beforeunload'); 
 		 setTimeout(function(){
 			 window.location.href = "/lib/user/upload-complete";
 		  },1500);

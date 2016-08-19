@@ -690,13 +690,15 @@ public class LuceneSearchUtil {
 						
 						Integer total=0;
 						for(String str1:HanLP.extractKeyword(paragrap,3))
-						{
+						{	Integer index=3;
 							for(String str2:HanLP.segment1(keyWord))
 							{
+								
 								if(str1.equals(str2))
 								{
-									total++;
+									total=total+index;
 								}
+								index--;
 							}
 							
 						}
@@ -716,9 +718,8 @@ public class LuceneSearchUtil {
 			        });
 					for (Entry<String, Integer> map : KeyWordRank) {
 							
-							
 							//System.out.println(map.getKey());
-							//Tf-idf判重
+							//TF-IDF判重
 							boolean flag=true;
 							for(int j=0;j<list.size();j++)
 							{
@@ -726,7 +727,6 @@ public class LuceneSearchUtil {
 								{
 									flag=false;
 								};
-								
 							}
 							if(flag)
 							list.add(new SerResult(map.getKey(), fileId, fileName, fileUuid));

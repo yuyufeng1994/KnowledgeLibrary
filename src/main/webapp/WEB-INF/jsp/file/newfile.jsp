@@ -184,6 +184,7 @@
 </body>
 <script type="text/javascript">
 	//ue
+	$(window).bind('beforeunload',function(){return '您输入的内容尚未保存，确定离开此页面吗？';});
 	var ue = UE.getEditor('container', {
 		initialFrameWidth : 860,
 		initialFrameHeight : 450,
@@ -281,9 +282,10 @@
 	});
 
 	$(function() {
-
+		
 		$("#complete-button").click(
 				function() {
+					$(window).unbind('beforeunload'); 
 					$("#wait-modal").modal();
 					var html = ue.getContent();
 					$.post("user/newfile/save", {
@@ -299,6 +301,7 @@
 							$.post("user/newfile/complete", {}, function(data) {
 								if (data.success == true) {
 									$btn.text("保存成功")
+									$(window).unbind('beforeunload'); 
 									setTimeout(function() {
 										window.location.href = "user/edit/"
 												+ data.error;
