@@ -29,9 +29,9 @@ import org.xml.sax.ContentHandler;
 
 public class ExtractUtil {
 
-	static Parser  parser =  new AutoDetectParser();  
-	public static String Parser(String filePath,String fileExt){
+	public synchronized static  String Parser(String filePath,String fileExt){
 		
+		Parser  parser =  new AutoDetectParser();  
         InputStream input = null;  
         if(fileExt.equals("txt")){
 			parser=new TXTParser();
@@ -64,7 +64,7 @@ public class ExtractUtil {
 	}
 	
 	
-	public static String Parser(FileInputStream input){
+	/*public static String Parser(FileInputStream input){
 		
 		
 		
@@ -75,9 +75,9 @@ public class ExtractUtil {
             ParseContext context = new ParseContext();  
             //context.set(Parser.class,parser);
             parser.parse(input,handler, metadata,context);  
-            /*for(String name:metadata.names()) {  
+            for(String name:metadata.names()) {  
                 System.out.println(name+":"+metadata.get(name));  
-            }  */
+            }  
             return handler.toString();  
         }catch (Exception e){  
             e.printStackTrace();  
@@ -116,5 +116,5 @@ public class ExtractUtil {
 			parser = new ClassParser();
 		}
 
-	}
+	}*/
 }
