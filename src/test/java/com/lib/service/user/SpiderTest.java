@@ -31,7 +31,7 @@ public class SpiderTest extends BaseTest{
 	public void test() throws Exception{
 		
 		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new Pipeline(fileInfoService), WebMagicVo.class)
-		.addUrl("http://baike.baidu.com/view/16168.htm").thread(5)
+		.addUrl("http://www.yiibai.com/log4j/log4j_installation.html").thread(5)
 		.run();
 	}
 	

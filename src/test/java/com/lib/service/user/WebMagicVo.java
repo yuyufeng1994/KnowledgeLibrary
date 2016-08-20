@@ -13,10 +13,10 @@ import us.codecraft.webmagic.pipeline.PageModelPipeline;
 
 public class WebMagicVo {
 	
-	@ExtractBy(value = "//dd[@class='lemmaWgt-lemmaTitle-title']/h1/text()", notNull = true)
+	@ExtractBy(value = "//div[@class='single-post-title']/h1/text()", notNull = true)
 	private String title;
 
-	@ExtractBy("//div[@class='lemma-summary']/allText()")
+	@ExtractBy("//div[@class='content-body']/tidyText()")
 	private String brief;
 
 	@Override

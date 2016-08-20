@@ -172,5 +172,15 @@ public class MyResourceController {
 		model.addAttribute("endTime", endTime);
 		return "file/search";
 	}
-
+	
+	@RequestMapping(value = "/searcht/{flag}/{pageNo}", method = RequestMethod.POST)
+	public String search1(Model model, FileInfo fileInfo, Date endTime, String keyWord,
+			@PathVariable("pageNo") Integer pageNo, @PathVariable("flag") Integer flag) {
+		fileInfo.setFileClassId(1L);
+		PageVo<LuceneSearchVo> page = luceneService.search(fileInfo, null, null, 1, flag);
+		model.addAttribute("page", page);
+		String classIds = classificationService.findFatherPathById(fileInfo.getFileClassId());
+		model.addAttribute("fileName", fileInfo.getFileName());
+		return "file/search";
+	}
 }

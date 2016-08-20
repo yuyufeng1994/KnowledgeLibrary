@@ -29,11 +29,12 @@
 		</ul>
 	</div>
 
-	<form class="am-topbar-form am-topbar-right am-form-inline"
-		role="search">
+	<form action="user/searcht/0/1" method="post" class="am-topbar-form am-topbar-right am-form-inline"
+		>
 		<div class="am-form-group">
-			<input type="text" class="am-form-field am-input-sm"
-				placeholder="搜索公共知识库"><button class="am-form-field am-input-sm"><i class="am-icon-search"></i> 搜索</button>
+	
+			<input type="text" name="fileName" value="${fileName}" class="am-form-field am-input-sm"
+				placeholder="搜索公共知识库" ><button type="submit" class="am-form-field am-input-sm"><i class="am-icon-search"></i> 搜索</button>
 		</div>
 	</form>
 <script type="text/javascript">
