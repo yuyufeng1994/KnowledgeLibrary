@@ -91,8 +91,11 @@ public class FileManagerController {
 		if (uploadfiles != null) {
 			List<FileInfoVO> list = new ArrayList<>();
 			for (String u : uploadfiles) {
-				FileInfoVO e = fileInfoService.getFileInfoByUuid(u);
-				list.add(e);
+				try {
+					FileInfoVO e = fileInfoService.getFileInfoByUuid(u);
+					list.add(e);
+				} catch (Exception e) {
+				}
 			}
 
 			model.addAttribute("files", list);

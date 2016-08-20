@@ -10,8 +10,9 @@
 	<div class="am-collapse am-topbar-collapse am-topbar-right"
 		id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav  admin-header-list">
-			<li><a href="user/message/1"><span class="am-icon-envelope-o"></span>
-					消息 <span id ="msg" class="am-badge am-badge-warning">5</span></a></li>
+			<li><a href="user/message/1"><span
+					class="am-icon-envelope-o"></span> 消息 <span id="msg"
+					class="am-badge am-badge-warning">5</span></a></li>
 			<li class="am-dropdown" data-am-dropdown><a
 				class="am-dropdown-toggle" data-am-dropdown-toggle
 				href="javascript:;"> <img alt="" class="am-radius"
@@ -30,22 +31,23 @@
 		</ul>
 	</div>
 
-	<form class="am-topbar-form am-topbar-right am-form-inline"
-		role="search">
+	<form action="user/search/0/1" method="post"
+		class="am-topbar-form am-topbar-right am-form-inline">
 		<div class="am-form-group">
-			<input type="text" class="am-form-field am-input-sm"
-				placeholder="搜索公共知识库">
-			<button class="am-form-field am-input-sm">
+
+			<input type="text" name="fileName" value="${file.fileName}"
+				class="am-form-field am-input-sm" placeholder="搜索公共知识库">
+			<button type="submit" class="am-form-field am-input-sm">
 				<i class="am-icon-search"></i> 搜索
 			</button>
 		</div>
 	</form>
-<script type="text/javascript">
-	$(function(){
-		$.get("user/count-msg",function(data){
-			var msgNum = data.data;
-			$("#msg").text(msgNum);
+	<script type="text/javascript">
+		$(function() {
+			$.get("user/count-msg", function(data) {
+				var msgNum = data.data;
+				$("#msg").text(msgNum);
+			});
 		});
-	});
-</script>
+	</script>
 </header>
