@@ -25,9 +25,9 @@ public class MainInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object,
 			Exception exception) throws Exception {
-		String url = request.getRemoteAddr();
-		String reqUrl = request.getRequestURL().toString();
-		LOG.info(reqUrl+" from "+ url);
+//		String url = request.getRemoteAddr();
+//		String reqUrl = request.getRequestURL().toString();
+//		LOG.info(reqUrl+" from "+ url);
 	}
 
 	// 进入Handler方法之后，返回modelAndView之前执行

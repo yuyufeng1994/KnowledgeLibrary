@@ -11,7 +11,7 @@
 	<jmxConfigurator />
 
 	<!-- 定义日志文件 输出位置 -->
-	<property name="log_dir" value="${root_path}soklib/logs/" />
+	<property name="log_dir" value="d://soklib/logs/" />
 
 	<!-- 日志最大的历史 30天 -->
 	<property name="maxHistory" value="7" />

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +50,7 @@ public class MainController {
 	private AdminCountService countService;
 	@Autowired
 	private CountService ctService;
+	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 获取今日的录入文件数量
@@ -108,6 +111,9 @@ public class MainController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String login(Model model, HttpSession session, HttpServletRequest req) {
+		String url = req.getRemoteAddr();
+		String reqUrl = req.getRequestURL().toString();
+		LOG.info(reqUrl+" from "+ url);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
 		// 获取最近浏览记录
 		List<FileInfoVO> recent = fileManageService.getRecenREeadtFile(user.getUserId());

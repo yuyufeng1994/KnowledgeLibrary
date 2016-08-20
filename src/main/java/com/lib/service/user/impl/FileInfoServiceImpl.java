@@ -23,12 +23,14 @@ import com.lib.dto.FileScoreInfo;
 import com.lib.dto.LuceneSearchVo;
 import com.lib.dto.PageVo;
 import com.lib.entity.FileInfo;
+import com.lib.entity.MessageInfo;
 import com.lib.entity.RelationInfo;
 import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.OfficeConvert;
 import com.lib.service.user.LuceneService;
+import com.lib.service.user.MessageService;
 import com.lib.utils.CompressUtil;
 import com.lib.utils.JudgeUtils;
 import com.lib.utils.LuceneIndexUtil;
@@ -54,6 +56,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 	@Autowired
 	private LuceneService searchService;
+
+	@Autowired
+	private MessageService msgService;
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -115,14 +120,14 @@ public class FileInfoServiceImpl implements FileInfoService {
 				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 						new File(Const.STREAM_PATH + file.getFileUuid() + ".flv"));
 			} else if (file.getFileExt().equals("mp4")) {
-				
+
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
-				
+
 				FileUtils.copyFile(new File(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt()),
 						new File(Const.STREAM_PATH + file.getFileUuid() + "." + file.getFileExt()));
 			} else {
-				
+
 				ThumbnailUtils.videoGetThumb(Const.ROOT_PATH + file.getFilePath() + "." + file.getFileExt(),
 						Const.ROOT_PATH + file.getFilePath() + ".png");
 				// ffmpeg转换成flv
@@ -164,6 +169,13 @@ public class FileInfoServiceImpl implements FileInfoService {
 
 		// fileinfoDao.setFileStateByUuid(uuid, 6);
 		file.setFileState(6);
+		MessageInfo msg = new MessageInfo(null, "文件上传成功", "您的文件：“" + file.getFileName() + "”上传成功", file.getFileUserId(),
+				false, new Date());
+		try {
+			msgService.insertMsg(msg);
+		} catch (Exception e) {
+		}
+		
 		// 创建索引
 		searchService.addFileIndex(file, userInfoDao.queryById(file.getFileUserId()).getUserName(), null);
 		if (file.getFileBrief() == null || file.getFileBrief().equals("")) {

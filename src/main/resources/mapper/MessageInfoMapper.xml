@@ -14,7 +14,7 @@
 		select *
 		from message_info where message_to_user_id = #{userId}
 	</select>
-	<insert id="insertMsg">
+	<insert id="insertMsg" parameterType="com.lib.entity.MessageInfo">
 		insert into
 		message_info(message_title,message_content,message_is_read,message_to_user_id,message_time)
 		values(#{msgTitle},#{msgContent},#{isRead},#{userId},#{msgTime});

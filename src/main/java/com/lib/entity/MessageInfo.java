@@ -48,7 +48,7 @@ public class MessageInfo {
 	public boolean getIsRead() {
 		return isRead;
 	}
-	public void setRead(boolean isRead) {
+	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
 	}
 	public Date getMsgTime() {

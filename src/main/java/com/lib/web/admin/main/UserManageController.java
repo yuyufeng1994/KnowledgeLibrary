@@ -95,7 +95,7 @@ public class UserManageController {
 			MessageInfo msg = new MessageInfo();
 			msg.setMsgTitle(msgTitle);
 			msg.setMsgContent(msgContent);
-			msg.setRead(false);
+			msg.setIsRead(false);
 			msg.setUserId(userId);
 			msg.setMsgTime(new Date());
 			msgService.insertMsg(msg);
