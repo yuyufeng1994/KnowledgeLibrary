@@ -38,7 +38,7 @@ cursor:pointer;
 								<div class="am-g am-margin-top">
 									<div class="am-u-sm-4  am-text-right">关键信息</div>
 									<div class="am-u-sm-8 ">
-										<input type="text" name="fileName" value=""
+										<input type="text" name="fileName" value="${file.fileName}"
 											style="width: 32%" class="am-input-lg">
 									</div>
 

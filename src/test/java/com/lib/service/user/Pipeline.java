@@ -37,7 +37,7 @@ public class Pipeline  implements PageModelPipeline<WebMagicVo>  {
 	@Override
 	public void process(WebMagicVo t, Task task) {
 		// TODO Auto-generated method stub
-		String id="201614"+((int)(Math.random()*4)+5);
+		Long id=2016140L+((int)(Math.random()*9)+5);
 		String path1="D:/soklib/" + "users/" +id+"/files/";
 		String uuid = StringValueUtil.getUUID();
 		String path = path1 + uuid + ".pdf";
