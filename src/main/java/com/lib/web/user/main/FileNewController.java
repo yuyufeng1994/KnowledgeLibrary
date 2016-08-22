@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.google.common.html.HtmlEscapers;
 import com.hankcs.hanlp.HanLP;
 import com.lib.dao.UserInfoDao;
 import com.lib.dto.FileInfoVO;
@@ -33,6 +34,7 @@ import com.lib.entity.UserInfo;
 import com.lib.enums.Const;
 import com.lib.service.user.FileInfoService;
 import com.lib.service.user.LuceneService;
+import com.lib.utils.HtmlRegexpUtil;
 import com.lib.utils.HtmlToWord;
 import com.lib.utils.LuceneSearchUtil;
 import com.lib.utils.StringValueUtil;
@@ -101,7 +103,6 @@ public class FileNewController {
 		}
 		try {
 			jr = new JsonResult(true, uuid);
-
 			HtmlToWord.HtmlToPdf(fn.getContent(), path);
 
 			File file = new File(path);
@@ -110,8 +111,10 @@ public class FileNewController {
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
-			if(fn.getContent()!=null)
-			fi.setFileBrief(HanLP.extractSummary(fn.getContent(), 3).toString());
+			if(fn.getContent()!=null){
+				String tem = HtmlRegexpUtil.filterHtml(fn.getContent());
+				fi.setFileBrief(HanLP.extractSummary(tem, 3).toString());
+			}
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath("users/" + user.getUserId() + "/files/" + uuid);

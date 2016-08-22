@@ -139,8 +139,10 @@ public class CommonController {
 	@RequestMapping(value = "/404", method = RequestMethod.GET)
 	public String noPage(Model model, HttpServletRequest request) {
 		model.addAttribute("message", "页面不存在！");
+		 
 		return "message";
 	}
+	 
 	
 	@RequestMapping(value = "/500", method = RequestMethod.GET)
 	public String error(Model model, HttpServletRequest request) {
