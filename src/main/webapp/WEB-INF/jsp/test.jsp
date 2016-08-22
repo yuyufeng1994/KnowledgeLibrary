@@ -8,7 +8,7 @@
 </head>
 <body>
 	<button id="btn">点我</button>
- 
+ 	<a herf="admin/lucene">建索引</a>
 </body>
 <script type="text/javascript">
 	$(function(){

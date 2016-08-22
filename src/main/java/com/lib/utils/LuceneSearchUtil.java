@@ -230,7 +230,7 @@ public class LuceneSearchUtil {
 			booleanQuery.add(termQuery, BooleanClause.Occur.MUST);
 			oldBooleanQuery = booleanQuery;
 			// 搜索结果 TopDocs里面有scoreDocs[]数组，里面保存着索引值
-			// System.out.println(booleanQuery);
+			//System.out.println(booleanQuery);
 			result = indexSearch.search(booleanQuery, 100000);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -103,7 +103,7 @@ public class FileNewController {
 			jr = new JsonResult(true, uuid);
 
 			HtmlToWord.HtmlToPdf(fn.getContent(), path);
-
+			System.out.println(fn.getContent());
 			File file = new File(path);
 			FileInfo fi = new FileInfo();
 			fileName = fn.getName();

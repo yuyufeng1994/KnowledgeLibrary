@@ -17,10 +17,7 @@ public class LuceneServiceImplTest extends BaseTest {
 	@Test
 	public void testSearch() {
 		
-		FileInfo fileInfo=new FileInfo();
-		fileInfo=fileInfoDao.getFileInfoByFileId(203L);
-		fileInfo.setFileName("新建");
-		//System.out.println("test"+lucene.search(fileInfo, 1, 0));
+		lucene.addAllIndex();
 		
 	}
 

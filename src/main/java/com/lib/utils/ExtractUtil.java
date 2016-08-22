@@ -35,6 +35,9 @@ public class ExtractUtil {
         InputStream input = null;  
         if(fileExt.equals("txt")){
 			parser=new TXTParser();
+        }else if(fileExt.equals("pdf"))
+        {
+        	parser=new PDFParser();
         }
         try{  
             Metadata metadata = new Metadata();  
