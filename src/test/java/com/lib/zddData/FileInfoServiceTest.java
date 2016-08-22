@@ -51,7 +51,7 @@ public class FileInfoServiceTest extends BaseTest {
 		 * 插入一百个用户
 		 */
 		UserInfo user = new UserInfo();
-		for (int i = 100; i < 200; i++) {
+		for (int i = 100; i < 120; i++) {
 			user.setUserEmail(i + "@sok.com");
 			user.setUserName("测试用户：" + i);
 			user.setUserType(1);
