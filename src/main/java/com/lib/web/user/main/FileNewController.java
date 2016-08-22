@@ -104,17 +104,14 @@ public class FileNewController {
 		try {
 			jr = new JsonResult(true, uuid);
 			HtmlToWord.HtmlToPdf(fn.getContent(), path);
-			System.out.println(fn.getContent());
+			//System.out.println(fn.getContent());
 			File file = new File(path);
 			FileInfo fi = new FileInfo();
 			fileName = fn.getName();
 			fi.setFileName(fileName);
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
-			if(fn.getContent()!=null){
-				String tem = HtmlRegexpUtil.filterHtml(fn.getContent());
-				fi.setFileBrief(HanLP.extractSummary(tem, 3).toString());
-			}
+			fi.setFileBrief(null);
 			fi.setFileUserId(user.getUserId());
 			fi.setFileUuid(uuid);
 			fi.setFilePath("users/" + user.getUserId() + "/files/" + uuid);
