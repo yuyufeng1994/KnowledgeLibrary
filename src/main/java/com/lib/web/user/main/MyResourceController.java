@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.cassandra.thrift.Cassandra.system_add_column_family_args;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import com.lib.service.user.FileManageService;
 import com.lib.service.user.ForkInfoService;
 import com.lib.service.user.LuceneService;
 import com.lib.service.user.UserService;
+import com.lib.utils.LuceneSearchUtil;
 
 /**
  * 主要页面跳转
@@ -160,7 +162,7 @@ public class MyResourceController {
 	@RequestMapping(value = "/search/{flag}/{pageNo}", method = RequestMethod.POST)
 	public String search(Model model, FileInfo fileInfo, Date endTime, String keyWord,
 			@PathVariable("pageNo") Integer pageNo, @PathVariable("flag") Integer flag) {
-		
+		Long begin=System.currentTimeMillis();
 		if(fileInfo.getFileClassId()==null)
 			fileInfo.setFileClassId(1L);
 		PageVo<LuceneSearchVo> page = luceneService.search(fileInfo, keyWord, endTime, pageNo, flag);
@@ -168,6 +170,9 @@ public class MyResourceController {
 		String classIds = classificationService.findFatherPathById(fileInfo.getFileClassId());
 		if (classIds != null)
 			classIds = classIds + "." + fileInfo.getFileClassId();
+		Long end=System.currentTimeMillis();
+		model.addAttribute("time", end-begin);
+		model.addAttribute("num", LuceneSearchUtil.totalPage());
 		model.addAttribute("classIds", classIds);
 		model.addAttribute("file", fileInfo);
 		model.addAttribute("keyWord", keyWord);

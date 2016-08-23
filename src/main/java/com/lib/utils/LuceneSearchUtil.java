@@ -603,13 +603,28 @@ public class LuceneSearchUtil {
 			Query query = queryParser.parse(fileName);
 			
 			// System.out.println(termQuery);
-			TopDocs topdocs = indexSearch.search(query, 5);
+			TopDocs topdocs = indexSearch.search(query, 10);
 			
 			// System.out.println("共找到" + topdocs.scoreDocs.length + ":条记录");
 			for (ScoreDoc scoreDocs : topdocs.scoreDocs) {
 				int documentId = scoreDocs.doc;
 				document = indexSearch.doc(documentId);
-				fileIds.add(Long.valueOf(document.get("fileId")));
+				boolean flag=true;
+				for(Long id:fileIds)
+				{	
+					Document document1 = indexSearch.doc(Integer.valueOf(id+""));
+					if(document1.get("fileName").equals(document.get("fileName")))
+					{
+						flag=false;
+						break;
+					}
+					
+				}
+				if(flag)
+				{
+					fileIds.add(Long.valueOf(document.get("fileId")));
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -668,6 +683,7 @@ public class LuceneSearchUtil {
 				String fileName = document.get("fileName");
 				String fileUuid = document.get("fileUuid");
 				String result = document.get("fileText");
+				//System.out.println(result);
 				String fileExt = document.get("fileExt");
 				String filePath = document.get("filePath");
 				if (JudgeUtils.imageFile.contains(fileExt)) {
@@ -684,6 +700,10 @@ public class LuceneSearchUtil {
 					
 					Map<String, Integer> maps = new LinkedHashMap<String, Integer>();
 					
+					/*if(paragraphs==null)
+					{
+						maps.put(result, 1);
+					}*/
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.extractKeyword(keyWord, 10));

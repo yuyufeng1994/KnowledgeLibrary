@@ -131,8 +131,8 @@ public class MainController {
 		//获取推荐文档
 //		List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), 5);
 //		List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
-		List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
-		model.addAttribute("recommed", recommed);
+//		List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
+//		model.addAttribute("recommed", recommed);
 
 
 		return "main/index";
@@ -152,6 +152,7 @@ public class MainController {
 		try{
 			//获取推荐文档
 				List<FileInfo> recommed = ctService.getFileScoreList(user.getUserId(), recomNum);
+				//System.out.println(recommed);
 			//	List<FileInfo> recommed = ctService.getFileScoreListByItemCF(user.getUserId(), 5);
 			//	List<FileInfo> recommed = ctService.getFileScoreListBySlopOne(user.getUserId(), 5);
 			jr = new JsonResult< List<FileInfo>>(true, recommed);

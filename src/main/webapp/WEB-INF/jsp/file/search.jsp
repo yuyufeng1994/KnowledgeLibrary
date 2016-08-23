@@ -124,6 +124,9 @@ cursor:pointer;
 							</div>
 					</form>
 				</div>
+				<c:if test="${num!=null}">
+				<div><span style="color:#999;font-size:14px;">&nbsp&nbsp&nbsp相关结果约${num}个</span>    <span style="color:#999;font-size:14px;">时间约${time}毫秒</span></div>
+				</c:if>
 				<div class="am-u-sm-12">
 					<c:forEach items="${page.data}" var="f">
 						<article>
