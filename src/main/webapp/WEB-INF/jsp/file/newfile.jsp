@@ -119,7 +119,7 @@
 				content = "<p>"
 						+ $(checks[i]).parent().parent().find("td").eq(1)
 								.html() + "</p><br />";
-				//console.log(content)
+				console.log(content)
 				ue.setContent(content, true);
 			}
 
