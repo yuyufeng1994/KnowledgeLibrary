@@ -606,20 +606,21 @@ public class LuceneSearchUtil {
 			TopDocs topdocs = indexSearch.search(query, 10);
 			
 			// System.out.println("共找到" + topdocs.scoreDocs.length + ":条记录");
+			List<Integer> ids=new ArrayList<Integer>();
 			for (ScoreDoc scoreDocs : topdocs.scoreDocs) {
 				int documentId = scoreDocs.doc;
 				document = indexSearch.doc(documentId);
 				boolean flag=true;
-				for(Long id:fileIds)
-				{	
-					Document document1 = indexSearch.doc(Integer.valueOf(id+""));
-					if(document1.get("fileName").equals(document.get("fileName")))
+				for(Integer id:ids)
+				{
+					if(indexSearch.doc(id).get("fileName").equals(indexSearch.doc(documentId).get("fileName")))
 					{
 						flag=false;
 						break;
 					}
 					
 				}
+				ids.add(documentId);
 				if(flag)
 				{
 					fileIds.add(Long.valueOf(document.get("fileId")));
