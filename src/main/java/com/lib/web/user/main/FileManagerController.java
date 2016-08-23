@@ -176,18 +176,20 @@ public class FileManagerController {
 
 				FileUtils.writeByteArrayToFile(new File(tempPath + uuid + "." + ext), files[0].getBytes());
 				List<String> filesUuid = fileInfoService.compressFile(tempPath + uuid + "." + ext, user);
-				for (String fuuid : filesUuid) {
-					uploadfiles.add(fuuid);
-					// 处理文件
-					new Thread() {
-						public void run() {
-							try {
-								fileInfoService.translateFile(fuuid);
-							} catch (IOException e) {
-								LOG.error(fuuid + "文件处理失败");
-							}
-						};
-					}.start();
+				if (filesUuid != null) {
+					for (String fuuid : filesUuid) {
+						uploadfiles.add(fuuid);
+						// 处理文件
+						new Thread() {
+							public void run() {
+								try {
+									fileInfoService.translateFile(fuuid);
+								} catch (IOException e) {
+									LOG.error(fuuid + "文件处理失败");
+								}
+							};
+						}.start();
+					}
 				}
 
 				return "success";
@@ -285,7 +287,7 @@ public class FileManagerController {
 			@PathVariable("uuid") String uuid, @PathVariable("ext") String ext) {
 		FileInfoVO fileInfo = fileInfoService.getFileInfoByUuid(uuid);
 		UserInfo user = (UserInfo) session.getAttribute(Const.SESSION_USER);
-		
+
 		String path = Const.ROOT_PATH + fileInfo.getFilePath() + "." + ext;
 
 		try {
