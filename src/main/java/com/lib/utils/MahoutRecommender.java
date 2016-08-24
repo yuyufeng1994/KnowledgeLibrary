@@ -80,7 +80,7 @@ public class MahoutRecommender {
      // 相似度 度量方式，采用皮尔逊相关系数度量，也可以采用其他度量方式  
         UserSimilarity similarity=new PearsonCorrelationSimilarity(model);  
         // 用户邻居，与给定用户最相似的一组用户  
-        UserNeighborhood neighborhood=new NearestNUserNeighborhood(10,similarity,model);  
+        UserNeighborhood neighborhood=new NearestNUserNeighborhood(3,similarity,model);  
         // the Recommender.recommend() method's arguments: first one is the user id;  
         //     the second one is the number recommended  
         // 推荐引擎，合并这些组件，实现推荐  

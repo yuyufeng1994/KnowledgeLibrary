@@ -41,6 +41,7 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.bson.util.StringRangeSet;
 import org.codehaus.plexus.util.FileUtils;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 import com.hankcs.hanlp.HanLP;
@@ -135,9 +136,9 @@ public class LuceneSearchUtil {
 
 				String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
 				Map<String, Float> boost = new HashMap<String, Float>();
-				boost.put("fileKeyWords", 4.0f);
-				boost.put("fileName", 3.0f);
-				boost.put("fileBrief", 2.0f);
+				boost.put("fileKeyWords", 2.0f);
+				boost.put("fileName", 1.0f);
+				boost.put("fileBrief", 1.0f);
 				boost.put("fileText", 1.0f);
 				// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
 				QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
@@ -548,7 +549,6 @@ public class LuceneSearchUtil {
 				total++;
 				fileKeyWords.add(keyWord);
 				if (total == size)
-					;
 				{
 					break;
 				}
@@ -571,7 +571,7 @@ public class LuceneSearchUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static List<Long> extractRelation(String fileName) {
+	public static List<Long> extractRelation(Long fileId) {
 		// new一个文档对象
 		Document document = new Document();
 		// 关联文档的id
@@ -591,25 +591,48 @@ public class LuceneSearchUtil {
 
 			indexSearch = new IndexSearcher(ireader);
 
-			String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
-			Map<String, Float> boost = new HashMap<String, Float>();
-			boost.put("fileKeyWords", 4.0f);
-			boost.put("fileName", 3.0f);
-			boost.put("fileBrief", 2.0f);
-			boost.put("fileText", 1.0f);
-			// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
-			QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
-			// 生成Query对象
-			Query query = queryParser.parse(fileName);
+
 			
-			// System.out.println(termQuery);
-			TopDocs topdocs = indexSearch.search(query, 5);
+			List<String> filekeyWords=extractKeyword(fileId, 10);
 			
+			QueryParser queryParser = new QueryParser("fileKeyWords", analyzer);
+			BooleanQuery booleanQuery1=new BooleanQuery();
+			for(String str:filekeyWords)
+			{
+				Term term = new Term("fileKeyWords", str);
+				booleanQuery1.add(new TermQuery(term), BooleanClause.Occur.SHOULD);
+			}
+			//System.out.println(booleanQuery1);
+			TopDocs topdocs = indexSearch.search(booleanQuery1, 15);
 			// System.out.println("共找到" + topdocs.scoreDocs.length + ":条记录");
+			List<List<String>> listl=new ArrayList<List<String>>();
 			for (ScoreDoc scoreDocs : topdocs.scoreDocs) {
 				int documentId = scoreDocs.doc;
 				document = indexSearch.doc(documentId);
-				fileIds.add(Long.valueOf(document.get("fileId")));
+				String[] keyWords = document.get("fileKeyWords").split(",");
+				List<String> list=new ArrayList<String>();
+				for (String keyWord : keyWords) {
+					
+					list.add(keyWord);
+			
+				}
+				boolean flag=false;
+				if(Tfidf.Tfidf(list,filekeyWords)>0.3)
+				{
+					flag=true;
+				}
+				for(List<String> str:listl)
+				{
+					if(Tfidf.Tfidf(str,list)>0.95)
+					{
+						flag=false;
+					}
+				}
+				if(flag)
+				{	
+					listl.add(list);
+					fileIds.add(Long.valueOf(document.get("fileId")));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -647,10 +670,10 @@ public class LuceneSearchUtil {
 
 			String[] fields = { "fileName", "fileText", "fileBrief", "fileKeyWords" };
 			Map<String, Float> boost = new HashMap<String, Float>();
-			boost.put("fileName", 4.0f);
-			boost.put("fileBrief", 3.0f);
-			boost.put("fileText", 2.0f);
-			boost.put("fileKeyWords", 1.0f);
+			boost.put("fileName", 1.0f);
+			boost.put("fileBrief", 1.0f);
+			boost.put("fileText", 1.0f);
+			boost.put("fileKeyWords", 2.0f);
 			// 创建QueryParser对象,第一个表示搜索Field的字段,第二个表示搜索使用分词器
 			QueryParser queryParser = new MultiFieldQueryParser(fields, analyzer, boost);
 			// 生成Query对象
@@ -668,6 +691,7 @@ public class LuceneSearchUtil {
 				String fileName = document.get("fileName");
 				String fileUuid = document.get("fileUuid");
 				String result = document.get("fileText");
+				//System.out.println(result);
 				String fileExt = document.get("fileExt");
 				String filePath = document.get("filePath");
 				if (JudgeUtils.imageFile.contains(fileExt)) {
@@ -684,6 +708,10 @@ public class LuceneSearchUtil {
 					
 					Map<String, Integer> maps = new LinkedHashMap<String, Integer>();
 					
+					/*if(paragraphs==null)
+					{
+						maps.put(result, 1);
+					}*/
 					for (String paragrap : paragraphs) {
 						// size 表示查找多少关键字
 						//System.out.println(HanLP.extractKeyword(keyWord, 10));

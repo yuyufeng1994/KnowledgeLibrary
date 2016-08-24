@@ -51,7 +51,7 @@ public interface LuceneService {
 	 * @param fileKeyWords
 	 * @return
 	 */
-	List<Long>   getRelation(String fileName);
+	List<Long>  getRelation(Long fileId);
 	
 	
 	

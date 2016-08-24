@@ -60,7 +60,7 @@ cursor:pointer;
 											<option value="all">所有</option>
 											<option value="office">office</option>
 											<option value="video">视频</option>
-											<option value="image">图片</option>
+											<option value="img">图片</option>
 											<option value="else">其他</option>
 										</select>
 									</div>
@@ -124,6 +124,9 @@ cursor:pointer;
 							</div>
 					</form>
 				</div>
+				<c:if test="${num!=null}">
+				<div><span style="color:#999;font-size:14px;">&nbsp&nbsp&nbsp相关结果约${num}个</span>    <span style="color:#999;font-size:14px;">时间约${time}毫秒</span></div>
+				</c:if>
 				<div class="am-u-sm-12">
 					<c:forEach items="${page.data}" var="f">
 						<article>

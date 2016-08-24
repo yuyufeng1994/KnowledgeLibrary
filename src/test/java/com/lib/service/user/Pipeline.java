@@ -40,8 +40,8 @@ import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
 
-@TargetUrl("http://www.yiibai.com/\\w+/\\w+")
-@HelpUrl("http://www.yiibai.com/\\w+")
+@TargetUrl("http://www.runoob.com/\\w+/\\w+")
+@HelpUrl("http://www.runoob.com/")
 public class Pipeline  implements PageModelPipeline<WebMagicVo>  {
 
 	
@@ -85,7 +85,7 @@ public class Pipeline  implements PageModelPipeline<WebMagicVo>  {
 			fi.setFileName(t.getTitle());
 			fi.setFileSize(file.length());
 			fi.setFileExt("pdf");
-			fi.setFileBrief(HanLP.extractSummary(t.getBrief(), 3).toString());
+			fi.setFileBrief(null);
 			fi.setFileUserId(Long.valueOf(id));
 			fi.setFileUuid(uuid);
 			fi.setFileCreateTime(new Date());

@@ -38,7 +38,7 @@ public class SpiderTest extends BaseTest{
 	public void test() throws Exception{
 		
 		OOSpider.create(Site.me().setCharset("utf-8").setSleepTime(1000), new Pipeline(fileInfoService), WebMagicVo.class)
-		.addUrl("http://www.yiibai.com/article/4788.html").thread(5)
+		.addUrl("http://www.runoob.com/php/php-tutorial.html").thread(5)
 		.run();
 	}
 	
