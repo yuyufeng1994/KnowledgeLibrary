@@ -210,12 +210,11 @@ public class FileInfoServiceImpl implements FileInfoService {
 		List<RelationInfo> rs = new ArrayList<>();
 		RelationInfo r = null;
 		FileInfo file = getFileInfoByUuid(uuid);
-		List<Long> list = searchService.getRelation(file.getFileName());
+		List<Long> list = searchService.getRelation(file.getFileId());
 		for (Long l : list) {
 			if (file.getFileId().equals(l)) {
 				continue;
 			}
-
 			r = new RelationInfo();
 			r.setMainFileId(file.getFileId());
 			r.setRelationFileId(l);

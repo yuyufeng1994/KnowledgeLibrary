@@ -60,7 +60,7 @@ cursor:pointer;
 											<option value="all">所有</option>
 											<option value="office">office</option>
 											<option value="video">视频</option>
-											<option value="image">图片</option>
+											<option value="img">图片</option>
 											<option value="else">其他</option>
 										</select>
 									</div>

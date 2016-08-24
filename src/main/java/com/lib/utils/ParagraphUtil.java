@@ -1,11 +1,14 @@
 package com.lib.utils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
+
 
 public class ParagraphUtil {
 	
+
+
 	/**
      * 将文本切割为段落TODO
      * @param content
@@ -20,9 +23,8 @@ public class ParagraphUtil {
     {
     	
     	StringBuilder sb = new StringBuilder();
-
-        List<String> paragraps = new ArrayList<String>();
-        
+    	List<String> paragraps = new ArrayList<String>();
+    	
         String  paragrap = "";
         
         for (int i = 0; i < chars.length-1; ++i)
@@ -40,7 +42,8 @@ public class ParagraphUtil {
             		sb.append(chars[i+1]);
             		String content = sb.toString();
                     if (content.length() > 0)
-                    {
+                    {	
+                    
                     	paragrap+=content;
                     }
                     sb = new StringBuilder();

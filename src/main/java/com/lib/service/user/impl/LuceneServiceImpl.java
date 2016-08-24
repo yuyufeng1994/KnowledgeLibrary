@@ -90,9 +90,9 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public List<Long> getRelation(String fileName) {
+	public List<Long> getRelation(Long fileId) {
 		// TODO Auto-generated method stub
-		return LuceneSearchUtil.extractRelation(fileName);
+		return LuceneSearchUtil.extractRelation(fileId);
 	}
 
 	@Override
