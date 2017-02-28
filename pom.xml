@@ -54,12 +54,8 @@
 			<artifactId>druid</artifactId>
 			<version>1.0.15</version>
 		</dependency>
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.1</version>
-		</dependency>
-
+		<!-- <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> 
+			<version>0.9.1</version> </dependency> -->
 		<!-- DAO框架：MyBatis依赖 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -264,13 +260,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKANalyzer-5.0.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
-    	<groupId>net.coobird</groupId>
-   		<artifactId>thumbnailator</artifactId>
-    	<version>0.4.8</version>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>tika-app</groupId>
 			<artifactId>tika-app</artifactId>
@@ -374,6 +370,19 @@
 			<artifactId>mahout-integration</artifactId>
 			<version>${mahout.version}</version>
 		</dependency>
+
+		<!-- <dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all</artifactId>
+			<version>9.2.14.v20151106</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>9.2.14.v20151106</version>
+		</dependency> -->
+
 	</dependencies>
 	<build>
 		<finalName>lib</finalName>

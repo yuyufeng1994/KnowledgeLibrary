@@ -42,8 +42,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 		ur.setValidateCode(MD5Util.encode2hex(user.getUserEmail()));
 		ur.setRegisterTime(new Date());
 		userRegisterDao.updateNoStatus(ur);
-		System.out.println(user);
-		System.out.println(ur);
 
 		/// 邮件的内容
 		StringBuffer sb = new StringBuffer("点击下面链接更换SOKLIB知识库管理系统网站账号，48小时生效，链接只能使用一次</br>");
@@ -59,7 +57,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 
 		// 发送邮件
 		SendEmail.send(user.getUserEmail(), sb.toString());
-		System.out.println("发送邮件");
 
 	}
 

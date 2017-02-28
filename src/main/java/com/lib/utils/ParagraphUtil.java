@@ -68,6 +68,5 @@ public class ParagraphUtil {
     public static void main(String[] args) {
 		String content="";
 		
-		System.out.println(toParagraphList(content));
 	}
 }

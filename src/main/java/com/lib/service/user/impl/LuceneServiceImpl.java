@@ -120,7 +120,6 @@ public class LuceneServiceImpl implements LuceneService {
 		for(FileInfo list:lists)
 		{
 			String fileText = LuceneSearchUtil.judge(list.getFileId());
-			//System.out.println(fileText);
 			LuceneIndexUtil.addFileIndex(list,userInfoDao.queryById(list.getFileUserId()).getUserName(),fileText);
 		}
 		
