@@ -20,9 +20,9 @@
 智能提取：	系统结合PageRank、TF-IDF等算法组织知识点在我们的库中，用户可以通过半自动化的操作，去提取归纳知识，产生新的文档。  
 信息统计：	系统对文档的数据进行统计分析，以图表的方式呈现。  
 新建文档：	用户可以使用在线多功能编辑器新建文档  
-##使用技术
+## 使用技术
 通过maven构建，使用git版本控制和团队合作，采用springmvc+mybatis框架，集成Lucene全文检索，openoffice转化office文档，ffmpeg处理视频文件，red5搭建流媒体服务，基于pageRank、TF-IDF算法提取处理知识点，webmagic爬取数据，itextpdf、poi处理office等。
-##一些效果图
+## 一些效果图
 ![这里写图片描述](https://img-blog.csdn.net/2018032808312038?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE4ODYwNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 ![这里写图片描述](https://img-blog.csdn.net/20180328083133507?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE4ODYwNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 ![这里写图片描述](https://img-blog.csdn.net/20180328083140794?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzE4ODYwNjUz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
